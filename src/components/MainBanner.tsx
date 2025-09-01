@@ -322,7 +322,7 @@ IMPORTANTE: Responde solo con el objeto JSON, sin texto adicional antes o despu�
           </div>
         </div>
 
-        {/* Categorías - más compacto con diseño semi-conectado */}
+        {/* Categorías - Con scroll horizontal en móvil */}
         <div className="lg:col-span-7 w-full">
           <div className="bg-black/90 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl h-48 overflow-hidden relative">
             <div className="h-full flex flex-col p-6">
@@ -332,59 +332,112 @@ IMPORTANTE: Responde solo con el objeto JSON, sin texto adicional antes o despu�
                 <h3 className="text-white font-semibold text-base">Filtrar por categoría</h3>
               </div>
               
-              {/* Contenedor de pills rediseñado */}
+              {/* Contenedor de pills con scroll horizontal en móvil */}
               <div className="flex-1">
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-2">
-                  {categoryData.map((category, index) => {
-                    const IconComponent = category.icon;
-                    const isSelected = selectedCategory === category.key;
-                    return (
-                      <div key={category.key} className="relative">
-                        <button
-                          onClick={() => onCategoryChange?.(category.key)}
-                          className={`group relative w-full px-3 py-3 font-medium text-sm transition-all duration-300 flex flex-col items-center gap-1.5 ${
-                            isSelected
-                              ? 'bg-gradient-to-b from-[#FEE440] via-[#FEE440] to-transparent text-black shadow-lg shadow-[#FEE440]/30 transform scale-105'
-                              : 'bg-gradient-to-b from-white/5 via-white/5 to-transparent text-white/80 hover:from-white/10 hover:via-white/10 hover:to-transparent hover:text-white hover:shadow-lg border-b border-white/10 hover:border-[#FEE440]/50'
-                          } rounded-t-2xl border-t border-l border-r ${
-                            isSelected 
-                              ? 'border-[#FEE440]/50' 
-                              : 'border-white/10 hover:border-[#FEE440]/30'
-                          }`}
-                          style={{
-                            borderBottomLeftRadius: '0',
-                            borderBottomRightRadius: '0',
-                            borderBottom: 'none'
-                          }}
-                        >
-                          <IconComponent className={`w-4 h-4 ${isSelected ? '' : 'group-hover:text-[#FEE440]'} transition-colors flex-shrink-0`} />
-                          <span className="text-xs leading-tight text-center whitespace-nowrap overflow-hidden text-ellipsis w-full">
-                            {category.label}
-                          </span>
-                          {isSelected && (
-                            <div className="absolute inset-0 rounded-t-2xl bg-gradient-to-b from-[#FEE440]/20 via-[#FEE440]/10 to-transparent animate-pulse pointer-events-none" />
-                          )}
-                        </button>
-                        
-                        {/* Línea de conexión al borde inferior */}
-                        <div 
-                          className={`absolute bottom-0 left-0 right-0 h-0.5 transition-all duration-300 ${
-                            isSelected 
-                              ? 'bg-gradient-to-r from-transparent via-[#FEE440] to-transparent' 
-                              : 'bg-transparent group-hover:bg-gradient-to-r group-hover:from-transparent group-hover:via-white/30 group-hover:to-transparent'
-                          }`}
-                          style={{ 
-                            transform: 'translateY(1px)',
-                            zIndex: 10
-                          }}
-                        />
-                      </div>
-                    );
-                  })}
+                {/* Desktop: Grid normal */}
+                <div className="hidden lg:block">
+                  <div className="grid grid-cols-7 gap-2">
+                    {categoryData.map((category, index) => {
+                      const IconComponent = category.icon;
+                      const isSelected = selectedCategory === category.key;
+                      return (
+                        <div key={category.key} className="relative">
+                          <button
+                            onClick={() => onCategoryChange?.(category.key)}
+                            className={`group relative w-full px-3 py-3 font-medium text-sm transition-all duration-300 flex flex-col items-center gap-1.5 ${
+                              isSelected
+                                ? 'bg-gradient-to-b from-[#FEE440] via-[#FEE440] to-transparent text-black shadow-lg shadow-[#FEE440]/30 transform scale-105'
+                                : 'bg-gradient-to-b from-white/5 via-white/5 to-transparent text-white/80 hover:from-white/10 hover:via-white/10 hover:to-transparent hover:text-white hover:shadow-lg border-b border-white/10 hover:border-[#FEE440]/50'
+                            } rounded-t-2xl border-t border-l border-r ${
+                              isSelected 
+                                ? 'border-[#FEE440]/50' 
+                                : 'border-white/10 hover:border-[#FEE440]/30'
+                            }`}
+                            style={{
+                              borderBottomLeftRadius: '0',
+                              borderBottomRightRadius: '0',
+                              borderBottom: 'none'
+                            }}
+                          >
+                            <IconComponent className={`w-4 h-4 ${isSelected ? '' : 'group-hover:text-[#FEE440]'} transition-colors flex-shrink-0`} />
+                            <span className="text-xs leading-tight text-center whitespace-nowrap overflow-hidden text-ellipsis w-full">
+                              {category.label}
+                            </span>
+                            {isSelected && (
+                              <div className="absolute inset-0 rounded-t-2xl bg-gradient-to-b from-[#FEE440]/20 via-[#FEE440]/10 to-transparent animate-pulse pointer-events-none" />
+                            )}
+                          </button>
+                          
+                          {/* Línea de conexión al borde inferior */}
+                          <div 
+                            className={`absolute bottom-0 left-0 right-0 h-0.5 transition-all duration-300 ${
+                              isSelected 
+                                ? 'bg-gradient-to-r from-transparent via-[#FEE440] to-transparent' 
+                                : 'bg-transparent group-hover:bg-gradient-to-r group-hover:from-transparent group-hover:via-white/30 group-hover:to-transparent'
+                            }`}
+                            style={{ 
+                              transform: 'translateY(1px)',
+                              zIndex: 10
+                            }}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Mobile/Tablet: Scroll horizontal */}
+                <div className="lg:hidden">
+                  <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2 -mr-6 pr-6">
+                    {categoryData.map((category, index) => {
+                      const IconComponent = category.icon;
+                      const isSelected = selectedCategory === category.key;
+                      return (
+                        <div key={category.key} className="relative flex-shrink-0">
+                          <button
+                            onClick={() => onCategoryChange?.(category.key)}
+                            className={`group relative px-4 py-3 font-medium text-sm transition-all duration-300 flex flex-col items-center gap-1.5 min-w-[80px] ${
+                              isSelected
+                                ? 'bg-gradient-to-b from-[#FEE440] via-[#FEE440] to-transparent text-black shadow-lg shadow-[#FEE440]/30 transform scale-105'
+                                : 'bg-gradient-to-b from-white/5 via-white/5 to-transparent text-white/80 hover:from-white/10 hover:via-white/10 hover:to-transparent hover:text-white hover:shadow-lg border-b border-white/10 hover:border-[#FEE440]/50'
+                            } rounded-t-2xl border-t border-l border-r ${
+                              isSelected 
+                                ? 'border-[#FEE440]/50' 
+                                : 'border-white/10 hover:border-[#FEE440]/30'
+                            }`}
+                            style={{
+                              borderBottomLeftRadius: '0',
+                              borderBottomRightRadius: '0',
+                              borderBottom: 'none'
+                            }}
+                          >
+                            <IconComponent className={`w-4 h-4 ${isSelected ? '' : 'group-hover:text-[#FEE440]'} transition-colors flex-shrink-0`} />
+                            <span className="text-xs leading-tight text-center whitespace-nowrap">
+                              {category.label}
+                            </span>
+                            {isSelected && (
+                              <div className="absolute inset-0 rounded-t-2xl bg-gradient-to-b from-[#FEE440]/20 via-[#FEE440]/10 to-transparent animate-pulse pointer-events-none" />
+                            )}
+                          </button>
+                          
+                          {/* Línea de conexión al borde inferior */}
+                          <div 
+                            className={`absolute bottom-0 left-0 right-0 h-0.5 transition-all duration-300 ${
+                              isSelected 
+                                ? 'bg-gradient-to-r from-transparent via-[#FEE440] to-transparent' 
+                                : 'bg-transparent group-hover:bg-gradient-to-r group-hover:from-transparent group-hover:via-white/30 group-hover:to-transparent'
+                            }`}
+                            style={{ 
+                              transform: 'translateY(1px)',
+                              zIndex: 10
+                            }}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
-
-
             </div>
           </div>
         </div>

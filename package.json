@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^1.9.0",
     "firebase": "^11.7.3",
+    "groq-sdk": "^0.30.0",
     "lucide-react": "^0.344.0",
     "openai": "^4.103.0",
     "react": "^18.3.1",
