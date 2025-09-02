@@ -249,7 +249,7 @@ const Collaborations: React.FC = () => {
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-xl font-bold text-white group-hover:text-[#FFD600] transition-colors">
-                    Catálogo de Comisiones
+                    Calculadora para colaboradores
                   </h3>
                   <div className="flex items-center gap-2">
                     <ExternalLink className="text-gray-400 group-hover:text-[#FFD600] transition-all" size={16} />
@@ -258,7 +258,7 @@ const Collaborations: React.FC = () => {
                 </div>
                 
                 <p className="text-gray-300 mb-3 text-sm leading-relaxed">
-                  Visualiza el catálogo completo de comisiones y servicios disponibles
+                  Calcula tus ganancias con nuestra calculadora sencilla y mira tu porcentaje de earnings
                 </p>
                 
                 <div className="flex items-center gap-2 text-xs">
