@@ -1,5 +1,3 @@
-// src/App.tsx
-
 import React, { useState, useEffect, createContext, useContext } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
@@ -9,7 +7,6 @@ import Header from "./components/Header";
 import MainBanner from "./components/MainBanner";
 import ProductDetail from "./components/ProductDetail";
 import Cart from "./components/Cart";
-import ChatBubble from "./components/ChatBubble";
 import AdminDashboard from "./components/AdminDashboard";
 import UserManagement from "./components/admin/UserManagement";
 import ProductManagement from "./components/admin/ProductManagement";
@@ -56,9 +53,15 @@ function HomePage() {
   const [error, setError] = useState<string | null>(null);
   
   const { searchTerm, setSearchTerm } = useSearch();
-  const query = useQuery();
+  const location = useLocation();
   const navigate = useNavigate();
-  const searchParam = query.get('search');
+
+  // CORREGIDO: Solo URL → estado (sin ciclos de navegación)
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const paramValue = params.get('search') || '';
+    if (paramValue !== searchTerm) setSearchTerm(paramValue); // solo copiar
+  }, [location.search]); // nada de searchTerm ni navigate aquí
 
   // Cargar productos desde Firebase
   useEffect(() => {
@@ -101,35 +104,37 @@ function HomePage() {
     fetchProducts();
   }, []);
 
-  // Filtrar productos cuando cambian los productos o la categoría seleccionada
+  // CORREGIDO: Filtrado inline sin dependencias externas
   useEffect(() => {
-    if (products.length > 0) {
-      const filtered = filterProductsByCategory(products, selectedCategory);
-      setFilteredProducts(filtered);
+    if (!products.length) {
+      setFilteredProducts([]);
+      return;
     }
-  }, [products, selectedCategory]);
 
-  // Manejar parámetro de búsqueda desde URL
-  useEffect(() => {
-    if (searchParam && searchParam !== searchTerm) {
-      setSearchTerm(searchParam);
-      const categoryFromSearch = getCategoryFromSearch(searchParam);
-      if (categoryFromSearch) {
-        setSelectedCategory(categoryFromSearch);
-      }
-    }
-  }, [searchParam, searchTerm, setSearchTerm]);
+    const norm = (s: string) =>
+      (s || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
 
-  // Actualizar URL cuando cambia el término de búsqueda
-  useEffect(() => {
-    if (searchTerm) {
-      const params = new URLSearchParams();
-      params.set('search', searchTerm);
-      navigate(`/?${params.toString()}`, { replace: true });
-    } else if (window.location.search) {
-      navigate('/', { replace: true });
-    }
-  }, [searchTerm, navigate]);
+    const catKey = norm(selectedCategory); // 'all', 'video', etc.
+
+    let filtered = products.filter(p => {
+      const pCat = norm(p.category); // ej. 'video y streaming'
+      const catOk = catKey === 'all' || pCat.includes(catKey);
+      if (!catOk) return false;
+
+      if (!searchTerm) return true;
+      const q = norm(searchTerm);
+      return (
+        norm(p.name).includes(q) ||
+        norm(p.description).includes(q) ||
+        pCat.includes(q)
+      );
+    });
+
+    setFilteredProducts(filtered);
+  }, [products, selectedCategory, searchTerm]);
 
   // Función mejorada para detectar categoría desde búsqueda
   function getCategoryFromSearch(searchTerm: string) {
@@ -183,10 +188,12 @@ function HomePage() {
   // Manejar cambio de categoría
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
-    // Limpiar búsqueda cuando se cambia de categoría
-    if (searchTerm) {
-      setSearchTerm('');
-    }
+    // No limpiar búsqueda - permitir búsqueda dentro de categorías
+  };
+
+  // Función para limpiar búsqueda
+  const handleClearSearch = () => {
+    setSearchTerm('');
   };
 
   // Mostrar loading
@@ -240,10 +247,11 @@ function HomePage() {
         onCategoryChange={handleCategoryChange}
       />
       <ProductsWithPagination 
-        products={searchTerm ? products : filteredProducts} 
+        products={filteredProducts}
         searchTerm={searchTerm} 
         selectedCategory={selectedCategory}
         onCategoryChange={handleCategoryChange}
+        onClearSearch={handleClearSearch}
       />
     </>
   );
@@ -296,7 +304,6 @@ function App() {
           } />
         </Routes>
         <Cart />
-        <ChatBubble />
       </div>
     </SearchProvider>
   );

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Menu, X, LogOut, User, Award, Search, Settings, Shield, UserCheck } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ShoppingCart, Menu, X, LogOut, User, Award, Search, Settings, Shield, UserCheck, Instagram, MessageCircle } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useUser } from '../context/UserContext';
+import { useSearch } from '../App';
 import { signOut } from "firebase/auth";
 import { auth, db } from "../firebase";
-import { collection, getDocs, doc, getDoc, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 
 interface Product {
   id: string;
@@ -22,18 +23,27 @@ interface HeaderProps {
   onProductSelect?: (productId: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
+const Header: React.FC<HeaderProps> = ({ onProductSelect }) => {
   const { cartCount, setIsCartOpen } = useCart();
   const { user } = useUser();
+  const { searchTerm, setSearchTerm } = useSearch();
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [searchTerms, setSearchTerms] = useState('');
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [userRole, setUserRole] = useState<string | null>(null);
+
+  // SOLUCIÓN SIMPLE: Solo un estado para el input
+  const [localSearch, setLocalSearch] = useState('');
+
+  // CORREGIDO: Sincronizar input local con contexto global
+  useEffect(() => {
+    setLocalSearch(searchTerm || '');
+  }, [searchTerm]);
 
   // Cargar productos desde Firestore
   useEffect(() => {
@@ -61,28 +71,24 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
         return;
       }
 
-      // Verificar si es el admin principal
       if (user.email === 'scpu.v1@gmail.com') {
         setUserRole('super_admin');
         return;
       }
 
       try {
-        // Buscar en la colección de roles usando una query
         const rolesRef = collection(db, 'roles');
         const q = query(rolesRef, where('email', '==', user.email));
         const querySnapshot = await getDocs(q);
         
         if (!querySnapshot.empty) {
-          // Si encontramos el documento, obtener el primer resultado
           const roleDoc = querySnapshot.docs[0];
           const roleData = roleDoc.data();
           
-          // Verificar si el rol está activo
           if (roleData.isActive) {
             setUserRole(roleData.role || 'user');
           } else {
-            setUserRole('user'); // Si está inactivo, tratarlo como usuario normal
+            setUserRole('user');
           }
         } else {
           setUserRole('user');
@@ -131,55 +137,70 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
     setIsMobileMenuOpen(false);
   };
 
-  // Función de búsqueda mejorada
-  const performSearch = (searchTerm: string) => {
-    if (!searchTerm.trim()) {
+  const openInstagram = () => {
+    window.open('https://www.instagram.com/novastore_streaming?igsh=MWswdWt6MmIzZWswbQ==', '_blank');
+  };
+
+  const openWhatsApp = () => {
+    window.open('https://wa.me/573027214125', '_blank');
+  };
+
+  // FUNCIÓN SIMPLE: Buscar mientras escribes (solo preview)
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setLocalSearch(value);
+
+    // Preview en tiempo real
+    if (value.trim()) {
+      const filtered = products.filter(product =>
+        product.name.toLowerCase().includes(value.toLowerCase()) ||
+        product.description.toLowerCase().includes(value.toLowerCase()) ||
+        product.category.toLowerCase().includes(value.toLowerCase())
+      );
+      setSearchResults(filtered);
+      setShowResults(filtered.length > 0);
+    } else {
       setSearchResults([]);
       setShowResults(false);
-      if (onSearch) {
-        onSearch('', []);
-      }
-      return;
-    }
-
-    const query = searchTerm.toLowerCase().trim();
-    const filtered = products.filter(product =>
-      product.name.toLowerCase().includes(query) ||
-      product.description.toLowerCase().includes(query) ||
-      product.category.toLowerCase().includes(query)
-    );
-
-    setSearchResults(filtered);
-    setShowResults(filtered.length > 0);
-    
-    if (onSearch) {
-      onSearch(searchTerm, filtered);
     }
   };
 
-  const handleSearch = (e: React.FormEvent) => {
+  // FUNCIÓN SIMPLE: Aplicar búsqueda (Enter o click en lupa)
+  const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    performSearch(searchTerms);
+    setSearchTerm(localSearch.trim());
+    setShowResults(false);
+    
+    // Si hay búsqueda, navegar con parámetro
+    if (localSearch.trim()) {
+      navigate(`/?search=${encodeURIComponent(localSearch.trim())}`);
+    } else {
+      navigate('/');
+    }
   };
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchTerms(value);
-    performSearch(value);
-  };
-
-  const clearSearch = () => {
-    setSearchTerms('');
+  // FUNCIÓN SIMPLE: Limpiar todo completamente
+  const clearEverything = () => {
+    setLocalSearch('');
     setSearchResults([]);
     setShowResults(false);
-    if (onSearch) {
-      onSearch('', []);
-    }
+    setSearchTerm('');
+    navigate('/');
+  };
+
+  // FUNCIÓN SIMPLE: Solo limpiar input (botón X)
+  const clearInput = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setLocalSearch('');
+    setSearchResults([]);
+    setShowResults(false);
+    setSearchTerm('');
+    navigate('/');
   };
 
   const handleProductClick = (product: Product) => {
     setShowResults(false);
-    setSearchTerms('');
     
     if (onProductSelect) {
       onProductSelect(product.id);
@@ -230,7 +251,6 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
     );
   };
 
-  // Función para renderizar el menú de usuario basado en roles
   const renderUserMenuOptions = () => {
     const baseOptions = [
       {
@@ -283,49 +303,45 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
           : 'bg-slate-900'
       }`}
     >
-      {/* Container principal */}
       <div className="container mx-auto px-4 py-3 flex justify-center">
         
-        {/* Dynamic Island Style Container */}
         <div className="relative">
-          {/* Main Dynamic Island Container */}
           <div className="relative bg-slate-800 border border-slate-700 rounded-full px-6 py-3 shadow-lg flex items-center gap-4">
             
             {/* Logo */}
             <div className="flex-shrink-0">
-              <Link
-                to="/"
+              <button
+                onClick={clearEverything}
                 className="text-lg font-bold text-yellow-400 hover:text-yellow-300"
-                onClick={clearSearch}
               >
                 Nova Store
-              </Link>
+              </button>
             </div>
 
-            {/* Separador visual */}
             <div className="w-px h-6 bg-slate-600"></div>
 
             {/* Barra de búsqueda integrada - Desktop */}
             <div className="hidden md:flex flex-1 min-w-0 max-w-sm relative">
-              <form onSubmit={handleSearch} className="relative w-full">
+              <form onSubmit={handleSearchSubmit} className="relative w-full">
                 <input
                   type="text"
                   placeholder="Buscar..."
-                  value={searchTerms}
-                  onChange={handleSearchChange}
+                  value={localSearch}
+                  onChange={handleInputChange}
                   className="w-full bg-slate-700 border border-slate-600 rounded-full py-2 pl-4 pr-12 text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-yellow-400 text-sm"
                   onClick={(e) => e.stopPropagation()}
                 />
                 <button
                   type="submit"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-yellow-400 hover:text-yellow-300 p-1.5"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-yellow-400 hover:text-yellow-300 p-1.5 hover:bg-slate-600 rounded-full transition-all duration-200"
+                  title="Buscar"
                 >
                   <Search size={14} />
                 </button>
-                {searchTerms && (
+                {localSearch && (
                   <button
                     type="button"
-                    onClick={clearSearch}
+                    onClick={clearInput}
                     className="absolute right-10 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-white p-1"
                   >
                     <X size={12} />
@@ -379,12 +395,9 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
               )}
             </div>
 
-            {/* Separador visual para desktop */}
             <div className="hidden md:block w-px h-6 bg-slate-600"></div>
 
-            {/* Controles integrados */}
             <div className="flex items-center gap-1">
-              {/* Botón búsqueda móvil */}
               <button
                 onClick={toggleSearchBar}
                 className="md:hidden text-yellow-400 hover:text-yellow-300 p-2"
@@ -392,7 +405,24 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
                 <Search size={18} />
               </button>
 
-              {/* Carrito */}
+              <button
+                onClick={openInstagram}
+                className="text-pink-400 hover:text-pink-300 p-2 transition-colors duration-200"
+                aria-label="Síguenos en Instagram"
+                title="Síguenos en Instagram"
+              >
+                <Instagram size={18} />
+              </button>
+
+              <button
+                onClick={openWhatsApp}
+                className="text-green-400 hover:text-green-300 p-2 transition-colors duration-200"
+                aria-label="Contáctanos por WhatsApp"
+                title="Contáctanos por WhatsApp"
+              >
+                <MessageCircle size={18} />
+              </button>
+
               <button
                 className="relative text-yellow-400 hover:text-yellow-300 p-2"
                 onClick={toggleCart}
@@ -406,7 +436,6 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
                 )}
               </button>
               
-              {/* Menú hamburguesa */}
               <button
                 onClick={isMobileMenuOpen ? () => setIsMobileMenuOpen(false) : toggleUserMenu}
                 className="text-yellow-400 hover:text-yellow-300 p-2 md:hidden"
@@ -414,7 +443,6 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
                 {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
 
-              {/* Menú desktop */}
               <button
                 onClick={toggleUserMenu}
                 className="hidden md:block text-yellow-400 hover:text-yellow-300 p-2"
@@ -488,24 +516,25 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
         {/* Barra de búsqueda móvil */}
         {showSearchBar && (
           <div className="absolute top-full left-4 right-4 mt-3 md:hidden">
-            <form onSubmit={handleSearch} className="relative">
+            <form onSubmit={handleSearchSubmit} className="relative">
               <input
                 type="text"
                 placeholder="Buscar productos..."
-                value={searchTerms}
-                onChange={handleSearchChange}
+                value={localSearch}
+                onChange={handleInputChange}
                 className="w-full bg-slate-800 border border-slate-700 rounded-2xl py-4 pl-5 pr-14 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
               />
               <button
                 type="submit"
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-yellow-400 hover:text-yellow-300 p-2"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-yellow-400 hover:text-yellow-300 p-2 hover:bg-slate-600 rounded-full transition-all duration-200"
+                title="Buscar"
               >
                 <Search size={16} />
               </button>
-              {searchTerms && (
+              {localSearch && (
                 <button
                   type="button"
-                  onClick={clearSearch}
+                  onClick={clearInput}
                   className="absolute right-12 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-white p-1.5"
                 >
                   <X size={14} />
@@ -586,6 +615,26 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
                     </span>
                   </div>
                 )}
+                
+                <div className="flex gap-3 mt-2">
+                  <button
+                    onClick={openInstagram}
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full p-3 hover:from-purple-600 hover:to-pink-600 transition-all duration-200 flex items-center gap-2"
+                    aria-label="Síguenos en Instagram"
+                  >
+                    <Instagram size={16} />
+                    <span className="text-xs font-semibold">Instagram</span>
+                  </button>
+                  
+                  <button
+                    onClick={openWhatsApp}
+                    className="bg-green-500 text-white rounded-full p-3 hover:bg-green-600 transition-colors duration-200 flex items-center gap-2"
+                    aria-label="Contáctanos por WhatsApp"
+                  >
+                    <MessageCircle size={16} />
+                    <span className="text-xs font-semibold">WhatsApp</span>
+                  </button>
+                </div>
                 
                 <div className="w-full space-y-3 mt-3">
                   {renderUserMenuOptions().map((option, index) => (

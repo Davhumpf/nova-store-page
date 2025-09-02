@@ -8,22 +8,13 @@ interface ProductsWithPaginationProps {
   searchTerm: string;
   selectedCategory: string;
   onCategoryChange?: (category: string) => void;
+  onClearSearch?: () => void; // Ya no la usaremos
 }
 
-// Constantes extraídas para evitar recreación
-const PRODUCTS_PER_PAGE = 30;
+// Constantes
+const PRODUCTS_PER_PAGE = 10;
 const MAX_VISIBLE_PAGES = 5;
 const ANIMATION_DELAY_INCREMENT = 0.05;
-
-// Mapeo de categorías optimizado y constante
-const CATEGORY_MAP: { [key: string]: string[] } = {
-  'video': ['video', 'streaming', 'netflix', 'prime', 'hbo', 'disney', 'youtube', 'tv'],
-  'music': ['music', 'música', 'spotify', 'apple music', 'tidal', 'audio'],
-  'gaming': ['gaming', 'games', 'game pass', 'xbox', 'playstation', 'nintendo'],
-  'tools': ['tools', 'herramientas', 'software', 'utilities', 'canva', 'capcut'],
-  'education': ['education', 'educación', 'duolingo', 'courses', 'learning', 'study'],
-  'productivity': ['productivity', 'productividad', 'office', 'work', 'business']
-};
 
 const CATEGORY_DISPLAY_NAMES: { [key: string]: string } = {
   'all': 'Todos los productos',
@@ -39,58 +30,23 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
   products, 
   searchTerm, 
   selectedCategory,
-  onCategoryChange 
+  onCategoryChange
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Función de filtrado optimizada con memoización
-  const filteredProducts = useMemo(() => {
-    if (!products.length) return [];
-
-    let filtered = products;
-
-    // Filtrar por término de búsqueda primero (más restrictivo)
-    if (searchTerm?.trim()) {
-      const term = searchTerm.toLowerCase().trim();
-      filtered = filtered.filter(product => {
-        const { name, description, category } = product;
-        return (
-          name.toLowerCase().includes(term) ||
-          description.toLowerCase().includes(term) ||
-          category.toLowerCase().includes(term)
-        );
-      });
-    } else if (selectedCategory !== 'all') {
-      // Solo filtrar por categoría si no hay búsqueda
-      const categoryTerms = CATEGORY_MAP[selectedCategory];
-      if (categoryTerms) {
-        filtered = filtered.filter(product => {
-          const searchText = `${product.category} ${product.name} ${product.description}`.toLowerCase();
-          return categoryTerms.some(term => searchText.includes(term));
-        });
-      }
-    }
-
-    return filtered;
-  }, [products, searchTerm, selectedCategory]);
-
-  // Cálculos de paginación memoizados
-  const paginationData = useMemo(() => {
-    const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
+  // Usar directamente los productos que vienen como prop (ya están filtrados en App.js)
+  const currentProducts = useMemo(() => {
     const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
-    const currentProducts = filteredProducts.slice(startIndex, startIndex + PRODUCTS_PER_PAGE);
+    return products.slice(startIndex, startIndex + PRODUCTS_PER_PAGE);
+  }, [products, currentPage]);
 
-    return {
-      totalPages,
-      startIndex,
-      currentProducts,
-      endIndex: Math.min(startIndex + PRODUCTS_PER_PAGE, filteredProducts.length)
-    };
-  }, [filteredProducts, currentPage]);
+  // Cálculos de paginación
+  const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
+  const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
+  const endIndex = Math.min(startIndex + PRODUCTS_PER_PAGE, products.length);
 
-  // Función para generar números de página optimizada
+  // Función para generar números de página
   const pageNumbers = useMemo(() => {
-    const { totalPages } = paginationData;
     const pages: (number | string)[] = [];
     
     if (totalPages <= MAX_VISIBLE_PAGES) {
@@ -117,15 +73,15 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
     }
     
     return pages;
-  }, [currentPage, paginationData.totalPages]);
+  }, [currentPage, totalPages]);
 
-  // Handlers optimizados con useCallback
+  // Handlers
   const handlePageChange = useCallback((page: number) => {
-    if (page >= 1 && page <= paginationData.totalPages && page !== currentPage) {
+    if (page >= 1 && page <= totalPages && page !== currentPage) {
       setCurrentPage(page);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }, [currentPage, paginationData.totalPages]);
+  }, [currentPage, totalPages]);
 
   const handlePrevPage = useCallback(() => {
     handlePageChange(currentPage - 1);
@@ -135,17 +91,17 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
     handlePageChange(currentPage + 1);
   }, [currentPage, handlePageChange]);
 
-  const handleResetFilters = useCallback(() => {
+  // Botón simple para volver al inicio (sin interfierir con la búsqueda)
+  const handleShowAll = () => {
     onCategoryChange?.('all');
-    window.location.href = '/';
-  }, [onCategoryChange]);
+    // No tocar searchTerm aquí - solo cambiar categoría
+  };
 
   // Reset page when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, selectedCategory]);
 
-  const { totalPages, startIndex, currentProducts, endIndex } = paginationData;
   const hasSearchTerm = searchTerm?.trim();
   const hasActiveFilters = hasSearchTerm || selectedCategory !== 'all';
 
@@ -153,7 +109,7 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <div className="container mx-auto px-4 py-8">
         
-        {/* Header de resultados de búsqueda optimizado */}
+        {/* Header de resultados de búsqueda */}
         {hasSearchTerm && (
           <div className="mb-8">
             <div className="bg-gradient-to-r from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6">
@@ -167,7 +123,7 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
               </div>
               <p className="text-slate-300 flex items-center gap-2">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                {filteredProducts.length} producto(s) encontrado(s)
+                {products.length} producto(s) encontrado(s)
               </p>
             </div>
           </div>
@@ -192,7 +148,7 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
               ))}
             </div>
 
-            {/* Paginación optimizada */}
+            {/* Paginación */}
             {totalPages > 1 && (
               <div className="bg-gradient-to-r from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6">
                 <div className="flex justify-center items-center gap-3">
@@ -246,7 +202,7 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
                   </button>
                 </div>
 
-                {/* Información de página optimizada */}
+                {/* Información de página */}
                 <div className="text-center mt-4 text-slate-400 text-sm">
                   Mostrando{' '}
                   <span className="text-yellow-400 font-semibold">
@@ -254,7 +210,7 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
                   </span>
                   {' '}de{' '}
                   <span className="text-yellow-400 font-semibold">
-                    {filteredProducts.length}
+                    {products.length}
                   </span>
                   {' '}productos
                 </div>
@@ -262,7 +218,7 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
             )}
           </>
         ) : (
-          // Estado vacío optimizado
+          // Estado vacío
           <div className="text-center py-16">
             <div className="bg-gradient-to-r from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-12 max-w-md mx-auto">
               <div className="text-6xl mb-6 opacity-50" role="img" aria-label="Sin resultados">🔍</div>
@@ -277,9 +233,9 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
                   : 'No hay productos disponibles'
                 }
               </p>
-              {hasActiveFilters && (
+              {(selectedCategory !== 'all') && (
                 <button
-                  onClick={handleResetFilters}
+                  onClick={handleShowAll}
                   className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-slate-900 px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:shadow-yellow-400/25"
                 >
                   Ver todos los productos
