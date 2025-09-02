@@ -238,7 +238,7 @@ const Collaborations: React.FC = () => {
 
           {/* Catálogo de Comisiones */}
           <div
-            onClick={() => window.open('https://commissions-jet.vercel.app/', '_blank')}
+            onClick={() => window.open('https://cdp-phi.vercel.app/', '_blank')} 
             className="bg-gradient-to-br from-[#2C2C2C] to-[#1a1a1a] rounded-xl border border-gray-700/50 p-6 cursor-pointer hover:border-[#FFD600]/50 hover:shadow-2xl hover:shadow-[#FFD600]/10 transition-all duration-300 group"
           >
             <div className="flex items-start gap-4">
