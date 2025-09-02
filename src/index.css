@@ -4,14 +4,25 @@
 
 /* Base */
 html, body {
+  height: 100%;
   overflow-x: hidden;
   max-width: 100vw;
 }
 
+:root {
+  --header-h: 72px; /* altura por defecto; puedes actualizarla desde el Header */
+}
+
+/* Fondo y tipografía */
 body {
-  background-color: #31013F; /* morado muy oscuro */
-  color: #FFF800;            /* amarillo vivo */
+  background-color: #31013F;
+  color: #FFF800;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Utilidad para eliminar el scroll 1px bajo header fijo */
+.fix-1px {
+  min-height: calc(100svh - var(--header-h,72px) - 1px);
 }
 
 /* Box-sizing global */
@@ -27,13 +38,13 @@ body {
   -ms-overflow-style: none; /* IE/Edge */
   scrollbar-width: none;    /* Firefox */
 }
-.categorias-scroll::-webkit-scrollbar { display: none; } /* Chrome/Safari/Opera */
+.categorias-scroll::-webkit-scrollbar { display: none; }
 
-/* Utilidad opcional para ocultar scrollbars */
+/* Ocultar scrollbars (utilidad) */
 .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .hide-scrollbar::-webkit-scrollbar { display: none; }
 
-/* Scrollbar global estilizado (solo donde no está oculto) */
+/* Scrollbar global estilizado */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: #800080; }
 ::-webkit-scrollbar-thumb { background: #FFBA00; border-radius: 4px; }
@@ -49,12 +60,9 @@ body {
 .hover-lift { transition: transform 0.2s ease-out; }
 .hover-lift:hover { transform: translateY(-4px); }
 
-/* Evita costos en móvil */
+/* Mobile perf */
 @media (max-width: 768px) {
-  /* Quita transiciones globales implícitas de utilidades personalizadas */
   .hover-lift { transition: none !important; }
-
-  /* Desactiva efectos pesados */
   .backdrop-blur-sm,
   .backdrop-blur,
   .shadow-lg,
@@ -64,13 +72,11 @@ body {
     backdrop-filter: none !important;
     box-shadow: none !important;
   }
-
-  /* Limita escalas fuertes en hover (no hay hover real en táctiles, pero evita repaints) */
   .group:hover .group-hover\:scale-110 { transform: none !important; }
   .hover\:scale-\[1\.02\] { transform: none !important; }
 }
 
-/* Respeta usuarios con reduced motion */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

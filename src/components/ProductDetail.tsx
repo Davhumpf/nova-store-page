@@ -1,68 +1,118 @@
-import React, { useEffect, useState } from 'react';
+// src/components/ProductDetail.tsx
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { Star, ShoppingCart, ArrowLeft, Clock, Monitor, Shield, Zap, Check } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useToast } from './ToastProvider';
+
+type PDProduct = {
+  id: string;
+  title: string;
+  imageUrl: string;
+  price: number;
+  originalPrice?: number;
+  discount?: number;
+  rating?: number;
+  reviewCount?: number;
+  duration?: string;
+  devices?: string;
+  longDescription?: string;
+};
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { addToCart } = useCart();
-  const [product, setProduct] = useState<any | null>(null);
+  const { push } = useToast();
+
+  const [product, setProduct] = useState<PDProduct | null>(null);
   const [loading, setLoading] = useState(true);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      if (!id) return;
+    let active = true;
+    setLoading(true);
+    setError(null);
+    setProduct(null);
+    setImageLoaded(false);
+
+    (async () => {
+      if (!id) { setLoading(false); return; }
       try {
-        const docRef = doc(db, 'products', id);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setProduct({ id: docSnap.id, ...docSnap.data() });
+        const ref = doc(db, 'products', id);
+        const snap = await getDoc(ref);
+        if (!active) return;
+        if (snap.exists()) {
+          const d = snap.data() as any;
+          setProduct({
+            id: snap.id,
+            title: d.title ?? d.name ?? 'Producto',
+            imageUrl: d.imageUrl ?? '',
+            price: Number(d.price ?? 0),
+            originalPrice: Number(d.originalPrice ?? d.price ?? 0),
+            discount: Number(d.discount ?? 0),
+            rating: Number(d.rating ?? 0),
+            reviewCount: Number(d.reviewCount ?? d.reviews ?? 0),
+            duration: d.duration ?? 'Según plan',
+            devices: d.devices ?? 'Multidispositivo',
+            longDescription: d.longDescription ?? d.description ?? '',
+          });
         } else {
           setProduct(null);
         }
-      } catch (error) {
-        console.error('Error fetching product:', error);
+      } catch {
+        setError('No fue posible cargar el producto.');
       } finally {
-        setLoading(false);
+        if (active) setLoading(false);
       }
-    };
+    })();
 
-    fetchProduct();
+    return () => { active = false; };
   }, [id]);
 
-  const handleAddToCart = () => {
-    addToCart(product);
-  };
+  const handleAddToCart = useCallback(() => {
+    if (!product) return;
+    addToCart(product as any);
+    push({
+      type: 'success',
+      title: 'Agregado al carrito',
+      message: `${product.title} fue agregado correctamente.`,
+    });
+  }, [addToCart, product, push]);
+
+  const hasDiscount = useMemo(
+    () => product && product.originalPrice && product.originalPrice > product.price,
+    [product]
+  );
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="bg-slate-900 fix-1px flex items-center justify-center">
         <div className="text-center space-y-4">
-          <div className="w-12 h-12 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="text-slate-300">Cargando producto...</p>
+          <div className="w-12 h-12 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-slate-300">Cargando producto…</p>
         </div>
       </div>
     );
   }
 
-  if (!product) {
+  if (error || !product) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-        <div className="text-center space-y-6 p-8">
+      <div className="bg-slate-900 fix-1px flex items-center justify-center px-4">
+        <div className="text-center space-y-6 max-w-md">
           <div className="w-24 h-24 bg-slate-800 rounded-full flex items-center justify-center mx-auto">
             <ShoppingCart className="w-12 h-12 text-slate-400" />
           </div>
-          <h2 className="text-3xl font-bold text-slate-200 mb-4">Producto no encontrado</h2>
-          <p className="text-slate-400 mb-6">Lo sentimos, este producto no existe o ha sido eliminado.</p>
+          <h2 className="text-2xl font-bold text-slate-200">Producto no disponible</h2>
+          <p className="text-slate-400">{error ?? 'No existe o fue eliminado.'}</p>
           <button
             onClick={() => navigate('/')}
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-slate-900 px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105"
+            className="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-slate-900 px-5 py-2.5 rounded-lg font-semibold"
           >
-            <ArrowLeft size={20} />
+            <ArrowLeft size={18} />
             Volver al inicio
           </button>
         </div>
@@ -71,86 +121,80 @@ const ProductDetail: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-4">
+    <div className="bg-slate-900 py-4 fix-1px">
       <div className="container mx-auto px-4 max-w-5xl">
         {/* Breadcrumb */}
         <button
           onClick={() => navigate('/')}
-          className="inline-flex items-center gap-2 text-slate-400 hover:text-yellow-400 transition-all duration-300 mb-6 group"
+          className="inline-flex items-center gap-2 text-slate-400 hover:text-yellow-400 mb-4"
         >
-          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform duration-300" />
+          <ArrowLeft size={16} />
           <span className="text-sm">Volver a Productos</span>
         </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          {/* Product Image - Left Side */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          {/* Imagen */}
           <div className="order-1">
-            <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 to-yellow-600/10 rounded-xl blur-lg group-hover:blur-xl transition-all duration-500"></div>
-              <div className="relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-xl border border-slate-700/50 overflow-hidden">
-                <div className="aspect-square relative overflow-hidden">{!imageLoaded && (
-                    <div className="absolute inset-0 bg-slate-800 animate-pulse flex items-center justify-center">
-                      <div className="w-8 h-8 border-4 border-slate-600 border-t-yellow-400 rounded-full animate-spin"></div>
-                    </div>
-                  )}
-                  <img
-                    src={product.imageUrl}
-                    alt={product.title}
-                    className={`w-full h-full object-cover transition-all duration-700 ${
-                      imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-110'
-                    }`}
-                    onLoad={() => setImageLoaded(true)}
-                  />
-                  
-                  {/* Discount badge */}
-                  {product.discount > 0 && (
-                    <div className="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold px-2 py-1 rounded-lg shadow-lg text-sm">
-                      -{product.discount}%
-                    </div>
-                  )}
-                  
-                  {/* Available status */}
-                  <div className="absolute top-3 right-3">
-                    <span className="bg-slate-800/90 backdrop-blur-sm text-green-400 px-2 py-1 rounded-lg flex items-center text-sm font-medium">
-                      <div className="w-1.5 h-1.5 bg-green-400 rounded-full mr-1.5 animate-pulse"></div>
-                      Disponible
-                    </span>
+            <div className="relative rounded-xl border border-slate-800 overflow-hidden bg-slate-950">
+              <div className="aspect-square relative overflow-hidden">
+                {!imageLoaded && (
+                  <div className="absolute inset-0 bg-slate-800 animate-pulse flex items-center justify-center">
+                    <div className="w-8 h-8 border-4 border-slate-600 border-t-yellow-400 rounded-full animate-spin" />
                   </div>
+                )}
+                <img
+                  src={product.imageUrl}
+                  alt={product.title}
+                  loading="lazy"
+                  decoding="async"
+                  fetchPriority="low"
+                  width={1024}
+                  height={1024}
+                  className={`w-full h-full object-cover transition-opacity duration-200 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                  onLoad={() => setImageLoaded(true)}
+                  style={{ display: 'block' }}
+                />
+
+                {product.discount && product.discount > 0 && (
+                  <div className="absolute top-2 left-2 bg-red-600 text-white font-bold text-xs px-2 py-1 rounded-lg">
+                    -{product.discount}%
+                  </div>
+                )}
+                <div className="absolute top-2 right-2">
+                  <span className="bg-slate-900/85 text-green-400 text-[11px] px-2 py-1 rounded-lg flex items-center">
+                    <span className="w-1.5 h-1.5 bg-green-400 rounded-full mr-1.5" />
+                    Disponible
+                  </span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Product Info - Right Side */}
-          <div className="order-2 space-y-5">
-            {/* Title & Rating Section */}
-            <div className="space-y-3">
-              <h1 className="text-3xl lg:text-4xl font-black bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-yellow-500 leading-tight">
+          {/* Info */}
+          <div className="order-2 space-y-4">
+            <div>
+              <h1 className="text-2xl lg:text-3xl font-extrabold text-slate-100 leading-tight break-words">
                 {product.title}
               </h1>
-
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 mt-2">
                 <div className="flex items-center gap-0.5">
-                  {[...Array(5)].map((_, i) => (
+                  {Array.from({ length: 5 }).map((_, i) => (
                     <Star
                       key={i}
                       size={16}
-                      className={`${
-                        i < Math.floor(product.rating ?? 0) 
-                          ? 'text-yellow-400 fill-current' 
-                          : 'text-slate-600'
-                      } transition-colors`}
+                      className={i < Math.floor(product.rating ?? 0) ? 'text-yellow-400' : 'text-slate-600'}
+                      fill={i < Math.floor(product.rating ?? 0) ? 'currentColor' : 'none'}
                     />
                   ))}
                 </div>
-                <span className="text-slate-300 font-medium text-sm">
-                  {product.rating?.toFixed(1)} • {product.reviewCount ?? 0} reseñas
+                <span className="text-slate-300 text-sm">
+                  {product.rating?.toFixed(1) ?? '0.0'} • {product.reviewCount ?? 0} reseñas
                 </span>
               </div>
             </div>
 
-            {/* Price & Features en una sola fila */}
-            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-xl border border-slate-700/50 p-4">
+            {/* Bloque de precio + specs */}
+            <div className="rounded-xl border border-slate-800 p-4 bg-slate-950/60">
               <div className="grid grid-cols-3 gap-4 items-center">
                 {/* Precio */}
                 <div className="space-y-1">
@@ -158,28 +202,28 @@ const ProductDetail: React.FC = () => {
                     <span className="text-2xl font-black text-yellow-400">
                       ${product.price.toLocaleString('es-CO')}
                     </span>
-                    {product.originalPrice > product.price && (
+                    {hasDiscount && product.originalPrice && (
                       <span className="text-sm text-slate-500 line-through">
                         ${product.originalPrice.toLocaleString('es-CO')}
                       </span>
                     )}
                   </div>
-                  {product.originalPrice > product.price && (
-                    <div className="bg-green-400/10 text-green-400 font-bold text-xs px-2 py-1 rounded-md inline-block">
-                      ¡Ahorras ${(product.originalPrice - product.price).toLocaleString('es-CO')}!
+                  {hasDiscount && product.originalPrice && (
+                    <div className="bg-green-400/10 text-green-400 font-bold text-[11px] px-2 py-1 rounded-md inline-block">
+                      Ahorra ${(product.originalPrice - product.price).toLocaleString('es-CO')}
                     </div>
                   )}
                 </div>
 
                 {/* Duración */}
-                <div className="text-center border-l border-slate-700/50 pl-4">
+                <div className="text-center border-l border-slate-800 pl-4">
                   <Clock className="w-5 h-5 text-yellow-400 mx-auto mb-1" />
                   <div className="text-slate-200 font-semibold text-xs">Duración</div>
                   <div className="text-slate-300 text-xs">{product.duration}</div>
                 </div>
-                
+
                 {/* Dispositivos */}
-                <div className="text-center border-l border-slate-700/50 pl-4">
+                <div className="text-center border-l border-slate-800 pl-4">
                   <Monitor className="w-5 h-5 text-yellow-400 mx-auto mb-1" />
                   <div className="text-slate-200 font-semibold text-xs">Dispositivos</div>
                   <div className="text-slate-300 text-xs">{product.devices}</div>
@@ -187,15 +231,15 @@ const ProductDetail: React.FC = () => {
               </div>
             </div>
 
-            {/* Description */}
-            <div className="bg-slate-800/30 backdrop-blur-sm rounded-lg border border-slate-700/50 p-4">
+            {/* Descripción */}
+            <div className="rounded-lg border border-slate-800 p-4 bg-slate-950/60">
               <p className="text-slate-300 leading-relaxed text-sm">
                 {product.longDescription}
               </p>
             </div>
 
-            {/* Benefits - Simplificado */}
-            <div className="flex items-center justify-center gap-6 bg-gradient-to-br from-green-900/20 to-green-800/20 backdrop-blur-sm rounded-lg border border-green-500/30 p-3">
+            {/* Beneficios */}
+            <div className="flex items-center justify-center gap-6 rounded-lg border border-green-500/30 p-3 bg-emerald-900/10">
               <div className="flex items-center gap-1 text-slate-300 text-xs">
                 <Check className="w-3 h-3 text-green-400" />
                 <span>Activación inmediata</span>
@@ -206,16 +250,16 @@ const ProductDetail: React.FC = () => {
               </div>
             </div>
 
-            {/* Action Button */}
-            <div className="space-y-3">
+            {/* CTA */}
+            <div className="space-y-3 mb-0">
               <button
                 onClick={handleAddToCart}
-                className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-slate-900 py-3 px-6 rounded-xl font-black text-base flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-[1.01] hover:shadow-xl hover:shadow-yellow-400/25"
+                className="w-full bg-yellow-400 hover:bg-yellow-300 text-slate-900 py-3 px-6 rounded-xl font-black text-base flex items-center justify-center gap-2"
               >
                 <ShoppingCart size={18} />
                 Añadir al Carrito
               </button>
-              
+
               <div className="flex items-center justify-center gap-2 text-slate-400 text-sm">
                 <Zap className="w-4 h-4 text-green-400" />
                 <span>Activación automática tras la compra</span>

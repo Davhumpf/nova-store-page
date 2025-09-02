@@ -1,11 +1,11 @@
 // src/main.tsx
-
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import { UserProvider } from "./context/UserContext";
 import { CartProvider } from "./context/CartContext";
+import { ToastProvider } from "./components/ToastProvider"; // ← nuevo
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
@@ -18,7 +18,9 @@ createRoot(document.getElementById("root")!).render(
     >
       <UserProvider>
         <CartProvider>
-          <App />
+          <ToastProvider>
+            <App />
+          </ToastProvider>
         </CartProvider>
       </UserProvider>
     </Router>
