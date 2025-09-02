@@ -205,12 +205,12 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
         <img 
           src={imageUrl} 
           alt={product.name}
-          className={`${sizeClasses} rounded-lg object-cover border border-slate-600/50`}
+          className={`${sizeClasses} rounded-lg object-cover border border-slate-600`}
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.style.display = 'none';
             target.parentElement!.innerHTML = `
-              <div class="${sizeClasses} bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-lg flex items-center justify-center shadow-lg">
+              <div class="${sizeClasses} bg-yellow-400 rounded-lg flex items-center justify-center">
                 <span class="text-slate-900 ${textSize} font-bold">
                   ${product.name.charAt(0).toUpperCase()}
                 </span>
@@ -222,7 +222,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
     }
     
     return (
-      <div className={`${sizeClasses} bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-lg flex items-center justify-center shadow-lg`}>
+      <div className={`${sizeClasses} bg-yellow-400 rounded-lg flex items-center justify-center`}>
         <span className={`text-slate-900 ${textSize} font-bold`}>
           {product.name.charAt(0).toUpperCase()}
         </span>
@@ -277,28 +277,25 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
 
   return (
     <header
-      className={`sticky top-0 w-full z-50 transition-all duration-300 ${
+      className={`sticky top-0 w-full z-50 ${
         isScrolled
-          ? 'bg-slate-900/95 backdrop-blur-xl shadow-2xl'
-          : 'bg-gradient-to-b from-slate-900/95 to-slate-800/95 backdrop-blur-lg'
+          ? 'bg-slate-900 shadow-xl'
+          : 'bg-slate-900'
       }`}
     >
-      {/* Container principal con mucho padding lateral para simular Dynamic Island */}
+      {/* Container principal */}
       <div className="container mx-auto px-4 py-3 flex justify-center">
         
-        {/* Dynamic Island Style Container - Todo centrado en una sola píldora */}
+        {/* Dynamic Island Style Container */}
         <div className="relative">
-          {/* Glow effect background */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-700/30 via-slate-600/40 to-slate-700/30 rounded-full blur-lg scale-110"></div>
-          
           {/* Main Dynamic Island Container */}
-          <div className="relative bg-slate-900/90 backdrop-blur-xl border border-slate-700/60 rounded-full px-6 py-3 shadow-2xl flex items-center gap-4">
+          <div className="relative bg-slate-800 border border-slate-700 rounded-full px-6 py-3 shadow-lg flex items-center gap-4">
             
             {/* Logo */}
             <div className="flex-shrink-0">
               <Link
                 to="/"
-                className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 hover:from-yellow-200 hover:to-yellow-600 transition-all duration-300 tracking-wide"
+                className="text-lg font-bold text-yellow-400 hover:text-yellow-300"
                 onClick={clearSearch}
               >
                 Nova Store
@@ -306,7 +303,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
             </div>
 
             {/* Separador visual */}
-            <div className="w-px h-6 bg-slate-600/50"></div>
+            <div className="w-px h-6 bg-slate-600"></div>
 
             {/* Barra de búsqueda integrada - Desktop */}
             <div className="hidden md:flex flex-1 min-w-0 max-w-sm relative">
@@ -316,12 +313,12 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
                   placeholder="Buscar..."
                   value={searchTerms}
                   onChange={handleSearchChange}
-                  className="w-full bg-slate-800/60 backdrop-blur-sm border border-slate-600/40 rounded-full py-2 pl-4 pr-12 text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-yellow-400/50 transition-all duration-300 text-sm"
+                  className="w-full bg-slate-700 border border-slate-600 rounded-full py-2 pl-4 pr-12 text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-yellow-400 text-sm"
                   onClick={(e) => e.stopPropagation()}
                 />
                 <button
                   type="submit"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-yellow-400 hover:text-yellow-300 transition-colors p-1.5 hover:bg-yellow-400/10 rounded-full"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-yellow-400 hover:text-yellow-300 p-1.5"
                 >
                   <Search size={14} />
                 </button>
@@ -329,7 +326,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
                   <button
                     type="button"
                     onClick={clearSearch}
-                    className="absolute right-10 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-white transition-colors hover:bg-slate-700/50 rounded-full p-1"
+                    className="absolute right-10 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-white p-1"
                   >
                     <X size={12} />
                   </button>
@@ -338,7 +335,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
 
               {/* Resultados de búsqueda - Desktop */}
               {showResults && searchResults.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-4 bg-slate-800/95 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl max-h-80 overflow-y-auto z-50">
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 bg-slate-800 border border-slate-700 rounded-2xl shadow-xl max-h-80 overflow-y-auto z-50 w-[600px]">
                   <div className="p-4">
                     <div className="text-yellow-400 text-xs font-semibold mb-4 px-2">
                       {searchResults.length} resultado{searchResults.length !== 1 ? 's' : ''}
@@ -347,17 +344,17 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
                       <div
                         key={product.id}
                         onClick={() => handleProductClick(product)}
-                        className="flex items-center gap-4 p-3 hover:bg-slate-700/40 rounded-xl cursor-pointer transition-all duration-300 border-b border-slate-700/30 last:border-b-0 group"
+                        className="flex items-center gap-4 p-3 hover:bg-slate-700 rounded-xl cursor-pointer border-b border-slate-700 last:border-b-0"
                       >
                         <div className="flex-shrink-0">
                           {renderProductImage(product, 'medium')}
                         </div>
                         
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-white font-semibold text-sm truncate group-hover:text-yellow-400 transition-colors">
+                          <h4 className="text-white font-semibold text-sm truncate hover:text-yellow-400">
                             {product.name}
                           </h4>
-                          <p className="text-slate-400 text-xs mt-1 line-clamp-1 leading-relaxed">
+                          <p className="text-slate-400 text-xs mt-1 line-clamp-1">
                             {product.description}
                           </p>
                           <div className="flex items-center justify-between mt-2">
@@ -370,8 +367,8 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
                           </div>
                         </div>
                         
-                        <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                          <div className="w-6 h-6 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 flex items-center justify-center shadow-lg">
+                        <div className="flex-shrink-0">
+                          <div className="w-6 h-6 rounded-full bg-yellow-400 flex items-center justify-center">
                             <span className="text-slate-900 text-xs font-bold">→</span>
                           </div>
                         </div>
@@ -383,27 +380,27 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
             </div>
 
             {/* Separador visual para desktop */}
-            <div className="hidden md:block w-px h-6 bg-slate-600/50"></div>
+            <div className="hidden md:block w-px h-6 bg-slate-600"></div>
 
             {/* Controles integrados */}
             <div className="flex items-center gap-1">
               {/* Botón búsqueda móvil */}
               <button
                 onClick={toggleSearchBar}
-                className="md:hidden text-yellow-400 hover:text-yellow-300 transition-all duration-300 p-2 hover:bg-yellow-400/10 rounded-full"
+                className="md:hidden text-yellow-400 hover:text-yellow-300 p-2"
               >
                 <Search size={18} />
               </button>
 
               {/* Carrito */}
               <button
-                className="relative text-yellow-400 hover:text-yellow-300 transition-all duration-300 p-2 hover:bg-yellow-400/10 rounded-full"
+                className="relative text-yellow-400 hover:text-yellow-300 p-2"
                 onClick={toggleCart}
                 aria-label="Carrito de compras"
               >
                 <ShoppingCart size={18} />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-gradient-to-r from-yellow-400 to-yellow-500 text-slate-900 text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center shadow-lg animate-pulse">
+                  <span className="absolute -top-1 -right-1 bg-yellow-400 text-slate-900 text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
                     {cartCount}
                   </span>
                 )}
@@ -412,7 +409,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
               {/* Menú hamburguesa */}
               <button
                 onClick={isMobileMenuOpen ? () => setIsMobileMenuOpen(false) : toggleUserMenu}
-                className="text-yellow-400 hover:text-yellow-300 transition-all duration-300 p-2 hover:bg-yellow-400/10 rounded-full md:hidden"
+                className="text-yellow-400 hover:text-yellow-300 p-2 md:hidden"
               >
                 {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
@@ -420,7 +417,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
               {/* Menú desktop */}
               <button
                 onClick={toggleUserMenu}
-                className="hidden md:block text-yellow-400 hover:text-yellow-300 transition-all duration-300 p-2 hover:bg-yellow-400/10 rounded-full"
+                className="hidden md:block text-yellow-400 hover:text-yellow-300 p-2"
               >
                 <Menu size={18} />
               </button>
@@ -429,26 +426,25 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
 
           {/* Dropdown hamburguesa - Desktop */}
           {showUserMenu && (
-            <div className="absolute right-0 top-full mt-4 w-64 bg-slate-800/95 backdrop-blur-xl shadow-2xl rounded-3xl overflow-hidden z-50 border border-slate-700/30">
+            <div className="absolute right-0 top-full mt-4 w-64 bg-slate-800 shadow-xl rounded-3xl overflow-hidden z-50 border border-slate-700">
               {user ? (
                 <>
-                  <div className="flex flex-col items-center px-6 py-5 border-b border-slate-700/30 bg-gradient-to-b from-slate-800/50 to-slate-900/50">
-                    <div className="mb-3 relative">
-                      <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-yellow-500/20 rounded-full blur-lg"></div>
-                      <div className="w-14 h-14 rounded-full bg-gradient-to-r from-slate-700 to-slate-600 flex items-center justify-center border-2 border-yellow-400 shadow-lg relative">
+                  <div className="flex flex-col items-center px-6 py-5 border-b border-slate-700 bg-slate-800">
+                    <div className="mb-3">
+                      <div className="w-14 h-14 rounded-full bg-slate-700 flex items-center justify-center border-2 border-yellow-400">
                         <User size={24} className="text-yellow-400" />
                       </div>
                     </div>
                     <p className="text-sm font-semibold text-yellow-400 truncate max-w-full">{user.email}</p>
-                    <div className="flex items-center gap-2 mt-2 bg-slate-700/40 backdrop-blur-sm px-4 py-2 rounded-full border border-slate-600/30">
+                    <div className="flex items-center gap-2 mt-2 bg-slate-700 px-4 py-2 rounded-full border border-slate-600">
                       <Award size={14} className="text-yellow-400" />
                       <span className="text-white text-sm font-semibold">
                         {user?.points || 0} pts
                       </span>
                     </div>
                     {userRole && userRole !== 'user' && (
-                      <div className="mt-2 bg-gradient-to-r from-purple-500/25 to-blue-500/25 backdrop-blur-sm px-4 py-1.5 rounded-full border border-purple-400/25">
-                        <span className="text-purple-300 text-xs font-semibold uppercase tracking-wide">
+                      <div className="mt-2 bg-purple-500/25 px-4 py-1.5 rounded-full border border-purple-400/25">
+                        <span className="text-purple-300 text-xs font-semibold uppercase">
                           {userRole === 'super_admin' ? 'Super Admin' : userRole === 'admin' ? 'Admin' : 'Colaborador'}
                         </span>
                       </div>
@@ -459,7 +455,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
                     <Link
                       key={index}
                       to={option.href}
-                      className={`w-full text-left px-6 py-4 text-white hover:bg-slate-700/40 flex items-center gap-3 transition-all duration-300 ${option.color} text-sm`}
+                      className={`w-full text-left px-6 py-4 text-white hover:bg-slate-700 flex items-center gap-3 ${option.color} text-sm`}
                       onClick={() => setShowUserMenu(false)}
                     >
                       {option.icon}
@@ -469,7 +465,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
                   
                   <button
                     onClick={handleLogout}
-                    className="w-full text-left px-6 py-4 text-white hover:bg-slate-700/40 flex items-center gap-3 transition-all duration-300 hover:text-red-400 text-sm border-t border-slate-700/20"
+                    className="w-full text-left px-6 py-4 text-white hover:bg-slate-700 flex items-center gap-3 hover:text-red-400 text-sm border-t border-slate-700"
                   >
                     <LogOut size={16} />
                     <span className="font-medium">Cerrar sesión</span>
@@ -479,7 +475,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
                 <div className="p-6">
                   <Link 
                     to="/auth" 
-                    className="w-full block text-center bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-slate-900 rounded-2xl px-4 py-3 font-semibold transition-all duration-300 shadow-lg hover:shadow-xl text-sm"
+                    className="w-full block text-center bg-yellow-400 hover:bg-yellow-300 text-slate-900 rounded-2xl px-4 py-3 font-semibold text-sm"
                   >
                     Iniciar sesión
                   </Link>
@@ -493,19 +489,16 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
         {showSearchBar && (
           <div className="absolute top-full left-4 right-4 mt-3 md:hidden">
             <form onSubmit={handleSearch} className="relative">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 to-yellow-600/10 rounded-2xl blur opacity-50"></div>
-                <input
-                  type="text"
-                  placeholder="Buscar productos..."
-                  value={searchTerms}
-                  onChange={handleSearchChange}
-                  className="relative w-full bg-slate-800/60 backdrop-blur-lg border border-slate-700/50 rounded-2xl py-4 pl-5 pr-14 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400/50 transition-all duration-300 shadow-lg"
-                />
-              </div>
+              <input
+                type="text"
+                placeholder="Buscar productos..."
+                value={searchTerms}
+                onChange={handleSearchChange}
+                className="w-full bg-slate-800 border border-slate-700 rounded-2xl py-4 pl-5 pr-14 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
+              />
               <button
                 type="submit"
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-yellow-400 hover:text-yellow-300 transition-colors p-2 hover:bg-yellow-400/10 rounded-xl"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-yellow-400 hover:text-yellow-300 p-2"
               >
                 <Search size={16} />
               </button>
@@ -513,7 +506,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
                 <button
                   type="button"
                   onClick={clearSearch}
-                  className="absolute right-12 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-white transition-colors hover:bg-slate-700/50 rounded-xl p-1.5"
+                  className="absolute right-12 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-white p-1.5"
                 >
                   <X size={14} />
                 </button>
@@ -522,8 +515,8 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
 
             {/* Resultados móvil */}
             {showResults && searchResults.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-3 bg-slate-800/95 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl max-h-72 overflow-y-auto z-50">
-                <div className="p-4">
+              <div className="absolute top-full left-0 right-0 mt-3 bg-slate-800 border border-slate-700 rounded-2xl shadow-xl max-h-72 overflow-y-auto z-50">
+                <div className="p-5">
                   <div className="text-yellow-400 text-xs font-semibold mb-4 px-1">
                     {searchResults.length} resultado{searchResults.length !== 1 ? 's' : ''}
                   </div>
@@ -531,21 +524,21 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
                     <div
                       key={product.id}
                       onClick={() => handleProductClick(product)}
-                      className="flex items-center gap-3 p-3 hover:bg-slate-700/40 rounded-xl cursor-pointer transition-all duration-300 border-b border-slate-700/30 last:border-b-0 group"
+                      className="flex items-center gap-4 p-4 hover:bg-slate-700 rounded-xl cursor-pointer border-b border-slate-700 last:border-b-0"
                     >
                       <div className="flex-shrink-0">
                         {renderProductImage(product, 'small')}
                       </div>
                       
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-white font-semibold text-sm truncate group-hover:text-yellow-400 transition-colors">
+                        <h4 className="text-white font-semibold text-sm truncate hover:text-yellow-400">
                           {product.name}
                         </h4>
-                        <p className="text-slate-400 text-xs mt-1 line-clamp-1 leading-relaxed">
+                        <p className="text-slate-400 text-sm mt-1 line-clamp-2">
                           {product.description}
                         </p>
-                        <div className="flex items-center justify-between mt-1.5">
-                          <span className="text-yellow-400 text-xs font-medium bg-yellow-400/15 px-2 py-0.5 rounded-full border border-yellow-400/25">
+                        <div className="flex items-center justify-between mt-2">
+                          <span className="text-yellow-400 text-xs font-medium bg-yellow-400/15 px-3 py-1 rounded-full border border-yellow-400/25">
                             {product.category}
                           </span>
                           <span className="text-yellow-400 text-sm font-bold">
@@ -554,8 +547,8 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
                         </div>
                       </div>
                       
-                      <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                        <div className="w-5 h-5 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 flex items-center justify-center shadow-lg">
+                      <div className="flex-shrink-0">
+                        <div className="w-6 h-6 rounded-full bg-yellow-400 flex items-center justify-center">
                           <span className="text-slate-900 text-xs font-bold">→</span>
                         </div>
                       </div>
@@ -570,26 +563,25 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
       
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-slate-800/95 backdrop-blur-xl border-t border-slate-700/50 shadow-2xl">
+        <div className="md:hidden bg-slate-800 border-t border-slate-700 shadow-xl">
           <div className="p-6">
             {user ? (
-              <div className="flex flex-col items-center gap-4 mt-2 py-6 border-t border-slate-700/50 bg-gradient-to-b from-slate-800/40 to-slate-900/40 rounded-2xl">
-                <div className="mb-2 relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 rounded-full blur-xl"></div>
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-slate-700 to-slate-600 flex items-center justify-center border-3 border-yellow-400 shadow-lg relative z-10">
+              <div className="flex flex-col items-center gap-4 mt-2 py-6 border-t border-slate-700 bg-slate-800 rounded-2xl">
+                <div className="mb-2">
+                  <div className="w-16 h-16 rounded-full bg-slate-700 flex items-center justify-center border-2 border-yellow-400">
                     <User size={28} className="text-yellow-400" />
                   </div>
                 </div>
                 <span className="text-white font-medium truncate max-w-[200px] text-sm">{user.email}</span>
-                <div className="flex items-center gap-2 bg-slate-700/40 backdrop-blur-sm px-3 py-2 rounded-full border border-slate-600/50">
+                <div className="flex items-center gap-2 bg-slate-700 px-3 py-2 rounded-full border border-slate-600">
                   <Award size={16} className="text-yellow-400" />
                   <span className="text-white text-sm font-semibold">
                     {user?.points || 0} pts
                   </span>
                 </div>
                 {userRole && userRole !== 'user' && (
-                  <div className="bg-gradient-to-r from-purple-500/25 to-blue-500/25 backdrop-blur-sm px-3 py-1.5 rounded-full border border-purple-400/30">
-                    <span className="text-purple-300 text-xs font-semibold uppercase tracking-wide">
+                  <div className="bg-purple-500/25 px-3 py-1.5 rounded-full border border-purple-400/30">
+                    <span className="text-purple-300 text-xs font-semibold uppercase">
                       {userRole === 'super_admin' ? 'Super Admin' : userRole === 'admin' ? 'Admin' : 'Colaborador'}
                     </span>
                   </div>
@@ -600,7 +592,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
                     <Link
                       key={index}
                       to={option.href}
-                      className="w-full bg-gradient-to-r from-slate-700/60 to-slate-800/60 backdrop-blur-sm border border-slate-600/50 text-white rounded-2xl py-3 px-5 flex items-center justify-center gap-3 hover:border-yellow-400/30 hover:text-yellow-400 transition-all duration-300 text-sm shadow-lg"
+                      className="w-full bg-slate-700 border border-slate-600 text-white rounded-2xl py-3 px-5 flex items-center justify-center gap-3 hover:border-yellow-400 hover:text-yellow-400 text-sm"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {option.icon}
@@ -610,7 +602,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
                   
                   <button
                     onClick={handleLogout}
-                    className="w-full bg-gradient-to-r from-red-500/80 to-red-600/80 backdrop-blur-sm text-white rounded-2xl py-3 px-5 flex items-center justify-center gap-3 hover:from-red-400/80 hover:to-red-500/80 transition-all duration-300 shadow-lg text-sm"
+                    className="w-full bg-red-500 text-white rounded-2xl py-3 px-5 flex items-center justify-center gap-3 hover:bg-red-400 text-sm"
                   >
                     <LogOut size={18} />
                     <span className="font-semibold">Cerrar sesión</span>
@@ -618,10 +610,10 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onProductSelect }) => {
                 </div>
               </div>
             ) : (
-              <div className="mt-2 py-6 border-t border-slate-700/50">
+              <div className="mt-2 py-6 border-t border-slate-700">
                 <Link 
                   to="/auth" 
-                  className="w-full block text-center bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-slate-900 rounded-2xl px-6 py-4 font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  className="w-full block text-center bg-yellow-400 hover:bg-yellow-300 text-slate-900 rounded-2xl px-6 py-4 font-semibold"
                 >
                   Iniciar sesión
                 </Link>

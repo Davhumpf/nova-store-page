@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Star, Play, RefreshCw, Sparkles, TrendingUp, Grid, Filter, Music, Gamepad2, Wrench, BookOpen, GraduationCap } from 'lucide-react';
 
 interface MainBannerProps {
@@ -19,40 +19,40 @@ interface RecommendedContent {
   isError?: boolean;
 }
 
-const MainBanner: React.FC<MainBannerProps> = ({ selectedCategory = 'all', onCategoryChange }) => {
-  const [content, setContent] = useState<RecommendedContent | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [fadeClass, setFadeClass] = useState('opacity-100');
-  const [previousRecommendations, setPreviousRecommendations] = useState<string[]>([]);
+// Mover constantes fuera del componente para evitar recreación
+const PLATFORMS = [
+  'Netflix','Amazon Prime Video','HBO Max','Disney+','Apple TV+',
+  'Paramount+','Crunchyroll','MUBI','Spotify','YouTube Premium',
+  'Game Pass Ultimate','Duolingo Plus','ChatGPT Plus','Canva',
+  'CapCut','Emby','Flujo TV','Gaia','IPTV','NBA League Pass',
+  'MLS Pass','Plex','Rakuten Viki','Tidal','TV Mia','Universal+',
+  'Win Sports','Telelatino Premium','Apple Music','Mistery Box'
+];
 
-  const apiKey = import.meta.env.VITE_GROQ_API_KEY;
-  const platforms = [
-    'Netflix','Amazon Prime Video','HBO Max','Disney+','Apple TV+',
-    'Paramount+','Crunchyroll','MUBI','Spotify','YouTube Premium',
-    'Game Pass Ultimate','Duolingo Plus','ChatGPT Plus','Canva',
-    'CapCut','Emby','Flujo TV','Gaia','IPTV','NBA League Pass',
-    'MLS Pass','Plex','Rakuten Viki','Tidal','TV Mia','Universal+',
-    'Win Sports','Telelatino Premium','Apple Music','Mistery Box'
-  ];
+const GENRES = ['Drama', 'Comedia', 'Acción', 'Thriller', 'Ciencia Ficción', 'Fantasía', 'Romance', 'Documental', 'Animación', 'Terror', 'Misterio', 'Aventura'];
+const YEARS = ['2024', '2023', '2025'];
 
-  const categoryData = [
-    { key: 'all', label: 'Todos', icon: Grid },
-    { key: 'video', label: 'Video', icon: Sparkles },
-    { key: 'music', label: 'Música', icon: Music },
-    { key: 'gaming', label: 'Gaming', icon: Gamepad2 },
-    { key: 'tools', label: 'Herramientas', icon: Wrench },
-    { key: 'productivity', label: 'Productividad', icon: BookOpen },
-    { key: 'education', label: 'Educación', icon: GraduationCap }
-  ];
+const CATEGORY_DATA = [
+  { key: 'all', label: 'Todos', icon: Grid },
+  { key: 'video', label: 'Video', icon: Sparkles },
+  { key: 'music', label: 'Música', icon: Music },
+  { key: 'gaming', label: 'Gaming', icon: Gamepad2 },
+  { key: 'tools', label: 'Herramientas', icon: Wrench },
+  { key: 'productivity', label: 'Productividad', icon: BookOpen },
+  { key: 'education', label: 'Educación', icon: GraduationCap }
+];
 
-  const safeParseJSON = (jsonString: string): any => {
-    try {
-      return JSON.parse(jsonString);
-    } catch (e) {
-      console.log('Standard JSON.parse failed, trying cleanup...');
-    }
+const REFRESH_INTERVAL = 50000; // 50 segundos
+const MAX_RETRIES = 3;
+const RETRY_DELAY = 1000;
 
-    let cleaned = jsonString
+// Función de parsing optimizada y memoizada
+const safeParseJSON = (jsonString: string): any => {
+  try {
+    return JSON.parse(jsonString);
+  } catch {
+    // Cleanup simplificado - una sola pasada
+    const cleaned = jsonString
       .trim()
       .replace(/,(\s*[}\]])/g, '$1')
       .replace(/([{,]\s*)([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:/g, '$1"$2":')
@@ -60,49 +60,110 @@ const MainBanner: React.FC<MainBannerProps> = ({ selectedCategory = 'all', onCat
 
     try {
       return JSON.parse(cleaned);
-    } catch (e) {
-      console.log('Cleaned JSON parse failed, using eval as last resort...');
-      try {
-        return eval('(' + jsonString + ')');
-      } catch (evalError) {
-        throw new Error('Unable to parse JSON response');
-      }
+    } catch {
+      throw new Error('Unable to parse JSON response');
     }
-  };
+  }
+};
 
-  const fetchRecommendation = async () => {
-    if (!apiKey) {
-      setContent({
-        title: 'Configuración requerida',
-        platform: 'Sistema',
-        genre: 'Configuración',
-        rating: 0,
-        releaseDate: 'Hoy',
-        description: 'Configura tu API key de Groq para recomendaciones',
-        platformColor: '#FF6B6B',
-        trending: false,
-        contentType: 'serie',
-        isError: true
+// Función para generar contenido de fallback
+const generateFallbackContent = (isError = false): RecommendedContent => ({
+  title: isError ? 'Error de conexión' : 'Configuración requerida',
+  platform: 'Sistema',
+  genre: isError ? 'Error' : 'Configuración',
+  rating: 0,
+  releaseDate: isError ? 'Ahora' : 'Hoy',
+  description: isError ? 'No se pudo obtener recomendación' : 'Configura tu API key de Groq para recomendaciones',
+  platformColor: '#FF6B6B',
+  trending: false,
+  contentType: 'serie',
+  isError: true
+});
+
+const MainBanner: React.FC<MainBannerProps> = ({ selectedCategory = 'all', onCategoryChange }) => {
+  const [content, setContent] = useState<RecommendedContent | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [fadeClass, setFadeClass] = useState('opacity-100');
+  const [previousRecommendations, setPreviousRecommendations] = useState<string[]>([]);
+  const [retryCount, setRetryCount] = useState(0);
+
+  // Memoizar API key para evitar recálculos
+  const apiKey = useMemo(() => import.meta.env.VITE_GROQ_API_KEY, []);
+
+  // Función optimizada para crear prompt de recomendación
+  const createRecommendationPrompt = useCallback((previousTitles: string[]) => {
+    const randomPlatform = PLATFORMS[Math.floor(Math.random() * PLATFORMS.length)];
+    const randomGenre = GENRES[Math.floor(Math.random() * GENRES.length)];
+    const randomYear = YEARS[Math.floor(Math.random() * YEARS.length)];
+    const randomContentType = Math.random() > 0.5 ? 'serie' : 'pelicula';
+    
+    const exclusionText = previousTitles.length > 0 
+      ? `\n\nIMPORTANTE: NO recomiendes: ${previousTitles.slice(-5).join(', ')}` // Solo últimos 5
+      : '';
+
+    return `Recomienda una ${randomContentType} de ${randomGenre} del ${randomYear} disponible en ${randomPlatform}.
+
+Responde ÚNICAMENTE con JSON válido:
+
+{
+  "title": "nombre específico",
+  "platform": "plataforma de streaming",
+  "genre": "${randomGenre}",
+  "rating": número_entre_7.0_y_9.9,
+  "releaseDate": "formato como 'Enero 2025'",
+  "description": "descripción de máximo 80 caracteres",
+  "platformColor": "color hex",
+  "trending": true,
+  "contentType": "${randomContentType}"
+}${exclusionText}`;
+  }, []);
+
+  // Función de fetch optimizada con retry y timeout
+  const fetchWithRetry = useCallback(async (url: string, options: RequestInit, retries = MAX_RETRIES): Promise<Response> => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
+
+    try {
+      const response = await fetch(url, {
+        ...options,
+        signal: controller.signal
       });
+      clearTimeout(timeoutId);
+      
+      if (!response.ok && retries > 0) {
+        await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+        return fetchWithRetry(url, options, retries - 1);
+      }
+      
+      return response;
+    } catch (error) {
+      clearTimeout(timeoutId);
+      if (retries > 0 && (error as Error).name !== 'AbortError') {
+        await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+        return fetchWithRetry(url, options, retries - 1);
+      }
+      throw error;
+    }
+  }, []);
+
+  // Función principal de fetch optimizada
+  const fetchRecommendation = useCallback(async () => {
+    if (!apiKey) {
+      setContent(generateFallbackContent(false));
       return;
     }
 
+    // Evitar múltiples requests simultáneos
+    if (loading) return;
+
     setLoading(true);
     setFadeClass('opacity-50');
+    setRetryCount(0);
 
     try {
-      const randomGenres = ['Drama', 'Comedia', 'Acción', 'Thriller', 'Ciencia Ficción', 'Fantasía', 'Romance', 'Documental', 'Animación', 'Terror', 'Misterio', 'Aventura'];
-      const randomYears = ['2024', '2023', '2025'];
-      const randomPlatform = platforms[Math.floor(Math.random() * platforms.length)];
-      const randomGenre = randomGenres[Math.floor(Math.random() * randomGenres.length)];
-      const randomYear = randomYears[Math.floor(Math.random() * randomYears.length)];
-      const randomContentType = Math.random() > 0.5 ? 'serie' : 'pelicula';
-      
-      const exclusionText = previousRecommendations.length > 0 
-        ? `\n\nIMPORTANTE: NO recomiendes ninguno de estos títulos que ya fueron sugeridos: ${previousRecommendations.join(', ')}`
-        : '';
+      const prompt = createRecommendationPrompt(previousRecommendations);
 
-      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      const response = await fetchWithRetry('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -110,65 +171,32 @@ const MainBanner: React.FC<MainBannerProps> = ({ selectedCategory = 'all', onCat
         },
         body: JSON.stringify({
           model: 'llama3-70b-8192',
-          messages: [{
-            role: 'user',
-            content: `Recomienda una ${randomContentType} de ${randomGenre} del ${randomYear} disponible en ${randomPlatform} o cualquier plataforma de streaming. Busca contenido DIFERENTE y VARIADO cada vez.
-
-Responde ÚNICAMENTE con JSON válido sin explicaciones adicionales:
-
-{
-  "title": "nombre específico del contenido",
-  "platform": "una de estas plataformas: ${platforms.join(', ')}",
-  "genre": "${randomGenre} o género relacionado",
-  "rating": número_entre_7.0_y_9.9,
-  "releaseDate": "formato como 'Enero 2025' o 'Diciembre 2024'",
-  "description": "descripción atractiva en español de máximo 80 caracteres",
-  "platformColor": "color hex apropiado para la plataforma",
-  "trending": true,
-  "contentType": "${randomContentType}"
-}
-
-Sugiere contenido REAL y ESPECÍFICO que sea diferente cada vez. Varía entre series populares, películas actuales, documentales, anime, etc.${exclusionText}
-
-IMPORTANTE: Responde solo con el objeto JSON, sin texto adicional antes o después.`
-          }],
+          messages: [{ role: 'user', content: prompt }],
           temperature: 0.9,
-          max_tokens: 400
+          max_tokens: 300 // Reducido de 400
         })
       });
 
-      if (!res.ok) throw new Error(`API Error: ${res.status}`);
-      const data = await res.json();
-      const raw = data.choices[0].message.content.trim();
-
-      let jsonString = raw;
+      const data = await response.json();
+      const rawContent = data.choices?.[0]?.message?.content?.trim();
       
-      const start = raw.indexOf('{');
-      if (start >= 0) {
-        let braceCount = 0;
-        let end = -1;
-        
-        for (let i = start; i < raw.length; i++) {
-          if (raw[i] === '{') braceCount++;
-          if (raw[i] === '}') braceCount--;
-          if (braceCount === 0) {
-            end = i;
-            break;
-          }
-        }
-        
-        if (end >= 0) {
-          jsonString = raw.substring(start, end + 1);
-        }
-      }
+      if (!rawContent) throw new Error('Empty response');
 
+      // Parsing optimizado - buscar solo el primer objeto JSON válido
+      const jsonStart = rawContent.indexOf('{');
+      const jsonEnd = rawContent.lastIndexOf('}');
+      
+      if (jsonStart === -1 || jsonEnd === -1) throw new Error('No JSON found');
+      
+      const jsonString = rawContent.substring(jsonStart, jsonEnd + 1);
       const parsed = safeParseJSON(jsonString);
 
+      // Validación optimizada
       const validated: RecommendedContent = {
         title: parsed.title || 'Contenido Destacado',
-        platform: platforms.includes(parsed.platform)
-          ? parsed.platform
-          : platforms[Math.floor(Math.random() * platforms.length)],
+        platform: PLATFORMS.includes(parsed.platform) 
+          ? parsed.platform 
+          : PLATFORMS[Math.floor(Math.random() * PLATFORMS.length)],
         genre: parsed.genre || 'Entretenimiento',
         rating: Math.max(7.0, Math.min(9.9, parsed.rating ?? 8.5)),
         releaseDate: parsed.releaseDate || 'Disponible ahora',
@@ -178,77 +206,137 @@ IMPORTANTE: Responde solo con el objeto JSON, sin texto adicional antes o despu�
         contentType: parsed.contentType === 'pelicula' ? 'pelicula' : 'serie'
       };
 
-      setPreviousRecommendations(prev => {
-        const updated = [...prev, validated.title];
-        return updated.slice(-10);
-      });
+      // Actualizar historial (solo últimos 5 para ahorrar memoria)
+      setPreviousRecommendations(prev => 
+        [...prev, validated.title].slice(-5)
+      );
 
+      // Aplicar cambios con delay para suavidad visual
       setTimeout(() => {
         setContent(validated);
         setFadeClass('opacity-100');
-      }, 300);
+      }, 200); // Reducido de 300ms
 
     } catch (error) {
       console.error('Error fetching recommendation:', error);
-      setContent({
-        title: 'Error de conexión',
-        platform: 'Sistema',
-        genre: 'Error',
-        rating: 0,
-        releaseDate: 'Ahora',
-        description: 'No se pudo obtener recomendación',
-        platformColor: '#FF6B6B',
-        trending: false,
-        contentType: 'serie',
-        isError: true
-      });
+      setContent(generateFallbackContent(true));
       setFadeClass('opacity-100');
+      setRetryCount(prev => prev + 1);
     } finally {
       setLoading(false);
     }
-  };
+  }, [apiKey, createRecommendationPrompt, previousRecommendations, loading, fetchWithRetry]);
 
-  const handleWatchClick = () => {
+  // Handler optimizado para el click del botón "Ver"
+  const handleWatchClick = useCallback(() => {
     if (content && !content.isError) {
       window.location.href = `/?search=${encodeURIComponent(content.platform.toLowerCase())}`;
     }
-  };
+  }, [content]);
 
+  // Effect optimizado con cleanup adecuado
   useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+    
+    // Fetch inicial
     fetchRecommendation();
-    const iv = setInterval(fetchRecommendation, 50000);
-    return () => clearInterval(iv);
-  }, [apiKey]);
+    
+    // Configurar intervalo solo si hay API key
+    if (apiKey) {
+      intervalId = setInterval(fetchRecommendation, REFRESH_INTERVAL);
+    }
 
-  if (!content) {
-    return (
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-center">
-          <div className="flex items-center space-x-2">
-            <Sparkles className="w-5 h-5 text-[#FEE440] animate-spin" />
-            <p className="text-white/70 text-sm">Cargando...</p>
-          </div>
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [apiKey, fetchRecommendation]);
+
+  // Componente de carga optimizado
+  const LoadingComponent = useMemo(() => (
+    <div className="container mx-auto px-4 py-4">
+      <div className="flex items-center justify-center">
+        <div className="flex items-center space-x-2">
+          <Sparkles className="w-5 h-5 text-[#FEE440] animate-spin" />
+          <p className="text-white/70 text-sm">Cargando...</p>
         </div>
       </div>
+    </div>
+  ), []);
+
+  // Renderizado de categoría optimizado
+  const CategoryButton = React.memo(({ category, isSelected, onClick }: { 
+    category: typeof CATEGORY_DATA[0], 
+    isSelected: boolean, 
+    onClick: () => void 
+  }) => {
+    const IconComponent = category.icon;
+    
+    return (
+      <div className="relative flex-shrink-0">
+        <button
+          onClick={onClick}
+          className={`group relative px-4 py-3 font-medium text-sm transition-all duration-300 flex flex-col items-center gap-1.5 min-w-[80px] lg:min-w-0 lg:w-full ${
+            isSelected
+              ? 'bg-gradient-to-b from-[#FEE440] via-[#FEE440] to-transparent text-black shadow-lg shadow-[#FEE440]/30 transform scale-105'
+              : 'bg-gradient-to-b from-white/5 via-white/5 to-transparent text-white/80 hover:from-white/10 hover:via-white/10 hover:to-transparent hover:text-white hover:shadow-lg border-b border-white/10 hover:border-[#FEE440]/50'
+          } rounded-t-2xl border-t border-l border-r ${
+            isSelected 
+              ? 'border-[#FEE440]/50' 
+              : 'border-white/10 hover:border-[#FEE440]/30'
+          }`}
+          style={{
+            borderBottomLeftRadius: '0',
+            borderBottomRightRadius: '0',
+            borderBottom: 'none'
+          }}
+        >
+          <IconComponent className={`w-4 h-4 ${isSelected ? '' : 'group-hover:text-[#FEE440]'} transition-colors flex-shrink-0`} />
+          <span className="text-xs leading-tight text-center whitespace-nowrap overflow-hidden text-ellipsis w-full lg:block">
+            {category.label}
+          </span>
+          {isSelected && (
+            <div className="absolute inset-0 rounded-t-2xl bg-gradient-to-b from-[#FEE440]/20 via-[#FEE440]/10 to-transparent animate-pulse pointer-events-none" />
+          )}
+        </button>
+        
+        <div 
+          className={`absolute bottom-0 left-0 right-0 h-0.5 transition-all duration-300 ${
+            isSelected 
+              ? 'bg-gradient-to-r from-transparent via-[#FEE440] to-transparent' 
+              : 'bg-transparent group-hover:bg-gradient-to-r group-hover:from-transparent group-hover:via-white/30 group-hover:to-transparent'
+          }`}
+          style={{ 
+            transform: 'translateY(1px)',
+            zIndex: 10
+          }}
+        />
+      </div>
     );
+  });
+
+  // Callback optimizado para cambio de categoría
+  const handleCategoryChange = useCallback((categoryKey: string) => {
+    onCategoryChange?.(categoryKey);
+  }, [onCategoryChange]);
+
+  // Early return para loading
+  if (!content) {
+    return LoadingComponent;
   }
 
   return (
     <div className="container mx-auto px-4 py-4">
-      {/* Layout ajustado: Banner más amplio, categorías más compactas */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        {/* Banner de recomendación - expandido */}
+        {/* Banner de recomendación */}
         <div className="lg:col-span-5 w-full">
           <div
             className={`bg-black/90 backdrop-blur-xl rounded-2xl border border-white/10 p-4 shadow-2xl hover:shadow-[#FEE440]/20 transition-all duration-300 ${fadeClass} h-48`}
-            style={{
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)'
-            }}
           >
             <div className="h-full flex flex-col justify-between">
-              {/* Header compacto */}
+              {/* Header */}
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center space-x-1">
                   {content.trending && (
@@ -268,12 +356,13 @@ IMPORTANTE: Responde solo con el objeto JSON, sin texto adicional antes o despu�
                   onClick={fetchRecommendation}
                   disabled={loading}
                   className="bg-white/10 hover:bg-white/20 rounded-full p-1.5 transition-colors disabled:opacity-50"
+                  aria-label="Actualizar recomendación"
                 >
                   <RefreshCw className={`w-3 h-3 text-white/70 ${loading ? 'animate-spin' : ''}`} />
                 </button>
               </div>
 
-              {/* Contenido compacto */}
+              {/* Contenido */}
               <div className="flex-1">
                 <h3 className="text-white font-bold text-base mb-1 line-clamp-2 leading-tight">
                   {content.title}
@@ -283,7 +372,6 @@ IMPORTANTE: Responde solo con el objeto JSON, sin texto adicional antes o despu�
                   {content.description}
                 </p>
 
-                {/* Rating y género compactos */}
                 <div className="flex items-center space-x-2 mb-2">
                   <div className="flex items-center space-x-1">
                     <Star className="w-3 h-3 text-yellow-400 fill-current" />
@@ -297,7 +385,7 @@ IMPORTANTE: Responde solo con el objeto JSON, sin texto adicional antes o despu�
                 </div>
               </div>
 
-              {/* Footer compacto */}
+              {/* Footer */}
               <div className="flex items-center justify-between">
                 <div 
                   className="rounded-full px-2 py-1 text-center"
@@ -322,119 +410,41 @@ IMPORTANTE: Responde solo con el objeto JSON, sin texto adicional antes o despu�
           </div>
         </div>
 
-        {/* Categorías - Con scroll horizontal en móvil */}
+        {/* Categorías */}
         <div className="lg:col-span-7 w-full">
-          <div className="bg-black/90 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl h-48 overflow-hidden relative">
+          <div className="bg-black/90 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl h-48 overflow-hidden">
             <div className="h-full flex flex-col p-6">
-              {/* Header */}
               <div className="flex items-center gap-3 mb-6 flex-shrink-0">
                 <Filter className="w-5 h-5 text-[#FEE440]" />
                 <h3 className="text-white font-semibold text-base">Filtrar por categoría</h3>
               </div>
               
-              {/* Contenedor de pills con scroll horizontal en móvil */}
               <div className="flex-1">
-                {/* Desktop: Grid normal */}
+                {/* Desktop: Grid */}
                 <div className="hidden lg:block">
                   <div className="grid grid-cols-7 gap-2">
-                    {categoryData.map((category, index) => {
-                      const IconComponent = category.icon;
-                      const isSelected = selectedCategory === category.key;
-                      return (
-                        <div key={category.key} className="relative">
-                          <button
-                            onClick={() => onCategoryChange?.(category.key)}
-                            className={`group relative w-full px-3 py-3 font-medium text-sm transition-all duration-300 flex flex-col items-center gap-1.5 ${
-                              isSelected
-                                ? 'bg-gradient-to-b from-[#FEE440] via-[#FEE440] to-transparent text-black shadow-lg shadow-[#FEE440]/30 transform scale-105'
-                                : 'bg-gradient-to-b from-white/5 via-white/5 to-transparent text-white/80 hover:from-white/10 hover:via-white/10 hover:to-transparent hover:text-white hover:shadow-lg border-b border-white/10 hover:border-[#FEE440]/50'
-                            } rounded-t-2xl border-t border-l border-r ${
-                              isSelected 
-                                ? 'border-[#FEE440]/50' 
-                                : 'border-white/10 hover:border-[#FEE440]/30'
-                            }`}
-                            style={{
-                              borderBottomLeftRadius: '0',
-                              borderBottomRightRadius: '0',
-                              borderBottom: 'none'
-                            }}
-                          >
-                            <IconComponent className={`w-4 h-4 ${isSelected ? '' : 'group-hover:text-[#FEE440]'} transition-colors flex-shrink-0`} />
-                            <span className="text-xs leading-tight text-center whitespace-nowrap overflow-hidden text-ellipsis w-full">
-                              {category.label}
-                            </span>
-                            {isSelected && (
-                              <div className="absolute inset-0 rounded-t-2xl bg-gradient-to-b from-[#FEE440]/20 via-[#FEE440]/10 to-transparent animate-pulse pointer-events-none" />
-                            )}
-                          </button>
-                          
-                          {/* Línea de conexión al borde inferior */}
-                          <div 
-                            className={`absolute bottom-0 left-0 right-0 h-0.5 transition-all duration-300 ${
-                              isSelected 
-                                ? 'bg-gradient-to-r from-transparent via-[#FEE440] to-transparent' 
-                                : 'bg-transparent group-hover:bg-gradient-to-r group-hover:from-transparent group-hover:via-white/30 group-hover:to-transparent'
-                            }`}
-                            style={{ 
-                              transform: 'translateY(1px)',
-                              zIndex: 10
-                            }}
-                          />
-                        </div>
-                      );
-                    })}
+                    {CATEGORY_DATA.map((category) => (
+                      <CategoryButton
+                        key={category.key}
+                        category={category}
+                        isSelected={selectedCategory === category.key}
+                        onClick={() => handleCategoryChange(category.key)}
+                      />
+                    ))}
                   </div>
                 </div>
 
-                {/* Mobile/Tablet: Scroll horizontal */}
+                {/* Mobile: Scroll horizontal */}
                 <div className="lg:hidden">
                   <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2 -mr-6 pr-6">
-                    {categoryData.map((category, index) => {
-                      const IconComponent = category.icon;
-                      const isSelected = selectedCategory === category.key;
-                      return (
-                        <div key={category.key} className="relative flex-shrink-0">
-                          <button
-                            onClick={() => onCategoryChange?.(category.key)}
-                            className={`group relative px-4 py-3 font-medium text-sm transition-all duration-300 flex flex-col items-center gap-1.5 min-w-[80px] ${
-                              isSelected
-                                ? 'bg-gradient-to-b from-[#FEE440] via-[#FEE440] to-transparent text-black shadow-lg shadow-[#FEE440]/30 transform scale-105'
-                                : 'bg-gradient-to-b from-white/5 via-white/5 to-transparent text-white/80 hover:from-white/10 hover:via-white/10 hover:to-transparent hover:text-white hover:shadow-lg border-b border-white/10 hover:border-[#FEE440]/50'
-                            } rounded-t-2xl border-t border-l border-r ${
-                              isSelected 
-                                ? 'border-[#FEE440]/50' 
-                                : 'border-white/10 hover:border-[#FEE440]/30'
-                            }`}
-                            style={{
-                              borderBottomLeftRadius: '0',
-                              borderBottomRightRadius: '0',
-                              borderBottom: 'none'
-                            }}
-                          >
-                            <IconComponent className={`w-4 h-4 ${isSelected ? '' : 'group-hover:text-[#FEE440]'} transition-colors flex-shrink-0`} />
-                            <span className="text-xs leading-tight text-center whitespace-nowrap">
-                              {category.label}
-                            </span>
-                            {isSelected && (
-                              <div className="absolute inset-0 rounded-t-2xl bg-gradient-to-b from-[#FEE440]/20 via-[#FEE440]/10 to-transparent animate-pulse pointer-events-none" />
-                            )}
-                          </button>
-                          
-                          {/* Línea de conexión al borde inferior */}
-                          <div 
-                            className={`absolute bottom-0 left-0 right-0 h-0.5 transition-all duration-300 ${
-                              isSelected 
-                                ? 'bg-gradient-to-r from-transparent via-[#FEE440] to-transparent' 
-                                : 'bg-transparent group-hover:bg-gradient-to-r group-hover:from-transparent group-hover:via-white/30 group-hover:to-transparent'
-                            }`}
-                            style={{ 
-                              transform: 'translateY(1px)',
-                              zIndex: 10
-                            }}
-                          />
-                        </div>
-                      );
-                    })}
+                    {CATEGORY_DATA.map((category) => (
+                      <CategoryButton
+                        key={category.key}
+                        category={category}
+                        isSelected={selectedCategory === category.key}
+                        onClick={() => handleCategoryChange(category.key)}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>
@@ -443,7 +453,7 @@ IMPORTANTE: Responde solo con el objeto JSON, sin texto adicional antes o despu�
         </div>
       </div>
 
-      {/* Estilos para ocultar scrollbar */}
+      {/* CSS optimizado */}
       <style jsx>{`
         .scrollbar-hide {
           -ms-overflow-style: none;
