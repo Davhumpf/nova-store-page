@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Menu, X, LogOut, User, Award, Search, Settings, Shield, UserCheck, Instagram, MessageCircle } from 'lucide-react';
+import { ShoppingCart, Menu, X, LogOut, User, Award, Search, Settings, Shield, UserCheck, Instagram, MessageCircle, Share2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useUser } from '../context/UserContext';
@@ -32,6 +32,7 @@ const Header: React.FC<HeaderProps> = ({ onProductSelect }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const [showSocialMenu, setShowSocialMenu] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const [showResults, setShowResults] = useState(false);
@@ -118,18 +119,27 @@ const Header: React.FC<HeaderProps> = ({ onProductSelect }) => {
       if (showResults) {
         setShowResults(false);
       }
+      if (showSocialMenu) {
+        setShowSocialMenu(false);
+      }
     };
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
-  }, [showUserMenu, showResults]);
+  }, [showUserMenu, showResults, showSocialMenu]);
 
   const toggleCart = () => setIsCartOpen(true);
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const toggleUserMenu = (e: React.MouseEvent) => {
     e.stopPropagation();
     setShowUserMenu(!showUserMenu);
+    setShowSocialMenu(false);
   };
   const toggleSearchBar = () => setShowSearchBar(!showSearchBar);
+  const toggleSocialMenu = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowSocialMenu(!showSocialMenu);
+    setShowUserMenu(false);
+  };
   
   const handleLogout = async () => {
     await signOut(auth);
@@ -139,10 +149,12 @@ const Header: React.FC<HeaderProps> = ({ onProductSelect }) => {
 
   const openInstagram = () => {
     window.open('https://www.instagram.com/novastore_streaming?igsh=MWswdWt6MmIzZWswbQ==', '_blank');
+    setShowSocialMenu(false);
   };
 
   const openWhatsApp = () => {
     window.open('https://wa.me/573027214125', '_blank');
+    setShowSocialMenu(false);
   };
 
   // FUNCIÓN SIMPLE: Buscar mientras escribes (solo preview)
@@ -405,23 +417,37 @@ const Header: React.FC<HeaderProps> = ({ onProductSelect }) => {
                 <Search size={18} />
               </button>
 
-              <button
-                onClick={openInstagram}
-                className="text-pink-400 hover:text-pink-300 p-2 transition-colors duration-200"
-                aria-label="Síguenos en Instagram"
-                title="Síguenos en Instagram"
-              >
-                <Instagram size={18} />
-              </button>
+              {/* Botón de redes sociales agrupado */}
+              <div className="relative">
+                <button
+                  onClick={toggleSocialMenu}
+                  className="text-blue-400 hover:text-blue-300 p-2 transition-colors duration-200"
+                  aria-label="Redes sociales"
+                  title="Redes sociales"
+                >
+                  <Share2 size={18} />
+                </button>
 
-              <button
-                onClick={openWhatsApp}
-                className="text-green-400 hover:text-green-300 p-2 transition-colors duration-200"
-                aria-label="Contáctanos por WhatsApp"
-                title="Contáctanos por WhatsApp"
-              >
-                <MessageCircle size={18} />
-              </button>
+                {/* Dropdown de redes sociales */}
+                {showSocialMenu && (
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-slate-800 shadow-xl rounded-2xl overflow-hidden z-50 border border-slate-700">
+                    <button
+                      onClick={openInstagram}
+                      className="w-full text-left px-4 py-3 text-white hover:bg-slate-700 flex items-center gap-3 hover:text-pink-400 text-sm"
+                    >
+                      <Instagram size={16} className="text-pink-400" />
+                      <span className="font-medium">Instagram</span>
+                    </button>
+                    <button
+                      onClick={openWhatsApp}
+                      className="w-full text-left px-4 py-3 text-white hover:bg-slate-700 flex items-center gap-3 hover:text-green-400 text-sm border-t border-slate-700"
+                    >
+                      <MessageCircle size={16} className="text-green-400" />
+                      <span className="font-medium">WhatsApp</span>
+                    </button>
+                  </div>
+                )}
+              </div>
 
               <button
                 className="relative text-yellow-400 hover:text-yellow-300 p-2"
@@ -512,83 +538,83 @@ const Header: React.FC<HeaderProps> = ({ onProductSelect }) => {
             </div>
           )}
         </div>
+      </div>
 
-        {/* Barra de búsqueda móvil */}
-        {showSearchBar && (
-          <div className="absolute top-full left-4 right-4 mt-3 md:hidden">
-            <form onSubmit={handleSearchSubmit} className="relative">
-              <input
-                type="text"
-                placeholder="Buscar productos..."
-                value={localSearch}
-                onChange={handleInputChange}
-                className="w-full bg-slate-800 border border-slate-700 rounded-2xl py-4 pl-5 pr-14 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
-              />
+      {/* Barra de búsqueda móvil */}
+      {showSearchBar && (
+        <div className="absolute top-full left-4 right-4 mt-3 md:hidden">
+          <form onSubmit={handleSearchSubmit} className="relative">
+            <input
+              type="text"
+              placeholder="Buscar productos..."
+              value={localSearch}
+              onChange={handleInputChange}
+              className="w-full bg-slate-800 border border-slate-700 rounded-2xl py-4 pl-5 pr-14 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
+            />
+            <button
+              type="submit"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-yellow-400 hover:text-yellow-300 p-2 hover:bg-slate-600 rounded-full transition-all duration-200"
+              title="Buscar"
+            >
+              <Search size={16} />
+            </button>
+            {localSearch && (
               <button
-                type="submit"
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-yellow-400 hover:text-yellow-300 p-2 hover:bg-slate-600 rounded-full transition-all duration-200"
-                title="Buscar"
+                type="button"
+                onClick={clearInput}
+                className="absolute right-12 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-white p-1.5"
               >
-                <Search size={16} />
+                <X size={14} />
               </button>
-              {localSearch && (
-                <button
-                  type="button"
-                  onClick={clearInput}
-                  className="absolute right-12 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-white p-1.5"
-                >
-                  <X size={14} />
-                </button>
-              )}
-            </form>
+            )}
+          </form>
 
-            {/* Resultados móvil */}
-            {showResults && searchResults.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-3 bg-slate-800 border border-slate-700 rounded-2xl shadow-xl max-h-72 overflow-y-auto z-50">
-                <div className="p-5">
-                  <div className="text-yellow-400 text-xs font-semibold mb-4 px-1">
-                    {searchResults.length} resultado{searchResults.length !== 1 ? 's' : ''}
-                  </div>
-                  {searchResults.map((product) => (
-                    <div
-                      key={product.id}
-                      onClick={() => handleProductClick(product)}
-                      className="flex items-center gap-4 p-4 hover:bg-slate-700 rounded-xl cursor-pointer border-b border-slate-700 last:border-b-0"
-                    >
-                      <div className="flex-shrink-0">
-                        {renderProductImage(product, 'small')}
-                      </div>
-                      
-                      <div className="flex-1 min-w-0">
-                        <h4 className="text-white font-semibold text-sm truncate hover:text-yellow-400">
-                          {product.name}
-                        </h4>
-                        <p className="text-slate-400 text-sm mt-1 line-clamp-2">
-                          {product.description}
-                        </p>
-                        <div className="flex items-center justify-between mt-2">
-                          <span className="text-yellow-400 text-xs font-medium bg-yellow-400/15 px-3 py-1 rounded-full border border-yellow-400/25">
-                            {product.category}
-                          </span>
-                          <span className="text-yellow-400 text-sm font-bold">
-                            ${product.price}
-                          </span>
-                        </div>
-                      </div>
-                      
-                      <div className="flex-shrink-0">
-                        <div className="w-6 h-6 rounded-full bg-yellow-400 flex items-center justify-center">
-                          <span className="text-slate-900 text-xs font-bold">→</span>
-                        </div>
+          {/* Resultados móvil */}
+          {showResults && searchResults.length > 0 && (
+            <div className="absolute top-full left-0 right-0 mt-3 bg-slate-800 border border-slate-700 rounded-2xl shadow-xl max-h-72 overflow-y-auto z-50">
+              <div className="p-5">
+                <div className="text-yellow-400 text-xs font-semibold mb-4 px-1">
+                  {searchResults.length} resultado{searchResults.length !== 1 ? 's' : ''}
+                </div>
+                {searchResults.map((product) => (
+                  <div
+                    key={product.id}
+                    onClick={() => handleProductClick(product)}
+                    className="flex items-center gap-4 p-4 hover:bg-slate-700 rounded-xl cursor-pointer border-b border-slate-700 last:border-b-0"
+                  >
+                    <div className="flex-shrink-0">
+                      {renderProductImage(product, 'small')}
+                    </div>
+                    
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-white font-semibold text-sm truncate hover:text-yellow-400">
+                        {product.name}
+                      </h4>
+                      <p className="text-slate-400 text-sm mt-1 line-clamp-2">
+                        {product.description}
+                      </p>
+                      <div className="flex items-center justify-between mt-2">
+                        <span className="text-yellow-400 text-xs font-medium bg-yellow-400/15 px-3 py-1 rounded-full border border-yellow-400/25">
+                          {product.category}
+                        </span>
+                        <span className="text-yellow-400 text-sm font-bold">
+                          ${product.price}
+                        </span>
                       </div>
                     </div>
-                  ))}
-                </div>
+                    
+                    <div className="flex-shrink-0">
+                      <div className="w-6 h-6 rounded-full bg-yellow-400 flex items-center justify-center">
+                        <span className="text-slate-900 text-xs font-bold">→</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            )}
-          </div>
-        )}
-      </div>
+            </div>
+          )}
+        </div>
+      )}
       
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
@@ -616,6 +642,7 @@ const Header: React.FC<HeaderProps> = ({ onProductSelect }) => {
                   </div>
                 )}
                 
+                {/* Botones de redes sociales en móvil */}
                 <div className="flex gap-3 mt-2">
                   <button
                     onClick={openInstagram}
