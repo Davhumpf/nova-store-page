@@ -363,7 +363,7 @@ const Header: React.FC<HeaderProps> = ({ onProductSelect }) => {
 
               {/* Resultados de búsqueda - Desktop */}
               {showResults && searchResults.length > 0 && (
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 bg-slate-800 border border-slate-700 rounded-2xl shadow-xl max-h-80 overflow-y-auto z-50 w-[600px]">
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 bg-slate-800 border border-slate-700 rounded-2xl shadow-xl max-h-80 overflow-y-auto z-50 w-full max-w-[600px]">
                   <div className="p-4">
                     <div className="text-yellow-400 text-xs font-semibold mb-4 px-2">
                       {searchResults.length} resultado{searchResults.length !== 1 ? 's' : ''}
