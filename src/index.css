@@ -25,6 +25,12 @@ body {
   min-height: calc(100svh - var(--header-h,72px) - 1px);
 }
 
+/* 🚫 Forzar sin scroll (útil para login/register) */
+.no-scroll {
+  overflow: hidden !important;
+  height: 100vh !important;
+}
+
 /* Box-sizing global */
 *, *::before, *::after { box-sizing: border-box; }
 
