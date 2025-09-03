@@ -10,7 +10,7 @@ interface ProductsWithPaginationProps {
   onCategoryChange?: (category: string) => void;
 }
 
-const PRODUCTS_PER_PAGE = 10;
+const PRODUCTS_PER_PAGE = 12;
 const MAX_VISIBLE_PAGES = 5;
 const ANIMATION_DELAY_INCREMENT = 0.05;
 
@@ -113,19 +113,22 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
 
         {currentProducts.length > 0 ? (
           <>
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mb-12">
-              {currentProducts.map((product, index) => (
-                <div
-                  key={`${product.id}-${currentPage}`}
-                  className="animate-in fade-in slide-in-from-bottom-4"
-                  style={{
-                    animationDelay: `${Math.min(index * ANIMATION_DELAY_INCREMENT, 1)}s`,
-                    animationFillMode: 'both',
-                  }}
-                >
-                  <ProductCard product={product} />
-                </div>
-              ))}
+            {/* Contenedor con ancho máximo y centrado */}
+            <div className="max-w-6xl mx-auto">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 mb-12 justify-items-center">
+                {currentProducts.map((product, index) => (
+                  <div
+                    key={`${product.id}-${currentPage}`}
+                    className="w-full max-w-[200px] animate-in fade-in slide-in-from-bottom-4"
+                    style={{
+                      animationDelay: `${Math.min(index * ANIMATION_DELAY_INCREMENT, 1)}s`,
+                      animationFillMode: 'both',
+                    }}
+                  >
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Paginación corregida */}

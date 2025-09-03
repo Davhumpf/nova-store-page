@@ -15,6 +15,7 @@ import Colaborators from "./components/admin/Colaborators";
 import CouponsManagement from "./components/admin/CouponsManagement";
 // import ProfilePage from "./components/ProfilePage"; // <- ya no se usa
 import Collaborations from "./components/Collaborations";
+import CollaboratorProductCatalog from "./components/colab/CollaboratorProductCatalog";
 import ProductsWithPagination from "./components/ProductsWithPagination";
 import CheckoutPage from "./components/CheckoutPage";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -238,8 +239,16 @@ function App() {
           <Route path="/admin/coupons" element={<CouponsManagement />} />
           {/* Alias legacy */}
           <Route path="/AdminDashboard" element={<AdminDashboard />} />
-          {/* Otros */}
+          {/* Colaboradores */}
           <Route path="/collaborations" element={<Collaborations />} />
+          <Route 
+            path="/colab/collaborator-product-catalog" 
+            element={
+              <ProtectedRoute>
+                <CollaboratorProductCatalog />
+              </ProtectedRoute>
+            } 
+          />
 
           {/* PERFIL y CONFIG nuevos */}
           <Route
