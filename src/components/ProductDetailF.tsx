@@ -1,46 +1,38 @@
-// src/components/ProductDetail.tsx
+// src/components/ProductDetailF.tsx
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
-import { Star, ShoppingCart, ArrowLeft, Clock, Monitor, Shield, Zap, Check } from 'lucide-react';
+import { Star, ShoppingCart, ArrowLeft, Shield, Zap, Check, Package, Truck } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useToast } from './ToastProvider';
 
-type PDProduct = {
+type PFProduct = {
   id: string;
-  title: string;
+  name: string;
   imageUrl: string;
   price: number;
   originalPrice?: number;
   discount?: number;
   rating?: number;
-  reviewCount?: number;
-  duration?: string;
-  devices?: string;
+  reviews?: number;
   longDescription?: string;
+  inStock: boolean;
+  stockQuantity: number;
+  shippingInfo: string;
+  sku?: string;
 };
 
-const ProductDetail: React.FC = () => {
+const ProductDetailF: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const location = useLocation();
   const { addToCart } = useCart();
   const { push } = useToast();
 
-  const [product, setProduct] = useState<PDProduct | null>(null);
+  const [product, setProduct] = useState<PFProduct | null>(null);
   const [loading, setLoading] = useState(true);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  // Handler de regreso inteligente: intenta ir atrás, si no hay historial, va al catálogo /shop
-  const handleBackToShop = useCallback(() => {
-    if (window.history.length > 2) {
-      navigate(-1);
-    } else {
-      navigate('/shop');
-    }
-  }, [navigate]);
 
   useEffect(() => {
     let active = true;
@@ -52,23 +44,25 @@ const ProductDetail: React.FC = () => {
     (async () => {
       if (!id) { setLoading(false); return; }
       try {
-        const ref = doc(db, 'products', id);
+        const ref = doc(db, 'products-f', id); // 👈 colección de físicos
         const snap = await getDoc(ref);
         if (!active) return;
         if (snap.exists()) {
           const d = snap.data() as any;
           setProduct({
             id: snap.id,
-            title: d.title ?? d.name ?? 'Producto',
+            name: d.name ?? 'Producto',
             imageUrl: d.imageUrl ?? '',
             price: Number(d.price ?? 0),
             originalPrice: Number(d.originalPrice ?? d.price ?? 0),
             discount: Number(d.discount ?? 0),
             rating: Number(d.rating ?? 0),
-            reviewCount: Number(d.reviewCount ?? d.reviews ?? 0),
-            duration: d.duration ?? 'Según plan',
-            devices: d.devices ?? 'Multidispositivo',
+            reviews: Number(d.reviews ?? 0),
             longDescription: d.longDescription ?? d.description ?? '',
+            inStock: d.inStock ?? true,
+            stockQuantity: Number(d.stockQuantity ?? 0),
+            shippingInfo: d.shippingInfo ?? 'Entrega disponible',
+            sku: d.sku ?? ''
           });
         } else {
           setProduct(null);
@@ -81,15 +75,15 @@ const ProductDetail: React.FC = () => {
     })();
 
     return () => { active = false; };
-  }, [id, location.key]);
+  }, [id]);
 
   const handleAddToCart = useCallback(() => {
-    if (!product) return;
+    if (!product || !product.inStock || product.stockQuantity <= 0) return;
     addToCart(product as any);
     push({
       type: 'success',
       title: 'Agregado al carrito',
-      message: `${product.title} fue agregado correctamente.`,
+      message: `${product.name} fue agregado correctamente.`,
     });
   }, [addToCart, product, push]);
 
@@ -119,11 +113,11 @@ const ProductDetail: React.FC = () => {
           <h2 className="text-2xl font-bold text-slate-200">Producto no disponible</h2>
           <p className="text-slate-400">{error ?? 'No existe o fue eliminado.'}</p>
           <button
-            onClick={handleBackToShop}
+            onClick={() => navigate('/')}
             className="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-slate-900 px-5 py-2.5 rounded-lg font-semibold"
           >
             <ArrowLeft size={18} />
-            Volver al catálogo
+            Volver al inicio
           </button>
         </div>
       </div>
@@ -135,7 +129,7 @@ const ProductDetail: React.FC = () => {
       <div className="container mx-auto px-4 max-w-5xl">
         {/* Breadcrumb */}
         <button
-          onClick={handleBackToShop}
+          onClick={() => navigate('/')}
           className="inline-flex items-center gap-2 text-slate-400 hover:text-yellow-400 mb-4"
         >
           <ArrowLeft size={16} />
@@ -154,7 +148,7 @@ const ProductDetail: React.FC = () => {
                 )}
                 <img
                   src={product.imageUrl}
-                  alt={product.title}
+                  alt={product.name}
                   loading="lazy"
                   decoding="async"
                   fetchPriority="low"
@@ -171,10 +165,17 @@ const ProductDetail: React.FC = () => {
                   </div>
                 )}
                 <div className="absolute top-2 right-2">
-                  <span className="bg-slate-900/85 text-green-400 text-[11px] px-2 py-1 rounded-lg flex items-center">
-                    <span className="w-1.5 h-1.5 bg-green-400 rounded-full mr-1.5" />
-                    Disponible
-                  </span>
+                  {product.inStock && product.stockQuantity > 0 ? (
+                    <span className="bg-slate-900/85 text-green-400 text-[11px] px-2 py-1 rounded-lg flex items-center">
+                      <span className="w-1.5 h-1.5 bg-green-400 rounded-full mr-1.5" />
+                      En stock ({product.stockQuantity})
+                    </span>
+                  ) : (
+                    <span className="bg-slate-900/85 text-red-400 text-[11px] px-2 py-1 rounded-lg flex items-center">
+                      <span className="w-1.5 h-1.5 bg-red-400 rounded-full mr-1.5" />
+                      Sin stock
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -184,7 +185,7 @@ const ProductDetail: React.FC = () => {
           <div className="order-2 space-y-4">
             <div>
               <h1 className="text-2xl lg:text-3xl font-extrabold text-slate-100 leading-tight break-words">
-                {product.title}
+                {product.name}
               </h1>
               <div className="flex items-center gap-3 mt-2">
                 <div className="flex items-center gap-0.5">
@@ -198,46 +199,29 @@ const ProductDetail: React.FC = () => {
                   ))}
                 </div>
                 <span className="text-slate-300 text-sm">
-                  {product.rating?.toFixed(1) ?? '0.0'} • {product.reviewCount ?? 0} reseñas
+                  {product.rating?.toFixed(1) ?? '0.0'} • {product.reviews ?? 0} reseñas
                 </span>
               </div>
             </div>
 
-            {/* Bloque de precio + specs */}
+            {/* Bloque de precio */}
             <div className="rounded-xl border border-slate-800 p-4 bg-slate-950/60">
-              <div className="grid grid-cols-3 gap-4 items-center">
-                {/* Precio */}
-                <div className="space-y-1">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-black text-yellow-400">
-                      ${product.price.toLocaleString('es-CO')}
-                    </span>
-                    {hasDiscount && product.originalPrice && (
-                      <span className="text-sm text-slate-500 line-through">
-                        ${product.originalPrice.toLocaleString('es-CO')}
-                      </span>
-                    )}
-                  </div>
+              <div className="space-y-1">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl font-black text-yellow-400">
+                    ${product.price.toLocaleString('es-CO')}
+                  </span>
                   {hasDiscount && product.originalPrice && (
-                    <div className="bg-green-400/10 text-green-400 font-bold text-[11px] px-2 py-1 rounded-md inline-block">
-                      Ahorra ${(product.originalPrice - product.price).toLocaleString('es-CO')}
-                    </div>
+                    <span className="text-sm text-slate-500 line-through">
+                      ${product.originalPrice.toLocaleString('es-CO')}
+                    </span>
                   )}
                 </div>
-
-                {/* Duración */}
-                <div className="text-center border-l border-slate-800 pl-4">
-                  <Clock className="w-5 h-5 text-yellow-400 mx-auto mb-1" />
-                  <div className="text-slate-200 font-semibold text-xs">Duración</div>
-                  <div className="text-slate-300 text-xs">{product.duration}</div>
-                </div>
-
-                {/* Dispositivos */}
-                <div className="text-center border-l border-slate-800 pl-4">
-                  <Monitor className="w-5 h-5 text-yellow-400 mx-auto mb-1" />
-                  <div className="text-slate-200 font-semibold text-xs">Dispositivos</div>
-                  <div className="text-slate-300 text-xs">{product.devices}</div>
-                </div>
+                {hasDiscount && product.originalPrice && (
+                  <div className="bg-green-400/10 text-green-400 font-bold text-[11px] px-2 py-1 rounded-md inline-block">
+                    Ahorra ${(product.originalPrice - product.price).toLocaleString('es-CO')}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -248,31 +232,44 @@ const ProductDetail: React.FC = () => {
               </p>
             </div>
 
-            {/* Beneficios */}
+            {/* Beneficios físicos */}
             <div className="flex items-center justify-center gap-6 rounded-lg border border-green-500/30 p-3 bg-emerald-900/10">
               <div className="flex items-center gap-1 text-slate-300 text-xs">
-                <Check className="w-3 h-3 text-green-400" />
-                <span>Activación inmediata</span>
+                <Truck className="w-3 h-3 text-green-400" />
+                <span>{product.shippingInfo}</span>
               </div>
               <div className="flex items-center gap-1 text-slate-300 text-xs">
                 <Shield className="w-3 h-3 text-green-400" />
                 <span>Garantía total</span>
               </div>
+              {product.sku && (
+                <div className="flex items-center gap-1 text-slate-300 text-xs">
+                  <Package className="w-3 h-3 text-green-400" />
+                  <span>SKU: {product.sku}</span>
+                </div>
+              )}
             </div>
 
             {/* CTA */}
             <div className="space-y-3 mb-0">
               <button
                 onClick={handleAddToCart}
-                className="w-full bg-yellow-400 hover:bg-yellow-300 text-slate-900 py-3 px-6 rounded-xl font-black text-base flex items-center justify-center gap-2"
+                disabled={!product.inStock || product.stockQuantity <= 0}
+                className={`w-full py-3 px-6 rounded-xl font-black text-base flex items-center justify-center gap-2 ${
+                  product.inStock && product.stockQuantity > 0
+                    ? 'bg-yellow-400 hover:bg-yellow-300 text-slate-900'
+                    : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                }`}
               >
                 <ShoppingCart size={18} />
-                Añadir al Carrito
+                {product.inStock && product.stockQuantity > 0
+                  ? 'Añadir al Carrito'
+                  : 'Sin stock'}
               </button>
 
               <div className="flex items-center justify-center gap-2 text-slate-400 text-sm">
                 <Zap className="w-4 h-4 text-green-400" />
-                <span>Activación automática tras la compra</span>
+                <span>Compra segura con envío garantizado</span>
               </div>
             </div>
           </div>
@@ -282,4 +279,4 @@ const ProductDetail: React.FC = () => {
   );
 };
 
-export default ProductDetail;
+export default ProductDetailF;

@@ -1,19 +1,16 @@
 // src/App.tsx
 import React, { useState, useEffect, createContext, useContext } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
 import { Product } from "./types";
-import Header from "./components/Header";
-import MainBanner from "./components/MainBanner";
-import ProductDetail from "./components/ProductDetail";
 import Cart from "./components/Cart";
 import AdminDashboard from "./components/AdminDashboard";
 import UserManagement from "./components/admin/UserManagement";
 import ProductManagement from "./components/admin/ProductManagement";
+import ProductManagementF from "./components/admin/ProductManagementF";
 import Colaborators from "./components/admin/Colaborators";
 import CouponsManagement from "./components/admin/CouponsManagement";
-// import ProfilePage from "./components/ProfilePage"; // <- ya no se usa
 import Collaborations from "./components/Collaborations";
 import CollaboratorProductCatalog from "./components/colab/CollaboratorProductCatalog";
 import ProductsWithPagination from "./components/ProductsWithPagination";
@@ -23,26 +20,31 @@ import AuthPage from "./auth/AuthPage";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 
-// nuevos
+// Nuevos componentes
+import HomeWithSmartHeader from "./components/HomeWithSmartHeader";
+import ShopSection from "./components/ShopSection";
+import ShopSectionF from "./components/ShopSectionF";
 import UserPage from "./components/hamburger/user";
 import ConfigPage from "./components/hamburger/config";
+import MainBanner from "./components/MainBanner";
+import ProductDetail from "./components/ProductDetail";
+import ProductDetailF from "./components/ProductDetailF";
 
 interface SearchContextType {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   clearSearch: () => void;
 }
+
 const SearchContext = createContext<SearchContextType | null>(null);
+
 export const useSearch = () => {
   const context = useContext(SearchContext);
   if (!context) throw new Error("useSearch debe usarse dentro de SearchProvider");
   return context;
 };
 
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
-
+// -------------------- HomePage Legacy --------------------
 function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [products, setProducts] = useState<Product[]>([]);
@@ -56,7 +58,7 @@ function HomePage() {
     const params = new URLSearchParams(location.search);
     const paramValue = params.get("search") || "";
     if (paramValue !== searchTerm) setSearchTerm(paramValue);
-  }, [location.search]);
+  }, [location.search, setSearchTerm, searchTerm]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -125,9 +127,6 @@ function HomePage() {
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
   };
-  const handleClearSearch = () => {
-    setSearchTerm("");
-  };
 
   if (loading) {
     return (
@@ -146,6 +145,7 @@ function HomePage() {
       </div>
     );
   }
+
   if (error) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -200,11 +200,10 @@ function HomePage() {
   );
 }
 
+// -------------------- Search Provider --------------------
 function SearchProvider({ children }: { children: React.ReactNode }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const clearSearch = () => {
-    setSearchTerm("");
-  };
+  const clearSearch = () => setSearchTerm("");
   return (
     <SearchContext.Provider value={{ searchTerm, setSearchTerm, clearSearch }}>
       {children}
@@ -212,14 +211,32 @@ function SearchProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
+// -------------------- App --------------------
 function App() {
   return (
     <SearchProvider>
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
-        <Header />
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          {/* Página principal */}
+          <Route path="/" element={<Navigate to="/inicio" replace />} />
+          <Route path="/inicio" element={<HomeWithSmartHeader />} />
+
+          {/* Tiendas principales */}
+          <Route path="/streaming" element={<ShopSection />} />
+          <Route path="/fisicos" element={<ShopSectionF />} />
+
+          {/* Rutas de compatibilidad */}
+          <Route path="/tienda" element={<Navigate to="/streaming" replace />} />
+          <Route path="/tienda-fisicos" element={<Navigate to="/fisicos" replace />} />
+
+          {/* Página legacy */}
+          <Route path="/legacy" element={<HomePage />} />
+
+          {/* Detalles de productos */}
           <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/product-f/:id" element={<ProductDetailF />} />
+
+          {/* Checkout */}
           <Route
             path="/checkout"
             element={
@@ -228,29 +245,33 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          {/* Autenticación */}
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+
           {/* Administración */}
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/users" element={<UserManagement />} />
           <Route path="/admin/products" element={<ProductManagement />} />
+          <Route path="/admin/products-f" element={<ProductManagementF />} />
           <Route path="/admin/colaborators" element={<Colaborators />} />
           <Route path="/admin/coupons" element={<CouponsManagement />} />
-          {/* Alias legacy */}
-          <Route path="/AdminDashboard" element={<AdminDashboard />} />
+          <Route path="/AdminDashboard" element={<Navigate to="/admin" replace />} />
+
           {/* Colaboradores */}
           <Route path="/collaborations" element={<Collaborations />} />
-          <Route 
-            path="/colab/collaborator-product-catalog" 
+          <Route
+            path="/colab/collaborator-product-catalog"
             element={
               <ProtectedRoute>
                 <CollaboratorProductCatalog />
               </ProtectedRoute>
-            } 
+            }
           />
 
-          {/* PERFIL y CONFIG nuevos */}
+          {/* Perfil y configuración */}
           <Route
             path="/profile"
             element={
@@ -267,6 +288,9 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          {/* Ruta 404 */}
+          <Route path="*" element={<Navigate to="/inicio" replace />} />
         </Routes>
         <Cart />
       </div>

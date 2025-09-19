@@ -23,61 +23,56 @@ import {
   Loader,
   ArrowLeft,
   Shield,
-  Star,
 } from 'lucide-react';
 
-type Product = {
+type FProduct = {
   id: string;
+  category?: string;
+  description?: string;
+  discount?: number;
+  imageUrl?: string;
+  inStock?: boolean;
+  longDescription?: string;
   name: string;
-  description: string;
-  longDescription: string;
-  category: string;       // video, music, gaming, tools, etc.
-  planType: string;       // Mensual, Anual, Único, etc.
-  price: number;
-  originalPrice: number;
-  discount: number;
-  rating: number;
-  reviews: number;
-  imageUrl: string;
-  duration: string;       // “30 días”
-  devices: string;        // “Hasta 1 dispositivo”
-  inStock: boolean;
+  originalPrice?: number;
+  price?: number;
+  rating?: number;
+  reviews?: number;
+  shippingInfo?: string;
+  sku?: string;
+  stockQuantity?: number;
 };
 
 const ADMIN_EMAILS = ['scpu.v1@gmail.com'];
 
-const EMPTY: Omit<Product, 'id'> = {
-  name: '',
+const EMPTY: Omit<FProduct, 'id' | 'name'> & { name: string } = {
+  category: 'Tecnología',
   description: '',
-  longDescription: '',
-  category: 'video',
-  planType: 'Mensual',
-  price: 0,
-  originalPrice: 0,
   discount: 0,
+  imageUrl: '',
+  inStock: true,
+  longDescription: '',
+  name: '',
+  originalPrice: 0,
+  price: 0,
   rating: 0,
   reviews: 0,
-  imageUrl: '',
-  duration: '30 días',
-  devices: 'Hasta 1 dispositivo',
-  inStock: true,
+  shippingInfo: '',
+  sku: '',
+  stockQuantity: 0,
 };
 
-const CATEGORIES = ['video', 'music', 'gaming', 'tools', 'education', 'productivity'];
-const PLANS = ['Mensual', 'Anual', 'Trimestral', 'Único', 'Premium'];
-
-const ProductManagement: React.FC = () => {
+const ProductManagementF: React.FC = () => {
   const { user } = useUser();
   const navigate = useNavigate();
 
-  const [items, setItems] = useState<Product[]>([]);
+  const [items, setItems] = useState<FProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-
   const [search, setSearch] = useState('');
-  const [editing, setEditing] = useState<Product | null>(null);
+  const [editing, setEditing] = useState<FProduct | null>(null);
   const [creating, setCreating] = useState(false);
-  const [form, setForm] = useState<Omit<Product, 'id'>>({ ...EMPTY });
+  const [form, setForm] = useState<Omit<FProduct, 'id'>>({ ...EMPTY });
 
   // seguridad
   useEffect(() => {
@@ -86,9 +81,10 @@ const ProductManagement: React.FC = () => {
     }
   }, [user, navigate]);
 
-  const col = useMemo(() => collection(db, 'products'), []);
+  // colección correcta (según tu Firestore)
+  const col = useMemo(() => collection(db, 'products-f'), []);
 
-  // carga con fallback por si falta índice en name
+  // carga con fallback
   const load = async () => {
     setLoading(true);
     try {
@@ -99,7 +95,7 @@ const ProductManagement: React.FC = () => {
         console.warn('orderBy(name) falló; usando carga sin ordenar:', e);
         qs = await getDocs(col);
       }
-      const arr: Product[] = [];
+      const arr: FProduct[] = [];
       qs.forEach((d) => arr.push({ id: d.id, ...(d.data() as any) }));
       setItems(arr);
     } finally {
@@ -116,10 +112,10 @@ const ProductManagement: React.FC = () => {
     const t = search.trim().toLowerCase();
     if (!t) return items;
     return items.filter((x) => {
-      const n = (x.name || '').toLowerCase();
-      const c = (x.category || '').toLowerCase();
-      const p = (x.planType || '').toLowerCase();
-      return n.includes(t) || c.includes(t) || p.includes(t);
+      const name = (x.name || '').toLowerCase();
+      const cat = (x.category || '').toLowerCase();
+      const sku = (x.sku || '').toLowerCase();
+      return name.includes(t) || cat.includes(t) || sku.includes(t);
     });
   }, [items, search]);
 
@@ -129,9 +125,10 @@ const ProductManagement: React.FC = () => {
     setEditing(null);
   }
 
-  function openEdit(p: Product) {
+  function openEdit(p: FProduct) {
     const { id, ...rest } = p;
-    setForm({ ...EMPTY, ...rest });
+    const merged: Omit<FProduct, 'id'> = { ...EMPTY, ...rest, name: rest.name ?? '' };
+    setForm(merged);
     setEditing(p);
     setCreating(false);
   }
@@ -148,16 +145,22 @@ const ProductManagement: React.FC = () => {
     try {
       const payload = {
         ...form,
-        price: Number(form.price) || 0,
-        originalPrice: Number(form.originalPrice) || 0,
         discount: Number(form.discount) || 0,
+        originalPrice: Number(form.originalPrice) || 0,
+        price: Number(form.price) || 0,
         rating: Number(form.rating) || 0,
         reviews: Number(form.reviews) || 0,
-        inStock: typeof form.inStock === 'boolean' ? form.inStock : true,
+        stockQuantity: Number(form.stockQuantity) || 0,
+        inStock:
+          (Number(form.stockQuantity) || 0) > 0
+            ? true
+            : typeof form.inStock === 'boolean'
+            ? form.inStock
+            : true,
       };
 
       if (editing) {
-        await updateDoc(doc(db, 'products', editing.id), payload as any);
+        await updateDoc(doc(db, 'products-f', editing.id), payload as any);
       } else {
         await addDoc(col, payload as any);
       }
@@ -173,19 +176,15 @@ const ProductManagement: React.FC = () => {
   }
 
   async function onDelete(id: string) {
-    if (!confirm('¿Eliminar este producto?')) return;
+    if (!confirm('¿Eliminar este producto físico?')) return;
     try {
-      await deleteDoc(doc(db, 'products', id));
+      await deleteDoc(doc(db, 'products-f', id));
       await load();
     } catch (err) {
       console.error('delete error', err);
       alert('No se pudo eliminar.');
     }
   }
-
-  const total = items.length;
-  const inStockCount = items.filter((x) => x.inStock).length;
-  const avgRating = total ? (items.reduce((s, x) => s + (x.rating || 0), 0) / total).toFixed(1) : '0';
 
   const Header = (
     <div className="bg-gradient-to-r from-[#2C2C2C] to-[#1a1a1a] rounded-2xl shadow-2xl overflow-hidden border border-gray-700/50 mb-4 sm:mb-6">
@@ -204,7 +203,7 @@ const ProductManagement: React.FC = () => {
               <Package className="text-black" size={18} />
             </div>
             <h1 className="text-base sm:text-xl font-bold text-white truncate">
-              Productos (Streaming/Digital)
+              Productos Físicos
             </h1>
           </div>
         </div>
@@ -213,7 +212,7 @@ const ProductManagement: React.FC = () => {
           <div className="hidden sm:flex items-center gap-1.5 bg-[#FFD600]/15 px-2.5 py-1 rounded-full">
             <Shield size={14} className="text-[#FFD600]" />
             <span className="text-[#FFD600] text-xs sm:text-sm font-semibold">
-              {inStockCount}/{total}
+              {items.filter((x) => x.inStock).length}/{items.length}
             </span>
           </div>
 
@@ -242,7 +241,7 @@ const ProductManagement: React.FC = () => {
             </div>
             <input
               type="text"
-              placeholder="Buscar por nombre, categoría o plan…"
+              placeholder="Buscar por nombre, categoría o SKU…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full bg-[#1a1a1a] border border-gray-700/50 rounded-xl py-3 sm:py-3.5 pl-10 sm:pl-12 pr-3 sm:pr-4 text-[15px] sm:text-base text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FFD600]/50"
@@ -280,30 +279,34 @@ const ProductManagement: React.FC = () => {
                     <div className="min-w-0">
                       <h3 className="text-white font-bold leading-tight truncate">{p.name}</h3>
                       <p className="text-xs sm:text-sm text-gray-400 truncate">
-                        {p.category} • {p.planType} • {p.duration} • {p.devices}
+                        {(p.category || '—')} • SKU {(p.sku || '—')}
                       </p>
                       <p className="hidden sm:block text-xs text-gray-500 mt-1 line-clamp-2">
-                        {p.description}
+                        {p.description || ''}
                       </p>
                     </div>
                     <div className="text-right">
-                      {p.discount > 0 && (
+                      {p.discount && p.discount > 0 && (
                         <div className="text-[11px] sm:text-xs text-red-400 font-bold">
                           -{p.discount}%
                         </div>
                       )}
                       <div className="text-[#FFD600] font-extrabold leading-tight">
-                        ${Number(p.price).toLocaleString('es-CO')}
+                        ${Number(p.price || 0).toLocaleString('es-CO')}
                       </div>
-                      {Number(p.originalPrice) > Number(p.price) && (
+                      {Number(p.originalPrice || 0) > Number(p.price || 0) && (
                         <div className="text-[11px] sm:text-xs text-gray-500 line-through">
-                          ${Number(p.originalPrice).toLocaleString('es-CO')}
+                          ${Number(p.originalPrice || 0).toLocaleString('es-CO')}
                         </div>
                       )}
-                      <div className="mt-1 text-[11px] sm:text-xs text-[#FFD600] flex items-center justify-end gap-1">
-                        <Star size={12} className="text-[#FFD600]" />
-                        <span>{p.rating}</span>
-                        <span className="text-gray-400">({p.reviews})</span>
+                      <div className="mt-1 text-[11px] sm:text-xs">
+                        <span
+                          className={`px-2 py-0.5 rounded ${
+                            p.inStock ? 'bg-green-500/15 text-green-400' : 'bg-red-500/15 text-red-400'
+                          }`}
+                        >
+                          {p.inStock ? `Stock ${p.stockQuantity ?? 0}` : 'Sin stock'}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -337,7 +340,7 @@ const ProductManagement: React.FC = () => {
               <div className="p-4 sm:p-5 border-b border-gray-700/50 flex items-center justify-between">
                 <h3 className="text-white font-bold flex items-center gap-2">
                   <Package size={18} className="text-[#FFD600]" />
-                  {editing ? 'Editar producto' : 'Nuevo producto'}
+                  {editing ? 'Editar producto físico' : 'Nuevo producto físico'}
                 </h3>
                 <button onClick={closeModal} className="p-2 hover:bg-gray-700/40 rounded-lg">
                   <X size={18} className="text-gray-300" />
@@ -350,7 +353,7 @@ const ProductManagement: React.FC = () => {
                     <div>
                       <label className="block text-gray-300 mb-2 font-medium">Nombre</label>
                       <input
-                        value={form.name}
+                        value={form.name || ''}
                         onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
                         className="w-full bg-[#1a1a1a] text-white px-3 sm:px-4 py-3 rounded-lg border border-gray-600 focus:border-[#FFD600] focus:outline-none"
                         required
@@ -360,56 +363,42 @@ const ProductManagement: React.FC = () => {
                     <div>
                       <label className="block text-gray-300 mb-2 font-medium">Descripción corta</label>
                       <input
-                        value={form.description}
+                        value={form.description || ''}
                         onChange={(e) => setForm((s) => ({ ...s, description: e.target.value }))}
                         className="w-full bg-[#1a1a1a] text-white px-3 sm:px-4 py-3 rounded-lg border border-gray-600 focus:border-[#FFD600] focus:outline-none"
-                        required
                       />
                     </div>
 
                     <div>
                       <label className="block text-gray-300 mb-2 font-medium">Descripción larga</label>
                       <textarea
-                        value={form.longDescription}
+                        value={form.longDescription || ''}
                         onChange={(e) =>
                           setForm((s) => ({ ...s, longDescription: e.target.value }))
                         }
                         className="w-full bg-[#1a1a1a] text-white px-3 sm:px-4 py-3 rounded-lg border border-gray-600 focus:border-[#FFD600] focus:outline-none h-28 resize-none"
-                        required
                       />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-gray-300 mb-2 font-medium">Categoría</label>
-                        <select
-                          value={form.category}
+                        <input
+                          value={form.category || ''}
                           onChange={(e) => setForm((s) => ({ ...s, category: e.target.value }))}
                           className="w-full bg-[#1a1a1a] text-white px-3 py-3 rounded-lg border border-gray-600 focus:border-[#FFD600] focus:outline-none"
-                          required
-                        >
-                          {CATEGORIES.map((c) => (
-                            <option key={c} value={c}>
-                              {c}
-                            </option>
-                          ))}
-                        </select>
+                          placeholder="Tecnología"
+                        />
                       </div>
 
                       <div>
-                        <label className="block text-gray-300 mb-2 font-medium">Tipo de plan</label>
-                        <select
-                          value={form.planType}
-                          onChange={(e) => setForm((s) => ({ ...s, planType: e.target.value }))}
-                          className="w-full bg-[#1a1a1a] text-white px-3 py-3 rounded-lg border border-gray-600 focus:border-[#FFD600] focus:outline-none"
-                          required
-                        >
-                          {PLANS.map((p) => (
-                            <option key={p} value={p}>
-                              {p}
-                            </option>
-                          ))}
-                        </select>
+                        <label className="block text-gray-300 mb-2 font-medium">SKU</label>
+                        <input
+                          value={form.sku || ''}
+                          onChange={(e) => setForm((s) => ({ ...s, sku: e.target.value.toUpperCase() }))}
+                          className="w-full bg-[#1a1a1a] text-white px-3 py-3 rounded-lg border border-gray-600 focus:border-[#FFD600] focus:outline-none tracking-widest"
+                          placeholder="AUR-BT-001"
+                        />
                       </div>
                     </div>
 
@@ -417,11 +406,10 @@ const ProductManagement: React.FC = () => {
                       <label className="block text-gray-300 mb-2 font-medium">URL de imagen</label>
                       <input
                         type="url"
-                        value={form.imageUrl}
+                        value={form.imageUrl || ''}
                         onChange={(e) => setForm((s) => ({ ...s, imageUrl: e.target.value }))}
                         className="w-full bg-[#1a1a1a] text-white px-3 sm:px-4 py-3 rounded-lg border border-gray-600 focus:border-[#FFD600] focus:outline-none"
-                        placeholder="https://…"
-                        required
+                        placeholder="https://ejemplo.com/imagen.jpg"
                       />
                     </div>
                   </div>
@@ -432,34 +420,28 @@ const ProductManagement: React.FC = () => {
                         <label className="block text-gray-300 mb-2 font-medium">Original</label>
                         <input
                           type="number"
-                          value={Number(form.originalPrice)}
-                          onChange={(e) =>
-                            setForm((s) => ({ ...s, originalPrice: Number(e.target.value) }))
-                          }
+                          value={Number(form.originalPrice || 0)}
+                          onChange={(e) => setForm((s) => ({ ...s, originalPrice: Number(e.target.value) }))}
                           className="w-full bg-[#1a1a1a] text-white px-3 py-3 rounded-lg border border-gray-600 focus:border-[#FFD600] focus:outline-none"
                           min={0}
-                          required
                         />
                       </div>
                       <div>
                         <label className="block text-gray-300 mb-2 font-medium">Precio</label>
                         <input
                           type="number"
-                          value={Number(form.price)}
+                          value={Number(form.price || 0)}
                           onChange={(e) => setForm((s) => ({ ...s, price: Number(e.target.value) }))}
                           className="w-full bg-[#1a1a1a] text-white px-3 py-3 rounded-lg border border-gray-600 focus:border-[#FFD600] focus:outline-none"
                           min={0}
-                          required
                         />
                       </div>
                       <div>
                         <label className="block text-gray-300 mb-2 font-medium">Desc. %</label>
                         <input
                           type="number"
-                          value={Number(form.discount)}
-                          onChange={(e) =>
-                            setForm((s) => ({ ...s, discount: Number(e.target.value) }))
-                          }
+                          value={Number(form.discount || 0)}
+                          onChange={(e) => setForm((s) => ({ ...s, discount: Number(e.target.value) }))}
                           className="w-full bg-[#1a1a1a] text-white px-3 py-3 rounded-lg border border-gray-600 focus:border-[#FFD600] focus:outline-none"
                           min={0}
                           max={100}
@@ -475,7 +457,7 @@ const ProductManagement: React.FC = () => {
                           step="0.1"
                           min={0}
                           max={5}
-                          value={Number(form.rating)}
+                          value={Number(form.rating || 0)}
                           onChange={(e) => setForm((s) => ({ ...s, rating: Number(e.target.value) }))}
                           className="w-full bg-[#1a1a1a] text-white px-3 py-3 rounded-lg border border-gray-600 focus:border-[#FFD600] focus:outline-none"
                         />
@@ -485,7 +467,7 @@ const ProductManagement: React.FC = () => {
                         <input
                           type="number"
                           min={0}
-                          value={Number(form.reviews)}
+                          value={Number(form.reviews || 0)}
                           onChange={(e) => setForm((s) => ({ ...s, reviews: Number(e.target.value) }))}
                           className="w-full bg-[#1a1a1a] text-white px-3 py-3 rounded-lg border border-gray-600 focus:border-[#FFD600] focus:outline-none"
                         />
@@ -494,38 +476,40 @@ const ProductManagement: React.FC = () => {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-gray-300 mb-2 font-medium">Duración</label>
+                        <label className="block text-gray-300 mb-2 font-medium">Cantidad en stock</label>
                         <input
-                          value={form.duration}
-                          onChange={(e) => setForm((s) => ({ ...s, duration: e.target.value }))}
+                          type="number"
+                          min={0}
+                          value={Number(form.stockQuantity || 0)}
+                          onChange={(e) => {
+                            const v = Math.max(0, Number(e.target.value));
+                            setForm((s) => ({ ...s, stockQuantity: v, inStock: v > 0 }));
+                          }}
                           className="w-full bg-[#1a1a1a] text-white px-3 py-3 rounded-lg border border-gray-600 focus:border-[#FFD600] focus:outline-none"
-                          placeholder="30 días"
-                          required
                         />
                       </div>
+
                       <div>
-                        <label className="block text-gray-300 mb-2 font-medium">Dispositivos</label>
-                        <input
-                          value={form.devices}
-                          onChange={(e) => setForm((s) => ({ ...s, devices: e.target.value }))}
+                        <label className="block text-gray-300 mb-2 font-medium">¿En stock?</label>
+                        <select
+                          value={(form.inStock ? '1' : '0') as string}
+                          onChange={(e) => setForm((s) => ({ ...s, inStock: e.target.value === '1' }))}
                           className="w-full bg-[#1a1a1a] text-white px-3 py-3 rounded-lg border border-gray-600 focus:border-[#FFD600] focus:outline-none"
-                          placeholder="Hasta 1 dispositivo"
-                          required
-                        />
+                        >
+                          <option value="1">Sí</option>
+                          <option value="0">No</option>
+                        </select>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3 p-3 sm:p-4 bg-[#1a1a1a] rounded-lg border border-gray-600">
+                    <div>
+                      <label className="block text-gray-300 mb-2 font-medium">Información de envío</label>
                       <input
-                        type="checkbox"
-                        id="inStock"
-                        checked={!!form.inStock}
-                        onChange={(e) => setForm((s) => ({ ...s, inStock: e.target.checked }))}
-                        className="w-5 h-5 text-[#FFD600] bg-[#2C2C2C] border-gray-600 rounded focus:ring-[#FFD600] focus:ring-2"
+                        value={form.shippingInfo || ''}
+                        onChange={(e) => setForm((s) => ({ ...s, shippingInfo: e.target.value }))}
+                        className="w-full bg-[#1a1a1a] text-white px-3 sm:px-4 py-3 rounded-lg border border-gray-600 focus:border-[#FFD600] focus:outline-none"
+                        placeholder="Envío nacional 3–5 días hábiles"
                       />
-                      <label htmlFor="inStock" className="text-gray-300 font-medium">
-                        Producto en stock
-                      </label>
                     </div>
                   </div>
                 </div>
@@ -557,4 +541,4 @@ const ProductManagement: React.FC = () => {
   );
 };
 
-export default ProductManagement;
+export default ProductManagementF;
