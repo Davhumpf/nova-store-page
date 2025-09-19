@@ -1,16 +1,28 @@
 // src/components/ProductDetailF.tsx
-import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
-import { Star, ShoppingCart, ArrowLeft, Shield, Zap, Check, Package, Truck } from 'lucide-react';
+import {
+  Star,
+  ShoppingCart,
+  ArrowLeft,
+  Shield,
+  Zap,
+  Package,
+  Truck,
+  ChevronLeft,
+  ChevronRight,
+  Play,
+} from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useToast } from './ToastProvider';
 
 type PFProduct = {
   id: string;
   name: string;
-  imageUrl: string;
+  imageUrl: string;   // portada (compat con carrito)
+  media?: string[];   // imágenes y/o videos
   price: number;
   originalPrice?: number;
   discount?: number;
@@ -23,6 +35,9 @@ type PFProduct = {
   sku?: string;
 };
 
+const isVideo = (url?: string) =>
+  !!url && /\.(mp4|webm|ogg)(\?.*)?$/i.test(url);
+
 const ProductDetailF: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -31,28 +46,42 @@ const ProductDetailF: React.FC = () => {
 
   const [product, setProduct] = useState<PFProduct | null>(null);
   const [loading, setLoading] = useState(true);
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [mainLoaded, setMainLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [index, setIndex] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+
+  // Cargar producto
   useEffect(() => {
     let active = true;
     setLoading(true);
     setError(null);
     setProduct(null);
-    setImageLoaded(false);
+    setMainLoaded(false);
+    setIndex(0);
 
     (async () => {
       if (!id) { setLoading(false); return; }
       try {
-        const ref = doc(db, 'products-f', id); // 👈 colección de físicos
+        const ref = doc(db, 'products-f', id);
         const snap = await getDoc(ref);
         if (!active) return;
         if (snap.exists()) {
           const d = snap.data() as any;
+          const media: string[] =
+            Array.isArray(d.media) && d.media.length > 0
+              ? d.media
+              : d.imageUrl
+              ? [String(d.imageUrl)]
+              : [];
+          const cover = media[0] || '';
+
           setProduct({
             id: snap.id,
             name: d.name ?? 'Producto',
-            imageUrl: d.imageUrl ?? '',
+            imageUrl: cover,
+            media,
             price: Number(d.price ?? 0),
             originalPrice: Number(d.originalPrice ?? d.price ?? 0),
             discount: Number(d.discount ?? 0),
@@ -62,7 +91,7 @@ const ProductDetailF: React.FC = () => {
             inStock: d.inStock ?? true,
             stockQuantity: Number(d.stockQuantity ?? 0),
             shippingInfo: d.shippingInfo ?? 'Entrega disponible',
-            sku: d.sku ?? ''
+            sku: d.sku ?? '',
           });
         } else {
           setProduct(null);
@@ -74,12 +103,55 @@ const ProductDetailF: React.FC = () => {
       }
     })();
 
-    return () => { active = false; };
+    return () => {
+      active = false;
+    };
   }, [id]);
+
+  // Navegación con teclado
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (!product?.media?.length) return;
+      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowRight') next();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [product?.media]);
+
+  const media = product?.media ?? (product?.imageUrl ? [product.imageUrl] : []);
+  const currentUrl = media[index];
+
+  const next = useCallback(() => {
+    if (!media.length) return;
+    setMainLoaded(false);
+    setIndex((i) => (i + 1) % media.length);
+  }, [media.length]);
+
+  const prev = useCallback(() => {
+    if (!media.length) return;
+    setMainLoaded(false);
+    setIndex((i) => (i - 1 + media.length) % media.length);
+  }, [media.length]);
+
+  // Swipe móvil
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current == null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(dx) > 40) {
+      if (dx < 0) next();
+      else prev();
+    }
+    touchStartX.current = null;
+  };
 
   const handleAddToCart = useCallback(() => {
     if (!product || !product.inStock || product.stockQuantity <= 0) return;
-    addToCart(product as any);
+    const payload = { ...product, imageUrl: product.imageUrl || (product.media?.[0] ?? '') };
+    addToCart(payload as any);
     push({
       type: 'success',
       title: 'Agregado al carrito',
@@ -95,7 +167,7 @@ const ProductDetailF: React.FC = () => {
   if (loading) {
     return (
       <div className="bg-slate-900 fix-1px flex items-center justify-center">
-        <div className="text-center space-y-4">
+        <div className="text-center space-y-4 py-16">
           <div className="w-12 h-12 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mx-auto" />
           <p className="text-slate-300">Cargando producto…</p>
         </div>
@@ -106,18 +178,18 @@ const ProductDetailF: React.FC = () => {
   if (error || !product) {
     return (
       <div className="bg-slate-900 fix-1px flex items-center justify-center px-4">
-        <div className="text-center space-y-6 max-w-md">
+        <div className="text-center space-y-6 max-w-md py-16">
           <div className="w-24 h-24 bg-slate-800 rounded-full flex items-center justify-center mx-auto">
             <ShoppingCart className="w-12 h-12 text-slate-400" />
           </div>
           <h2 className="text-2xl font-bold text-slate-200">Producto no disponible</h2>
           <p className="text-slate-400">{error ?? 'No existe o fue eliminado.'}</p>
           <button
-            onClick={() => navigate('/')}
+            onClick={() => (window.history.length > 1 ? navigate(-1) : navigate('/shop-f'))}
             className="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-slate-900 px-5 py-2.5 rounded-lg font-semibold"
           >
             <ArrowLeft size={18} />
-            Volver al inicio
+            Volver a productos
           </button>
         </div>
       </div>
@@ -129,7 +201,7 @@ const ProductDetailF: React.FC = () => {
       <div className="container mx-auto px-4 max-w-5xl">
         {/* Breadcrumb */}
         <button
-          onClick={() => navigate('/')}
+          onClick={() => (window.history.length > 1 ? navigate(-1) : navigate('/shop-f'))}
           className="inline-flex items-center gap-2 text-slate-400 hover:text-yellow-400 mb-4"
         >
           <ArrowLeft size={16} />
@@ -137,28 +209,46 @@ const ProductDetailF: React.FC = () => {
         </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-          {/* Imagen */}
+          {/* Galería */}
           <div className="order-1">
-            <div className="relative rounded-xl border border-slate-800 overflow-hidden bg-slate-950">
+            <div
+              className="relative rounded-xl border border-slate-800 overflow-hidden bg-slate-950"
+              onTouchStart={onTouchStart}
+              onTouchEnd={onTouchEnd}
+            >
               <div className="aspect-square relative overflow-hidden">
-                {!imageLoaded && (
+                {!mainLoaded && (
                   <div className="absolute inset-0 bg-slate-800 animate-pulse flex items-center justify-center">
                     <div className="w-8 h-8 border-4 border-slate-600 border-t-yellow-400 rounded-full animate-spin" />
                   </div>
                 )}
-                <img
-                  src={product.imageUrl}
-                  alt={product.name}
-                  loading="lazy"
-                  decoding="async"
-                  fetchPriority="low"
-                  width={1024}
-                  height={1024}
-                  className={`w-full h-full object-cover transition-opacity duration-200 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                  onLoad={() => setImageLoaded(true)}
-                  style={{ display: 'block' }}
-                />
 
+                {isVideo(currentUrl) ? (
+                  <video
+                    key={currentUrl}
+                    src={currentUrl}
+                    controls
+                    className={`w-full h-full object-cover ${mainLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200`}
+                    onLoadedData={() => setMainLoaded(true)}
+                    poster={product.imageUrl || undefined}
+                  />
+                ) : (
+                  <img
+                    key={currentUrl}
+                    src={currentUrl}
+                    alt={product.name}
+                    loading="lazy"
+                    decoding="async"
+                    fetchPriority="low"
+                    width={1024}
+                    height={1024}
+                    className={`w-full h-full object-cover transition-opacity duration-200 ${mainLoaded ? 'opacity-100' : 'opacity-0'}`}
+                    onLoad={() => setMainLoaded(true)}
+                    style={{ display: 'block' }}
+                  />
+                )}
+
+                {/* Badges */}
                 {product.discount && product.discount > 0 && (
                   <div className="absolute top-2 left-2 bg-red-600 text-white font-bold text-xs px-2 py-1 rounded-lg">
                     -{product.discount}%
@@ -177,8 +267,61 @@ const ProductDetailF: React.FC = () => {
                     </span>
                   )}
                 </div>
+
+                {/* Controles */}
+                {media.length > 1 && (
+                  <>
+                    <button
+                      onClick={prev}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 border border-white/10 w-9 h-9 rounded-full flex items-center justify-center"
+                      aria-label="Anterior"
+                    >
+                      <ChevronLeft className="text-white" size={18} />
+                    </button>
+                    <button
+                      onClick={next}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 border border-white/10 w-9 h-9 rounded-full flex items-center justify-center"
+                      aria-label="Siguiente"
+                    >
+                      <ChevronRight className="text-white" size={18} />
+                    </button>
+                  </>
+                )}
               </div>
             </div>
+
+            {/* Miniaturas */}
+            {media.length > 1 && (
+              <div className="grid grid-cols-6 gap-2 mt-3">
+                {media.map((m, i) => {
+                  const active = i === index;
+                  return (
+                    <button
+                      key={m + i}
+                      onClick={() => {
+                        setIndex(i);
+                        setMainLoaded(false);
+                      }}
+                      className={`relative aspect-square rounded-lg overflow-hidden border ${
+                        active ? 'border-yellow-400' : 'border-slate-700/60 hover:border-slate-500'
+                      }`}
+                      title={`Vista ${i + 1}`}
+                    >
+                      {isVideo(m) ? (
+                        <div className="w-full h-full bg-black/50 flex items-center justify-center">
+                          <Play className="text-white/90" size={18} />
+                        </div>
+                      ) : (
+                        <img src={m} alt={`thumb-${i}`} className="w-full h-full object-cover" />
+                      )}
+                      <span className="absolute bottom-1 right-1 text-[10px] px-1 rounded bg-black/70 text-white">
+                        {i + 1}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {/* Info */}
@@ -199,12 +342,12 @@ const ProductDetailF: React.FC = () => {
                   ))}
                 </div>
                 <span className="text-slate-300 text-sm">
-                  {product.rating?.toFixed(1) ?? '0.0'} • {product.reviews ?? 0} reseñas
+                  {(product.rating ?? 0).toFixed(1)} • {product.reviews ?? 0} reseñas
                 </span>
               </div>
             </div>
 
-            {/* Bloque de precio */}
+            {/* Precio */}
             <div className="rounded-xl border border-slate-800 p-4 bg-slate-950/60">
               <div className="space-y-1">
                 <div className="flex items-baseline gap-2">
@@ -225,15 +368,15 @@ const ProductDetailF: React.FC = () => {
               </div>
             </div>
 
-            {/* Descripción */}
+            {/* Descripción (ahora respeta saltos de línea) */}
             <div className="rounded-lg border border-slate-800 p-4 bg-slate-950/60">
-              <p className="text-slate-300 leading-relaxed text-sm">
-                {product.longDescription}
-              </p>
+              <div className="text-slate-300 leading-relaxed text-sm whitespace-pre-line">
+                {product.longDescription || '—'}
+              </div>
             </div>
 
             {/* Beneficios físicos */}
-            <div className="flex items-center justify-center gap-6 rounded-lg border border-green-500/30 p-3 bg-emerald-900/10">
+            <div className="flex flex-wrap items-center justify-center gap-4 rounded-lg border border-green-500/30 p-3 bg-emerald-900/10">
               <div className="flex items-center gap-1 text-slate-300 text-xs">
                 <Truck className="w-3 h-3 text-green-400" />
                 <span>{product.shippingInfo}</span>

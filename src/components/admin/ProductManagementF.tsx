@@ -23,14 +23,22 @@ import {
   Loader,
   ArrowLeft,
   Shield,
+  Image as ImageIcon,
+  Film,
 } from 'lucide-react';
 
+/** ─────────────────────────────────────────────────────────────
+ *  TIPOS
+ *  Ahora soporta media: string[] (imágenes o videos por URL).
+ *  Dejamos imageUrl opcional para compatibilidad.
+ *  ──────────────────────────────────────────────────────────── */
 type FProduct = {
   id: string;
   category?: string;
   description?: string;
   discount?: number;
-  imageUrl?: string;
+  imageUrl?: string;     // compat (fallback)
+  media?: string[];      // NUEVO: varias imágenes/videos
   inStock?: boolean;
   longDescription?: string;
   name: string;
@@ -49,7 +57,8 @@ const EMPTY: Omit<FProduct, 'id' | 'name'> & { name: string } = {
   category: 'Tecnología',
   description: '',
   discount: 0,
-  imageUrl: '',
+  imageUrl: '',      // compat
+  media: [],         // NUEVO
   inStock: true,
   longDescription: '',
   name: '',
@@ -60,6 +69,16 @@ const EMPTY: Omit<FProduct, 'id' | 'name'> & { name: string } = {
   shippingInfo: '',
   sku: '',
   stockQuantity: 0,
+};
+
+/** Helpers */
+const isVideo = (url?: string) =>
+  !!url && /\.(mp4|webm|ogg)(\?.*)?$/i.test(url);
+
+const firstMediaUrl = (p: FProduct): string | undefined => {
+  // Prioriza media[0]. Si no hay, usa imageUrl
+  if (p.media && p.media.length > 0) return p.media[0];
+  return p.imageUrl;
 };
 
 const ProductManagementF: React.FC = () => {
@@ -127,7 +146,16 @@ const ProductManagementF: React.FC = () => {
 
   function openEdit(p: FProduct) {
     const { id, ...rest } = p;
-    const merged: Omit<FProduct, 'id'> = { ...EMPTY, ...rest, name: rest.name ?? '' };
+    // Normaliza: si no hay media pero sí imageUrl, precarga media=[imageUrl]
+    const merged: Omit<FProduct, 'id'> = {
+      ...EMPTY,
+      ...rest,
+      name: rest.name ?? '',
+      media:
+        (rest.media && rest.media.length > 0)
+          ? rest.media
+          : (rest.imageUrl ? [rest.imageUrl] : []),
+    };
     setForm(merged);
     setEditing(p);
     setCreating(false);
@@ -143,8 +171,17 @@ const ProductManagementF: React.FC = () => {
     e.preventDefault();
     setSaving(true);
     try {
-      const payload = {
+      // Normaliza media: si está vacío pero hay imageUrl, úsalo
+      const normalizedMedia =
+        (form.media ?? []).filter(Boolean);
+      const mediaFinal =
+        normalizedMedia.length > 0
+          ? normalizedMedia
+          : (form.imageUrl ? [form.imageUrl] : []);
+
+      const payload: Omit<FProduct, 'id'> = {
         ...form,
+        media: mediaFinal,
         discount: Number(form.discount) || 0,
         originalPrice: Number(form.originalPrice) || 0,
         price: Number(form.price) || 0,
@@ -158,6 +195,12 @@ const ProductManagementF: React.FC = () => {
             ? form.inStock
             : true,
       };
+
+      // Limpia imageUrl si ya hay media (opcional):
+      if (payload.media && payload.media.length > 0) {
+        // mantenemos imageUrl como primer media para compatibilidad visual
+        payload.imageUrl = payload.media[0];
+      }
 
       if (editing) {
         await updateDoc(doc(db, 'products-f', editing.id), payload as any);
@@ -263,73 +306,92 @@ const ProductManagementF: React.FC = () => {
               No hay productos que coincidan.
             </div>
           ) : (
-            filtered.map((p) => (
-              <div
-                key={p.id}
-                className="rounded-2xl border border-gray-700/50 bg-[#1a1a1a]/70 p-3 sm:p-4 flex gap-3 sm:gap-4"
-              >
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border border-gray-700/50 bg-[#2a2a2a] shrink-0">
-                  {p.imageUrl ? (
-                    <img src={p.imageUrl} alt={p.name} className="w-full h-full object-cover" />
-                  ) : null}
-                </div>
-
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0">
-                      <h3 className="text-white font-bold leading-tight truncate">{p.name}</h3>
-                      <p className="text-xs sm:text-sm text-gray-400 truncate">
-                        {(p.category || '—')} • SKU {(p.sku || '—')}
-                      </p>
-                      <p className="hidden sm:block text-xs text-gray-500 mt-1 line-clamp-2">
-                        {p.description || ''}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      {p.discount && p.discount > 0 && (
-                        <div className="text-[11px] sm:text-xs text-red-400 font-bold">
-                          -{p.discount}%
+            filtered.map((p) => {
+              const cover = firstMediaUrl(p);
+              return (
+                <div
+                  key={p.id}
+                  className="rounded-2xl border border-gray-700/50 bg-[#1a1a1a]/70 p-3 sm:p-4 flex gap-3 sm:gap-4"
+                >
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border border-gray-700/50 bg-[#2a2a2a] shrink-0 relative">
+                    {cover ? (
+                      isVideo(cover) ? (
+                        <div className="w-full h-full flex items-center justify-center bg-black/30">
+                          <Film className="text-white/80" />
                         </div>
-                      )}
-                      <div className="text-[#FFD600] font-extrabold leading-tight">
-                        ${Number(p.price || 0).toLocaleString('es-CO')}
+                      ) : (
+                        <img src={cover} alt={p.name} className="w-full h-full object-cover" />
+                      )
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <ImageIcon className="text-gray-500" />
                       </div>
-                      {Number(p.originalPrice || 0) > Number(p.price || 0) && (
-                        <div className="text-[11px] sm:text-xs text-gray-500 line-through">
-                          ${Number(p.originalPrice || 0).toLocaleString('es-CO')}
-                        </div>
-                      )}
-                      <div className="mt-1 text-[11px] sm:text-xs">
-                        <span
-                          className={`px-2 py-0.5 rounded ${
-                            p.inStock ? 'bg-green-500/15 text-green-400' : 'bg-red-500/15 text-red-400'
-                          }`}
-                        >
-                          {p.inStock ? `Stock ${p.stockQuantity ?? 0}` : 'Sin stock'}
-                        </span>
-                      </div>
-                    </div>
+                    )}
+                    {/* Badge cantidad de media */}
+                    {(p.media?.length ?? 0) > 1 && (
+                      <span className="absolute bottom-1 right-1 text-[10px] px-1.5 py-0.5 rounded bg-black/70 text-white">
+                        {p.media!.length}
+                      </span>
+                    )}
                   </div>
 
-                  <div className="mt-3 flex gap-2">
-                    <button
-                      onClick={() => openEdit(p)}
-                      className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:py-2 rounded-lg bg-gray-700/50 hover:bg-gray-700 text-white text-xs sm:text-sm"
-                    >
-                      <Edit size={14} />
-                      Editar
-                    </button>
-                    <button
-                      onClick={() => onDelete(p.id)}
-                      className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:py-2 rounded-lg bg-red-600/80 hover:bg-red-600 text-white text-xs sm:text-sm"
-                    >
-                      <Trash2 size={14} />
-                      Eliminar
-                    </button>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <h3 className="text-white font-bold leading-tight truncate">{p.name}</h3>
+                        <p className="text-xs sm:text-sm text-gray-400 truncate">
+                          {(p.category || '—')} • SKU {(p.sku || '—')}
+                        </p>
+                        <p className="hidden sm:block text-xs text-gray-500 mt-1 line-clamp-2">
+                          {p.description || ''}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        {p.discount && p.discount > 0 && (
+                          <div className="text-[11px] sm:text-xs text-red-400 font-bold">
+                            -{p.discount}%
+                          </div>
+                        )}
+                        <div className="text-[#FFD600] font-extrabold leading-tight">
+                          ${Number(p.price || 0).toLocaleString('es-CO')}
+                        </div>
+                        {Number(p.originalPrice || 0) > Number(p.price || 0) && (
+                          <div className="text-[11px] sm:text-xs text-gray-500 line-through">
+                            ${Number(p.originalPrice || 0).toLocaleString('es-CO')}
+                          </div>
+                        )}
+                        <div className="mt-1 text-[11px] sm:text-xs">
+                          <span
+                            className={`px-2 py-0.5 rounded ${
+                              p.inStock ? 'bg-green-500/15 text-green-400' : 'bg-red-500/15 text-red-400'
+                            }`}
+                          >
+                            {p.inStock ? `Stock ${p.stockQuantity ?? 0}` : 'Sin stock'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-3 flex gap-2">
+                      <button
+                        onClick={() => openEdit(p)}
+                        className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:py-2 rounded-lg bg-gray-700/50 hover:bg-gray-700 text-white text-xs sm:text-sm"
+                      >
+                        <Edit size={14} />
+                        Editar
+                      </button>
+                      <button
+                        onClick={() => onDelete(p.id)}
+                        className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:py-2 rounded-lg bg-red-600/80 hover:bg-red-600 text-white text-xs sm:text-sm"
+                      >
+                        <Trash2 size={14} />
+                        Eliminar
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
 
@@ -402,15 +464,28 @@ const ProductManagementF: React.FC = () => {
                       </div>
                     </div>
 
+                    {/* === NUEVO CAMPO: MEDIA (múltiples URLs) === */}
                     <div>
-                      <label className="block text-gray-300 mb-2 font-medium">URL de imagen</label>
-                      <input
-                        type="url"
-                        value={form.imageUrl || ''}
-                        onChange={(e) => setForm((s) => ({ ...s, imageUrl: e.target.value }))}
-                        className="w-full bg-[#1a1a1a] text-white px-3 sm:px-4 py-3 rounded-lg border border-gray-600 focus:border-[#FFD600] focus:outline-none"
-                        placeholder="https://ejemplo.com/imagen.jpg"
+                      <label className="block text-gray-300 mb-2 font-medium">
+                        Media (imágenes/videos por links)
+                      </label>
+                      <textarea
+                        value={(form.media && form.media.length > 0) ? form.media.join('\n') : (form.imageUrl || '')}
+                        onChange={(e) =>
+                          setForm((s) => ({
+                            ...s,
+                            media: e.target.value
+                              .split(/\r?\n|,/)
+                              .map((u) => u.trim())
+                              .filter(Boolean),
+                          }))
+                        }
+                        className="w-full bg-[#1a1a1a] text-white px-3 sm:px-4 py-3 rounded-lg border border-gray-600 focus:border-[#FFD600] focus:outline-none h-28 resize-y"
+                        placeholder={"https://ejemplo.com/img1.jpg\nhttps://ejemplo.com/img2.png\nhttps://servidor.com/video.mp4"}
                       />
+                      <p className="text-xs text-gray-400 mt-1">
+                        Separa los links por salto de línea (recomendado) o por coma. Soporta .jpg, .png, .webp, .mp4, .webm, .ogg
+                      </p>
                     </div>
                   </div>
 
@@ -510,6 +585,30 @@ const ProductManagementF: React.FC = () => {
                         className="w-full bg-[#1a1a1a] text-white px-3 sm:px-4 py-3 rounded-lg border border-gray-600 focus:border-[#FFD600] focus:outline-none"
                         placeholder="Envío nacional 3–5 días hábiles"
                       />
+                    </div>
+
+                    {/* Vista previa mini de media */}
+                    <div>
+                      <label className="block text-gray-300 mb-2 font-medium">Vista previa</label>
+                      {form.media && form.media.length > 0 ? (
+                        <div className="grid grid-cols-3 gap-2">
+                          {form.media.slice(0, 6).map((m, i) => (
+                            <div key={i} className="relative rounded-lg overflow-hidden border border-gray-700/60 bg-black/20 aspect-square flex items-center justify-center">
+                              {isVideo(m) ? (
+                                <Film className="text-white/80" />
+                              ) : (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img src={m} alt={`media-${i}`} className="w-full h-full object-cover" />
+                              )}
+                              <span className="absolute bottom-1 right-1 text-[10px] px-1.5 py-0.5 rounded bg-black/70 text-white">{i+1}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="h-24 rounded-lg border border-gray-700/60 bg-black/10 flex items-center justify-center text-gray-400">
+                          Sin media aún
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
