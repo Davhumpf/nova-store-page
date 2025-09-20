@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
+import { doc, setDoc, serverTimestamp, getDoc } from 'firebase/firestore';
 import { Mail, Lock, CheckCircle, XCircle, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { useToast } from '../components/ToastProvider';
-
 
 interface RegisterProps { onSuccess?: () => void; }
 
@@ -37,6 +37,21 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
   const match = pw.length > 0 && pw === pw2;
   const valid = emailValid && Object.values(reqs).every(Boolean) && match;
 
+  /** Crea (si no existe) el documento en /users/{uid} */
+  const ensureUserDoc = useCallback(async (u: { uid: string; email: string | null; displayName: string | null; photoURL: string | null; }) => {
+    const ref = doc(db, 'users', u.uid);
+    const snap = await getDoc(ref);
+    if (!snap.exists()) {
+      await setDoc(ref, {
+        email: (u.email || '').toLowerCase(),
+        displayName: u.displayName || '',
+        photoURL: u.photoURL || '',
+        points: 0,
+        createdAt: serverTimestamp(),
+      });
+    }
+  }, []);
+
   const onSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setErr('');
@@ -44,7 +59,9 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
     setLoading(true);
     try {
       const normEmail = email.trim().toLowerCase();
-      await createUserWithEmailAndPassword(auth, normEmail, pw);
+      const cred = await createUserWithEmailAndPassword(auth, normEmail, pw);
+      await ensureUserDoc(cred.user);
+
       push({ type: 'success', title: 'Cuenta creada', message: 'Registro exitoso. Sesión iniciada.' });
       onSuccess?.();
     } catch (e: any) {
@@ -58,13 +75,15 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
     } finally {
       setLoading(false);
     }
-  }, [valid, email, pw, onSuccess, push]);
+  }, [valid, email, pw, onSuccess, push, ensureUserDoc]);
 
   const onGoogle = useCallback(async () => {
     setErr('');
     setLoading(true);
     try {
-      await signInWithPopup(auth, provider);
+      const res = await signInWithPopup(auth, provider);
+      await ensureUserDoc(res.user);
+
       push({ type: 'success', title: 'Bienvenido', message: 'Sesión iniciada con Google.' });
       onSuccess?.();
     } catch (e: any) {
@@ -72,7 +91,7 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
     } finally {
       setLoading(false);
     }
-  }, [onSuccess, provider, push]);
+  }, [onSuccess, provider, push, ensureUserDoc]);
 
   return (
     <form onSubmit={onSubmit} className="space-y-3">
