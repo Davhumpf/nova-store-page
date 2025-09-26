@@ -1,68 +1,200 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { auth, db } from "../../firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { Save, Loader2 } from "lucide-react";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  serverTimestamp,
+  where,
+  limit,
+} from "firebase/firestore";
+import {
+  Loader2,
+  HelpCircle,
+  Copy,
+  Send,
+  MessageCircle,
+  ChevronDown,
+  ChevronUp,
+  Ticket as TicketIcon,
+  Users,
+  Link as LinkIcon,
+} from "lucide-react";
 
-/**
- * Config simple y útil:
- * - Tema: claro/oscuro (persistencia localStorage + Firestore si hay login)
- * - Moneda para formateo: COP | USD
- * - Densidad de tarjetas: normal | compacta
- */
-type Settings = {
-  theme: "dark" | "light";
-  currency: "COP" | "USD";
-  density: "normal" | "compact";
+const WAPP_NUMBER_E164 = "573027214125";
+
+function openWhatsApp(text: string) {
+  const url = `https://wa.me/${WAPP_NUMBER_E164}?text=${encodeURIComponent(text)}`;
+  window.open(url, "_blank");
+}
+
+type Ticket = {
+  id: string;
+  subject: string;
+  message: string;
+  status: "pending" | "in_progress" | "resolved";
+  createdAt?: any;
 };
 
-const DEFAULTS: Settings = { theme: "dark", currency: "COP", density: "normal" };
+type Faq = { q: string; a: string };
 
-function applyTheme(theme: "dark" | "light") {
-  const root = document.documentElement;
-  if (theme === "dark") root.classList.add("dark");
-  else root.classList.remove("dark");
-  localStorage.setItem("nova_settings_theme", theme);
-}
+const FAQS: Faq[] = [
+  {
+    q: "¿Cómo puedo pagar mi suscripción?",
+    a: "Aceptamos tarjeta, PSE y otros métodos locales. El pago queda asociado a tu cuenta de inmediato.",
+  },
+  {
+    q: "¿Cómo gano puntos?",
+    a: "Por cada $10,000 COP gastados acumulas 100 puntos. También recibes puntos por referidos cuando completen su primera compra.",
+  },
+  {
+    q: "¿Cómo canjeo recompensas?",
+    a: "Ve a tu perfil, entra a Recompensas, elige una y confirma. Si no alcanzan tus puntos, te guiamos por WhatsApp.",
+  },
+  {
+    q: "¿Cómo funcionan los envíos de productos físicos?",
+    a: "Despachamos a la dirección registrada. Recibirás estado de envío y número de guía en tu correo.",
+  },
+  {
+    q: "¿Qué hago si algo falla?",
+    a: "Abre un ticket aquí y/o escríbenos por WhatsApp. Respondemos lo antes posible.",
+  },
+];
 
 export default function ConfigPage() {
   const u = auth.currentUser;
+
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [s, setS] = useState<Settings>(DEFAULTS);
 
-  // cargar de localStorage y luego de Firestore
-  useEffect(() => {
-    const localTheme = (localStorage.getItem("nova_settings_theme") as "dark" | "light") || "dark";
-    applyTheme(localTheme);
-    setS(prev => ({ ...prev, theme: localTheme }));
-  }, []);
+  // --- Soporte/Tickets ---
+  const [faqOpenIndex, setFaqOpenIndex] = useState<number | null>(0);
+  const [submitting, setSubmitting] = useState(false);
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const [tickets, setTickets] = useState<Ticket[]>([]);
 
+  // --- Referidos ---
+  const [refCount, setRefCount] = useState<number | null>(null);
+  const [activeRefCount, setActiveRefCount] = useState<number | null>(null);
+  const inviteUrl = useMemo(() => {
+    const base = window.location.origin; // https://tu-dominio.com
+    const path = "/register";            // ajusta si tu ruta de registro es distinta
+    const uid = u?.uid || "guest";
+    return `${base}${path}?ref=${uid}`;
+  }, [u?.uid]);
+
+  // Carga inicial
   useEffect(() => {
     const run = async () => {
-      if (!u) { setLoading(false); return; }
-      const ref = doc(db, "users", u.uid, "private", "settings");
-      const snap = await getDoc(ref);
-      if (snap.exists()) {
-        const data = snap.data() as Settings;
-        setS({ ...DEFAULTS, ...data });
-        applyTheme((data.theme || "dark") as "dark" | "light");
+      try {
+        if (!u) {
+          setLoading(false);
+          return;
+        }
+
+        // 1) Cargar últimos tickets del usuario
+        const qTickets = query(
+          collection(db, "support-tickets"),
+          where("userId", "==", u.uid),
+          orderBy("createdAt", "desc"),
+          limit(20)
+        );
+        const snapT = await getDocs(qTickets);
+        const listT: Ticket[] = [];
+        snapT.forEach((d) => {
+          const data = d.data() as any;
+          listT.push({
+            id: d.id,
+            subject: data.subject || "",
+            message: data.message || "",
+            status: (data.status as Ticket["status"]) || "pending",
+            createdAt: data.createdAt,
+          });
+        });
+        setTickets(listT);
+
+        // 2) Contar referidos
+        const qRefs = query(
+          collection(db, "users"),
+          where("referrerId", "==", u.uid)
+        );
+        const snapR = await getDocs(qRefs);
+        setRefCount(snapR.size);
+
+        // 3) Contar referidos activos (ejemplo: firstPurchase == true)
+        // Si manejas otro criterio (ej. firstSubscriptionPaid) cámbialo aquí.
+        const qRefsActive = query(
+          collection(db, "users"),
+          where("referrerId", "==", u.uid),
+          where("firstPurchase", "==", true)
+        );
+        const snapRA = await getDocs(qRefsActive);
+        setActiveRefCount(snapRA.size);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     run();
   }, [u]);
 
-  async function save() {
-    setSaving(true);
-    try {
-      applyTheme(s.theme);
-      if (u) {
-        const ref = doc(db, "users", u.uid, "private", "settings");
-        await setDoc(ref, s, { merge: true });
-      }
-    } finally {
-      setSaving(false);
+  async function submitTicket() {
+    if (!u) {
+      alert("Debes iniciar sesión.");
+      return;
     }
+    const s = subject.trim();
+    const m = message.trim();
+    if (!s || !m) {
+      alert("Por favor completa el asunto y la descripción.");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      await addDoc(collection(db, "support-tickets"), {
+        userId: u.uid,
+        email: u.email || "",
+        subject: s,
+        message: m,
+        status: "pending",
+        createdAt: serverTimestamp(),
+      });
+      setSubject("");
+      setMessage("");
+
+      // Refrescar listado rápido (opcional: podrías reconsultar)
+      setTickets((prev) => [
+        {
+          id: `tmp-${Date.now()}`,
+          subject: s,
+          message: m,
+          status: "pending",
+          createdAt: { seconds: Math.floor(Date.now() / 1000) },
+        },
+        ...prev,
+      ]);
+
+      // WhatsApp de confirmación opcional
+      // openWhatsApp(`Hola, soy ${u.email}. Acabo de crear un ticket: ${s}`);
+    } catch (e) {
+      alert("No se pudo enviar el ticket. Intenta de nuevo.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  function copyInvite() {
+    navigator.clipboard.writeText(inviteUrl);
+  }
+
+  if (!u) {
+    return (
+      <div className="p-6 text-white">
+        Debes iniciar sesión para ver esta sección.
+      </div>
+    );
   }
 
   if (loading) {
@@ -74,64 +206,193 @@ export default function ConfigPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-6 text-white">
-      <h2 className="text-lg font-semibold mb-4">Configuración</h2>
+    <div className="max-w-3xl mx-auto p-6 text-white">
+      {/* --- Soporte / Ayuda rápida --- */}
+      <section className="bg-slate-800 border border-slate-700 rounded-2xl p-5">
+        <div className="flex items-center gap-2 mb-4">
+          <HelpCircle size={18} className="text-yellow-400" />
+          <h2 className="font-semibold">Soporte / Ayuda rápida</h2>
+        </div>
 
-      <div className="bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-5">
-        <section>
-          <div className="text-sm text-slate-300 mb-1">Tema</div>
-          <div className="flex gap-3">
+        {/* FAQ */}
+        <div className="space-y-2">
+          {FAQS.map((f, idx) => {
+            const open = faqOpenIndex === idx;
+            return (
+              <div
+                key={idx}
+                className="border border-slate-700 rounded-xl overflow-hidden"
+              >
+                <button
+                  onClick={() =>
+                    setFaqOpenIndex((prev) => (prev === idx ? null : idx))
+                  }
+                  className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-slate-700/40"
+                >
+                  <span className="font-medium">{f.q}</span>
+                  {open ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                </button>
+                {open && (
+                  <div className="px-4 pb-3 text-sm text-slate-300">
+                    {f.a}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* WhatsApp soporte */}
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <button
+            onClick={() =>
+              openWhatsApp(
+                `Hola, soy ${u.displayName || u.email}. Necesito ayuda con: `
+              )
+            }
+            className="inline-flex items-center gap-2 bg-green-400 text-slate-900 font-semibold rounded-xl px-4 py-2 hover:bg-green-300"
+          >
+            <MessageCircle size={16} />
+            WhatsApp de soporte
+          </button>
+          <span className="text-sm text-slate-400">
+            Respuestas rápidas por WhatsApp.
+          </span>
+        </div>
+
+        {/* Crear ticket */}
+        <div className="mt-6">
+          <div className="flex items-center gap-2 mb-2">
+            <TicketIcon size={16} className="text-yellow-400" />
+            <h3 className="font-semibold">Crear ticket</h3>
+          </div>
+          <div className="grid gap-3">
+            <input
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              className="bg-slate-700 border border-slate-600 rounded-xl px-3 py-2 text-sm"
+              placeholder="Asunto (ej. problema con pago/envío)"
+            />
+            <textarea
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              rows={4}
+              className="bg-slate-700 border border-slate-600 rounded-xl px-3 py-2 text-sm"
+              placeholder="Describe tu problema o pregunta…"
+            />
             <button
-              onClick={() => setS(prev => ({ ...prev, theme: "dark" }))}
-              className={`px-4 py-2 rounded-xl border ${s.theme === "dark" ? "border-yellow-400 text-yellow-400" : "border-slate-600 text-white"}`}
+              onClick={submitTicket}
+              disabled={submitting}
+              className="inline-flex items-center gap-2 bg-yellow-400 text-slate-900 font-semibold rounded-xl px-4 py-2 hover:bg-yellow-300 disabled:opacity-60"
             >
-              Oscuro
-            </button>
-            <button
-              onClick={() => setS(prev => ({ ...prev, theme: "light" }))}
-              className={`px-4 py-2 rounded-xl border ${s.theme === "light" ? "border-yellow-400 text-yellow-400" : "border-slate-600 text-white"}`}
-            >
-              Claro
+              {submitting ? (
+                <Loader2 size={16} className="animate-spin" />
+              ) : (
+                <Send size={16} />
+              )}
+              Enviar ticket
             </button>
           </div>
-        </section>
+        </div>
 
-        <section>
-          <div className="text-sm text-slate-300 mb-1">Moneda preferida</div>
-          <select
-            value={s.currency}
-            onChange={(e) => setS(prev => ({ ...prev, currency: e.target.value as Settings["currency"] }))}
-            className="bg-slate-700 border border-slate-600 rounded-xl px-3 py-2 text-sm"
-          >
-            <option value="COP">COP</option>
-            <option value="USD">USD</option>
-          </select>
-        </section>
+        {/* Tus tickets */}
+        <div className="mt-6">
+          <div className="font-semibold mb-2">Mis tickets</div>
+          {tickets.length === 0 ? (
+            <div className="text-slate-400 text-sm">
+              Aún no has creado tickets.
+            </div>
+          ) : (
+            <ul className="space-y-2">
+              {tickets.map((t) => (
+                <li
+                  key={t.id}
+                  className="bg-slate-900/60 border border-slate-700 rounded-xl px-4 py-3 text-sm"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="font-medium">{t.subject}</div>
+                    <StatusBadge status={t.status} />
+                  </div>
+                  <div className="text-slate-300 mt-1 line-clamp-3">
+                    {t.message}
+                  </div>
+                  <div className="text-slate-500 text-xs mt-1">
+                    {t.createdAt?.seconds
+                      ? new Date(t.createdAt.seconds * 1000).toLocaleString()
+                      : "—"}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </section>
 
-        <section>
-          <div className="text-sm text-slate-300 mb-1">Densidad</div>
-          <select
-            value={s.density}
-            onChange={(e) => setS(prev => ({ ...prev, density: e.target.value as Settings["density"] }))}
-            className="bg-slate-700 border border-slate-600 rounded-xl px-3 py-2 text-sm"
-          >
-            <option value="normal">Normal</option>
-            <option value="compact">Compacta</option>
-          </select>
-          <div className="text-xs text-slate-400 mt-1">
-            Algunas listas pueden mostrarse más “apretadas” en modo compacto.
+      {/* --- Invita y gana --- */}
+      <section className="bg-slate-800 border border-slate-700 rounded-2xl p-5 mt-6">
+        <div className="flex items-center gap-2 mb-4">
+          <Users size={18} className="text-yellow-400" />
+          <h2 className="font-semibold">Invita y gana</h2>
+        </div>
+
+        <div className="grid gap-3">
+          <div className="text-sm text-slate-300">
+            Comparte tu link personal. Cuando tus amigos se registren y hagan su
+            primera compra, ¡ganas puntos extra!
           </div>
-        </section>
 
-        <button
-          onClick={save}
-          disabled={saving}
-          className="w-full bg-yellow-400 text-slate-900 font-semibold rounded-xl px-4 py-3 hover:bg-yellow-300 disabled:opacity-60 flex items-center justify-center gap-2"
-        >
-          {saving ? <Loader2 className="animate-spin" size={16} /> : <Save size={16} />}
-          Guardar
-        </button>
-      </div>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+            <div className="flex-1 bg-slate-700 border border-slate-600 rounded-xl px-3 py-2 text-xs break-all">
+              {inviteUrl}
+            </div>
+            <button
+              onClick={copyInvite}
+              className="inline-flex items-center gap-2 bg-slate-200 text-slate-900 font-semibold rounded-xl px-4 py-2 hover:bg-white"
+            >
+              <Copy size={16} /> Copiar
+            </button>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 mt-2">
+            <div className="inline-flex items-center gap-2 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm">
+              <LinkIcon size={14} className="text-yellow-400" />
+              <span>
+                Referidos:{" "}
+                <b>{refCount === null ? "—" : refCount}</b>
+              </span>
+            </div>
+            <div className="inline-flex items-center gap-2 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm">
+              <LinkIcon size={14} className="text-yellow-400" />
+              <span>
+                Referidos activos:{" "}
+                <b>{activeRefCount === null ? "—" : activeRefCount}</b>
+              </span>
+            </div>
+          </div>
+
+          <div className="text-xs text-slate-400">
+            Tip: si aún no marcas a los referidos activos, puedes hacerlo
+            guardando <code>firstPurchase: true</code> en el usuario cuando
+            complete su primera compra/suscripción. Este módulo ya cuenta usando
+            ese campo.
+          </div>
+        </div>
+      </section>
     </div>
+  );
+}
+
+function StatusBadge({ status }: { status: Ticket["status"] }) {
+  const map = {
+    pending: { text: "Pendiente", cls: "bg-amber-400 text-slate-900" },
+    in_progress: { text: "En proceso", cls: "bg-blue-400 text-slate-900" },
+    resolved: { text: "Resuelto", cls: "bg-emerald-400 text-slate-900" },
+  } as const;
+
+  const s = map[status] || map.pending;
+  return (
+    <span className={`text-xs font-semibold px-2 py-1 rounded-lg ${s.cls}`}>
+      {s.text}
+    </span>
   );
 }

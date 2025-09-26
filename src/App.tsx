@@ -1,5 +1,5 @@
 // src/App.tsx
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
@@ -19,8 +19,6 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AuthPage from "./auth/AuthPage";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
-
-// Nuevos componentes
 import HomeWithSmartHeader from "./components/HomeWithSmartHeader";
 import ShopSection from "./components/ShopSection";
 import ShopSectionF from "./components/ShopSectionF";
@@ -29,20 +27,10 @@ import ConfigPage from "./components/hamburger/config";
 import MainBanner from "./components/MainBanner";
 import ProductDetail from "./components/ProductDetail";
 import ProductDetailF from "./components/ProductDetailF";
+import ExpressCatalog from "./components/colab/ExpressCatalog";
 
-interface SearchContextType {
-  searchTerm: string;
-  setSearchTerm: (term: string) => void;
-  clearSearch: () => void;
-}
-
-const SearchContext = createContext<SearchContextType | null>(null);
-
-export const useSearch = () => {
-  const context = useContext(SearchContext);
-  if (!context) throw new Error("useSearch debe usarse dentro de SearchProvider");
-  return context;
-};
+// ⬇️ nuevo: usa el contexto desde archivo propio (export estable)
+import { SearchProvider, useSearch } from "./context/SearchContext";
 
 // -------------------- HomePage Legacy --------------------
 function HomePage() {
@@ -103,10 +91,7 @@ function HomePage() {
       return;
     }
     const norm = (s: string) =>
-      (s || "")
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
+      (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     const catKey = norm(selectedCategory);
 
     const filtered = products.filter((p) => {
@@ -124,9 +109,7 @@ function HomePage() {
     setFilteredProducts(filtered);
   }, [products, selectedCategory, searchTerm]);
 
-  const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category);
-  };
+  const handleCategoryChange = (category: string) => setSelectedCategory(category);
 
   if (loading) {
     return (
@@ -134,12 +117,8 @@ function HomePage() {
         <div className="flex justify-center items-center min-h-[400px]">
           <div className="text-center space-y-4">
             <div className="w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <div className="space-y-2">
-              <h3 className="text-2xl font-bold text-slate-300">
-                Cargando productos...
-              </h3>
-              <p className="text-slate-400">Estamos preparando todo para ti</p>
-            </div>
+            <h3 className="text-2xl font-bold text-slate-300">Cargando productos...</h3>
+            <p className="text-slate-400">Estamos preparando todo para ti</p>
           </div>
         </div>
       </div>
@@ -152,30 +131,13 @@ function HomePage() {
         <div className="flex justify-center items-center min-h-[400px]">
           <div className="text-center space-y-4">
             <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto">
-              <svg
-                className="w-8 h-8 text-red-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
+              <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
             </div>
-            <div className="space-y-2">
-              <h3 className="text-2xl font-bold text-red-400">
-                Error al cargar
-              </h3>
-              <p className="text-slate-400">{error}</p>
-            </div>
-            <button
-              onClick={() => window.location.reload()}
-              className="bg-yellow-400 text-slate-900 px-6 py-3 rounded-xl font-semibold hover:bg-yellow-300"
-            >
+            <h3 className="text-2xl font-bold text-red-400">Error al cargar</h3>
+            <p className="text-slate-400">{error}</p>
+            <button onClick={() => window.location.reload()} className="bg-yellow-400 text-slate-900 px-6 py-3 rounded-xl font-semibold hover:bg-yellow-300">
               Intentar de nuevo
             </button>
           </div>
@@ -186,10 +148,7 @@ function HomePage() {
 
   return (
     <>
-      <MainBanner
-        selectedCategory={selectedCategory}
-        onCategoryChange={handleCategoryChange}
-      />
+      <MainBanner selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
       <ProductsWithPagination
         products={filteredProducts}
         searchTerm={searchTerm}
@@ -197,17 +156,6 @@ function HomePage() {
         onCategoryChange={handleCategoryChange}
       />
     </>
-  );
-}
-
-// -------------------- Search Provider --------------------
-function SearchProvider({ children }: { children: React.ReactNode }) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const clearSearch = () => setSearchTerm("");
-  return (
-    <SearchContext.Provider value={{ searchTerm, setSearchTerm, clearSearch }}>
-      {children}
-    </SearchContext.Provider>
   );
 }
 
@@ -263,6 +211,14 @@ function App() {
           {/* Colaboradores */}
           <Route path="/collaborations" element={<Collaborations />} />
           <Route
+            path="/collaborations/express"
+            element={
+              <ProtectedRoute>
+                <ExpressCatalog />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/colab/collaborator-product-catalog"
             element={
               <ProtectedRoute>
@@ -270,6 +226,9 @@ function App() {
               </ProtectedRoute>
             }
           />
+          {/* Aliases */}
+          <Route path="/colab" element={<Navigate to="/collaborations" replace />} />
+          <Route path="/colab/express" element={<Navigate to="/collaborations/express" replace />} />
 
           {/* Perfil y configuración */}
           <Route

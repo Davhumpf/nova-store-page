@@ -1,29 +1,35 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  darkMode: 'class', // opcional si luego quieres toggle de tema
   theme: {
     extend: {
+      screens: {
+        xs: '360px', // muy útil para mobile chico
+      },
       colors: {
-        // 🎨 Base morado oscuro (marca premium)
         primary: {
-          DEFAULT: '#4B0082', // Morado oscuro principal
-          dark: '#2E004E',    // Más intenso para hover
-          light: '#7C3AED',   // Morado claro para fondos secundarios
+          DEFAULT: '#4B0082',
+          dark: '#2E004E',
+          light: '#7C3AED',
         },
-        // 🎨 Acentos en amarillo (acciones, precios, botones)
         accent: {
-          DEFAULT: '#FFD600', // Amarillo vibrante
-          dark: '#E6C200',    // Versión más sobria
-          light: '#FFEA70',   // Amarillo suave
+          DEFAULT: '#FFD600',
+          dark: '#E6C200',
+          light: '#FFEA70',
         },
-        // 🎨 Blanco y grises claros para texto y fondos
         neutral: {
-          DEFAULT: '#F5F5F5', // Gris muy claro
-          dark: '#1F1B24',    // Fondo oscuro (cards, modales)
-          mid: '#B0B0B0',     // Texto secundario
+          DEFAULT: '#F5F5F5',
+          dark: '#1F1B24',
+          mid: '#B0B0B0',
         },
       },
+      // opcional: tipografías, sombras, etc.
     },
   },
+  safelist: [
+    // si generas clases dinámicas por string, añádelas aquí para evitar purgado
+    'from-primary', 'to-primary-light', 'bg-accent', 'text-accent'
+  ],
   plugins: [],
 };

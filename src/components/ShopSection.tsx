@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef, useLayoutEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
 import { db } from "../firebase";
@@ -8,46 +8,51 @@ import {
 } from "lucide-react";
 
 import Header from "./Header";
-
-// 🔔 toasts del proyecto (si no los usas, puedes quitarlo)
 import { useToast } from "./ToastProvider";
-// 🛒 carrito global
 import { useCart } from "../context/CartContext";
 
 const ShopSection: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading]   = useState(true);
+  const [error, setError]       = useState<string | null>(null);
 
   // UI
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [viewMode, setViewMode]       = useState<"grid" | "list">("grid");
   const [showFilters, setShowFilters] = useState(false);
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const [favorites, setFavorites]     = useState<string[]>([]);
 
   // Filtros
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("all");
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
-  const [maxPrice, setMaxPrice] = useState(1000);
-  const [sortBy, setSortBy] = useState("newest");
-  const [minRating, setMinRating] = useState(0);
+  const [search, setSearch]                     = useState("");
+  const [category, setCategory]                 = useState("all");
+  const [priceRange, setPriceRange]             = useState<[number, number]>([0, 1000]);
+  const [maxPrice, setMaxPrice]                 = useState(1000);
+  const [sortBy, setSortBy]                     = useState("newest");
+  const [minRating, setMinRating]               = useState(0);
 
   // Paginación
   const [page, setPage] = useState(1);
-  const itemsPerPage = 12;
+  const itemsPerPage    = 12;
 
-  const navigate = useNavigate();
-  const { push } = useToast();
-  const { addToCart, cartItems } = useCart(); // 👈 carrito global
+  const navigate     = useNavigate();
+  const { push }     = useToast();
+  const { addToCart, cartItems } = useCart();
 
-  // Cargar productos (tal cual vienen, sin random ni orderBy)
+  // 🔝 Anchor para scroll al inicio del listado
+  const topRef = useRef<HTMLDivElement | null>(null);
+  const scrollToTop = () => {
+    topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch {}
+    try { document.documentElement.scrollTo({ top: 0, behavior: "smooth" }); } catch {}
+    try { document.body.scrollTo({ top: 0, behavior: "smooth" }); } catch {}
+  };
+
+  // Cargar productos
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
         const snap = await getDocs(collection(db, "products"));
         const data: Product[] = [];
-
         snap.forEach((doc) => {
           const d = doc.data() as any;
           data.push({
@@ -66,7 +71,6 @@ const ShopSection: React.FC = () => {
           } as Product);
         });
 
-        // ✅ sin random
         setProducts(data);
 
         if (data.length > 0) {
@@ -92,7 +96,6 @@ const ShopSection: React.FC = () => {
     );
   };
 
-  // 👉 usar carrito global
   const handleAddToCart = (p: Product) => {
     addToCart({
       id: p.id,
@@ -131,17 +134,22 @@ const ShopSection: React.FC = () => {
       if (sortBy === "price-high") return b.price - a.price;
       if (sortBy === "rating") return b.rating - a.rating;
       if (sortBy === "popular") return b.reviews - a.reviews;
-      // newest: por fecha (si no hay createdAt real, cae en 1970 por el fallback y quedará al final)
       const at = (a.createdAt as any)?.getTime?.() ?? 0;
       const bt = (b.createdAt as any)?.getTime?.() ?? 0;
-      return bt - at;
+      return bt - at; // newest
     });
   }, [products, category, priceRange, search, sortBy, minRating]);
 
   // Paginación
   const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
-  const safePage = Math.min(Math.max(1, page), totalPages);
-  const paginated = filtered.slice((safePage - 1) * itemsPerPage, safePage * itemsPerPage);
+  const safePage   = Math.min(Math.max(1, page), totalPages);
+  const paginated  = filtered.slice((safePage - 1) * itemsPerPage, safePage * itemsPerPage);
+
+  // 🔁 Respaldo: cuando cambia la página y renderiza, sube al inicio del listado
+  useLayoutEffect(() => {
+    const id = requestAnimationFrame(scrollToTop);
+    return () => cancelAnimationFrame(id);
+  }, [safePage]);
 
   // Loading / Error
   if (loading) {
@@ -200,10 +208,7 @@ const ShopSection: React.FC = () => {
                   type="text"
                   placeholder="Buscar..."
                   value={search}
-                  onChange={(e) => {
-                    setSearch(e.target.value);
-                    setPage(1);
-                  }}
+                  onChange={(e) => { setSearch(e.target.value); setPage(1); scrollToTop(); }}
                   className="bg-transparent outline-none text-white flex-1 placeholder-gray-400 text-sm"
                 />
               </div>
@@ -252,10 +257,7 @@ const ShopSection: React.FC = () => {
                   <label className="block text-sm text-gray-300 mb-1">Categoría</label>
                   <select
                     value={category}
-                    onChange={(e) => {
-                      setCategory(e.target.value);
-                      setPage(1);
-                    }}
+                    onChange={(e) => { setCategory(e.target.value); setPage(1); scrollToTop(); }}
                     className="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 text-sm"
                   >
                     {categories.map((c) => (
@@ -271,7 +273,7 @@ const ShopSection: React.FC = () => {
                   <label className="block text-sm text-gray-300 mb-1">Ordenar por</label>
                   <select
                     value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
+                    onChange={(e) => { setSortBy(e.target.value); setPage(1); scrollToTop(); }}
                     className="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 text-sm"
                   >
                     <option value="newest">Más recientes</option>
@@ -296,6 +298,7 @@ const ShopSection: React.FC = () => {
                     onChange={(e) => {
                       setPriceRange([0, Number(e.target.value)]);
                       setPage(1);
+                      scrollToTop();
                     }}
                     className="w-full accent-yellow-400"
                   />
@@ -311,6 +314,7 @@ const ShopSection: React.FC = () => {
                         onClick={() => {
                           setMinRating(rating === minRating ? 0 : rating);
                           setPage(1);
+                          scrollToTop();
                         }}
                         className="transition-all"
                         title={`${rating}+ estrellas`}
@@ -333,8 +337,11 @@ const ShopSection: React.FC = () => {
         </div>
       </div>
 
+      {/* 🔝 Punto de referencia para el scroll */}
+      <div ref={topRef} className="container mx-auto px-4 pt-4" />
+
       {/* Contenido */}
-      <div className="container mx-auto px-4 pt-4">
+      <div className="container mx-auto px-4 pt-2">
         <div className="flex justify-between items-center mb-6">
           <p className="text-gray-400 text-sm">{filtered.length} productos encontrados</p>
           {totalPages > 1 && (
@@ -470,7 +477,7 @@ const ShopSection: React.FC = () => {
           <div className="flex justify-center items-center gap-2 mt-8">
             <button
               disabled={safePage === 1}
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              onClick={() => { setPage((p) => Math.max(1, p - 1)); scrollToTop(); }}
               className="px-4 py-2 bg-gray-800 text-white rounded border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 text-sm"
             >
               Anterior
@@ -487,7 +494,7 @@ const ShopSection: React.FC = () => {
                 return (
                   <button
                     key={pageNum}
-                    onClick={() => setPage(pageNum)}
+                    onClick={() => { setPage(pageNum); scrollToTop(); }}
                     className={`w-8 h-8 rounded text-xs font-medium transition-all ${
                       safePage === pageNum
                         ? "bg-yellow-400 text-gray-900"
@@ -502,7 +509,7 @@ const ShopSection: React.FC = () => {
 
             <button
               disabled={safePage === totalPages}
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              onClick={() => { setPage((p) => Math.min(totalPages, p + 1)); scrollToTop(); }}
               className="px-4 py-2 bg-gray-800 text-white rounded border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 text-sm"
             >
               Siguiente

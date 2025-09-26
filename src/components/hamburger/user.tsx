@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../firebase";
 import {
   collection,
@@ -14,7 +15,7 @@ import {
   orderBy
 } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
-import { Check, Loader2, Gift, Ticket } from "lucide-react";
+import { Check, Loader2, Gift, Ticket, ArrowLeft } from "lucide-react";
 
 type FbTimestamp = { seconds: number; nanoseconds: number };
 
@@ -52,10 +53,12 @@ function openWhatsApp(text: string) {
 }
 
 export default function UserPage() {
+  const navigate = useNavigate();
   const currentUser = auth.currentUser;
-  const [loading, setLoading] = useState(true);
-  const [saving,   setSaving] = useState(false);
-  const [redeeming,setRedeeming] = useState<string | null>(null);
+
+  const [loading, setLoading]   = useState(true);
+  const [saving, setSaving]     = useState(false);
+  const [redeeming, setRedeeming] = useState<string | null>(null);
 
   const [userDocRef, setUserDocRef] = useState<ReturnType<typeof doc> | null>(null);
   const [userData, setUserData] = useState<UserDoc | null>(null);
@@ -146,12 +149,25 @@ export default function UserPage() {
 
   async function saveDisplayName() {
     if (!currentUser || !userDocRef) return;
+    const newName = displayName.trim();
+    if (!newName) return;
+
     setSaving(true);
     try {
-      const newName = displayName.trim();
+      // Actualiza en Auth
       await updateProfile(currentUser, { displayName: newName });
+      // Asegura reflejo inmediato en otros componentes que lean auth.currentUser
+      await currentUser.reload();
+
+      // Actualiza en Firestore
       await updateDoc(userDocRef, { displayName: newName });
+
+      // Estado local
       setUserData(prev => prev ? { ...prev, displayName: newName } : prev);
+
+      // Notifica al resto de la app (hamburguesa)
+      localStorage.setItem("menuDisplayName", newName);
+      window.dispatchEvent(new CustomEvent("menu-name-changed", { detail: { displayName: newName } }));
     } finally {
       setSaving(false);
     }
@@ -225,8 +241,23 @@ export default function UserPage() {
     );
   }
 
+  // Datos adicionales de Auth
+  const meta = currentUser.metadata;
+  const lastLogin = meta?.lastSignInTime ? new Date(meta.lastSignInTime) : undefined;
+  const providers = (currentUser.providerData || [])
+    .map(p => p.providerId?.replace(".com", ""))
+    .join(", ");
+
   return (
     <div className="max-w-3xl mx-auto p-6 text-white">
+      {/* Volver */}
+      <button
+        onClick={() => (typeof navigate === "function" ? navigate(-1) : window.history.back())}
+        className="mb-4 inline-flex items-center gap-2 text-sm text-slate-300 hover:text-yellow-400"
+      >
+        <ArrowLeft size={16} /> Volver
+      </button>
+
       {/* Header perfil */}
       <div className="bg-slate-800 border border-slate-700 rounded-2xl p-5 flex items-center gap-4">
         <img
@@ -256,8 +287,17 @@ export default function UserPage() {
         </div>
         <div className="bg-slate-700 border border-slate-600 rounded-xl px-4 py-3 text-center">
           <div className="text-xs text-slate-300">Puntos</div>
-          <div className="text-xl font-bold text-yellow-400">{points}</div>
+          <div className="text-xl font-bold text-yellow-400">{userData.points ?? 0}</div>
         </div>
+      </div>
+
+      {/* Datos de cuenta */}
+      <div className="mt-4 grid sm:grid-cols-2 gap-3">
+        <InfoRow label="Correo" value={userData.email} />
+        <InfoRow label="UID" value={auth.currentUser?.uid || "—"} />
+        <InfoRow label="Creado (users.createdAt)" value={toDate(userData.createdAt)?.toLocaleString() || "—"} />
+        <InfoRow label="Último inicio de sesión" value={lastLogin?.toLocaleString() || "—"} />
+        <InfoRow label="Proveedor(es)" value={providers || "—"} />
       </div>
 
       {/* Recompensas */}
@@ -274,7 +314,7 @@ export default function UserPage() {
         <div className="grid sm:grid-cols-2 gap-4">
           {visibleRewards.map((r) => {
             const exp = toDate(r.expiresAt);
-            const canRedeem = points >= r.costPoints;
+            const canRedeem = (userData?.points ?? 0) >= r.costPoints;
             return (
               <div key={r.id} className="bg-slate-800 border border-slate-700 rounded-2xl p-4">
                 <div className="flex items-center gap-2">
@@ -303,6 +343,15 @@ export default function UserPage() {
 
       {/* Canjes del usuario */}
       <UserRedemptions />
+    </div>
+  );
+}
+
+function InfoRow({ label, value }: { label: string; value?: string }) {
+  return (
+    <div className="bg-slate-800 border border-slate-700 rounded-xl px-4 py-3">
+      <div className="text-xs text-slate-400">{label}</div>
+      <div className="text-sm break-all">{value || "—"}</div>
     </div>
   );
 }

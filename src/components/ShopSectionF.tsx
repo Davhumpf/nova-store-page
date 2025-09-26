@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef, useLayoutEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
 import { db } from "../firebase";
@@ -6,11 +6,8 @@ import {
   Search, Star, Play, Filter, Grid, List, Heart, Eye, Users, ShoppingCart, ArrowLeft
 } from "lucide-react";
 
-// ✅ Header global
 import Header from "./Header";
-// ✅ Toasts (opcional; si no usas ToastProvider, puedes quitarlo)
 import { useToast } from "./ToastProvider";
-// ✅ Carrito global
 import { useCart } from "../context/CartContext";
 
 type PhysicalProduct = {
@@ -38,7 +35,7 @@ const ShopSectionF: React.FC = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [favorites, setFavorites] = useState<string[]>([]);
 
-  // Filtros (exactamente como la versión digital)
+  // Filtros
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1_000_000]);
@@ -50,19 +47,30 @@ const ShopSectionF: React.FC = () => {
   const [page, setPage] = useState(1);
   const itemsPerPage = 12;
 
-  // Navegación / carrito / toasts
   const navigate = useNavigate();
   const { push } = useToast();
   const { addToCart, cartItems } = useCart();
 
-  // Cargar productos físicos (colección products-f)
+  // 🔝 Anchor para subir al inicio del listado (justo debajo de los filtros)
+  const topRef = useRef<HTMLDivElement | null>(null);
+
+  // Helper robusto para subir
+  const scrollToTop = () => {
+    // 1) que el contenedor scrollable suba al inicio del anchor
+    topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    // 2) fallback para scroll de ventana / html / body
+    try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch {}
+    try { document.documentElement.scrollTo({ top: 0, behavior: "smooth" }); } catch {}
+    try { document.body.scrollTo({ top: 0, behavior: "smooth" }); } catch {}
+  };
+
+  // Cargar productos
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
         const snap = await getDocs(collection(db, "products-f"));
         const data: PhysicalProduct[] = [];
-
         snap.forEach((doc) => {
           const d = doc.data() as any;
           data.push({
@@ -80,7 +88,6 @@ const ShopSectionF: React.FC = () => {
             createdAt: d.createdAt?.toDate?.() || new Date(),
           });
         });
-
         setProducts(data.sort(() => Math.random() - 0.5));
 
         if (data.length > 0) {
@@ -96,7 +103,6 @@ const ShopSectionF: React.FC = () => {
         setLoading(false);
       }
     };
-
     fetchProducts();
   }, []);
 
@@ -118,13 +124,11 @@ const ShopSectionF: React.FC = () => {
     push?.({ type: "success", title: "Agregado", message: `${p.name} al carrito` });
   };
 
-  // Categorías únicas
   const categories = useMemo(
     () => ["all", ...new Set(products.map((p) => p.category))],
     [products]
   );
 
-  // Filtrar y ordenar (idéntico a la versión digital)
   const filtered = useMemo(() => {
     let result = products.filter((p) => {
       if (category !== "all" && p.category !== category) return false;
@@ -132,10 +136,7 @@ const ShopSectionF: React.FC = () => {
       if (p.rating < minRating) return false;
       if (search.trim()) {
         const term = search.toLowerCase();
-        if (
-          !p.name.toLowerCase().includes(term) &&
-          !p.description.toLowerCase().includes(term)
-        ) {
+        if (!p.name.toLowerCase().includes(term) && !p.description.toLowerCase().includes(term)) {
           return false;
         }
       }
@@ -151,12 +152,18 @@ const ShopSectionF: React.FC = () => {
     });
   }, [products, category, priceRange, search, sortBy, minRating]);
 
-  // Paginación
   const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
   const safePage = Math.min(Math.max(1, page), totalPages);
   const paginated = filtered.slice((safePage - 1) * itemsPerPage, safePage * itemsPerPage);
 
-  // Loading / Error con Header (igual que digital)
+  // 🔁 Respaldo: cuando cambia la página y pinta, subimos al inicio del listado
+  useLayoutEffect(() => {
+    // un frame después para asegurar layout
+    const id = requestAnimationFrame(scrollToTop);
+    return () => cancelAnimationFrame(id);
+  }, [safePage]);
+
+  // Loading / Error
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-900">
@@ -183,7 +190,6 @@ const ShopSectionF: React.FC = () => {
     );
   }
 
-  // UI idéntica a ShopSection
   return (
     <div className="min-h-screen bg-gray-900">
       <Header />
@@ -205,7 +211,6 @@ const ShopSectionF: React.FC = () => {
               <p className="text-gray-400 text-sm">{filtered.length} productos encontrados</p>
             </div>
 
-            {/* Buscador + view/filtros */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <div className="flex items-center bg-gray-700 px-3 py-2 rounded-lg sm:w-64">
                 <Search size={16} className="text-gray-400 mr-2" />
@@ -216,6 +221,7 @@ const ShopSectionF: React.FC = () => {
                   onChange={(e) => {
                     setSearch(e.target.value);
                     setPage(1);
+                    scrollToTop();
                   }}
                   className="bg-transparent outline-none text-white flex-1 placeholder-gray-400 text-sm"
                 />
@@ -256,7 +262,7 @@ const ShopSectionF: React.FC = () => {
             </div>
           </div>
 
-          {/* Filtros desplegables (iguales) */}
+          {/* Filtros */}
           {showFilters && (
             <div className="bg-gray-800 rounded-lg p-4 mt-4 border border-gray-700">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -268,6 +274,7 @@ const ShopSectionF: React.FC = () => {
                     onChange={(e) => {
                       setCategory(e.target.value);
                       setPage(1);
+                      scrollToTop();
                     }}
                     className="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 text-sm"
                   >
@@ -284,7 +291,7 @@ const ShopSectionF: React.FC = () => {
                   <label className="block text-sm text-gray-300 mb-1">Ordenar por</label>
                   <select
                     value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
+                    onChange={(e) => { setSortBy(e.target.value); setPage(1); scrollToTop(); }}
                     className="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 text-sm"
                   >
                     <option value="newest">Más recientes</option>
@@ -309,6 +316,7 @@ const ShopSectionF: React.FC = () => {
                     onChange={(e) => {
                       setPriceRange([0, Number(e.target.value)]);
                       setPage(1);
+                      scrollToTop();
                     }}
                     className="w-full accent-yellow-400"
                   />
@@ -324,6 +332,7 @@ const ShopSectionF: React.FC = () => {
                         onClick={() => {
                           setMinRating(rating === minRating ? 0 : rating);
                           setPage(1);
+                          scrollToTop();
                         }}
                         className="transition-all"
                         title={`${rating}+ estrellas`}
@@ -346,8 +355,11 @@ const ShopSectionF: React.FC = () => {
         </div>
       </div>
 
+      {/* 🔝 Punto de referencia para el scroll */}
+      <div ref={topRef} className="container mx-auto px-4 pt-4" />
+
       {/* Contenido */}
-      <div className="container mx-auto px-4 pt-4">
+      <div className="container mx-auto px-4 pt-2">
         <div className="flex justify-between items-center mb-6">
           <p className="text-gray-400 text-sm">{filtered.length} productos encontrados</p>
           {totalPages > 1 && (
@@ -488,7 +500,7 @@ const ShopSectionF: React.FC = () => {
           <div className="flex justify-center items-center gap-2 mt-8">
             <button
               disabled={safePage === 1}
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              onClick={() => { setPage((p) => Math.max(1, p - 1)); scrollToTop(); }}
               className="px-4 py-2 bg-gray-800 text-white rounded border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 text-sm"
             >
               Anterior
@@ -505,7 +517,7 @@ const ShopSectionF: React.FC = () => {
                 return (
                   <button
                     key={pageNum}
-                    onClick={() => setPage(pageNum)}
+                    onClick={() => { setPage(pageNum); scrollToTop(); }}
                     className={`w-8 h-8 rounded text-xs font-medium transition-all ${
                       safePage === pageNum
                         ? "bg-yellow-400 text-gray-900"
@@ -520,7 +532,7 @@ const ShopSectionF: React.FC = () => {
 
             <button
               disabled={safePage === totalPages}
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              onClick={() => { setPage((p) => Math.min(totalPages, p + 1)); scrollToTop(); }}
               className="px-4 py-2 bg-gray-800 text-white rounded border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 text-sm"
             >
               Siguiente
