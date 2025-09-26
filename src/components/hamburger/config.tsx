@@ -9,7 +9,6 @@ import {
   serverTimestamp,
   where,
   limit,
-  doc,
   onSnapshot,
 } from "firebase/firestore";
 import {
@@ -45,26 +44,11 @@ type Ticket = {
 type Faq = { q: string; a: string };
 
 const FAQS: Faq[] = [
-  {
-    q: "¿Cómo puedo pagar mi suscripción?",
-    a: "Aceptamos tarjeta, PSE y otros métodos locales. El pago queda asociado a tu cuenta de inmediato.",
-  },
-  {
-    q: "¿Cómo gano puntos?",
-    a: "Por cada $10,000 COP gastados acumulas 100 puntos. También recibes puntos por referidos cuando completen su primera compra.",
-  },
-  {
-    q: "¿Cómo canjeo recompensas?",
-    a: "Ve a tu perfil, entra a Recompensas, elige una y confirma. Si no alcanzan tus puntos, te guiamos por WhatsApp.",
-  },
-  {
-    q: "¿Cómo funcionan los envíos de productos físicos?",
-    a: "Despachamos a la dirección registrada. Recibirás estado de envío y número de guía en tu correo.",
-  },
-  {
-    q: "¿Qué hago si algo falla?",
-    a: "Abre un ticket aquí y/o escríbenos por WhatsApp. Respondemos lo antes posible.",
-  },
+  { q: "¿Cómo puedo pagar mi suscripción?", a: "Aceptamos tarjeta, PSE y otros métodos locales. El pago queda asociado a tu cuenta de inmediato." },
+  { q: "¿Cómo gano puntos?", a: "Por cada $10,000 COP gastados acumulas 100 puntos. También recibes puntos por referidos cuando completen su primera compra." },
+  { q: "¿Cómo canjeo recompensas?", a: "Ve a tu perfil, entra a Recompensas, elige una y confirma. Si no alcanzan tus puntos, te guiamos por WhatsApp." },
+  { q: "¿Cómo funcionan los envíos de productos físicos?", a: "Despachamos a la dirección registrada. Recibirás estado de envío y número de guía en tu correo." },
+  { q: "¿Qué hago si algo falla?", a: "Abre un ticket aquí y/o escríbenos por WhatsApp. Respondemos lo antes posible." },
 ];
 
 export default function ConfigPage() {
@@ -80,7 +64,7 @@ export default function ConfigPage() {
   const [message, setMessage] = useState("");
   const [tickets, setTickets] = useState<Ticket[]>([]);
 
-  // --- Referidos (contador en el doc del usuario) ---
+  // --- Referidos (conteo por queries en tiempo real) ---
   const [refCount, setRefCount] = useState<number | null>(null);
   const [activeRefCount, setActiveRefCount] = useState<number | null>(null);
 
@@ -91,16 +75,12 @@ export default function ConfigPage() {
     return `${base}${path}?ref=${uid}`;
   }, [u?.uid]);
 
-  // Carga inicial: tickets + suscripción en tiempo real a mi doc (refCount/activeRefCount)
   useEffect(() => {
     const run = async () => {
       try {
-        if (!u) {
-          setLoading(false);
-          return;
-        }
+        if (!u) { setLoading(false); return; }
 
-        // 1) Cargar últimos tickets del usuario
+        // 1) Cargar últimos tickets del usuario (una sola vez)
         const qTickets = query(
           collection(db, "support-tickets"),
           where("userId", "==", u.uid),
@@ -121,19 +101,29 @@ export default function ConfigPage() {
         });
         setTickets(listT);
 
-        // 2) Suscribirse a mi documento para leer refCount/activeRefCount en tiempo real
-        const meRef = doc(db, "users", u.uid);
-        const unsub = onSnapshot(meRef, (snap) => {
-          const data = snap.data() as any;
-          setRefCount(
-            typeof data?.refCount === "number" ? data.refCount : 0
-          );
-          setActiveRefCount(
-            typeof data?.activeRefCount === "number" ? data.activeRefCount : 0
-          );
+        // 2) Referidos en tiempo real: todos con referrerId == u.uid
+        const qRefs = query(
+          collection(db, "users"),
+          where("referrerId", "==", u.uid)
+        );
+        const unsubRefs = onSnapshot(qRefs, (snap) => {
+          setRefCount(snap.size);
         });
 
-        return () => unsub();
+        // 3) Referidos activos: además firstPurchase == true
+        const qRefsActive = query(
+          collection(db, "users"),
+          where("referrerId", "==", u.uid),
+          where("firstPurchase", "==", true)
+        );
+        const unsubActive = onSnapshot(qRefsActive, (snap) => {
+          setActiveRefCount(snap.size);
+        });
+
+        return () => {
+          unsubRefs();
+          unsubActive();
+        };
       } finally {
         setLoading(false);
       }
@@ -141,7 +131,6 @@ export default function ConfigPage() {
 
     const cleanup = run();
     return () => {
-      // Si run devolvió una función (unsub), llámala
       if (typeof cleanup === "function") cleanup();
     };
   }, [u]);
@@ -171,7 +160,7 @@ export default function ConfigPage() {
       setSubject("");
       setMessage("");
 
-      // Refresco optimista de la lista
+      // Refresco optimista
       setTickets((prev) => [
         {
           id: `tmp-${Date.now()}`,
@@ -182,7 +171,7 @@ export default function ConfigPage() {
         },
         ...prev,
       ]);
-    } catch (e) {
+    } catch {
       alert("No se pudo enviar el ticket. Intenta de nuevo.");
     } finally {
       setSubmitting(false);
@@ -194,11 +183,7 @@ export default function ConfigPage() {
   }
 
   if (!u) {
-    return (
-      <div className="p-6 text-white">
-        Debes iniciar sesión para ver esta sección.
-      </div>
-    );
+    return <div className="p-6 text-white">Debes iniciar sesión para ver esta sección.</div>;
   }
 
   if (loading) {
@@ -235,24 +220,15 @@ export default function ConfigPage() {
           {FAQS.map((f, idx) => {
             const open = faqOpenIndex === idx;
             return (
-              <div
-                key={idx}
-                className="border border-slate-700 rounded-xl overflow-hidden"
-              >
+              <div key={idx} className="border border-slate-700 rounded-xl overflow-hidden">
                 <button
-                  onClick={() =>
-                    setFaqOpenIndex((prev) => (prev === idx ? null : idx))
-                  }
+                  onClick={() => setFaqOpenIndex((prev) => (prev === idx ? null : idx))}
                   className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-slate-700/40"
                 >
                   <span className="font-medium">{f.q}</span>
                   {open ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                 </button>
-                {open && (
-                  <div className="px-4 pb-3 text-sm text-slate-300">
-                    {f.a}
-                  </div>
-                )}
+                {open && <div className="px-4 pb-3 text-sm text-slate-300">{f.a}</div>}
               </div>
             );
           })}
@@ -261,19 +237,13 @@ export default function ConfigPage() {
         {/* WhatsApp soporte */}
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <button
-            onClick={() =>
-              openWhatsApp(
-                `Hola, soy ${u.displayName || u.email}. Necesito ayuda con: `
-              )
-            }
+            onClick={() => openWhatsApp(`Hola, soy ${u.displayName || u.email}. Necesito ayuda con: `)}
             className="inline-flex items-center gap-2 bg-green-400 text-slate-900 font-semibold rounded-xl px-4 py-2 hover:bg-green-300"
           >
             <MessageCircle size={16} />
             WhatsApp de soporte
           </button>
-          <span className="text-sm text-slate-400">
-            Respuestas rápidas por WhatsApp.
-          </span>
+          <span className="text-sm text-slate-400">Respuestas rápidas por WhatsApp.</span>
         </div>
 
         {/* Crear ticket */}
@@ -301,11 +271,7 @@ export default function ConfigPage() {
               disabled={submitting}
               className="inline-flex items-center gap-2 bg-yellow-400 text-slate-900 font-semibold rounded-xl px-4 py-2 hover:bg-yellow-300 disabled:opacity-60"
             >
-              {submitting ? (
-                <Loader2 size={16} className="animate-spin" />
-              ) : (
-                <Send size={16} />
-              )}
+              {submitting ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
               Enviar ticket
             </button>
           </div>
@@ -315,9 +281,7 @@ export default function ConfigPage() {
         <div className="mt-6">
           <div className="font-semibold mb-2">Mis tickets</div>
           {tickets.length === 0 ? (
-            <div className="text-slate-400 text-sm">
-              Aún no has creado tickets.
-            </div>
+            <div className="text-slate-400 text-sm">Aún no has creado tickets.</div>
           ) : (
             <ul className="space-y-2">
               {tickets.map((t) => (
@@ -329,9 +293,7 @@ export default function ConfigPage() {
                     <div className="font-medium">{t.subject}</div>
                     <StatusBadge status={t.status} />
                   </div>
-                  <div className="text-slate-300 mt-1 line-clamp-3">
-                    {t.message}
-                  </div>
+                  <div className="text-slate-300 mt-1 line-clamp-3">{t.message}</div>
                   <div className="text-slate-500 text-xs mt-1">
                     {t.createdAt?.seconds
                       ? new Date(t.createdAt.seconds * 1000).toLocaleString()
@@ -353,8 +315,7 @@ export default function ConfigPage() {
 
         <div className="grid gap-3">
           <div className="text-sm text-slate-300">
-            Comparte tu link personal. Cuando tus amigos se registren y hagan su
-            primera compra, ¡ganas puntos extra!
+            Comparte tu link personal. Cuando tus amigos se registren y hagan su primera compra, ¡ganas puntos extra!
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-2">
@@ -372,23 +333,17 @@ export default function ConfigPage() {
           <div className="flex flex-wrap items-center gap-3 mt-2">
             <div className="inline-flex items-center gap-2 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm">
               <LinkIcon size={14} className="text-yellow-400" />
-              <span>
-                Referidos: <b>{refCount === null ? "—" : refCount}</b>
-              </span>
+              <span>Referidos: <b>{refCount === null ? "—" : refCount}</b></span>
             </div>
             <div className="inline-flex items-center gap-2 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm">
               <LinkIcon size={14} className="text-yellow-400" />
-              <span>
-                Referidos activos: <b>{activeRefCount === null ? "—" : activeRefCount}</b>
-              </span>
+              <span>Referidos activos: <b>{activeRefCount === null ? "—" : activeRefCount}</b></span>
             </div>
           </div>
 
           <div className="text-xs text-slate-400">
-            Tip: si aún no marcas a los referidos activos, puedes hacerlo
-            guardando <code>firstPurchase: true</code> en el usuario cuando
-            complete su primera compra/suscripción. Este módulo ya cuenta usando
-            ese campo (o usa <code>activeRefCount</code> si lo incrementas desde tu backend).
+            Tip: si aún no marcas a los referidos activos, puedes hacerlo guardando <code>firstPurchase: true</code> en el
+            usuario cuando complete su primera compra/suscripción.
           </div>
         </div>
       </section>
@@ -404,9 +359,5 @@ function StatusBadge({ status }: { status: Ticket["status"] }) {
   } as const;
 
   const s = map[status] || map.pending;
-  return (
-    <span className={`text-xs font-semibold px-2 py-1 rounded-lg ${s.cls}`}>
-      {s.text}
-    </span>
-  );
+  return <span className={`text-xs font-semibold px-2 py-1 rounded-lg ${s.cls}`}>{s.text}</span>;
 }

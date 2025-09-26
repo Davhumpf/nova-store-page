@@ -2,7 +2,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useUser } from '../../context/UserContext';
 import { db } from '../../firebase';
-import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  where,
+  deleteDoc,
+  doc,
+} from 'firebase/firestore';
 import { UserProfile, addPointsToUser } from '../../services/UserService';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -19,6 +27,9 @@ import {
   ArrowLeft,
   Shield,
   UserCheck,
+  Copy as CopyIcon,
+  Trash2,
+  Hash,
 } from 'lucide-react';
 
 interface ExtendedUserProfile extends UserProfile {
@@ -103,7 +114,8 @@ const UserManagement: React.FC = () => {
     return users.filter(
       (u) =>
         (u.email || '').toLowerCase().includes(t) ||
-        (u.name || '').toLowerCase().includes(t)
+        (u.name || '').toLowerCase().includes(t) ||
+        (u.id || '').toLowerCase().includes(t)
     );
   }, [searchTerm, users]);
 
@@ -124,6 +136,34 @@ const UserManagement: React.FC = () => {
     } catch (err) {
       console.error('Error al añadir puntos:', err);
       alert('No se pudo aplicar el cambio de puntos.');
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  // --------- Copiar texto ----------
+  const copy = (text: string) => {
+    navigator.clipboard.writeText(text);
+  };
+
+  // --------- Borrar usuario (doc en Firestore) ----------
+  const canDelete = userRole === 'super_admin' || userRole === 'admin';
+
+  const handleDeleteUser = async () => {
+    if (!selectedUser || !canDelete) return;
+    const ok = window.confirm(
+      `¿Eliminar el documento del usuario?\n\nEmail: ${selectedUser.email}\nID: ${selectedUser.id}\n\nEsta acción no se puede deshacer.`
+    );
+    if (!ok) return;
+
+    setIsUpdating(true);
+    try {
+      await deleteDoc(doc(db, 'users', selectedUser.id));
+      setUsers((prev) => prev.filter((u) => u.id !== selectedUser.id));
+      setSelectedUser(null);
+    } catch (err) {
+      console.error('Error al eliminar usuario:', err);
+      alert('No se pudo eliminar el documento del usuario.');
     } finally {
       setIsUpdating(false);
     }
@@ -220,14 +260,14 @@ const UserManagement: React.FC = () => {
           {/* Lista */}
           <div className="lg:col-span-2">
             <div className="bg-gradient-to-br from-[#2C2C2C] to-[#1a1a1a] rounded-2xl shadow-2xl border border-gray-700/50 p-3 sm:p-4">
-              {/* Buscador touch-friendly */}
+              {/* Buscador */}
               <div className="relative mb-3 sm:mb-5">
                 <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
                   <Search className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
                   type="text"
-                  placeholder="Buscar por email o nombre…"
+                  placeholder="Buscar por email, nombre o ID…"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full bg-[#1a1a1a] border border-gray-700/50 rounded-xl py-2.5 sm:py-3.5 pl-10 sm:pl-12 pr-3 sm:pr-4 text-[15px] sm:text-base text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FFD600]/50"
@@ -258,9 +298,16 @@ const UserManagement: React.FC = () => {
                           <p className="text-white font-semibold text-[13px] sm:text-base truncate">
                             {u.email}
                           </p>
-                          {!!u.name && (
-                            <p className="text-gray-400 text-[11px] sm:text-xs truncate">{u.name}</p>
-                          )}
+                          <div className="flex items-center gap-2">
+                            {!!u.name && (
+                              <p className="text-gray-400 text-[11px] sm:text-xs truncate">{u.name}</p>
+                            )}
+                            {/* Mini badge con inicio del ID */}
+                            <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs text-gray-300 bg-[#111]/60 border border-gray-700/50 rounded-full px-1.5 py-0.5">
+                              <Hash size={12} className="text-[#FFD600]" />
+                              {u.id.slice(0, 6)}
+                            </span>
+                          </div>
                         </div>
                       </div>
 
@@ -289,7 +336,7 @@ const UserManagement: React.FC = () => {
             </div>
           </div>
 
-          {/* Panel de puntos (sticky en desktop, apilado en móvil) */}
+          {/* Panel derecho */}
           <div className="lg:col-span-1">
             <div className="bg-gradient-to-br from-[#2C2C2C] to-[#1a1a1a] rounded-2xl shadow-2xl border border-gray-700/50 p-3.5 sm:p-5 lg:sticky lg:top-4">
               {selectedUser ? (
@@ -306,6 +353,22 @@ const UserManagement: React.FC = () => {
                     {!!selectedUser.name && (
                       <p className="text-gray-400 text-xs sm:text-sm">{selectedUser.name}</p>
                     )}
+
+                    {/* ID + copiar */}
+                    <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
+                      <span className="inline-flex items-center gap-1 bg-[#111]/60 border border-gray-700/50 rounded-lg px-2 py-1 text-[11px] sm:text-xs text-gray-300">
+                        <Hash size={12} className="text-[#FFD600]" />
+                        <code className="break-all">{selectedUser.id}</code>
+                      </span>
+                      <button
+                        onClick={() => copy(selectedUser.id)}
+                        className="inline-flex items-center gap-1 bg-[#FFD600]/10 hover:bg-[#FFD600]/20 text-[#FFD600] border border-[#FFD600]/30 rounded-lg px-2 py-1 text-[11px] sm:text-xs"
+                        title="Copiar ID"
+                      >
+                        <CopyIcon size={14} />
+                        Copiar
+                      </button>
+                    </div>
                   </div>
 
                   <div className="bg-[#1a1a1a]/50 rounded-xl p-3.5 sm:p-4 mb-4 sm:mb-5">
@@ -385,6 +448,18 @@ const UserManagement: React.FC = () => {
                       {isUpdating ? <Loader size={16} className="animate-spin" /> : <Save size={16} />}
                       {isUpdating ? 'Actualizando…' : 'Aplicar cambios'}
                     </button>
+
+                    {canDelete && (
+                      <button
+                        onClick={handleDeleteUser}
+                        disabled={isUpdating}
+                        className="w-full mt-2 bg-red-600/80 hover:bg-red-600 text-white font-semibold py-2.5 sm:py-3 px-4 rounded-lg flex items-center justify-center gap-2"
+                        title="Eliminar documento del usuario"
+                      >
+                        <Trash2 size={16} />
+                        Eliminar usuario (doc)
+                      </button>
+                    )}
                   </div>
 
                   <div className="mt-4 p-3 bg-[#1a1a1a]/30 rounded-xl text-center">
