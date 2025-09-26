@@ -11,17 +11,9 @@ import {
   setDoc,
   serverTimestamp,
   getDoc,
-  runTransaction,
-  increment,
 } from 'firebase/firestore';
 import {
-  Mail,
-  Lock,
-  CheckCircle,
-  XCircle,
-  Eye,
-  EyeOff,
-  AlertCircle,
+  Mail, Lock, CheckCircle, XCircle, Eye, EyeOff, AlertCircle,
 } from 'lucide-react';
 import { useToast } from '../components/ToastProvider';
 import { useLocation } from 'react-router-dom';
@@ -60,19 +52,18 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
   const match = pw.length > 0 && pw === pw2;
   const valid = emailValid && Object.values(reqs).every(Boolean) && match;
 
-  // ===== Referidos =====
+  // ===== Referido (solo guardamos referrerId en MI doc) =====
   const refParam = useMemo(() => {
     const params = new URLSearchParams(location.search);
     return params.get('ref') || null;
   }, [location.search]);
 
-  /** Crea (si no existe) el doc del usuario */
+  /** Crea (si no existe) el doc del usuario en /users/{uid} */
   const ensureUserDoc = useCallback(async (u: {
-    uid: string;
-    email: string | null;
-    displayName: string | null;
-    photoURL: string | null;
+    uid: string; email: string | null; displayName: string | null; photoURL: string | null;
   }) => {
+    // asegúrate de que el token esté listo para reglas (request.auth.uid)
+    await u.getIdToken?.(true);
     const ref = doc(db, 'users', u.uid);
     const snap = await getDoc(ref);
     if (!snap.exists()) {
@@ -88,31 +79,7 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
     }
   }, []);
 
-  /** Idempotente: +1 al referrer */
-  const registerReferralIfNeeded = useCallback(async (referrerId: string, newUserId: string) => {
-    if (!referrerId || !newUserId || referrerId === newUserId) return;
-    const referrerUserRef = doc(db, 'users', referrerId);
-    const referralRef     = doc(db, 'users', referrerId, 'referrals', newUserId);
-
-    await runTransaction(db, async (tx) => {
-      const refSnap = await tx.get(referralRef);
-      if (!refSnap.exists()) {
-        tx.set(referralRef, {
-          referredUserId: newUserId,
-          createdAt: serverTimestamp(),
-        });
-
-        const referrerSnap = await tx.get(referrerUserRef);
-        if (!referrerSnap.exists()) {
-          tx.set(referrerUserRef, { refCount: 1 }, { merge: true });
-        } else {
-          tx.update(referrerUserRef, { refCount: increment(1) });
-        }
-      }
-    });
-  }, []);
-
-  /** Guarda el referrerId en el nuevo user */
+  /** Guarda referrerId en MI doc (no toca docs de terceros) */
   const setReferrerOnNewUser = useCallback(async (uid: string, referrerId: string) => {
     if (!referrerId || !uid || referrerId === uid) return;
     await setDoc(doc(db, 'users', uid), {
@@ -131,10 +98,27 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
       const normEmail = email.trim().toLowerCase();
       const cred = await createUserWithEmailAndPassword(auth, normEmail, pw);
 
-      await ensureUserDoc(cred.user);
+      // 1) doc base del usuario
+      try {
+        await ensureUserDoc(cred.user);
+      } catch (w: any) {
+        console.error('ensureUserDoc error:', w);
+        if (w?.code === 'permission-denied') {
+          // No bloqueamos el alta: avisamos pero seguimos
+          push?.({ type: 'warning', title: 'Cuenta creada', message: 'No se pudo inicializar tu perfil aún (reglas). Intenta recargar.' });
+        } else {
+          throw w;
+        }
+      }
+
+      // 2) guardar referrerId en MI doc (no toca terceros)
       if (refParam) {
-        await setReferrerOnNewUser(cred.user.uid, refParam);
-        await registerReferralIfNeeded(refParam, cred.user.uid);
+        try {
+          await setReferrerOnNewUser(cred.user.uid, refParam);
+        } catch (w: any) {
+          console.error('setReferrerOnNewUser error:', w);
+          if (w?.code !== 'permission-denied') throw w;
+        }
       }
 
       push({ type: 'success', title: 'Cuenta creada', message: 'Registro exitoso. Sesión iniciada.' });
@@ -151,7 +135,7 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
     } finally {
       setLoading(false);
     }
-  }, [valid, email, pw, onSuccess, push, ensureUserDoc, refParam, setReferrerOnNewUser, registerReferralIfNeeded]);
+  }, [valid, email, pw, onSuccess, push, ensureUserDoc, refParam, setReferrerOnNewUser]);
 
   // ===== Google =====
   const onGoogle = useCallback(async () => {
@@ -159,14 +143,29 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
     setLoading(true);
     try {
       const res = await signInWithPopup(auth, provider);
-      await ensureUserDoc(res.user);
 
+      // 1) doc base del usuario
+      try {
+        await ensureUserDoc(res.user);
+      } catch (w: any) {
+        console.error('ensureUserDoc(G) error:', w);
+        if (w?.code === 'permission-denied') {
+          push?.({ type: 'warning', title: 'Sesión iniciada', message: 'No se pudo inicializar tu perfil aún (reglas). Intenta recargar.' });
+        } else {
+          throw w;
+        }
+      }
+
+      // 2) si es NUEVO y hay ref, guardar solo en MI doc
       const info = getAdditionalUserInfo(res);
       const isNew = !!info?.isNewUser;
-
       if (isNew && refParam) {
-        await setReferrerOnNewUser(res.user.uid, refParam);
-        await registerReferralIfNeeded(refParam, res.user.uid);
+        try {
+          await setReferrerOnNewUser(res.user.uid, refParam);
+        } catch (w: any) {
+          console.error('setReferrerOnNewUser(G) error:', w);
+          if (w?.code !== 'permission-denied') throw w;
+        }
       }
 
       push({
@@ -181,7 +180,7 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
     } finally {
       setLoading(false);
     }
-  }, [provider, ensureUserDoc, onSuccess, push, refParam, setReferrerOnNewUser, registerReferralIfNeeded]);
+  }, [provider, ensureUserDoc, onSuccess, push, refParam, setReferrerOnNewUser]);
 
   return (
     <form onSubmit={onSubmit} className="space-y-3">
@@ -196,8 +195,8 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
           placeholder="correo@ejemplo.com"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          className={`w-full pl-10 pr-10 py-2.5 bg-slate-900/60 border rounded-lg text-slate-100 text-sm focus:outline-none transition-colors ${
-            email ? (emailValid ? 'border-green-400' : 'border-red-400') : 'border-slate-700 focus:border-yellow-400'
+          className={`w-full pl-10 pr-10 py-2.5 bg-slate-800 border rounded-lg text-slate-100 text-sm focus:outline-none transition-colors ${
+            email ? (emailValid ? 'border-green-400' : 'border-red-400') : 'border-slate-600 focus:border-yellow-400'
           }`}
           required
         />
@@ -217,7 +216,7 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
           placeholder="Contraseña segura"
           value={pw}
           onChange={e => setPw(e.target.value)}
-          className="w-full pl-10 pr-10 py-2.5 bg-slate-900/60 border border-slate-700 rounded-lg text-slate-100 text-sm focus:border-yellow-400 focus:outline-none"
+          className="w-full pl-10 pr-10 py-2.5 bg-slate-800 border border-slate-600 rounded-lg text-slate-100 text-sm focus:border-yellow-400 focus:outline-none"
           required
           minLength={8}
         />
@@ -233,7 +232,7 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
 
       {/* requisitos */}
       {pw && (
-        <div className="bg-slate-800/30 rounded-lg p-2.5 space-y-1">
+        <div className="bg-slate-800/50 rounded-lg p-2.5 space-y-1">
           <div className="text-xs text-slate-400 mb-1">Requisitos:</div>
           <div className="grid grid-cols-2 gap-1 text-xs">
             <div className={`flex items-center gap-1 ${reqs.length ? 'text-green-400' : 'text-red-400'}`}>
@@ -264,8 +263,8 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
           placeholder="Confirmar contraseña"
           value={pw2}
           onChange={e => setPw2(e.target.value)}
-          className={`w-full pl-10 pr-10 py-2.5 bg-slate-900/60 border rounded-lg text-slate-100 text-sm focus:outline-none transition-colors ${
-            pw2 ? (match ? 'border-green-400' : 'border-red-400') : 'border-slate-700 focus:border-yellow-400'
+          className={`w-full pl-10 pr-10 py-2.5 bg-slate-800 border rounded-lg text-slate-100 text-sm focus:outline-none transition-colors ${
+            pw2 ? (match ? 'border-green-400' : 'border-red-400') : 'border-slate-600 focus:border-yellow-400'
           }`}
           required
           minLength={8}
@@ -293,7 +292,7 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
 
       <div className="relative">
         <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-slate-700" /></div>
-        <div className="relative flex justify-center text-xs"><span className="bg-slate-800/50 px-2 text-slate-400">o</span></div>
+        <div className="relative flex justify-center text-xs"><span className="bg-slate-900/60 px-2 text-slate-400">o</span></div>
       </div>
 
       <button
