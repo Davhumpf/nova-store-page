@@ -9,6 +9,8 @@ import {
   serverTimestamp,
   where,
   limit,
+  doc,
+  onSnapshot,
 } from "firebase/firestore";
 import {
   Loader2,
@@ -21,7 +23,9 @@ import {
   Ticket as TicketIcon,
   Users,
   Link as LinkIcon,
+  Home,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const WAPP_NUMBER_E164 = "573027214125";
 
@@ -65,6 +69,7 @@ const FAQS: Faq[] = [
 
 export default function ConfigPage() {
   const u = auth.currentUser;
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
 
@@ -75,9 +80,10 @@ export default function ConfigPage() {
   const [message, setMessage] = useState("");
   const [tickets, setTickets] = useState<Ticket[]>([]);
 
-  // --- Referidos ---
+  // --- Referidos (contador en el doc del usuario) ---
   const [refCount, setRefCount] = useState<number | null>(null);
   const [activeRefCount, setActiveRefCount] = useState<number | null>(null);
+
   const inviteUrl = useMemo(() => {
     const base = window.location.origin; // https://tu-dominio.com
     const path = "/register";            // ajusta si tu ruta de registro es distinta
@@ -85,7 +91,7 @@ export default function ConfigPage() {
     return `${base}${path}?ref=${uid}`;
   }, [u?.uid]);
 
-  // Carga inicial
+  // Carga inicial: tickets + suscripción en tiempo real a mi doc (refCount/activeRefCount)
   useEffect(() => {
     const run = async () => {
       try {
@@ -115,28 +121,29 @@ export default function ConfigPage() {
         });
         setTickets(listT);
 
-        // 2) Contar referidos
-        const qRefs = query(
-          collection(db, "users"),
-          where("referrerId", "==", u.uid)
-        );
-        const snapR = await getDocs(qRefs);
-        setRefCount(snapR.size);
+        // 2) Suscribirse a mi documento para leer refCount/activeRefCount en tiempo real
+        const meRef = doc(db, "users", u.uid);
+        const unsub = onSnapshot(meRef, (snap) => {
+          const data = snap.data() as any;
+          setRefCount(
+            typeof data?.refCount === "number" ? data.refCount : 0
+          );
+          setActiveRefCount(
+            typeof data?.activeRefCount === "number" ? data.activeRefCount : 0
+          );
+        });
 
-        // 3) Contar referidos activos (ejemplo: firstPurchase == true)
-        // Si manejas otro criterio (ej. firstSubscriptionPaid) cámbialo aquí.
-        const qRefsActive = query(
-          collection(db, "users"),
-          where("referrerId", "==", u.uid),
-          where("firstPurchase", "==", true)
-        );
-        const snapRA = await getDocs(qRefsActive);
-        setActiveRefCount(snapRA.size);
+        return () => unsub();
       } finally {
         setLoading(false);
       }
     };
-    run();
+
+    const cleanup = run();
+    return () => {
+      // Si run devolvió una función (unsub), llámala
+      if (typeof cleanup === "function") cleanup();
+    };
   }, [u]);
 
   async function submitTicket() {
@@ -164,7 +171,7 @@ export default function ConfigPage() {
       setSubject("");
       setMessage("");
 
-      // Refrescar listado rápido (opcional: podrías reconsultar)
+      // Refresco optimista de la lista
       setTickets((prev) => [
         {
           id: `tmp-${Date.now()}`,
@@ -175,9 +182,6 @@ export default function ConfigPage() {
         },
         ...prev,
       ]);
-
-      // WhatsApp de confirmación opcional
-      // openWhatsApp(`Hola, soy ${u.email}. Acabo de crear un ticket: ${s}`);
     } catch (e) {
       alert("No se pudo enviar el ticket. Intenta de nuevo.");
     } finally {
@@ -207,6 +211,18 @@ export default function ConfigPage() {
 
   return (
     <div className="max-w-3xl mx-auto p-6 text-white">
+      {/* Barra superior con botón de inicio */}
+      <div className="flex items-center justify-end mb-4">
+        <button
+          onClick={() => navigate("/")}
+          className="inline-flex items-center gap-2 bg-yellow-400 text-slate-900 font-semibold rounded-xl px-4 py-2 hover:bg-yellow-300 transition"
+          title="Volver al inicio"
+        >
+          <Home size={16} />
+          Inicio
+        </button>
+      </div>
+
       {/* --- Soporte / Ayuda rápida --- */}
       <section className="bg-slate-800 border border-slate-700 rounded-2xl p-5">
         <div className="flex items-center gap-2 mb-4">
@@ -357,15 +373,13 @@ export default function ConfigPage() {
             <div className="inline-flex items-center gap-2 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm">
               <LinkIcon size={14} className="text-yellow-400" />
               <span>
-                Referidos:{" "}
-                <b>{refCount === null ? "—" : refCount}</b>
+                Referidos: <b>{refCount === null ? "—" : refCount}</b>
               </span>
             </div>
             <div className="inline-flex items-center gap-2 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm">
               <LinkIcon size={14} className="text-yellow-400" />
               <span>
-                Referidos activos:{" "}
-                <b>{activeRefCount === null ? "—" : activeRefCount}</b>
+                Referidos activos: <b>{activeRefCount === null ? "—" : activeRefCount}</b>
               </span>
             </div>
           </div>
@@ -374,7 +388,7 @@ export default function ConfigPage() {
             Tip: si aún no marcas a los referidos activos, puedes hacerlo
             guardando <code>firstPurchase: true</code> en el usuario cuando
             complete su primera compra/suscripción. Este módulo ya cuenta usando
-            ese campo.
+            ese campo (o usa <code>activeRefCount</code> si lo incrementas desde tu backend).
           </div>
         </div>
       </section>

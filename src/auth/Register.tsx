@@ -1,9 +1,30 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  getAdditionalUserInfo,
+} from 'firebase/auth';
 import { auth, db } from '../firebase';
-import { doc, setDoc, serverTimestamp, getDoc } from 'firebase/firestore';
-import { Mail, Lock, CheckCircle, XCircle, Eye, EyeOff, AlertCircle } from 'lucide-react';
+import {
+  doc,
+  setDoc,
+  serverTimestamp,
+  getDoc,
+  runTransaction,
+  increment,
+} from 'firebase/firestore';
+import {
+  Mail,
+  Lock,
+  CheckCircle,
+  XCircle,
+  Eye,
+  EyeOff,
+  AlertCircle,
+} from 'lucide-react';
 import { useToast } from '../components/ToastProvider';
+import { useLocation } from 'react-router-dom';
 
 interface RegisterProps { onSuccess?: () => void; }
 
@@ -17,7 +38,9 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
   const [err, setErr] = useState('');
   const [loading, setLoading] = useState(false);
   const provider = useMemo(() => new GoogleAuthProvider(), []);
+  const location = useLocation();
 
+  // ===== Helpers de validación =====
   const [emailValid, setEmailValid] = useState(false);
   useEffect(() => {
     setEmailValid(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim().toLowerCase()));
@@ -37,8 +60,22 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
   const match = pw.length > 0 && pw === pw2;
   const valid = emailValid && Object.values(reqs).every(Boolean) && match;
 
+  // ===== Lógica de referidos =====
+  const refParam = useMemo(() => {
+    const params = new URLSearchParams(location.search);
+    const r = params.get('ref');
+    // Evitar self-ref en caso extremo (cuando ya está autenticado y comparte su propio link)
+    // Nota: aquí no tenemos uid aún; el self-ref se evita en reglas/servidor si deseas.
+    return r || null;
+  }, [location.search]);
+
   /** Crea (si no existe) el documento en /users/{uid} */
-  const ensureUserDoc = useCallback(async (u: { uid: string; email: string | null; displayName: string | null; photoURL: string | null; }) => {
+  const ensureUserDoc = useCallback(async (u: {
+    uid: string;
+    email: string | null;
+    displayName: string | null;
+    photoURL: string | null;
+  }) => {
     const ref = doc(db, 'users', u.uid);
     const snap = await getDoc(ref);
     if (!snap.exists()) {
@@ -47,11 +84,50 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
         displayName: u.displayName || '',
         photoURL: u.photoURL || '',
         points: 0,
+        refCount: 0,           // contador visible en Config (se incrementa)
+        activeRefCount: 0,     // opcional (se incrementa cuando haga su 1ra compra)
         createdAt: serverTimestamp(),
-      });
+      }, { merge: true });
     }
   }, []);
 
+  /** Idempotente: registra el referral en subcolección y suma +1 a refCount si no existía */
+  const registerReferralIfNeeded = useCallback(async (referrerId: string, newUserId: string) => {
+    if (!referrerId || !newUserId || referrerId === newUserId) return; // evita auto-referido
+    const referrerUserRef = doc(db, 'users', referrerId);
+    const referralRef     = doc(db, 'users', referrerId, 'referrals', newUserId); // llave única
+
+    await runTransaction(db, async (tx) => {
+      const refSnap = await tx.get(referralRef);
+      if (!refSnap.exists()) {
+        // crear marca de referido (evita duplicados)
+        tx.set(referralRef, {
+          referredUserId: newUserId,
+          createdAt: serverTimestamp(),
+        });
+
+        // asegurar doc del referente y sumar +1
+        const referrerSnap = await tx.get(referrerUserRef);
+        if (!referrerSnap.exists()) {
+          tx.set(referrerUserRef, { refCount: 1 }, { merge: true });
+        } else {
+          tx.update(referrerUserRef, { refCount: increment(1) });
+        }
+      }
+    });
+  }, []);
+
+  /** Guarda referrerId en el doc del nuevo usuario (merge) */
+  const setReferrerOnNewUser = useCallback(async (uid: string, referrerId: string) => {
+    if (!referrerId || !uid || referrerId === uid) return;
+    await setDoc(
+      doc(db, 'users', uid),
+      { referrerId, referredAt: serverTimestamp() },
+      { merge: true }
+    );
+  }, []);
+
+  // ===== Submit email/contraseña =====
   const onSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setErr('');
@@ -60,7 +136,12 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
     try {
       const normEmail = email.trim().toLowerCase();
       const cred = await createUserWithEmailAndPassword(auth, normEmail, pw);
-      await ensureUserDoc(cred.user);
+
+      await ensureUserDoc(cred.user);                 // crea base del doc si no existe
+      if (refParam) {
+        await setReferrerOnNewUser(cred.user.uid, refParam);
+        await registerReferralIfNeeded(refParam, cred.user.uid);
+      }
 
       push({ type: 'success', title: 'Cuenta creada', message: 'Registro exitoso. Sesión iniciada.' });
       onSuccess?.();
@@ -75,8 +156,9 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
     } finally {
       setLoading(false);
     }
-  }, [valid, email, pw, onSuccess, push, ensureUserDoc]);
+  }, [valid, email, pw, onSuccess, push, ensureUserDoc, refParam, setReferrerOnNewUser, registerReferralIfNeeded]);
 
+  // ===== Google =====
   const onGoogle = useCallback(async () => {
     setErr('');
     setLoading(true);
@@ -84,14 +166,23 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
       const res = await signInWithPopup(auth, provider);
       await ensureUserDoc(res.user);
 
-      push({ type: 'success', title: 'Bienvenido', message: 'Sesión iniciada con Google.' });
+      // Solo vincular referral si es NUEVA cuenta con Google
+      const info = getAdditionalUserInfo(res);
+      const isNew = !!info?.isNewUser;
+
+      if (isNew && refParam) {
+        await setReferrerOnNewUser(res.user.uid, refParam);
+        await registerReferralIfNeeded(refParam, res.user.uid);
+      }
+
+      push({ type: 'success', title: isNew ? 'Cuenta creada' : 'Bienvenido', message: isNew ? 'Registro con Google exitoso.' : 'Sesión iniciada con Google.' });
       onSuccess?.();
     } catch (e: any) {
       setErr('Error con Google.');
     } finally {
       setLoading(false);
     }
-  }, [onSuccess, provider, push, ensureUserDoc]);
+  }, [provider, ensureUserDoc, onSuccess, push, refParam, setReferrerOnNewUser, registerReferralIfNeeded]);
 
   return (
     <form onSubmit={onSubmit} className="space-y-3">
