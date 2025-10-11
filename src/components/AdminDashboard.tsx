@@ -21,9 +21,9 @@ type Product = { id: string; inStock?: boolean };
 const ADMIN_EMAILS = ['scpu.v1@gmail.com'];
 
 const Stat: React.FC<{ label: string; value: string | number }> = ({ label, value }) => (
-  <div className="rounded-xl border border-slate-700/50 bg-slate-900/50 backdrop-blur-sm p-3 sm:p-4">
-    <p className="text-[11px] sm:text-xs text-slate-400">{label}</p>
-    <p className="text-lg sm:text-2xl font-extrabold text-yellow-400 leading-tight">{value}</p>
+  <div className="rounded-lg border border-[#D0D0D0] bg-[#F5F5F5] p-2.5 shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
+    <p className="text-[10px] text-[#8A8A8A] font-light">{label}</p>
+    <p className="text-base sm:text-lg font-bold text-[#4CAF50] leading-tight mt-0.5">{value}</p>
   </div>
 );
 
@@ -38,29 +38,29 @@ const Tile: React.FC<{
   <button
     onClick={onClick}
     disabled={disabled}
-    className={`group w-full text-left rounded-xl border p-3.5 sm:p-5 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400/40 ${
+    className={`group w-full text-left rounded-lg border p-3 transition-all ${
       disabled
-        ? 'border-slate-700/40 bg-slate-800/50 opacity-60'
-        : 'border-slate-700/60 bg-slate-900/60 hover:border-yellow-400/40 hover:shadow-lg hover:shadow-yellow-400/10 active:scale-[0.99]'
+        ? 'border-[#D0D0D0] bg-[#F5F5F5] opacity-50 cursor-not-allowed'
+        : 'border-[#D0D0D0] bg-[#F5F5F5] hover:border-[#4CAF50] hover:shadow-[0_4px_16px_rgba(76,175,80,0.12)] active:scale-[0.98]'
     }`}
   >
-    <div className="flex items-start gap-3 sm:gap-4">
-      <div className="p-2 rounded-lg bg-slate-800 text-slate-100 shrink-0">
+    <div className="flex items-start gap-2.5">
+      <div className="p-1.5 rounded-md bg-[#E8E8E8] text-[#2A2A2A] shrink-0">
         {icon}
       </div>
       <div className="flex-1 min-w-0">
-        <div className="flex items-center justify-between gap-2">
-          <h3 className="font-semibold text-slate-100 truncate">{title}</h3>
+        <div className="flex items-center justify-between gap-2 mb-0.5">
+          <h3 className="text-sm font-semibold text-[#2A2A2A] truncate">{title}</h3>
           {badge && (
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-yellow-500/15 text-yellow-400">
+            <span className="text-[9px] px-1.5 py-0.5 rounded bg-[#4CAF50]/15 text-[#4CAF50] font-medium">
               {badge}
             </span>
           )}
         </div>
-        <p className="mt-1 text-sm text-slate-300">{desc}</p>
-        <div className="mt-3 flex items-center gap-1 text-[11px] sm:text-xs text-slate-400">
-          <span className="group-hover:text-yellow-300">Administrar</span>
-          <ArrowRight size={14} className="opacity-70 group-hover:translate-x-0.5 transition" />
+        <p className="text-xs text-[#8A8A8A] font-light leading-tight">{desc}</p>
+        <div className="mt-2 flex items-center gap-1 text-[10px] text-[#8A8A8A]">
+          <span className="group-hover:text-[#4CAF50] transition-colors">Ir</span>
+          <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
         </div>
       </div>
     </div>
@@ -72,8 +72,8 @@ const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
 
   const [u, setU] = useState<ExtUser[]>([]);
-  const [pd, setPd] = useState<Product[]>([]); // products (digital)
-  const [pf, setPf] = useState<Product[]>([]); // products (físicos)
+  const [pd, setPd] = useState<Product[]>([]);
+  const [pf, setPf] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -133,10 +133,10 @@ const AdminDashboard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen grid place-items-center bg-gradient-to-br from-[#0a0010] via-[#18001B] to-[#2C2C2C]">
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-12 h-12 rounded-full border-4 border-yellow-400/30 border-t-yellow-400 animate-spin" />
-          <p className="text-slate-200 text-sm">Cargando panel…</p>
+      <div className="min-h-screen grid place-items-center bg-[#E8E8E8]">
+        <div className="flex flex-col items-center gap-2">
+          <div className="w-10 h-10 rounded-full border-3 border-[#4CAF50]/30 border-t-[#4CAF50] animate-spin" />
+          <p className="text-[#5A5A5A] text-xs font-light">Cargando...</p>
         </div>
       </div>
     );
@@ -144,106 +144,89 @@ const AdminDashboard: React.FC = () => {
 
   if (!user || !ADMIN_EMAILS.includes(user.email || '')) {
     return (
-      <div className="min-h-screen grid place-items-center bg-gradient-to-br from-[#0a0010] via-[#18001B] to-[#2C2C2C] px-4">
-        <div className="max-w-sm w-full p-6 rounded-2xl border border-slate-700/60 bg-slate-900/70 text-center">
-          <div className="mx-auto w-12 h-12 rounded-full grid place-items-center bg-red-500/20 mb-3">
-            <Lock className="text-red-400" size={22} />
+      <div className="min-h-screen grid place-items-center bg-[#E8E8E8] px-4">
+        <div className="max-w-xs w-full p-5 rounded-lg border border-[#D0D0D0] bg-[#F5F5F5] text-center shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
+          <div className="mx-auto w-10 h-10 rounded-full grid place-items-center bg-red-500/10 mb-2">
+            <Lock className="text-red-500" size={18} />
           </div>
-          <h2 className="text-xl font-bold text-slate-100 mb-1">Acceso restringido</h2>
-          <p className="text-slate-400 text-sm">No tienes permisos para este panel.</p>
+          <h2 className="text-base font-semibold text-[#2A2A2A] mb-1">Acceso restringido</h2>
+          <p className="text-[#8A8A8A] text-xs font-light">No tienes permisos.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0010] via-[#18001B] to-[#2C2C2C] py-3 sm:py-4 px-2.5 sm:px-4">
-      <div className="mx-auto w-full max-w-6xl">
+    <div className="min-h-screen bg-[#E8E8E8] py-3 px-3 sm:px-4">
+      <div className="mx-auto w-full max-w-5xl">
 
-        {/* Header compacto y responsive */}
-        <div className="rounded-2xl border border-slate-700/60 overflow-hidden mb-3.5 sm:mb-5">
-          <div className="bg-gradient-to-r from-yellow-400 via-yellow-400/90 to-yellow-400 px-3 sm:px-6 py-3 sm:py-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-black/15">
-                <Shield size={18} className="text-black" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h1 className="text-base sm:text-xl font-extrabold text-black leading-tight truncate">
-                  Panel de Administración
-                </h1>
-                <p className="text-black/70 text-xs sm:text-sm">Centro de control del sistema</p>
-              </div>
+        {/* Botón volver estilo Apple - Superior izquierda */}
+        <button
+          onClick={() => navigate('/')}
+          className="mb-3 flex items-center gap-1.5 text-xs text-[#4CAF50] hover:text-[#45a049] transition-colors group"
+        >
+          <ArrowRight size={14} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
+          <span className="font-medium">Inicio</span>
+        </button>
+
+        {/* Header minimalista */}
+        <div className="mb-4">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-1 h-8 bg-[#4CAF50] rounded-full shadow-sm"></div>
+            <div>
+              <h1 className="text-lg font-light text-[#2A2A2A]">Panel de Administración</h1>
+              <p className="text-[10px] text-[#8A8A8A] font-light">{user.email}</p>
             </div>
           </div>
 
-          <div className="p-3 sm:p-4 bg-slate-900/60">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4">
-              <Stat label="Usuarios" value={stats.totalUsers} />
-              <Stat label="Digitales" value={`${stats.dIn}/${stats.dTotal}`} />
-              <Stat label="Físicos" value={`${stats.fIn}/${stats.fTotal}`} />
-              <Stat label="Puntos totales" value={stats.totalPoints.toLocaleString()} />
-            </div>
+          {/* Stats compactos */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <Stat label="Usuarios" value={stats.totalUsers} />
+            <Stat label="Digitales" value={`${stats.dIn}/${stats.dTotal}`} />
+            <Stat label="Físicos" value={`${stats.fIn}/${stats.fTotal}`} />
+            <Stat label="Puntos" value={stats.totalPoints.toLocaleString()} />
           </div>
         </div>
 
-        {/* Acciones principales */}
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-4 mb-3.5 sm:mb-4">
+        {/* Grid de acciones */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2 mb-2">
           <Tile
-            title="Gestión de Usuarios"
-            desc="Administra usuarios, roles y puntos."
-            icon={<Users size={20} />}
+            title="Usuarios"
+            desc="Administra usuarios y puntos"
+            icon={<Users size={18} />}
             onClick={() => navigate('/admin/users')}
           />
           <Tile
-            title="Productos (Digital)"
-            desc="Crea y edita productos del catálogo digital."
-            icon={<Package size={20} />}
+            title="Productos Digital"
+            desc="Catálogo digital"
+            icon={<Package size={18} />}
             onClick={() => navigate('/admin/products')}
           />
           <Tile
             title="Productos Físicos"
-            desc="Inventario y catálogo de productos físicos."
-            icon={<Package size={20} />}
+            desc="Inventario físico"
+            icon={<Package size={18} />}
             onClick={() => navigate('/admin/products-f')}
             badge="Nuevo"
           />
-        </div>
-
-        {/* Acciones secundarias */}
-        <div className="grid sm:grid-cols-2 gap-2.5 sm:gap-4">
           <Tile
             title="Recompensas"
-            desc="Crear y administrar recompensas."
-            icon={<BadgePercent size={20} />}
+            desc="Crear recompensas"
+            icon={<BadgePercent size={18} />}
             onClick={() => navigate('/admin/coupons')}
           />
           <Tile
-            title="Gestión de Colaboradores"
-            desc="Permisos y miembros del equipo."
-            icon={<Users size={20} />}
+            title="Colaboradores"
+            desc="Gestión de equipo"
+            icon={<Users size={18} />}
             onClick={() => navigate('/admin/colaborators')}
           />
         </div>
 
-        {/* Footer sesión */}
-        <div className="mt-4 sm:mt-5 rounded-xl border border-slate-700/60 bg-slate-900/60 p-3.5 sm:p-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-            <div className="flex items-center gap-2 text-yellow-300 text-xs sm:text-sm">
-              <Shield size={14} />
-              <span>Sesión administrativa activa — {user.email}</span>
-            </div>
-            <button
-              onClick={() => navigate('/')}
-              className="self-start sm:self-auto inline-flex items-center justify-center px-4 py-2 rounded-lg bg-yellow-400 text-slate-900 font-semibold hover:bg-yellow-300 transition-colors"
-            >
-              Volver al inicio
-            </button>
-          </div>
-        </div>
-
-        <div className="mt-3 flex items-center gap-2 text-[11px] sm:text-xs text-slate-400">
-          <Activity size={14} className="text-green-400" />
-          <span>Última actualización al abrir el panel.</span>
+        {/* Footer minimalista */}
+        <div className="flex items-center gap-1.5 mt-3 p-2.5 rounded-lg border border-[#D0D0D0] bg-[#F5F5F5]">
+          <Activity size={12} className="text-[#4CAF50]" />
+          <span className="text-[10px] text-[#8A8A8A]">Actualizado al cargar</span>
         </div>
       </div>
     </div>

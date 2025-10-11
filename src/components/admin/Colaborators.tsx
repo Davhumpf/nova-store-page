@@ -23,7 +23,7 @@ import {
   Power,
   PowerOff,
   History,
-  ArrowLeft,
+  ArrowRight,
   Loader,
   AlertTriangle,
   CheckCircle,
@@ -70,28 +70,21 @@ const Colaborators: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
   
-  // Estados para formularios y filtros
   const [searchEmail, setSearchEmail] = useState('');
   const [newCollaboratorEmail, setNewCollaboratorEmail] = useState('');
   const [showAddForm, setShowAddForm] = useState(false);
   const [selectedCollaborator, setSelectedCollaborator] = useState<string | null>(null);
   const [showHistory, setShowHistory] = useState(false);
   
-  // Estados para feedback
   const [message, setMessage] = useState<{ type: 'success' | 'error' | 'info'; text: string } | null>(null);
   
-  const [adminEmails] = useState([
-    'scpu.v1@gmail.com',
-    // para añadir más admins en el futuro
-  ]);
+  const [adminEmails] = useState(['scpu.v1@gmail.com']);
 
   useEffect(() => {
-    // Verificar si el usuario actual es administrador
     if (!user || !adminEmails.includes(user.email || '')) {
       navigate('/admin');
       return;
     }
-
     fetchData();
   }, [user, adminEmails, navigate]);
 
@@ -115,10 +108,7 @@ const Colaborators: React.FC = () => {
       
       const rolesData: Role[] = [];
       querySnapshot.forEach((doc) => {
-        rolesData.push({
-          id: doc.id,
-          ...doc.data()
-        } as Role);
+        rolesData.push({ id: doc.id, ...doc.data() } as Role);
       });
       
       setRoles(rolesData);
@@ -134,10 +124,7 @@ const Colaborators: React.FC = () => {
       
       const usersData: UserProfile[] = [];
       querySnapshot.forEach((doc) => {
-        usersData.push({
-          id: doc.id,
-          ...doc.data()
-        } as UserProfile);
+        usersData.push({ id: doc.id, ...doc.data() } as UserProfile);
       });
       
       setUsers(usersData);
@@ -154,10 +141,7 @@ const Colaborators: React.FC = () => {
       
       const historyData: ActionHistory[] = [];
       querySnapshot.forEach((doc) => {
-        historyData.push({
-          id: doc.id,
-          ...doc.data()
-        } as ActionHistory);
+        historyData.push({ id: doc.id, ...doc.data() } as ActionHistory);
       });
       
       setActionHistory(historyData);
@@ -177,14 +161,12 @@ const Colaborators: React.FC = () => {
       return;
     }
 
-    // Verificar si el email ya existe en roles
     const existingRole = roles.find(role => role.email === newCollaboratorEmail.trim());
     if (existingRole) {
       showMessage('error', 'Este correo ya está registrado como colaborador');
       return;
     }
 
-    // Verificar si el usuario existe en la base de datos
     const userExists = users.find(u => u.email === newCollaboratorEmail.trim());
     if (!userExists) {
       showMessage('error', 'Este correo no está registrado en el sistema');
@@ -259,49 +241,44 @@ const Colaborators: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0a0010] via-[#18001B] to-[#2C2C2C]">
-        <div className="flex flex-col items-center p-8 bg-[#2C2C2C] rounded-xl shadow-2xl border border-gray-700/50">
-          <div className="relative">
-            <div className="w-16 h-16 border-4 border-[#FFD600]/20 border-t-[#FFD600] rounded-full animate-spin"></div>
-          </div>
-          <p className="mt-4 text-[#FFD600] font-bold text-lg">Cargando colaboradores</p>
+      <div className="min-h-screen flex items-center justify-center bg-[#E8E8E8]">
+        <div className="flex flex-col items-center">
+          <div className="w-10 h-10 border-3 border-[#4FC3F7]/30 border-t-[#4FC3F7] rounded-full animate-spin"></div>
+          <p className="mt-2 text-[#5A5A5A] text-xs font-light">Cargando...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0010] via-[#18001B] to-[#2C2C2C] py-4 px-4">
-      <div className="container mx-auto max-w-6xl">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-[#2C2C2C] to-[#1a1a1a] rounded-2xl shadow-2xl overflow-hidden border border-gray-700/50 mb-6">
-          <div className="bg-gradient-to-r from-[#FFD600] via-[#FFC400] to-[#FFD600] p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={() => navigate('/admin')}
-                  className="p-2 bg-black/20 rounded-lg backdrop-blur-sm hover:bg-black/30 transition-colors"
-                >
-                  <ArrowLeft className="text-black" size={20} />
-                </button>
-                <div className="p-2 bg-black/20 rounded-lg backdrop-blur-sm">
-                  <Users className="text-black" size={24} />
-                </div>
-                <div>
-                  <h1 className="text-xl font-bold text-black">Gestión de Colaboradores</h1>
-                  <p className="text-black/70 font-medium text-sm">Administra roles y permisos</p>
-                </div>
+    <div className="min-h-screen bg-[#E8E8E8] py-3 px-3 sm:px-4">
+      <div className="container mx-auto max-w-5xl">
+        
+        {/* Botón volver estilo Apple */}
+        <button
+          onClick={() => navigate('/admin')}
+          className="mb-3 flex items-center gap-1.5 text-xs text-[#4FC3F7] hover:text-[#039BE5] transition-colors group"
+        >
+          <ArrowRight size={14} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
+          <span className="font-medium">Panel Admin</span>
+        </button>
+
+        {/* Header minimalista */}
+        <div className="mb-4">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-1 h-8 bg-[#4FC3F7] rounded-full shadow-sm"></div>
+            <div className="flex-1">
+              <h1 className="text-lg font-light text-[#2A2A2A]">Gestión de Colaboradores</h1>
+              <p className="text-[10px] text-[#8A8A8A] font-light">Administra roles y permisos del equipo</p>
+            </div>
+            <div className="flex gap-3 text-center">
+              <div>
+                <p className="text-[9px] text-[#8A8A8A]">Total</p>
+                <p className="text-sm font-bold text-[#4FC3F7]">{roles.length}</p>
               </div>
-              
-              <div className="flex items-center gap-4">
-                <div className="text-center">
-                  <p className="text-black text-xs font-medium">Total Colaboradores</p>
-                  <p className="text-black text-lg font-bold">{roles.length}</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-black text-xs font-medium">Activos</p>
-                  <p className="text-black text-lg font-bold">{roles.filter(r => r.isActive).length}</p>
-                </div>
+              <div>
+                <p className="text-[9px] text-[#8A8A8A]">Activos</p>
+                <p className="text-sm font-bold text-[#4CAF50]">{roles.filter(r => r.isActive).length}</p>
               </div>
             </div>
           </div>
@@ -309,70 +286,65 @@ const Colaborators: React.FC = () => {
 
         {/* Mensaje de feedback */}
         {message && (
-          <div className={`mb-4 p-4 rounded-lg flex items-center gap-2 ${
-            message.type === 'success' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
-            message.type === 'error' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
-            'bg-blue-500/20 text-blue-400 border border-blue-500/30'
+          <div className={`mb-3 p-2.5 rounded-lg flex items-center gap-2 text-xs border ${
+            message.type === 'success' ? 'bg-[#4CAF50]/10 text-[#4CAF50] border-[#4CAF50]/20' :
+            message.type === 'error' ? 'bg-red-500/10 text-red-500 border-red-500/20' :
+            'bg-[#4FC3F7]/10 text-[#4FC3F7] border-[#4FC3F7]/20'
           }`}>
-            {message.type === 'success' ? <CheckCircle size={20} /> :
-             message.type === 'error' ? <XCircle size={20} /> :
-             <Activity size={20} />}
-            <span>{message.text}</span>
+            {message.type === 'success' ? <CheckCircle size={14} /> :
+             message.type === 'error' ? <XCircle size={14} /> :
+             <Activity size={14} />}
+            <span className="font-light">{message.text}</span>
           </div>
         )}
 
-        {/* Controles */}
-        <div className="bg-gradient-to-br from-[#2C2C2C] to-[#1a1a1a] rounded-xl border border-gray-700/50 p-6 mb-6">
-          <div className="flex flex-col md:flex-row gap-4 items-end">
+        {/* Controles de búsqueda y agregar */}
+        <div className="bg-[#F5F5F5] rounded-lg border border-[#D0D0D0] p-3 mb-3 shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
+          <div className="flex flex-col sm:flex-row gap-2">
             {/* Buscador */}
-            <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Buscar colaborador
-              </label>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-                <input
-                  type="email"
-                  value={searchEmail}
-                  onChange={(e) => setSearchEmail(e.target.value)}
-                  placeholder="Buscar por correo electrónico..."
-                  className="w-full pl-10 pr-4 py-3 bg-[#1a1a1a] border border-gray-600/50 rounded-lg text-white placeholder-gray-500 focus:border-[#FFD600] focus:outline-none transition-colors"
-                />
-              </div>
+            <div className="flex-1 relative">
+              <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-[#8A8A8A]" size={14} />
+              <input
+                type="email"
+                value={searchEmail}
+                onChange={(e) => setSearchEmail(e.target.value)}
+                placeholder="Buscar por correo..."
+                className="w-full pl-8 pr-3 py-2 bg-white border border-[#D0D0D0] rounded-md text-xs text-[#2A2A2A] placeholder-[#8A8A8A] focus:border-[#4FC3F7] focus:outline-none transition-colors"
+              />
             </div>
 
             {/* Botón agregar */}
             <button
               onClick={() => setShowAddForm(!showAddForm)}
-              className="bg-gradient-to-r from-[#FFD600] to-[#FFC400] hover:from-[#FFC400] hover:to-[#FFB800] text-black px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center gap-2"
+              className="bg-[#4FC3F7] hover:bg-[#039BE5] text-white px-4 py-2 rounded-md text-xs font-medium transition-colors flex items-center justify-center gap-1.5 shadow-[0_2px_8px_rgba(79,195,247,0.25)]"
             >
-              <Plus size={18} />
-              Agregar Colaborador
+              <Plus size={14} />
+              Agregar
             </button>
           </div>
 
           {/* Formulario de agregar */}
           {showAddForm && (
-            <div className="mt-6 p-4 bg-[#1a1a1a] rounded-lg border border-gray-600/30">
-              <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-                <Mail size={18} />
+            <div className="mt-3 p-3 bg-white rounded-md border border-[#D0D0D0]">
+              <h3 className="text-xs text-[#2A2A2A] font-medium mb-2 flex items-center gap-1.5">
+                <Mail size={12} />
                 Nuevo Colaborador
               </h3>
-              <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="email"
                   value={newCollaboratorEmail}
                   onChange={(e) => setNewCollaboratorEmail(e.target.value)}
                   placeholder="correo@ejemplo.com"
-                  className="flex-1 px-4 py-3 bg-[#2C2C2C] border border-gray-600/50 rounded-lg text-white placeholder-gray-500 focus:border-[#FFD600] focus:outline-none transition-colors"
+                  className="flex-1 px-3 py-2 bg-[#F5F5F5] border border-[#D0D0D0] rounded-md text-xs text-[#2A2A2A] placeholder-[#8A8A8A] focus:border-[#4FC3F7] focus:outline-none transition-colors"
                 />
                 <div className="flex gap-2">
                   <button
                     onClick={addCollaborator}
                     disabled={isAdding}
-                    className="bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2"
+                    className="bg-[#4CAF50] hover:bg-[#45a049] disabled:opacity-50 text-white px-4 py-2 rounded-md text-xs font-medium transition-colors flex items-center gap-1"
                   >
-                    {isAdding ? <Loader className="animate-spin" size={18} /> : <CheckCircle size={18} />}
+                    {isAdding ? <Loader className="animate-spin" size={12} /> : <CheckCircle size={12} />}
                     {isAdding ? 'Agregando...' : 'Agregar'}
                   </button>
                   <button
@@ -380,7 +352,7 @@ const Colaborators: React.FC = () => {
                       setShowAddForm(false);
                       setNewCollaboratorEmail('');
                     }}
-                    className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-3 rounded-lg font-semibold transition-colors"
+                    className="bg-[#8A8A8A] hover:bg-[#666666] text-white px-3 py-2 rounded-md text-xs font-medium transition-colors"
                   >
                     Cancelar
                   </button>
@@ -391,89 +363,84 @@ const Colaborators: React.FC = () => {
         </div>
 
         {/* Lista de colaboradores */}
-        <div className="bg-gradient-to-br from-[#2C2C2C] to-[#1a1a1a] rounded-xl border border-gray-700/50 overflow-hidden">
-          <div className="p-6 border-b border-gray-700/50">
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <Shield size={20} />
-              Colaboradores Registrados ({filteredRoles.length})
+        <div className="bg-[#F5F5F5] rounded-lg border border-[#D0D0D0] overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
+          <div className="p-3 border-b border-[#D0D0D0]">
+            <h2 className="text-sm font-medium text-[#2A2A2A] flex items-center gap-1.5">
+              <Shield size={14} />
+              Colaboradores ({filteredRoles.length})
             </h2>
           </div>
 
           {filteredRoles.length === 0 ? (
             <div className="p-8 text-center">
-              <Users className="mx-auto text-gray-500 mb-4" size={48} />
-              <p className="text-gray-400 text-lg">
+              <Users className="mx-auto text-[#D0D0D0] mb-2" size={32} />
+              <p className="text-[#8A8A8A] text-xs font-light">
                 {searchEmail ? 'No se encontraron colaboradores' : 'No hay colaboradores registrados'}
               </p>
             </div>
           ) : (
-            <div className="divide-y divide-gray-700/50">
+            <div className="divide-y divide-[#D0D0D0]">
               {filteredRoles.map((role) => {
                 const userInfo = users.find(u => u.email === role.email);
                 const collaboratorHistory = getCollaboratorHistory(role.email);
                 
                 return (
-                  <div key={role.id} className="p-6 hover:bg-[#1a1a1a]/50 transition-colors">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                      {/* Info del colaborador */}
-                      <div className="flex items-center gap-4">
-                        <div className={`p-3 rounded-full ${role.isActive ? 'bg-green-500/20' : 'bg-red-500/20'}`}>
-                          <Mail className={`${role.isActive ? 'text-green-400' : 'text-red-400'}`} size={20} />
+                  <div key={role.id} className="p-3 hover:bg-white/50 transition-colors">
+                    <div className="flex flex-col gap-2">
+                      {/* Info */}
+                      <div className="flex items-start gap-2.5">
+                        <div className={`p-1.5 rounded-full shrink-0 ${role.isActive ? 'bg-[#4CAF50]/10' : 'bg-red-500/10'}`}>
+                          <Mail className={`${role.isActive ? 'text-[#4CAF50]' : 'text-red-500'}`} size={14} />
                         </div>
-                        <div>
-                          <h3 className="text-white font-semibold">{role.email}</h3>
-                          <div className="flex items-center gap-4 text-sm text-gray-400">
-                            <span>Rol: {role.role}</span>
-                            <span className={`flex items-center gap-1 ${role.isActive ? 'text-green-400' : 'text-red-400'}`}>
-                              {role.isActive ? <CheckCircle size={14} /> : <XCircle size={14} />}
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-xs text-[#2A2A2A] font-medium break-all">{role.email}</h3>
+                          <div className="flex flex-wrap items-center gap-2 text-[10px] text-[#8A8A8A] mt-0.5">
+                            <span>{role.role}</span>
+                            <span className={`flex items-center gap-0.5 ${role.isActive ? 'text-[#4CAF50]' : 'text-red-500'}`}>
+                              {role.isActive ? <CheckCircle size={10} /> : <XCircle size={10} />}
                               {role.isActive ? 'Activo' : 'Inactivo'}
                             </span>
                           </div>
                           {userInfo && (
-                            <p className="text-xs text-gray-500 mt-1">
-                              Usuario registrado - {userInfo.points} puntos
+                            <p className="text-[9px] text-[#8A8A8A] mt-0.5">
+                              {userInfo.points} puntos
                             </p>
                           )}
                         </div>
                       </div>
 
-                      {/* Acciones */}
-                      <div className="flex items-center gap-2">
-                        {/* Historial */}
+                      {/* Acciones en móvil - stacked */}
+                      <div className="flex flex-wrap items-center gap-1.5">
                         <button
                           onClick={() => {
                             setSelectedCollaborator(role.email);
                             setShowHistory(true);
                           }}
-                          className="p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-1 text-sm"
+                          className="flex-1 min-w-[80px] p-1.5 bg-[#4FC3F7] hover:bg-[#039BE5] text-white rounded-md transition-colors text-[10px] font-medium flex items-center justify-center gap-1"
                           title="Ver historial"
                         >
-                          <History size={16} />
-                          <span className="hidden sm:inline">Historial ({collaboratorHistory.length})</span>
+                          <History size={12} />
+                          <span>Historial ({collaboratorHistory.length})</span>
                         </button>
 
-                        {/* Toggle estado */}
                         <button
                           onClick={() => toggleCollaboratorStatus(role.id, role.isActive)}
-                          className={`p-2 rounded-lg transition-colors flex items-center gap-1 text-sm ${
+                          className={`p-1.5 rounded-md transition-colors ${
                             role.isActive 
-                              ? 'bg-orange-600 hover:bg-orange-700 text-white' 
-                              : 'bg-green-600 hover:bg-green-700 text-white'
+                              ? 'bg-orange-500 hover:bg-orange-600 text-white' 
+                              : 'bg-[#4CAF50] hover:bg-[#45a049] text-white'
                           }`}
                           title={role.isActive ? 'Inactivar' : 'Activar'}
                         >
-                          {role.isActive ? <PowerOff size={16} /> : <Power size={16} />}
-                          <span className="hidden sm:inline">{role.isActive ? 'Inactivar' : 'Activar'}</span>
+                          {role.isActive ? <PowerOff size={12} /> : <Power size={12} />}
                         </button>
 
-                        {/* Eliminar */}
                         <button
                           onClick={() => deleteCollaborator(role.id, role.email)}
-                          className="p-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors flex items-center gap-1 text-sm"
+                          className="p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-md transition-colors"
                           title="Eliminar"
                         >
-                          <Trash2 size={16} />
-                          <span className="hidden sm:inline">Eliminar</span>
+                          <Trash2 size={12} />
                         </button>
                       </div>
                     </div>
@@ -486,59 +453,59 @@ const Colaborators: React.FC = () => {
 
         {/* Modal de historial */}
         {showHistory && selectedCollaborator && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-gradient-to-br from-[#2C2C2C] to-[#1a1a1a] rounded-xl border border-gray-700/50 max-w-4xl w-full max-h-[80vh] overflow-hidden">
-              <div className="p-6 border-b border-gray-700/50 flex items-center justify-between">
-                <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                  <History size={20} />
-                  Historial de {selectedCollaborator}
+          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-3 overflow-y-auto">
+            <div className="bg-[#F5F5F5] rounded-lg border border-[#D0D0D0] w-full max-w-3xl my-4 shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
+              <div className="p-3 border-b border-[#D0D0D0] flex items-center justify-between sticky top-0 bg-[#F5F5F5] z-10">
+                <h3 className="text-sm font-medium text-[#2A2A2A] flex items-center gap-1.5 truncate">
+                  <History size={14} className="shrink-0" />
+                  <span className="truncate">Historial de {selectedCollaborator}</span>
                 </h3>
                 <button
                   onClick={() => {
                     setShowHistory(false);
                     setSelectedCollaborator(null);
                   }}
-                  className="p-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
+                  className="p-1.5 bg-[#8A8A8A] hover:bg-[#666666] text-white rounded-md transition-colors shrink-0"
                 >
-                  <XCircle size={18} />
+                  <XCircle size={14} />
                 </button>
               </div>
               
-              <div className="p-6 max-h-96 overflow-y-auto">
+              <div className="p-3 max-h-[60vh] overflow-y-auto">
                 {getCollaboratorHistory(selectedCollaborator).length === 0 ? (
                   <div className="text-center py-8">
-                    <Activity className="mx-auto text-gray-500 mb-4" size={48} />
-                    <p className="text-gray-400">No hay actividades registradas</p>
+                    <Activity className="mx-auto text-[#D0D0D0] mb-2" size={32} />
+                    <p className="text-[#8A8A8A] text-xs font-light">No hay actividades registradas</p>
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-2">
                     {getCollaboratorHistory(selectedCollaborator).map((action) => (
-                      <div key={action.id} className="bg-[#1a1a1a] rounded-lg p-4 border border-gray-700/30">
-                        <div className="flex items-start gap-3">
-                          <div className={`p-2 rounded-lg ${
-                            action.pointsChanged > 0 ? 'bg-green-500/20' : 'bg-red-500/20'
+                      <div key={action.id} className="bg-white rounded-md p-3 border border-[#D0D0D0]">
+                        <div className="flex items-start gap-2">
+                          <div className={`p-1.5 rounded-md shrink-0 ${
+                            action.pointsChanged > 0 ? 'bg-[#4CAF50]/10' : 'bg-red-500/10'
                           }`}>
                             <Activity className={`${
-                              action.pointsChanged > 0 ? 'text-green-400' : 'text-red-400'
-                            }`} size={16} />
+                              action.pointsChanged > 0 ? 'text-[#4CAF50]' : 'text-red-500'
+                            }`} size={12} />
                           </div>
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className="text-white font-medium">{action.action}</span>
-                              <span className={`text-sm px-2 py-1 rounded ${
+                          <div className="flex-1 min-w-0">
+                            <div className="flex flex-wrap items-center gap-2 mb-1">
+                              <span className="text-xs text-[#2A2A2A] font-medium">{action.action}</span>
+                              <span className={`text-[9px] px-1.5 py-0.5 rounded shrink-0 ${
                                 action.pointsChanged > 0 
-                                  ? 'bg-green-500/20 text-green-400' 
-                                  : 'bg-red-500/20 text-red-400'
+                                  ? 'bg-[#4CAF50]/10 text-[#4CAF50]' 
+                                  : 'bg-red-500/10 text-red-500'
                               }`}>
-                                {action.pointsChanged > 0 ? '+' : ''}{action.pointsChanged} puntos
+                                {action.pointsChanged > 0 ? '+' : ''}{action.pointsChanged} pts
                               </span>
                             </div>
-                            <p className="text-gray-300 text-sm mb-2">{action.description}</p>
-                            <div className="flex items-center gap-4 text-xs text-gray-500">
-                              <span>Usuario: {action.targetUser}</span>
-                              <span className="flex items-center gap-1">
-                                <Clock size={12} />
-                                {action.timestamp?.toDate?.()?.toLocaleDateString() || 'Fecha no disponible'}
+                            <p className="text-[10px] text-[#5A5A5A] font-light mb-1 break-words">{action.description}</p>
+                            <div className="flex flex-wrap items-center gap-2 text-[9px] text-[#8A8A8A]">
+                              <span className="break-all">Usuario: {action.targetUser}</span>
+                              <span className="flex items-center gap-0.5 shrink-0">
+                                <Clock size={9} />
+                                {action.timestamp?.toDate?.()?.toLocaleDateString() || 'N/A'}
                               </span>
                             </div>
                           </div>

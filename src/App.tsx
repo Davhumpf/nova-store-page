@@ -29,7 +29,6 @@ import ProductDetail from "./components/ProductDetail";
 import ProductDetailF from "./components/ProductDetailF";
 import ExpressCatalog from "./components/colab/ExpressCatalog";
 
-// ⬇️ nuevo: usa el contexto desde archivo propio (export estable)
 import { SearchProvider, useSearch } from "./context/SearchContext";
 
 // -------------------- HomePage Legacy --------------------
@@ -116,9 +115,9 @@ function HomePage() {
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-center items-center min-h-[400px]">
           <div className="text-center space-y-4">
-            <div className="w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <h3 className="text-2xl font-bold text-slate-300">Cargando productos...</h3>
-            <p className="text-slate-400">Estamos preparando todo para ti</p>
+            <div className="w-16 h-16 border-4 border-[#4CAF50] border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <h3 className="text-2xl font-bold text-[#0D0D0D]">Cargando productos...</h3>
+            <p className="text-[#595959]">Estamos preparando todo para ti</p>
           </div>
         </div>
       </div>
@@ -130,14 +129,17 @@ function HomePage() {
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-center items-center min-h-[400px]">
           <div className="text-center space-y-4">
-            <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto">
+            <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto shadow-lg">
               <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
             </div>
-            <h3 className="text-2xl font-bold text-red-400">Error al cargar</h3>
-            <p className="text-slate-400">{error}</p>
-            <button onClick={() => window.location.reload()} className="bg-yellow-400 text-slate-900 px-6 py-3 rounded-xl font-semibold hover:bg-yellow-300">
+            <h3 className="text-2xl font-bold text-red-500">Error al cargar</h3>
+            <p className="text-[#595959]">{error}</p>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="bg-[#0D0D0D] text-[#4CAF50] px-6 py-3 rounded-lg font-semibold hover:bg-[#262626] shadow-md transition-all duration-200"
+            >
               Intentar de nuevo
             </button>
           </div>
@@ -163,7 +165,7 @@ function HomePage() {
 function App() {
   return (
     <SearchProvider>
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+      <div className="min-h-screen lg:h-screen lg:overflow-hidden bg-[#F2F2F2] text-[#0D0D0D]">
         <Routes>
           {/* Página principal */}
           <Route path="/" element={<Navigate to="/inicio" replace />} />
