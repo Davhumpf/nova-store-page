@@ -4,7 +4,6 @@ import { auth } from '../firebase';
 import { Mail, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { useToast } from '../components/ToastProvider';
 
-
 interface LoginProps { onSuccess?: () => void; }
 
 const mapError = (code?: string) => {
@@ -82,10 +81,10 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
   }, [isBlocked, onSuccess, provider, push]);
 
   return (
-    <form onSubmit={onSubmit} className="space-y-3">
+    <form onSubmit={onSubmit} className="space-y-2.5">
       {/* email */}
       <div className="relative">
-        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+        <Mail className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#8A8A8A]" size={14} />
         <input
           ref={emailRef}
           type="email"
@@ -95,60 +94,64 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
           placeholder="correo@ejemplo.com"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          className="w-full pl-10 pr-4 py-2.5 bg-slate-900/60 border border-slate-700 rounded-lg text-slate-100 text-sm focus:border-yellow-400 focus:outline-none"
+          className="w-full pl-9 pr-3 py-2 bg-white border border-[#D0D0D0] rounded-md text-[#2A2A2A] text-xs placeholder-[#8A8A8A] focus:border-[#4CAF50] focus:outline-none transition-colors"
           required
         />
       </div>
 
       {/* password */}
       <div className="relative">
-        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+        <Lock className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#8A8A8A]" size={14} />
         <input
           type={showPw ? 'text' : 'password'}
           autoComplete="current-password"
           placeholder="Contraseña"
           value={pw}
           onChange={e => setPw(e.target.value)}
-          className="w-full pl-10 pr-10 py-2.5 bg-slate-900/60 border border-slate-700 rounded-lg text-slate-100 text-sm focus:border-yellow-400 focus:outline-none"
+          className="w-full pl-9 pr-9 py-2 bg-white border border-[#D0D0D0] rounded-md text-[#2A2A2A] text-xs placeholder-[#8A8A8A] focus:border-[#4CAF50] focus:outline-none transition-colors"
           required
           minLength={8}
         />
         <button
           type="button"
           onClick={() => setShowPw(s => !s)}
-          className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+          className="absolute right-2 top-1/2 -translate-y-1/2 text-[#8A8A8A] hover:text-[#2A2A2A] transition-colors"
           aria-label={showPw ? 'Ocultar contraseña' : 'Mostrar contraseña'}
         >
-          {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
+          {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
         </button>
       </div>
 
       <button
         type="submit"
         disabled={loading || isBlocked}
-        className="w-full bg-yellow-400 hover:bg-yellow-300 text-slate-900 py-2.5 rounded-lg font-semibold text-sm disabled:opacity-50"
+        className="w-full bg-[#4CAF50] hover:bg-[#45a049] text-white py-2 rounded-md font-medium text-xs disabled:opacity-50 transition-colors shadow-[0_2px_8px_rgba(76,175,80,0.25)]"
       >
         {isBlocked ? 'Bloqueado temporalmente' : loading ? 'Iniciando…' : 'Iniciar sesión'}
       </button>
 
       <div className="relative">
-        <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-slate-700" /></div>
-        <div className="relative flex justify-center text-xs"><span className="bg-slate-800/50 px-2 text-slate-400">o</span></div>
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-[#D0D0D0]" />
+        </div>
+        <div className="relative flex justify-center text-[10px]">
+          <span className="bg-[#F5F5F5] px-2 text-[#8A8A8A] font-light">o continuar con</span>
+        </div>
       </div>
 
       <button
         type="button"
         onClick={onGoogle}
         disabled={loading || isBlocked}
-        className="w-full bg-white text-slate-900 hover:opacity-90 py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-2 disabled:opacity-60"
+        className="w-full bg-white border border-[#D0D0D0] text-[#2A2A2A] hover:bg-[#FAFAFA] py-2 rounded-md font-medium text-xs flex items-center justify-center gap-2 disabled:opacity-60 transition-colors shadow-[0_1px_4px_rgba(0,0,0,0.08)]"
       >
-        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" width={16} height={16} />
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" width={14} height={14} />
         Continuar con Google
       </button>
 
       {err && (
-        <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-2.5 text-red-400 text-sm flex items-center gap-2">
-          <AlertCircle size={14} />
+        <div className="bg-red-500/10 border border-red-500/20 rounded-md p-2 text-red-500 text-[10px] flex items-center gap-1.5 font-light">
+          <AlertCircle size={12} className="shrink-0" />
           <span>{err}</span>
         </div>
       )}

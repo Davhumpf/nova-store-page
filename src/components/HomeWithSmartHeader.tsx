@@ -28,7 +28,7 @@ const HomeWithSmartHeader: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-slate-900 dark:bg-gray-950">
       {/* 👇 Le pasamos el flag al header */}
       <Header showHeaderTitle={showHeaderTitle} />
       {/* 👇 Le pasamos el ref al título del Home */}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, Camera, UploadCloud, Award, Loader, Edit3, Save, X, Gift, Star, TrendingUp, Calendar, MessageCircle, Crown, Trophy, Target, Coins, Rocket, Sparkles, Check } from 'lucide-react';
+import { User, Camera, UploadCloud, Award, Loader, Edit3, Save, X, Gift, Star, TrendingUp, Calendar, MessageCircle, Crown, Trophy, Target, Coins, Sparkles, Check } from 'lucide-react';
 import { useUser } from '../context/UserContext';
 import { auth, storage } from '../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -20,9 +20,7 @@ const ProfilePage: React.FC = () => {
   });
 
   useEffect(() => {
-    if (!user) {
-      window.location.href = '/auth';
-    }
+    if (!user) window.location.href = '/auth';
   }, [user]);
 
   useEffect(() => {
@@ -52,10 +50,7 @@ const ProfilePage: React.FC = () => {
       setUploadProgress(70);
       const photoURL = await getDownloadURL(storageRef);
       
-      // Actualizar perfil del usuario en Auth
       await updateProfile(user, { photoURL });
-      
-      // Actualizar en Firestore
       await updateUserPhoto(user.uid, photoURL);
       
       setUploadProgress(100);
@@ -71,16 +66,9 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
-
   const handleSave = async () => {
     try {
-      // Aquí puedes agregar la lógica para guardar en Firebase/Firestore
-      // Por ejemplo: await updateUserProfile(user.uid, tempProfile);
       setIsEditing(false);
-      // await refreshUserProfile();
     } catch (error) {
       console.error('Error al guardar el perfil:', error);
     }
@@ -113,33 +101,33 @@ const ProfilePage: React.FC = () => {
   };
 
   const getUserLevel = (points: number) => {
-    if (points >= 2000) return { level: 'Platino', color: 'from-slate-300 to-slate-500', icon: <Crown className="w-5 h-5" /> };
-    if (points >= 1000) return { level: 'Oro', color: 'from-yellow-400 to-yellow-600', icon: <Trophy className="w-5 h-5" /> };
-    if (points >= 500) return { level: 'Plata', color: 'from-slate-400 to-slate-600', icon: <Star className="w-5 h-5" /> };
-    return { level: 'Bronce', color: 'from-orange-400 to-orange-600', icon: <Target className="w-5 h-5" /> };
+    if (points >= 2000) return { level: 'Platino', color: 'from-[#A6A6A6] to-[#595959]', icon: <Crown className="w-5 h-5" /> };
+    if (points >= 1000) return { level: 'Oro', color: 'from-[#4CAF50] to-[#66FF7A]', icon: <Trophy className="w-5 h-5" /> };
+    if (points >= 500) return { level: 'Plata', color: 'from-[#BA68C8] to-[#E1BEE7]', icon: <Star className="w-5 h-5" /> };
+    return { level: 'Bronce', color: 'from-[#4FC3F7] to-[#81D4FA]', icon: <Target className="w-5 h-5" /> };
   };
 
   const rewards = [
-    { id: 1, name: 'Descuento 10%', points: 500, icon: <Gift className="w-6 h-6" />, color: 'from-blue-500 to-blue-600' },
-    { id: 2, name: 'Descuento 25%', points: 1000, icon: <Star className="w-6 h-6" />, color: 'from-purple-500 to-purple-600' },
-    { id: 3, name: 'Producto Gratis', points: 1500, icon: <Crown className="w-6 h-6" />, color: 'from-yellow-500 to-yellow-600' },
-    { id: 4, name: '3 meses de plataforma gratis', points: 2000, icon: <Rocket className="w-6 h-6" />, color: 'from-green-500 to-green-600' }
+    { id: 1, name: 'Descuento 10%', points: 500, icon: <Gift className="w-6 h-6" />, color: 'from-[#4FC3F7] to-[#81D4FA]' },
+    { id: 2, name: 'Descuento 25%', points: 1000, icon: <Star className="w-6 h-6" />, color: 'from-[#BA68C8] to-[#E1BEE7]' },
+    { id: 3, name: 'Producto Gratis', points: 1500, icon: <Crown className="w-6 h-6" />, color: 'from-[#4CAF50] to-[#66FF7A]' },
+    { id: 4, name: '3 meses gratis', points: 2000, icon: <Sparkles className="w-6 h-6" />, color: 'from-[#0D0D0D] to-[#262626]' }
   ];
 
   const handleRewardSelect = (reward: any) => {
     const points = userProfile?.points || 0;
     if (points >= reward.points) {
-      const message = encodeURIComponent(`¡Hola! Quiero canjear mi recompensa: ${reward.name} (${reward.points} puntos). Tengo ${points} puntos disponibles.`);
+      const message = encodeURIComponent(`¡Hola! Quiero canjear: ${reward.name} (${reward.points} pts). Tengo ${points} puntos.`);
       window.open(`https://wa.me/573027214125?text=${message}`, '_blank');
     }
   };
 
   if (!user || !userProfile) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="min-h-screen flex items-center justify-center bg-[#F2F2F2]">
         <div className="text-center space-y-4">
-          <div className="w-12 h-12 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="text-slate-300">Cargando perfil...</p>
+          <div className="w-12 h-12 border-4 border-[#4CAF50] border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-[#595959] font-light">Cargando perfil...</p>
         </div>
       </div>
     );
@@ -149,55 +137,53 @@ const ProfilePage: React.FC = () => {
   const daysAsMember = calculateDaysAsMember();
 
   const userStats = [
-    { label: 'Puntos Totales', value: userProfile.points || 0, icon: <Coins className="w-5 h-5" />, color: 'text-yellow-400' },
-    { label: 'Compras Realizadas', value: userProfile.totalPurchases || 0, icon: <TrendingUp className="w-5 h-5" />, color: 'text-blue-400' },
-    { label: 'Recompensas Canjeadas', value: userProfile.rewardsRedeemed || 0, icon: <Trophy className="w-5 h-5" />, color: 'text-green-400' },
-    { label: 'Días como miembro', value: daysAsMember, icon: <Calendar className="w-5 h-5" />, color: 'text-purple-400' }
+    { label: 'Puntos', value: userProfile.points || 0, icon: <Coins className="w-5 h-5" />, color: 'text-[#4CAF50]' },
+    { label: 'Compras', value: userProfile.totalPurchases || 0, icon: <TrendingUp className="w-5 h-5" />, color: 'text-[#4FC3F7]' },
+    { label: 'Recompensas', value: userProfile.rewardsRedeemed || 0, icon: <Trophy className="w-5 h-5" />, color: 'text-[#BA68C8]' },
+    { label: 'Días miembro', value: daysAsMember, icon: <Calendar className="w-5 h-5" />, color: 'text-[#595959]' }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-8 px-4">
-      <div className="container mx-auto max-w-6xl">
-        {/* Header con animación */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-black bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-yellow-500 mb-2">
-            Mi Perfil Nova
-          </h1>
-          <p className="text-slate-300">Gestiona tu cuenta y descubre tus recompensas</p>
+    <div className="min-h-screen bg-[#F2F2F2] py-6 px-4">
+      <div className="container mx-auto max-w-5xl">
+        
+        {/* Header */}
+        <div className="text-center mb-6">
+          <h1 className="text-3xl font-light text-[#0D0D0D] mb-2">Mi Perfil</h1>
+          <p className="text-[#595959] font-light">Gestiona tu cuenta y recompensas</p>
         </div>
 
-        {/* Tarjeta principal de perfil */}
-        <div className="bg-gradient-to-r from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 overflow-hidden mb-8 shadow-xl">
-          <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 p-6 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 rounded-xl blur-lg"></div>
-            <div className="relative flex flex-col md:flex-row items-center gap-6">
-              {/* Foto de perfil con efectos */}
+        {/* Tarjeta principal */}
+        <div className="bg-white rounded-xl border border-[#A6A6A6]/20 overflow-hidden mb-6 shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
+          <div className="bg-gradient-to-r from-[#4CAF50] to-[#66FF7A] p-6">
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              
+              {/* Foto perfil */}
               <div className="relative group">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 rounded-full blur-lg group-hover:blur-xl transition-all duration-500"></div>
                   {userProfile.photoURL ? (
                     <img 
                       src={userProfile.photoURL} 
-                      alt="Foto de perfil" 
-                      className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg transform group-hover:scale-105 transition-all duration-300 relative z-10"
+                      alt="Perfil" 
+                      className="w-28 h-28 rounded-full object-cover border-4 border-white shadow-lg transform group-hover:scale-105 transition-all duration-300"
                     />
                   ) : (
-                    <div className="w-32 h-32 rounded-full bg-slate-600 flex items-center justify-center border-4 border-white shadow-lg relative z-10">
-                      <User size={48} className="text-white" />
+                    <div className="w-28 h-28 rounded-full bg-white/20 flex items-center justify-center border-4 border-white shadow-lg">
+                      <User size={40} className="text-white" />
                     </div>
                   )}
                   
                   {isUploading ? (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center rounded-full bg-black bg-opacity-70 z-20">
-                      <Loader size={24} className="text-yellow-400 animate-spin" />
+                    <div className="absolute inset-0 flex flex-col items-center justify-center rounded-full bg-black/70">
+                      <Loader size={20} className="text-white animate-spin" />
                       <span className="text-xs text-white mt-1">{uploadProgress}%</span>
                     </div>
                   ) : (
                     <label 
                       htmlFor="profile-photo" 
-                      className="absolute inset-0 flex items-center justify-center rounded-full bg-black bg-opacity-0 group-hover:bg-opacity-50 cursor-pointer transition-all duration-300 z-20"
+                      className="absolute inset-0 flex items-center justify-center rounded-full bg-black/0 group-hover:bg-black/50 cursor-pointer transition-all duration-300"
                     >
-                      <Camera size={24} className="text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <Camera size={20} className="text-white opacity-0 group-hover:opacity-100 transition-opacity" />
                     </label>
                   )}
                 </div>
@@ -213,41 +199,40 @@ const ProfilePage: React.FC = () => {
                 
                 <label 
                   htmlFor="profile-photo" 
-                  className="mt-4 text-slate-900 font-semibold flex items-center gap-2 cursor-pointer hover:text-slate-700 transition-colors justify-center"
+                  className="mt-3 text-white text-sm font-medium flex items-center gap-2 cursor-pointer hover:text-white/80 transition-colors justify-center"
                 >
-                  <UploadCloud size={16} />
+                  <UploadCloud size={14} />
                   Cambiar foto
                 </label>
               </div>
 
-              {/* Información del usuario */}
-              <div className="flex-1 text-slate-900 text-center md:text-left">
-                <h2 className="text-2xl font-bold mb-1">
-                  {userProfile.displayName || user.email?.split('@')[0] || 'Usuario Nova'}
+              {/* Info usuario */}
+              <div className="flex-1 text-white text-center md:text-left">
+                <h2 className="text-2xl font-medium mb-1">
+                  {userProfile.displayName || user.email?.split('@')[0] || 'Usuario'}
                 </h2>
-                <p className="text-slate-700 mb-3">{user.email}</p>
+                <p className="text-white/80 mb-3 text-sm">{user.email}</p>
                 
-                {/* Nivel del usuario */}
-                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${userLevel.color} text-white font-semibold shadow-lg`}>
+                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${userLevel.color} text-white font-medium shadow-lg text-sm`}>
                   {userLevel.icon}
                   <span>Nivel {userLevel.level}</span>
                 </div>
               </div>
 
-              {/* Puntos destacados */}
+              {/* Puntos */}
               <div className="text-center">
                 <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 border border-white/30">
                   <div className="flex items-center justify-center gap-2 mb-2">
-                    <Award className="w-6 h-6 text-slate-900" />
-                    <span className="text-slate-900 font-semibold">Puntos Nova</span>
+                    <Award className="w-5 h-5 text-white" />
+                    <span className="text-white font-medium text-sm">Puntos</span>
                   </div>
-                  <div className="text-3xl font-bold text-slate-900">{userProfile.points || 0}</div>
+                  <div className="text-3xl font-semibold text-white">{userProfile.points || 0}</div>
                   <button 
                     onClick={handleRedeemPoints}
-                    className="mt-3 bg-white/90 backdrop-blur-sm text-slate-900 px-6 py-2 rounded-xl font-semibold hover:bg-white transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto shadow-lg"
+                    className="mt-3 bg-white text-[#4CAF50] px-5 py-2 rounded-lg font-medium hover:bg-white/90 transition-all duration-200 flex items-center gap-2 mx-auto shadow-md text-sm"
                   >
-                    <MessageCircle size={16} />
-                    Redimir Puntos
+                    <MessageCircle size={14} />
+                    Redimir
                   </button>
                 </div>
               </div>
@@ -255,116 +240,116 @@ const ProfilePage: React.FC = () => {
           </div>
 
           {/* Estadísticas */}
-          <div className="p-6 bg-gradient-to-r from-slate-800/50 to-slate-900/50 backdrop-blur-sm">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="p-5 bg-[#F2F2F2]">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {userStats.map((stat, index) => (
-                <div key={index} className="bg-slate-800/30 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-slate-700/30 transition-all duration-300 transform hover:scale-105 border border-slate-700/50">
+                <div key={index} className="bg-white rounded-lg p-4 text-center hover:shadow-md transition-all duration-200 border border-[#A6A6A6]/10">
                   <div className={`${stat.color} mb-2 flex justify-center`}>
                     {stat.icon}
                   </div>
-                  <div className="text-2xl font-bold text-white">{stat.value}</div>
-                  <div className="text-sm text-slate-400">{stat.label}</div>
+                  <div className="text-2xl font-semibold text-[#0D0D0D]">{stat.value}</div>
+                  <div className="text-xs text-[#595959] font-light">{stat.label}</div>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Información personal editable */}
-        <div className="bg-gradient-to-r from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl p-6 mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold text-white">Información Personal</h3>
+        {/* Información personal */}
+        <div className="bg-white rounded-xl border border-[#A6A6A6]/20 shadow-[0_4px_12px_rgba(0,0,0,0.08)] p-5 mb-6">
+          <div className="flex items-center justify-between mb-5">
+            <h3 className="text-lg font-medium text-[#0D0D0D]">Información Personal</h3>
             {!isEditing ? (
               <button 
-                onClick={handleEdit}
-                className="flex items-center gap-2 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-slate-900 px-4 py-2 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
+                onClick={() => setIsEditing(true)}
+                className="flex items-center gap-2 bg-[#0D0D0D] hover:bg-[#262626] text-[#4CAF50] px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-md text-sm"
               >
-                <Edit3 size={16} />
+                <Edit3 size={14} />
                 Editar
               </button>
             ) : (
               <div className="flex gap-2">
                 <button 
                   onClick={handleSave}
-                  className="flex items-center gap-2 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  className="flex items-center gap-2 bg-[#4CAF50] hover:bg-[#66FF7A] text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-md text-sm"
                 >
-                  <Save size={16} />
+                  <Save size={14} />
                   Guardar
                 </button>
                 <button 
                   onClick={handleCancel}
-                  className="flex items-center gap-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-400 hover:to-red-500 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-md text-sm"
                 >
-                  <X size={16} />
+                  <X size={14} />
                   Cancelar
                 </button>
               </div>
             )}
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-slate-400 mb-2">Correo electrónico</label>
-              <div className="bg-slate-800/30 backdrop-blur-sm border border-slate-700/50 text-white rounded-xl px-4 py-3">{user.email}</div>
+              <label className="block text-sm font-medium text-[#595959] mb-2">Email</label>
+              <div className="bg-[#F2F2F2] border border-[#A6A6A6]/20 text-[#0D0D0D] rounded-lg px-4 py-3 text-sm">{user.email}</div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-400 mb-2">Nombre completo</label>
+              <label className="block text-sm font-medium text-[#595959] mb-2">Nombre</label>
               {isEditing ? (
                 <input 
                   type="text"
                   value={tempProfile.displayName}
                   onChange={(e) => setTempProfile({...tempProfile, displayName: e.target.value})}
-                  className="w-full bg-slate-800/30 backdrop-blur-sm border border-slate-700/50 text-white rounded-xl px-4 py-3 focus:border-yellow-400 focus:outline-none transition-colors"
-                  placeholder="Ingresa tu nombre completo"
+                  className="w-full bg-[#F2F2F2] border border-[#A6A6A6]/20 text-[#0D0D0D] rounded-lg px-4 py-3 focus:border-[#4CAF50] focus:outline-none transition-colors text-sm"
+                  placeholder="Tu nombre"
                 />
               ) : (
-                <div className="bg-slate-800/30 backdrop-blur-sm border border-slate-700/50 text-white rounded-xl px-4 py-3">
+                <div className="bg-[#F2F2F2] border border-[#A6A6A6]/20 text-[#0D0D0D] rounded-lg px-4 py-3 text-sm">
                   {userProfile.displayName || tempProfile.displayName || 'No especificado'}
                 </div>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-400 mb-2">Teléfono</label>
+              <label className="block text-sm font-medium text-[#595959] mb-2">Teléfono</label>
               {isEditing ? (
                 <input 
                   type="tel"
                   value={tempProfile.phone}
                   onChange={(e) => setTempProfile({...tempProfile, phone: e.target.value})}
-                  className="w-full bg-slate-800/30 backdrop-blur-sm border border-slate-700/50 text-white rounded-xl px-4 py-3 focus:border-yellow-400 focus:outline-none transition-colors"
-                  placeholder="Ej: +57 300 123 4567"
+                  className="w-full bg-[#F2F2F2] border border-[#A6A6A6]/20 text-[#0D0D0D] rounded-lg px-4 py-3 focus:border-[#4CAF50] focus:outline-none transition-colors text-sm"
+                  placeholder="+57 300 123 4567"
                 />
               ) : (
-                <div className="bg-slate-800/30 backdrop-blur-sm border border-slate-700/50 text-white rounded-xl px-4 py-3">
+                <div className="bg-[#F2F2F2] border border-[#A6A6A6]/20 text-[#0D0D0D] rounded-lg px-4 py-3 text-sm">
                   {userProfile.phone || tempProfile.phone || 'No especificado'}
                 </div>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-400 mb-2">Fecha de nacimiento</label>
+              <label className="block text-sm font-medium text-[#595959] mb-2">Fecha de nacimiento</label>
               {isEditing ? (
                 <input 
                   type="date"
                   value={tempProfile.birthDate}
                   onChange={(e) => setTempProfile({...tempProfile, birthDate: e.target.value})}
-                  className="w-full bg-slate-800/30 backdrop-blur-sm border border-slate-700/50 text-white rounded-xl px-4 py-3 focus:border-yellow-400 focus:outline-none transition-colors"
+                  className="w-full bg-[#F2F2F2] border border-[#A6A6A6]/20 text-[#0D0D0D] rounded-lg px-4 py-3 focus:border-[#4CAF50] focus:outline-none transition-colors text-sm"
                 />
               ) : (
-                <div className="bg-slate-800/30 backdrop-blur-sm border border-slate-700/50 text-white rounded-xl px-4 py-3">
+                <div className="bg-[#F2F2F2] border border-[#A6A6A6]/20 text-[#0D0D0D] rounded-lg px-4 py-3 text-sm">
                   {userProfile.birthDate || tempProfile.birthDate || 'No especificado'}
                 </div>
               )}
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-slate-400 mb-2">Categoría favorita</label>
+              <label className="block text-sm font-medium text-[#595959] mb-2">Categoría favorita</label>
               {isEditing ? (
                 <select 
                   value={tempProfile.favoriteCategory}
                   onChange={(e) => setTempProfile({...tempProfile, favoriteCategory: e.target.value})}
-                  className="w-full bg-slate-800/30 backdrop-blur-sm border border-slate-700/50 text-white rounded-xl px-4 py-3 focus:border-yellow-400 focus:outline-none transition-colors"
+                  className="w-full bg-[#F2F2F2] border border-[#A6A6A6]/20 text-[#0D0D0D] rounded-lg px-4 py-3 focus:border-[#4CAF50] focus:outline-none transition-colors text-sm"
                 >
                   <option value="streaming">Streaming</option>
                   <option value="gaming">Gaming</option>
@@ -373,7 +358,7 @@ const ProfilePage: React.FC = () => {
                   <option value="education">Educación</option>
                 </select>
               ) : (
-                <div className="bg-slate-800/30 backdrop-blur-sm border border-slate-700/50 text-white rounded-xl px-4 py-3 capitalize">
+                <div className="bg-[#F2F2F2] border border-[#A6A6A6]/20 text-[#0D0D0D] rounded-lg px-4 py-3 capitalize text-sm">
                   {userProfile.favoriteCategory || tempProfile.favoriteCategory}
                 </div>
               )}
@@ -381,98 +366,95 @@ const ProfilePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Sistema de recompensas */}
-        <div className="bg-gradient-to-r from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold text-white flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-yellow-400" />
-              Recompensas Disponibles
+        {/* Recompensas */}
+        <div className="bg-white rounded-xl border border-[#A6A6A6]/20 shadow-[0_4px_12px_rgba(0,0,0,0.08)] p-5">
+          <div className="flex items-center justify-between mb-5">
+            <h3 className="text-lg font-medium text-[#0D0D0D] flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-[#4CAF50]" />
+              Recompensas
             </h3>
             <button 
               onClick={() => setShowRewardsModal(true)}
-              className="text-yellow-400 hover:text-yellow-300 transition-colors font-semibold"
+              className="text-[#4CAF50] hover:text-[#66FF7A] transition-colors font-medium text-sm"
             >
               Ver todas
             </button>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
             {rewards.map((reward) => (
               <div 
                 key={reward.id}
-                className={`relative group bg-gradient-to-br ${reward.color} rounded-xl p-4 text-white cursor-pointer transition-all duration-300 border border-white/20 ${
-                  (userProfile.points || 0) >= reward.points ? 'transform hover:scale-105 shadow-lg hover:shadow-xl' : 'opacity-60'
+                className={`relative group bg-gradient-to-br ${reward.color} rounded-lg p-4 text-white cursor-pointer transition-all duration-200 border border-white/20 ${
+                  (userProfile.points || 0) >= reward.points ? 'transform hover:scale-105 shadow-md hover:shadow-lg' : 'opacity-50'
                 }`}
                 onClick={() => handleRewardSelect(reward)}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-white/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative">
-                  <div className="flex items-center justify-between mb-3">
-                    {reward.icon}
-                    {(userProfile.points || 0) >= reward.points && (
-                      <Check className="w-5 h-5 text-green-300" />
-                    )}
-                  </div>
-                  <h4 className="font-semibold mb-1">{reward.name}</h4>
-                  <p className="text-sm opacity-90">{reward.points} puntos</p>
-                  {(userProfile.points || 0) < reward.points && (
-                    <div className="absolute inset-0 bg-black bg-opacity-40 rounded-xl flex items-center justify-center">
-                      <span className="text-sm font-semibold text-center px-2">
-                        Necesitas {reward.points - (userProfile.points || 0)} puntos más
-                      </span>
-                    </div>
+                <div className="flex items-center justify-between mb-2">
+                  {reward.icon}
+                  {(userProfile.points || 0) >= reward.points && (
+                    <Check className="w-5 h-5 text-white" />
                   )}
                 </div>
+                <h4 className="font-medium mb-1 text-sm">{reward.name}</h4>
+                <p className="text-xs opacity-90">{reward.points} pts</p>
+                {(userProfile.points || 0) < reward.points && (
+                  <div className="absolute inset-0 bg-black/40 rounded-lg flex items-center justify-center">
+                    <span className="text-xs font-medium text-center px-2">
+                      Faltan {reward.points - (userProfile.points || 0)} pts
+                    </span>
+                  </div>
+                )}
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Modal de recompensas */}
+      {/* Modal */}
       {showRewardsModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-gradient-to-r from-slate-800/90 to-slate-900/90 backdrop-blur-sm rounded-2xl max-w-2xl w-full max-h-96 overflow-y-auto border border-slate-700/50 shadow-2xl">
+          <div className="bg-white rounded-xl max-w-2xl w-full max-h-96 overflow-y-auto border border-[#A6A6A6]/20 shadow-2xl">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-semibold text-white flex items-center gap-2">
-                  <Gift className="w-5 h-5 text-yellow-400" />
+                <h3 className="text-xl font-medium text-[#0D0D0D] flex items-center gap-2">
+                  <Gift className="w-5 h-5 text-[#4CAF50]" />
                   Todas las Recompensas
                 </h3>
                 <button 
                   onClick={() => setShowRewardsModal(false)}
-                  className="text-slate-400 hover:text-white transition-colors p-1 hover:bg-slate-700/50 rounded-lg"
+                  className="text-[#595959] hover:text-[#0D0D0D] transition-colors p-1"
                 >
                   <X size={24} />
                 </button>
               </div>
               
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {rewards.map((reward) => (
                   <div 
                     key={reward.id}
-                    className={`flex items-center justify-between p-4 rounded-xl border backdrop-blur-sm transition-all duration-300 ${
+                    className={`flex items-center justify-between p-4 rounded-lg border transition-all duration-200 ${
                       (userProfile.points || 0) >= reward.points 
-                        ? 'border-green-500/50 bg-green-500/10 hover:bg-green-500/20' 
-                        : 'border-slate-600/50 bg-slate-800/30 hover:bg-slate-700/30'
+                        ? 'border-[#4CAF50]/50 bg-[#4CAF50]/10 hover:bg-[#4CAF50]/20' 
+                        : 'border-[#A6A6A6]/20 bg-[#F2F2F2] hover:bg-white'
                     }`}
                   >
                     <div className="flex items-center gap-4">
-                      <div className={`p-2 rounded-lg bg-gradient-to-br ${reward.color} shadow-lg`}>
+                      <div className={`p-2 rounded-lg bg-gradient-to-br ${reward.color} shadow-md`}>
                         {reward.icon}
                       </div>
                       <div>
-                        <h4 className="font-semibold text-white">{reward.name}</h4>
-                        <p className="text-slate-400">{reward.points} puntos requeridos</p>
+                        <h4 className="font-medium text-[#0D0D0D] text-sm">{reward.name}</h4>
+                        <p className="text-[#595959] text-xs">{reward.points} puntos</p>
                       </div>
                     </div>
                     <button 
                       onClick={() => handleRewardSelect(reward)}
                       disabled={(userProfile.points || 0) < reward.points}
-                      className={`px-4 py-2 rounded-xl font-semibold transition-all duration-300 ${
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 text-sm ${
                         (userProfile.points || 0) >= reward.points
-                          ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-slate-900 transform hover:scale-105 shadow-lg'
-                          : 'bg-slate-600/50 text-slate-400 cursor-not-allowed'
+                          ? 'bg-[#4CAF50] hover:bg-[#66FF7A] text-white shadow-md'
+                          : 'bg-[#A6A6A6]/30 text-[#595959] cursor-not-allowed'
                       }`}
                     >
                       {(userProfile.points || 0) >= reward.points ? 'Canjear' : 'Bloqueado'}

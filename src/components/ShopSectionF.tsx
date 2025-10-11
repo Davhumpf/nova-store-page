@@ -3,7 +3,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 import {
-  Search, Star, Play, Filter, Grid, List, Heart, Eye, Users, ShoppingCart, ArrowLeft
+  Search, Star, Play, Filter, Grid, List, Heart, Eye, Users, ShoppingCart, ArrowRight, X
 } from "lucide-react";
 
 import Header from "./Header";
@@ -51,14 +51,10 @@ const ShopSectionF: React.FC = () => {
   const { push } = useToast();
   const { addToCart, cartItems } = useCart();
 
-  // 🔝 Anchor para subir al inicio del listado (justo debajo de los filtros)
   const topRef = useRef<HTMLDivElement | null>(null);
 
-  // Helper robusto para subir
   const scrollToTop = () => {
-    // 1) que el contenedor scrollable suba al inicio del anchor
     topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    // 2) fallback para scroll de ventana / html / body
     try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch {}
     try { document.documentElement.scrollTo({ top: 0, behavior: "smooth" }); } catch {}
     try { document.body.scrollTo({ top: 0, behavior: "smooth" }); } catch {}
@@ -156,9 +152,7 @@ const ShopSectionF: React.FC = () => {
   const safePage = Math.min(Math.max(1, page), totalPages);
   const paginated = filtered.slice((safePage - 1) * itemsPerPage, safePage * itemsPerPage);
 
-  // 🔁 Respaldo: cuando cambia la página y pinta, subimos al inicio del listado
   useLayoutEffect(() => {
-    // un frame después para asegurar layout
     const id = requestAnimationFrame(scrollToTop);
     return () => cancelAnimationFrame(id);
   }, [safePage]);
@@ -166,12 +160,12 @@ const ShopSectionF: React.FC = () => {
   // Loading / Error
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900">
+      <div className="min-h-screen bg-[#E8E8E8]">
         <Header />
         <div className="flex items-center justify-center py-24">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-400 mx-auto mb-4"></div>
-            <p className="text-gray-300">Cargando contenido...</p>
+          <div className="flex flex-col items-center">
+            <div className="w-10 h-10 rounded-full border-2 border-[#4CAF50]/30 border-t-[#4CAF50] animate-spin mb-2"></div>
+            <p className="text-[#5A5A5A] text-xs font-light">Cargando contenido...</p>
           </div>
         </div>
       </div>
@@ -179,11 +173,11 @@ const ShopSectionF: React.FC = () => {
   }
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-900">
+      <div className="min-h-screen bg-[#E8E8E8]">
         <Header />
         <div className="flex items-center justify-center py-24">
-          <div className="text-center bg-gray-800 p-6 rounded-lg border border-gray-700">
-            <p className="text-red-400">{error}</p>
+          <div className="text-center bg-[#F5F5F5] border border-[#D0D0D0] p-4 rounded-lg">
+            <p className="text-red-500 text-xs">{error}</p>
           </div>
         </div>
       </div>
@@ -191,84 +185,84 @@ const ShopSectionF: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-[#E8E8E8]">
       <Header />
 
       {/* Barra de controles superior */}
-      <div className="bg-gray-800/50 border-b border-gray-700">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-            <div className="flex-1">
-              <button
-                onClick={() => navigate(-1)}
-                className="flex items-center gap-2 text-gray-400 hover:text-yellow-400 transition-colors mb-1"
-              >
-                <ArrowLeft size={16} />
-                <span className="text-sm">Volver</span>
-              </button>
+      <div className="bg-[#F5F5F5] border-b border-[#D0D0D0] sticky top-0 z-10 shadow-sm">
+        <div className="container mx-auto px-3 py-2">
+          <div className="flex items-center justify-between mb-2">
+            <button
+              onClick={() => navigate(-1)}
+              className="flex items-center gap-1 text-[10px] text-[#4CAF50] hover:text-[#45a049] transition-colors group"
+            >
+              <ArrowRight size={12} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
+              <span className="font-medium">Volver</span>
+            </button>
+            <p className="text-[#8A8A8A] text-[9px] font-light">{filtered.length} productos</p>
+          </div>
 
-              <h1 className="text-xl font-bold text-yellow-400 mb-1">Productos Físicos</h1>
-              <p className="text-gray-400 text-sm">{filtered.length} productos encontrados</p>
+          <div className="flex gap-2">
+            <div className="flex-1 flex items-center bg-white border border-[#D0D0D0] px-2 py-1.5 rounded-md">
+              <Search size={12} className="text-[#8A8A8A] mr-1.5 shrink-0" />
+              <input
+                type="text"
+                placeholder="Buscar..."
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  setPage(1);
+                  scrollToTop();
+                }}
+                className="bg-transparent outline-none text-[#2A2A2A] flex-1 placeholder-[#8A8A8A] text-[10px]"
+              />
             </div>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              <div className="flex items-center bg-gray-700 px-3 py-2 rounded-lg sm:w-64">
-                <Search size={16} className="text-gray-400 mr-2" />
-                <input
-                  type="text"
-                  placeholder="Buscar..."
-                  value={search}
-                  onChange={(e) => {
-                    setSearch(e.target.value);
-                    setPage(1);
-                    scrollToTop();
-                  }}
-                  className="bg-transparent outline-none text-white flex-1 placeholder-gray-400 text-sm"
-                />
-              </div>
+            <button
+              onClick={() => setShowFilters((s) => !s)}
+              className={`p-1.5 rounded-md transition-all shrink-0 ${
+                showFilters ? "bg-[#4CAF50] text-white" : "bg-white border border-[#D0D0D0] text-[#8A8A8A]"
+              }`}
+              title="Filtros"
+            >
+              <Filter size={12} />
+            </button>
 
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setShowFilters((s) => !s)}
-                  className={`p-2 rounded-lg transition-all ${
-                    showFilters ? "bg-yellow-400 text-gray-900" : "bg-gray-700 text-gray-300"
-                  }`}
-                  title="Filtros"
-                >
-                  <Filter size={16} />
-                </button>
-
-                <div className="flex bg-gray-700 rounded-lg p-1">
-                  <button
-                    onClick={() => setViewMode("grid")}
-                    className={`p-1.5 rounded transition-all ${
-                      viewMode === "grid" ? "bg-yellow-400 text-gray-900" : "text-gray-400"
-                    }`}
-                    title="Vista grid"
-                  >
-                    <Grid size={14} />
-                  </button>
-                  <button
-                    onClick={() => setViewMode("list")}
-                    className={`p-1.5 rounded transition-all ${
-                      viewMode === "list" ? "bg-yellow-400 text-gray-900" : "text-gray-400"
-                    }`}
-                    title="Vista lista"
-                  >
-                    <List size={14} />
-                  </button>
-                </div>
-              </div>
+            <div className="flex bg-white border border-[#D0D0D0] rounded-md p-0.5">
+              <button
+                onClick={() => setViewMode("grid")}
+                className={`p-1 rounded transition-all ${
+                  viewMode === "grid" ? "bg-[#4CAF50] text-white" : "text-[#8A8A8A]"
+                }`}
+                title="Vista grid"
+              >
+                <Grid size={10} />
+              </button>
+              <button
+                onClick={() => setViewMode("list")}
+                className={`p-1 rounded transition-all ${
+                  viewMode === "list" ? "bg-[#4CAF50] text-white" : "text-[#8A8A8A]"
+                }`}
+                title="Vista lista"
+              >
+                <List size={10} />
+              </button>
             </div>
           </div>
 
           {/* Filtros */}
           {showFilters && (
-            <div className="bg-gray-800 rounded-lg p-4 mt-4 border border-gray-700">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="bg-white rounded-md border border-[#D0D0D0] p-3 mt-2">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10px] font-medium text-[#2A2A2A]">Filtros</span>
+                <button onClick={() => setShowFilters(false)} className="text-[#8A8A8A]">
+                  <X size={12} />
+                </button>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
                 {/* Categoría */}
                 <div>
-                  <label className="block text-sm text-gray-300 mb-1">Categoría</label>
+                  <label className="block text-[9px] text-[#8A8A8A] mb-1">Categoría</label>
                   <select
                     value={category}
                     onChange={(e) => {
@@ -276,7 +270,7 @@ const ShopSectionF: React.FC = () => {
                       setPage(1);
                       scrollToTop();
                     }}
-                    className="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 text-sm"
+                    className="w-full bg-[#F5F5F5] border border-[#D0D0D0] text-[#2A2A2A] px-2 py-1 rounded-md text-[10px]"
                   >
                     {categories.map((c) => (
                       <option key={c} value={c}>
@@ -288,11 +282,11 @@ const ShopSectionF: React.FC = () => {
 
                 {/* Ordenar */}
                 <div>
-                  <label className="block text-sm text-gray-300 mb-1">Ordenar por</label>
+                  <label className="block text-[9px] text-[#8A8A8A] mb-1">Ordenar por</label>
                   <select
                     value={sortBy}
                     onChange={(e) => { setSortBy(e.target.value); setPage(1); scrollToTop(); }}
-                    className="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 text-sm"
+                    className="w-full bg-[#F5F5F5] border border-[#D0D0D0] text-[#2A2A2A] px-2 py-1 rounded-md text-[10px]"
                   >
                     <option value="newest">Más recientes</option>
                     <option value="price-low">Precio menor</option>
@@ -303,9 +297,9 @@ const ShopSectionF: React.FC = () => {
                 </div>
 
                 {/* Precio máx */}
-                <div>
-                  <label className="block text-sm text-gray-300 mb-1">
-                    Precio máximo: ${priceRange[1]}
+                <div className="col-span-2">
+                  <label className="block text-[9px] text-[#8A8A8A] mb-1">
+                    Precio máximo: ${priceRange[1].toLocaleString()}
                   </label>
                   <input
                     type="range"
@@ -318,13 +312,13 @@ const ShopSectionF: React.FC = () => {
                       setPage(1);
                       scrollToTop();
                     }}
-                    className="w-full accent-yellow-400"
+                    className="w-full accent-[#4CAF50] h-1"
                   />
                 </div>
 
                 {/* Rating */}
-                <div>
-                  <label className="block text-sm text-gray-300 mb-1">Rating mínimo</label>
+                <div className="col-span-2">
+                  <label className="block text-[9px] text-[#8A8A8A] mb-1">Rating mínimo</label>
                   <div className="flex gap-1">
                     {[1, 2, 3, 4, 5].map((rating) => (
                       <button
@@ -338,11 +332,11 @@ const ShopSectionF: React.FC = () => {
                         title={`${rating}+ estrellas`}
                       >
                         <Star
-                          size={16}
+                          size={14}
                           className={
                             rating <= minRating
-                              ? "text-yellow-400 fill-current"
-                              : "text-gray-600 hover:text-gray-400"
+                              ? "text-[#FFB800] fill-current"
+                              : "text-[#D0D0D0] hover:text-[#8A8A8A]"
                           }
                         />
                       </button>
@@ -355,111 +349,96 @@ const ShopSectionF: React.FC = () => {
         </div>
       </div>
 
-      {/* 🔝 Punto de referencia para el scroll */}
-      <div ref={topRef} className="container mx-auto px-4 pt-4" />
+      <div ref={topRef} />
 
       {/* Contenido */}
-      <div className="container mx-auto px-4 pt-2">
-        <div className="flex justify-between items-center mb-6">
-          <p className="text-gray-400 text-sm">{filtered.length} productos encontrados</p>
-          {totalPages > 1 && (
-            <p className="text-gray-400 text-sm">
-              Página {safePage} de {totalPages}
-            </p>
-          )}
-        </div>
-
+      <div className="container mx-auto px-3 py-3">
         {paginated.length === 0 ? (
           <div className="text-center py-12">
-            <div className="bg-gray-800 rounded-lg p-6 max-w-md mx-auto">
-              <Play size={32} className="text-gray-500 mx-auto mb-3" />
-              <p className="text-gray-400 mb-2">No hay contenido disponible</p>
-              <p className="text-gray-500 text-sm">Ajusta tus filtros de búsqueda</p>
+            <div className="bg-[#F5F5F5] border border-[#D0D0D0] rounded-lg p-6 max-w-sm mx-auto">
+              <Play size={24} className="text-[#D0D0D0] mx-auto mb-2" />
+              <p className="text-[#5A5A5A] text-xs font-light">No hay contenido disponible</p>
             </div>
           </div>
         ) : (
-          <div className={viewMode === "grid" ? "grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" : "space-y-3"}>
+          <div className={viewMode === "grid" ? "grid gap-2 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5" : "space-y-2"}>
             {paginated.map((product) => {
               const inCart = cartItems.some((it) => it.id === product.id);
               return (
                 <div
                   key={product.id}
-                  className={`group bg-gray-800 rounded-lg border border-gray-700 hover:border-yellow-400 transition-all ${
-                    viewMode === "list" ? "flex gap-4 p-3" : "p-4"
+                  className={`group bg-[#F5F5F5] border border-[#D0D0D0] rounded-md hover:shadow-md transition-all ${
+                    viewMode === "list" ? "flex gap-2 p-2" : "overflow-hidden"
                   }`}
                 >
                   {/* Imagen */}
-                  <div className={`relative ${viewMode === "list" ? "w-24 h-18" : "w-full h-40"} mb-3`}>
+                  <div className={`relative ${viewMode === "list" ? "w-20 h-20 shrink-0" : "w-full aspect-square"}`}>
                     <img
                       src={product.imageUrl || "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400"}
                       alt={product.name}
                       className="w-full h-full object-cover rounded"
                     />
                     {product.discount > 0 && (
-                      <div className="absolute top-1 left-1 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded">
+                      <div className="absolute top-1 left-1 bg-red-500 text-white text-[8px] px-1 py-0.5 rounded">
                         -{product.discount}%
                       </div>
                     )}
                     <button
                       onClick={() => toggleFavorite(product.id)}
-                      className="absolute top-1 right-1 p-1.5 bg-gray-900/80 rounded backdrop-blur-sm"
+                      className="absolute top-1 right-1 p-1 bg-white/80 rounded backdrop-blur-sm"
                       title="Favorito"
                     >
                       <Heart
-                        size={14}
-                        className={favorites.includes(product.id) ? "text-red-500 fill-current" : "text-gray-400"}
+                        size={10}
+                        className={favorites.includes(product.id) ? "text-red-500 fill-current" : "text-[#8A8A8A]"}
                       />
                     </button>
 
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all rounded flex items-center justify-center">
-                      <div className="flex gap-2">
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded flex items-center justify-center">
+                      <div className="flex gap-1">
                         <button
                           onClick={() => handleAddToCart(product)}
                           disabled={!product.inStock || inCart}
-                          className="p-2 bg-yellow-400 text-gray-900 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="p-1.5 bg-[#4CAF50] text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
                           title={inCart ? "Ya en carrito" : "Añadir al carrito"}
                         >
-                          <ShoppingCart size={14} />
+                          <ShoppingCart size={12} />
                         </button>
-                        <Link to={`/product-f/${product.id}`} className="p-2 bg-gray-800 text-white rounded-full" title="Detalles">
-                          <Eye size={14} />
+                        <Link to={`/product-f/${product.id}`} className="p-1.5 bg-white text-[#2A2A2A] rounded-full" title="Detalles">
+                          <Eye size={12} />
                         </Link>
                       </div>
                     </div>
                   </div>
 
                   {/* Info */}
-                  <div className="flex-1">
-                    <div className="flex items-start gap-2 mb-2">
-                      <h3 className="text-white font-medium text-sm line-clamp-2 flex-1">{product.name}</h3>
+                  <div className={viewMode === "list" ? "flex-1 min-w-0" : "p-2"}>
+                    <div className="flex items-start gap-1 mb-1">
+                      <h3 className="text-[#2A2A2A] font-medium text-[10px] line-clamp-2 flex-1">{product.name}</h3>
                       {!product.inStock && (
-                        <span className="bg-red-500/20 text-red-400 text-xs px-1.5 py-0.5 rounded-full">No disponible</span>
+                        <span className="bg-red-500/20 text-red-500 text-[8px] px-1 py-0.5 rounded-full">No disponible</span>
                       )}
                     </div>
 
-                    <p className="text-gray-400 text-xs line-clamp-2 mb-2">{product.description}</p>
+                    <p className="text-[#8A8A8A] text-[9px] line-clamp-1 mb-1">{product.description}</p>
 
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="flex items-center gap-0.5">
+                    <div className="flex items-center gap-1 mb-1">
+                      <div className="flex">
                         {[1, 2, 3, 4, 5].map((i) => (
-                          <Star key={i} size={12} className={i <= product.rating ? "text-yellow-400 fill-current" : "text-gray-600"} />
+                          <Star key={i} size={8} className={i <= product.rating ? "text-[#FFB800] fill-current" : "text-[#D0D0D0]"} />
                         ))}
                       </div>
-                      <span className="text-gray-400 text-xs">({product.reviews})</span>
-                      <div className="flex items-center gap-1 text-gray-400 text-xs ml-1">
-                        <Users size={10} />
-                        <span>{Math.floor((product.reviews || 0) * 1.5)}+</span>
-                      </div>
+                      <span className="text-[#8A8A8A] text-[8px]">({product.reviews})</span>
                     </div>
 
                     <div className="flex items-center justify-between">
                       <div>
                         {product.originalPrice > product.price && (
-                          <span className="text-gray-500 text-xs line-through mr-1">
+                          <span className="text-[#8A8A8A] text-[8px] line-through mr-1">
                             ${product.originalPrice.toLocaleString("es-CO")}
                           </span>
                         )}
-                        <span className="text-yellow-400 font-semibold text-lg">
+                        <span className="text-[#4CAF50] font-bold text-xs">
                           ${product.price.toLocaleString("es-CO")}
                         </span>
                       </div>
@@ -467,7 +446,7 @@ const ShopSectionF: React.FC = () => {
                       <div className="flex gap-1">
                         <Link
                           to={`/product-f/${product.id}`}
-                          className="bg-gray-700 text-white px-2 py-1.5 rounded text-xs font-medium hover:bg-gray-600 transition-all border border-gray-600"
+                          className="bg-white border border-[#D0D0D0] text-[#2A2A2A] px-2 py-1 rounded text-[9px] hover:bg-[#FAFAFA]"
                         >
                           Ver
                         </Link>
@@ -475,15 +454,15 @@ const ShopSectionF: React.FC = () => {
                         <button
                           onClick={() => handleAddToCart(product)}
                           disabled={!product.inStock || inCart}
-                          className={`px-2 py-1.5 rounded text-xs font-medium transition-all flex items-center gap-1 ${
+                          className={`px-2 py-1 rounded text-[9px] font-medium flex items-center gap-0.5 ${
                             inCart
-                              ? "bg-green-600 text-white cursor-default"
+                              ? "bg-green-500 text-white"
                               : product.inStock
-                              ? "bg-yellow-400 text-gray-900 hover:bg-yellow-300"
-                              : "bg-gray-600 text-gray-400 cursor-not-allowed"
-                          }`}
+                              ? "bg-[#4CAF50] text-white hover:bg-[#45a049]"
+                              : "bg-[#D0D0D0] text-[#8A8A8A] cursor-not-allowed"
+                          } disabled:opacity-50`}
                         >
-                          <ShoppingCart size={12} />
+                          <ShoppingCart size={9} />
                           {inCart ? "En carrito" : "Añadir"}
                         </button>
                       </div>
@@ -497,31 +476,31 @@ const ShopSectionF: React.FC = () => {
 
         {/* Paginación */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-2 mt-8">
+          <div className="flex justify-center items-center gap-1 mt-4">
             <button
               disabled={safePage === 1}
               onClick={() => { setPage((p) => Math.max(1, p - 1)); scrollToTop(); }}
-              className="px-4 py-2 bg-gray-800 text-white rounded border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 text-sm"
+              className="px-2 py-1 bg-[#F5F5F5] border border-[#D0D0D0] text-[#2A2A2A] rounded disabled:opacity-50 text-[10px]"
             >
               Anterior
             </button>
 
             <div className="flex gap-1">
-              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+              {Array.from({ length: Math.min(3, totalPages) }, (_, i) => {
                 let pageNum;
-                if (totalPages <= 5) pageNum = i + 1;
-                else if (safePage <= 3) pageNum = i + 1;
-                else if (safePage >= totalPages - 2) pageNum = totalPages - 4 + i;
-                else pageNum = safePage - 2 + i;
+                if (totalPages <= 3) pageNum = i + 1;
+                else if (safePage <= 2) pageNum = i + 1;
+                else if (safePage >= totalPages - 1) pageNum = totalPages - 2 + i;
+                else pageNum = safePage - 1 + i;
 
                 return (
                   <button
                     key={pageNum}
                     onClick={() => { setPage(pageNum); scrollToTop(); }}
-                    className={`w-8 h-8 rounded text-xs font-medium transition-all ${
+                    className={`w-6 h-6 rounded text-[10px] font-medium ${
                       safePage === pageNum
-                        ? "bg-yellow-400 text-gray-900"
-                        : "bg-gray-800 text-gray-300 border border-gray-700 hover:bg-gray-700"
+                        ? "bg-[#4CAF50] text-white"
+                        : "bg-[#F5F5F5] border border-[#D0D0D0] text-[#2A2A2A]"
                     }`}
                   >
                     {pageNum}
@@ -533,7 +512,7 @@ const ShopSectionF: React.FC = () => {
             <button
               disabled={safePage === totalPages}
               onClick={() => { setPage((p) => Math.min(totalPages, p + 1)); scrollToTop(); }}
-              className="px-4 py-2 bg-gray-800 text-white rounded border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 text-sm"
+              className="px-2 py-1 bg-[#F5F5F5] border border-[#D0D0D0] text-[#2A2A2A] rounded disabled:opacity-50 text-[10px]"
             >
               Siguiente
             </button>

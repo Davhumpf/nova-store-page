@@ -158,22 +158,22 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
   const currentSortOption = SORT_OPTIONS.find(opt => opt.value === sortBy);
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 ${className}`}>
+    <div className={`min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 ${className}`}>
       <div className="container mx-auto px-4 py-8">
         {/* Header con información de búsqueda */}
         {hasSearchTerm && (
           <div className="mb-8">
-            <div className="bg-gradient-to-r from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6">
+            <div className="bg-gradient-to-r from-slate-800/50 to-slate-900/50 dark:from-gray-800/50 dark:to-gray-900/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 dark:border-gray-700/50 p-6">
               <div className="flex items-center gap-3 mb-3">
-                <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 p-2 rounded-lg">
-                  <Search className="w-5 h-5 text-slate-900" />
+                <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 dark:from-[#4CAF50] dark:to-[#66FF7A] p-2 rounded-lg">
+                  <Search className="w-5 h-5 text-slate-900 dark:text-gray-900" />
                 </div>
-                <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-yellow-500">
+                <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-yellow-500 dark:from-[#4CAF50] dark:to-[#66FF7A]">
                   Resultados para: "{searchTerm}"
                 </h2>
               </div>
-              <p className="text-slate-300 flex items-center gap-2">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+              <p className="text-slate-300 dark:text-gray-300 flex items-center gap-2">
+                <span className="w-2 h-2 bg-green-400 dark:bg-[#66FF7A] rounded-full animate-pulse" />
                 {sortedProducts.length} producto(s) encontrado(s)
               </p>
             </div>
@@ -185,10 +185,10 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
           <div className="mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
             <div className="flex items-center gap-4">
               {/* Contador de productos */}
-              <div className="text-slate-300 text-sm">
-                <span className="font-semibold text-yellow-400">{sortedProducts.length}</span> productos
+              <div className="text-slate-300 dark:text-gray-300 text-sm">
+                <span className="font-semibold text-yellow-400 dark:text-[#66FF7A]">{sortedProducts.length}</span> productos
                 {selectedCategory !== 'all' && (
-                  <span className="ml-2 text-slate-400">
+                  <span className="ml-2 text-slate-400 dark:text-gray-400">
                     en {CATEGORY_DISPLAY_NAMES[selectedCategory] || selectedCategory}
                   </span>
                 )}
@@ -203,7 +203,7 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
                     e.stopPropagation();
                     setShowSortDropdown(!showSortDropdown);
                   }}
-                  className="flex items-center gap-2 px-4 py-2 bg-slate-800/60 border border-slate-700/50 rounded-lg text-slate-200 hover:bg-slate-700/60 transition-all duration-200"
+                  className="flex items-center gap-2 px-4 py-2 bg-slate-800/60 dark:bg-gray-800/60 border border-slate-700/50 dark:border-gray-700/50 rounded-lg text-slate-200 dark:text-gray-200 hover:bg-slate-700/60 dark:hover:bg-gray-700/60 transition-all duration-200"
                 >
                   <SortAsc className="w-4 h-4" />
                   <span className="hidden sm:inline">{currentSortOption?.label}</span>
@@ -212,13 +212,13 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
                 </button>
 
                 {showSortDropdown && (
-                  <div className="absolute right-0 top-full mt-2 w-48 bg-slate-800 border border-slate-700 rounded-xl shadow-xl z-50 py-2">
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-slate-800 dark:bg-gray-800 border border-slate-700 dark:border-gray-700 rounded-xl shadow-xl z-50 py-2">
                     {SORT_OPTIONS.map((option) => (
                       <button
                         key={option.value}
                         onClick={() => handleSortChange(option.value)}
-                        className={`w-full text-left px-4 py-3 hover:bg-slate-700 transition-colors flex items-center gap-3 ${
-                          sortBy === option.value ? 'bg-slate-700 text-yellow-400' : 'text-slate-200'
+                        className={`w-full text-left px-4 py-3 hover:bg-slate-700 dark:hover:bg-gray-700 transition-colors flex items-center gap-3 ${
+                          sortBy === option.value ? 'bg-slate-700 dark:bg-gray-700 text-yellow-400 dark:text-[#66FF7A]' : 'text-slate-200 dark:text-gray-200'
                         }`}
                       >
                         <span>{option.icon}</span>
@@ -231,13 +231,13 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
 
               {/* Selector de vista */}
               {onViewModeChange && (
-                <div className="flex bg-slate-800/60 border border-slate-700/50 rounded-lg overflow-hidden">
+                <div className="flex bg-slate-800/60 dark:bg-gray-800/60 border border-slate-700/50 dark:border-gray-700/50 rounded-lg overflow-hidden">
                   <button
                     onClick={() => onViewModeChange('grid')}
                     className={`p-2 transition-all duration-200 ${
                       viewMode === 'grid'
-                        ? 'bg-yellow-400 text-slate-900'
-                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700/60'
+                        ? 'bg-yellow-400 dark:bg-[#4CAF50] text-slate-900 dark:text-white'
+                        : 'text-slate-400 dark:text-gray-400 hover:text-slate-200 dark:hover:text-gray-200 hover:bg-slate-700/60 dark:hover:bg-gray-700/60'
                     }`}
                     aria-label="Vista de cuadrícula"
                   >
@@ -247,8 +247,8 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
                     onClick={() => onViewModeChange('list')}
                     className={`p-2 transition-all duration-200 ${
                       viewMode === 'list'
-                        ? 'bg-yellow-400 text-slate-900'
-                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700/60'
+                        ? 'bg-yellow-400 dark:bg-[#4CAF50] text-slate-900 dark:text-white'
+                        : 'text-slate-400 dark:text-gray-400 hover:text-slate-200 dark:hover:text-gray-200 hover:bg-slate-700/60 dark:hover:bg-gray-700/60'
                     }`}
                     aria-label="Vista de lista"
                   >
@@ -294,7 +294,7 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
                     <button
                       onClick={handlePrevPage}
                       disabled={currentPage === 1}
-                      className="h-10 px-3 rounded-lg text-sm bg-slate-800/60 border border-slate-700/50 text-slate-200 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-700/60 transition-colors shrink-0"
+                      className="h-10 px-3 rounded-lg text-sm bg-slate-800/60 dark:bg-gray-800/60 border border-slate-700/50 dark:border-gray-700/50 text-slate-200 dark:text-gray-200 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-700/60 dark:hover:bg-gray-700/60 transition-colors shrink-0"
                       aria-label="Página anterior"
                     >
                       <ChevronLeft className="w-4 h-4" />
@@ -303,7 +303,7 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
 
                   {pageNumbers.map((page, i) =>
                     page === '...' ? (
-                      <li key={`d-${i}`} className="h-10 px-2 flex items-center text-slate-400 select-none shrink-0">
+                      <li key={`d-${i}`} className="h-10 px-2 flex items-center text-slate-400 dark:text-gray-400 select-none shrink-0">
                         …
                       </li>
                     ) : (
@@ -312,8 +312,8 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
                           onClick={() => handlePageChange(page as number)}
                           className={`h-10 min-w-[40px] px-3 rounded-lg text-sm font-medium transition-all duration-200 shrink-0 ${
                             currentPage === page
-                              ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 text-slate-900 border border-yellow-300 shadow-lg shadow-yellow-400/25'
-                              : 'bg-slate-800/60 border border-slate-700/50 text-slate-200 hover:bg-slate-700/60 hover:border-slate-600/50'
+                              ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 dark:from-[#4CAF50] dark:to-[#66FF7A] text-slate-900 dark:text-white border border-yellow-300 dark:border-[#4CAF50] shadow-lg shadow-yellow-400/25 dark:shadow-[#4CAF50]/25'
+                              : 'bg-slate-800/60 dark:bg-gray-800/60 border border-slate-700/50 dark:border-gray-700/50 text-slate-200 dark:text-gray-200 hover:bg-slate-700/60 dark:hover:bg-gray-700/60 hover:border-slate-600/50 dark:hover:border-gray-600/50'
                           }`}
                           aria-label={`Ir a página ${page}`}
                           aria-current={currentPage === page ? 'page' : undefined}
@@ -328,7 +328,7 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
                     <button
                       onClick={handleNextPage}
                       disabled={currentPage === totalPages}
-                      className="h-10 px-3 rounded-lg text-sm bg-slate-800/60 border border-slate-700/50 text-slate-200 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-700/60 transition-colors shrink-0"
+                      className="h-10 px-3 rounded-lg text-sm bg-slate-800/60 dark:bg-gray-800/60 border border-slate-700/50 dark:border-gray-700/50 text-slate-200 dark:text-gray-200 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-700/60 dark:hover:bg-gray-700/60 transition-colors shrink-0"
                       aria-label="Página siguiente"
                     >
                       <ChevronRight className="w-4 h-4" />
@@ -336,15 +336,15 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
                   </li>
                 </ul>
 
-                <p className="text-center mt-6 text-slate-400 text-sm px-2">
+                <p className="text-center mt-6 text-slate-400 dark:text-gray-400 text-sm px-2">
                   Mostrando{' '}
-                  <span className="text-yellow-400 font-semibold">
+                  <span className="text-yellow-400 dark:text-[#66FF7A] font-semibold">
                     {startIndex + 1}-{endIndex}
                   </span>{' '}
                   de{' '}
-                  <span className="text-yellow-400 font-semibold">{sortedProducts.length}</span> productos
+                  <span className="text-yellow-400 dark:text-[#66FF7A] font-semibold">{sortedProducts.length}</span> productos
                   {sortBy !== 'newest' && (
-                    <span className="ml-2 text-slate-500">
+                    <span className="ml-2 text-slate-500 dark:text-gray-500">
                       • Ordenado por {currentSortOption?.label.toLowerCase()}
                     </span>
                   )}
@@ -354,14 +354,14 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
           </>
         ) : (
           <div className="text-center py-16">
-            <div className="bg-gradient-to-r from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-12 max-w-md mx-auto">
+            <div className="bg-gradient-to-r from-slate-800/50 to-slate-900/50 dark:from-gray-800/50 dark:to-gray-900/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 dark:border-gray-700/50 p-12 max-w-md mx-auto">
               <div className="text-6xl mb-6 opacity-50" role="img" aria-label="Sin resultados">
                 🔍
               </div>
-              <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-yellow-500 mb-3">
+              <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-yellow-500 dark:from-[#4CAF50] dark:to-[#66FF7A] mb-3">
                 No se encontraron productos
               </h3>
-              <p className="text-slate-400 mb-6 leading-relaxed">
+              <p className="text-slate-400 dark:text-gray-400 mb-6 leading-relaxed">
                 {searchTerm?.trim()
                   ? `No hay productos que coincidan con "${searchTerm}"`
                   : selectedCategory !== 'all'
@@ -373,7 +373,7 @@ const ProductsWithPagination: React.FC<ProductsWithPaginationProps> = ({
                   {selectedCategory !== 'all' && (
                     <button
                       onClick={handleShowAll}
-                      className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-slate-900 px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:shadow-yellow-400/25"
+                      className="bg-gradient-to-r from-yellow-400 to-yellow-500 dark:from-[#4CAF50] dark:to-[#66FF7A] hover:from-yellow-300 hover:to-yellow-400 dark:hover:from-[#66FF7A] dark:hover:to-[#4CAF50] text-slate-900 dark:text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:shadow-yellow-400/25 dark:hover:shadow-[#4CAF50]/25"
                     >
                       Ver todos los productos
                     </button>

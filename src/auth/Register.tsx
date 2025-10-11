@@ -52,17 +52,15 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
   const match = pw.length > 0 && pw === pw2;
   const valid = emailValid && Object.values(reqs).every(Boolean) && match;
 
-  // ===== Referido (solo guardamos referrerId en MI doc) =====
+  // ===== Referido =====
   const refParam = useMemo(() => {
     const params = new URLSearchParams(location.search);
     return params.get('ref') || null;
   }, [location.search]);
 
-  /** Crea (si no existe) el doc del usuario en /users/{uid} */
   const ensureUserDoc = useCallback(async (u: {
     uid: string; email: string | null; displayName: string | null; photoURL: string | null;
   }) => {
-    // asegúrate de que el token esté listo para reglas (request.auth.uid)
     await u.getIdToken?.(true);
     const ref = doc(db, 'users', u.uid);
     const snap = await getDoc(ref);
@@ -79,7 +77,6 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
     }
   }, []);
 
-  /** Guarda referrerId en MI doc (no toca docs de terceros) */
   const setReferrerOnNewUser = useCallback(async (uid: string, referrerId: string) => {
     if (!referrerId || !uid || referrerId === uid) return;
     await setDoc(doc(db, 'users', uid), {
@@ -98,20 +95,17 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
       const normEmail = email.trim().toLowerCase();
       const cred = await createUserWithEmailAndPassword(auth, normEmail, pw);
 
-      // 1) doc base del usuario
       try {
         await ensureUserDoc(cred.user);
       } catch (w: any) {
         console.error('ensureUserDoc error:', w);
         if (w?.code === 'permission-denied') {
-          // No bloqueamos el alta: avisamos pero seguimos
           push?.({ type: 'warning', title: 'Cuenta creada', message: 'No se pudo inicializar tu perfil aún (reglas). Intenta recargar.' });
         } else {
           throw w;
         }
       }
 
-      // 2) guardar referrerId en MI doc (no toca terceros)
       if (refParam) {
         try {
           await setReferrerOnNewUser(cred.user.uid, refParam);
@@ -144,7 +138,6 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
     try {
       const res = await signInWithPopup(auth, provider);
 
-      // 1) doc base del usuario
       try {
         await ensureUserDoc(res.user);
       } catch (w: any) {
@@ -156,7 +149,6 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
         }
       }
 
-      // 2) si es NUEVO y hay ref, guardar solo en MI doc
       const info = getAdditionalUserInfo(res);
       const isNew = !!info?.isNewUser;
       if (isNew && refParam) {
@@ -183,10 +175,10 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
   }, [provider, ensureUserDoc, onSuccess, push, refParam, setReferrerOnNewUser]);
 
   return (
-    <form onSubmit={onSubmit} className="space-y-3">
+    <form onSubmit={onSubmit} className="space-y-2.5">
       {/* email */}
       <div className="relative">
-        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+        <Mail className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#8A8A8A]" size={14} />
         <input
           type="email"
           inputMode="email"
@@ -195,60 +187,60 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
           placeholder="correo@ejemplo.com"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          className={`w-full pl-10 pr-10 py-2.5 bg-slate-800 border rounded-lg text-slate-100 text-sm focus:outline-none transition-colors ${
-            email ? (emailValid ? 'border-green-400' : 'border-red-400') : 'border-slate-600 focus:border-yellow-400'
+          className={`w-full pl-9 pr-9 py-2 bg-white border rounded-md text-[#2A2A2A] text-xs placeholder-[#8A8A8A] focus:outline-none transition-colors ${
+            email ? (emailValid ? 'border-[#4CAF50]' : 'border-red-500') : 'border-[#D0D0D0] focus:border-[#4CAF50]'
           }`}
           required
         />
         {email && (
-          <div className="absolute right-3 top-1/2 -translate-y-1/2">
-            {emailValid ? <CheckCircle size={16} className="text-green-400" /> : <XCircle size={16} className="text-red-400" />}
+          <div className="absolute right-2.5 top-1/2 -translate-y-1/2">
+            {emailValid ? <CheckCircle size={14} className="text-[#4CAF50]" /> : <XCircle size={14} className="text-red-500" />}
           </div>
         )}
       </div>
 
       {/* password */}
       <div className="relative">
-        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+        <Lock className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#8A8A8A]" size={14} />
         <input
           type={showPw ? 'text' : 'password'}
           autoComplete="new-password"
           placeholder="Contraseña segura"
           value={pw}
           onChange={e => setPw(e.target.value)}
-          className="w-full pl-10 pr-10 py-2.5 bg-slate-800 border border-slate-600 rounded-lg text-slate-100 text-sm focus:border-yellow-400 focus:outline-none"
+          className="w-full pl-9 pr-9 py-2 bg-white border border-[#D0D0D0] rounded-md text-[#2A2A2A] text-xs placeholder-[#8A8A8A] focus:border-[#4CAF50] focus:outline-none transition-colors"
           required
           minLength={8}
         />
         <button
           type="button"
           onClick={() => setShowPw(s => !s)}
-          className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+          className="absolute right-2 top-1/2 -translate-y-1/2 text-[#8A8A8A] hover:text-[#2A2A2A] transition-colors"
           aria-label={showPw ? 'Ocultar contraseña' : 'Mostrar contraseña'}
         >
-          {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
+          {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
         </button>
       </div>
 
       {/* requisitos */}
       {pw && (
-        <div className="bg-slate-800/50 rounded-lg p-2.5 space-y-1">
-          <div className="text-xs text-slate-400 mb-1">Requisitos:</div>
-          <div className="grid grid-cols-2 gap-1 text-xs">
-            <div className={`flex items-center gap-1 ${reqs.length ? 'text-green-400' : 'text-red-400'}`}>
-              {reqs.length ? <CheckCircle size={12} /> : <XCircle size={12} />} 8+ caracteres
+        <div className="bg-[#F5F5F5] border border-[#D0D0D0] rounded-md p-2 space-y-1">
+          <div className="text-[10px] text-[#8A8A8A] font-light mb-1">Requisitos:</div>
+          <div className="grid grid-cols-2 gap-1 text-[10px]">
+            <div className={`flex items-center gap-1 ${reqs.length ? 'text-[#4CAF50]' : 'text-red-500'}`}>
+              {reqs.length ? <CheckCircle size={10} /> : <XCircle size={10} />} 8+ caracteres
             </div>
-            <div className={`flex items-center gap-1 ${reqs.upper ? 'text-green-400' : 'text-red-400'}`}>
-              {reqs.upper ? <CheckCircle size={12} /> : <XCircle size={12} />} Mayúscula
+            <div className={`flex items-center gap-1 ${reqs.upper ? 'text-[#4CAF50]' : 'text-red-500'}`}>
+              {reqs.upper ? <CheckCircle size={10} /> : <XCircle size={10} />} Mayúscula
             </div>
-            <div className={`flex items-center gap-1 ${reqs.lower ? 'text-green-400' : 'text-red-400'}`}>
-              {reqs.lower ? <CheckCircle size={12} /> : <XCircle size={12} />} Minúscula
+            <div className={`flex items-center gap-1 ${reqs.lower ? 'text-[#4CAF50]' : 'text-red-500'}`}>
+              {reqs.lower ? <CheckCircle size={10} /> : <XCircle size={10} />} Minúscula
             </div>
-            <div className={`flex items-center gap-1 ${reqs.num ? 'text-green-400' : 'text-red-400'}`}>
-              {reqs.num ? <CheckCircle size={12} /> : <XCircle size={12} />} Número
+            <div className={`flex items-center gap-1 ${reqs.num ? 'text-[#4CAF50]' : 'text-red-500'}`}>
+              {reqs.num ? <CheckCircle size={10} /> : <XCircle size={10} />} Número
             </div>
-            <div className={`flex items-center gap-1 col-span-2 ${reqs.special ? 'text-green-400' : 'text-red-400'}`}>
-              {reqs.special ? <CheckCircle size={12} /> : <XCircle size={12} />} Carácter especial
+            <div className={`flex items-center gap-1 col-span-2 ${reqs.special ? 'text-[#4CAF50]' : 'text-red-500'}`}>
+              {reqs.special ? <CheckCircle size={10} /> : <XCircle size={10} />} Carácter especial
             </div>
           </div>
         </div>
@@ -256,15 +248,15 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
 
       {/* confirmar */}
       <div className="relative">
-        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+        <Lock className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#8A8A8A]" size={14} />
         <input
           type={showPw2 ? 'text' : 'password'}
           autoComplete="new-password"
           placeholder="Confirmar contraseña"
           value={pw2}
           onChange={e => setPw2(e.target.value)}
-          className={`w-full pl-10 pr-10 py-2.5 bg-slate-800 border rounded-lg text-slate-100 text-sm focus:outline-none transition-colors ${
-            pw2 ? (match ? 'border-green-400' : 'border-red-400') : 'border-slate-600 focus:border-yellow-400'
+          className={`w-full pl-9 pr-9 py-2 bg-white border rounded-md text-[#2A2A2A] text-xs placeholder-[#8A8A8A] focus:outline-none transition-colors ${
+            pw2 ? (match ? 'border-[#4CAF50]' : 'border-red-500') : 'border-[#D0D0D0] focus:border-[#4CAF50]'
           }`}
           required
           minLength={8}
@@ -272,10 +264,10 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
         <button
           type="button"
           onClick={() => setShowPw2(s => !s)}
-          className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+          className="absolute right-2 top-1/2 -translate-y-1/2 text-[#8A8A8A] hover:text-[#2A2A2A] transition-colors"
           aria-label={showPw2 ? 'Ocultar contraseña' : 'Mostrar contraseña'}
         >
-          {showPw2 ? <EyeOff size={16} /> : <Eye size={16} />}
+          {showPw2 ? <EyeOff size={14} /> : <Eye size={14} />}
         </button>
       </div>
 
@@ -283,31 +275,35 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
       <button
         type="submit"
         disabled={loading || !valid}
-        className={`w-full py-2.5 rounded-lg font-semibold text-sm transition-colors ${
-          valid ? 'bg-yellow-400 hover:bg-yellow-300 text-slate-900' : 'bg-slate-700 text-slate-400 cursor-not-allowed'
+        className={`w-full py-2 rounded-md font-medium text-xs transition-colors shadow-[0_2px_8px_rgba(76,175,80,0.25)] ${
+          valid ? 'bg-[#4CAF50] hover:bg-[#45a049] text-white' : 'bg-[#E8E8E8] text-[#8A8A8A] cursor-not-allowed'
         }`}
       >
         {loading ? 'Creando…' : 'Crear cuenta'}
       </button>
 
       <div className="relative">
-        <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-slate-700" /></div>
-        <div className="relative flex justify-center text-xs"><span className="bg-slate-900/60 px-2 text-slate-400">o</span></div>
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-[#D0D0D0]" />
+        </div>
+        <div className="relative flex justify-center text-[10px]">
+          <span className="bg-[#F5F5F5] px-2 text-[#8A8A8A] font-light">o continuar con</span>
+        </div>
       </div>
 
       <button
         type="button"
         onClick={onGoogle}
         disabled={loading}
-        className="w-full bg-white text-slate-900 hover:opacity-90 py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-2 disabled:opacity-60"
+        className="w-full bg-white border border-[#D0D0D0] text-[#2A2A2A] hover:bg-[#FAFAFA] py-2 rounded-md font-medium text-xs flex items-center justify-center gap-2 disabled:opacity-60 transition-colors shadow-[0_1px_4px_rgba(0,0,0,0.08)]"
       >
-        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" width={16} height={16} />
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" width={14} height={14} />
         Continuar con Google
       </button>
 
       {err && (
-        <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-2.5 text-red-400 text-sm flex items-center gap-2">
-          <AlertCircle size={14} />
+        <div className="bg-red-500/10 border border-red-500/20 rounded-md p-2 text-red-500 text-[10px] flex items-center gap-1.5 font-light">
+          <AlertCircle size={12} className="shrink-0" />
           <span>{err}</span>
         </div>
       )}

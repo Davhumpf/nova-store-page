@@ -15,7 +15,7 @@ import {
   orderBy
 } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
-import { Check, Loader2, Gift, Ticket, ArrowLeft } from "lucide-react";
+import { Check, Loader2, Gift, Ticket, ArrowRight } from "lucide-react";
 
 type FbTimestamp = { seconds: number; nanoseconds: number };
 
@@ -30,9 +30,9 @@ type UserDoc = {
 type Reward = {
   id: string;
   title: string;
-  value: number;         // ej: 10
+  value: number;
   type: "percent" | "amount";
-  costPoints: number;    // ej: 100
+  costPoints: number;
   active: boolean;
   createdAt?: string | FbTimestamp;
   expiresAt?: string | FbTimestamp;
@@ -56,8 +56,8 @@ export default function UserPage() {
   const navigate = useNavigate();
   const currentUser = auth.currentUser;
 
-  const [loading, setLoading]   = useState(true);
-  const [saving, setSaving]     = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [redeeming, setRedeeming] = useState<string | null>(null);
 
   const [userDocRef, setUserDocRef] = useState<ReturnType<typeof doc> | null>(null);
@@ -66,7 +66,6 @@ export default function UserPage() {
 
   const [rewards, setRewards] = useState<Reward[]>([]);
 
-  // cargar user doc por UID; si no, buscar por email; si no existe, crear
   useEffect(() => {
     const run = async () => {
       if (!currentUser?.email) { setLoading(false); return; }
@@ -111,7 +110,6 @@ export default function UserPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // cargar recompensas
   useEffect(() => {
     const run = async () => {
       const qRewards = query(collection(db, "rewards"), orderBy("createdAt", "desc"));
@@ -154,18 +152,10 @@ export default function UserPage() {
 
     setSaving(true);
     try {
-      // Actualiza en Auth
       await updateProfile(currentUser, { displayName: newName });
-      // Asegura reflejo inmediato en otros componentes que lean auth.currentUser
       await currentUser.reload();
-
-      // Actualiza en Firestore
       await updateDoc(userDocRef, { displayName: newName });
-
-      // Estado local
       setUserData(prev => prev ? { ...prev, displayName: newName } : prev);
-
-      // Notifica al resto de la app (hamburguesa)
       localStorage.setItem("menuDisplayName", newName);
       window.dispatchEvent(new CustomEvent("menu-name-changed", { detail: { displayName: newName } }));
     } finally {
@@ -173,7 +163,6 @@ export default function UserPage() {
     }
   }
 
-  // Canje con prechequeo: siempre permite clic. Si no alcanza, solo WhatsApp ayuda.
   async function redeem(reward: Reward) {
     if (!currentUser || !userDocRef) return;
     setRedeeming(reward.id);
@@ -181,7 +170,6 @@ export default function UserPage() {
     const userLabel =
       currentUser.displayName || userData?.displayName || currentUser.email || "Cliente";
 
-    // faltan puntos → WhatsApp de ayuda y salir
     const currentPts = userData?.points ?? 0;
     if (currentPts < reward.costPoints) {
       const helpMsg =
@@ -193,7 +181,6 @@ export default function UserPage() {
     }
 
     try {
-      // transacción: valida, descuenta y registra
       await runTransaction(db, async (trx) => {
         const snap = await trx.get(userDocRef);
         const data = snap.data() as UserDoc | undefined;
@@ -213,11 +200,9 @@ export default function UserPage() {
         });
       });
 
-      // refresca puntos
       const fresh = await getDoc(userDocRef);
       setUserData(fresh.data() as UserDoc);
 
-      // WhatsApp confirmación
       const msgOk =
         `Hola, soy ${userLabel}. Ya canjeé la recompensa "${reward.title}" en mi perfil y ` +
         `quiero aplicarla en mi próxima compra. ¿Me ayudas a validarla?`;
@@ -230,18 +215,23 @@ export default function UserPage() {
   }
 
   if (!currentUser) {
-    return <div className="p-6 text-white">Debes iniciar sesión.</div>;
-  }
-
-  if (loading || !userData) {
     return (
-      <div className="p-6 text-white flex items-center gap-2">
-        <Loader2 className="animate-spin" size={16} /> Cargando…
+      <div className="min-h-screen bg-[#E8E8E8] flex items-center justify-center p-4">
+        <div className="text-[#5A5A5A] text-sm font-light">Debes iniciar sesión.</div>
       </div>
     );
   }
 
-  // Datos adicionales de Auth
+  if (loading || !userData) {
+    return (
+      <div className="min-h-screen bg-[#E8E8E8] flex items-center justify-center">
+        <div className="flex items-center gap-2 text-[#5A5A5A] text-xs">
+          <Loader2 className="animate-spin" size={14} /> Cargando…
+        </div>
+      </div>
+    );
+  }
+
   const meta = currentUser.metadata;
   const lastLogin = meta?.lastSignInTime ? new Date(meta.lastSignInTime) : undefined;
   const providers = (currentUser.providerData || [])
@@ -249,109 +239,115 @@ export default function UserPage() {
     .join(", ");
 
   return (
-    <div className="max-w-3xl mx-auto p-6 text-white">
-      {/* Volver */}
-      <button
-        onClick={() => (typeof navigate === "function" ? navigate(-1) : window.history.back())}
-        className="mb-4 inline-flex items-center gap-2 text-sm text-slate-300 hover:text-yellow-400"
-      >
-        <ArrowLeft size={16} /> Volver
-      </button>
+    <div className="min-h-screen bg-[#E8E8E8] py-3 px-3 sm:px-4">
+      <div className="max-w-3xl mx-auto">
+        
+        {/* Botón volver estilo Apple */}
+        <button
+          onClick={() => navigate(-1)}
+          className="mb-3 flex items-center gap-1.5 text-xs text-[#BA68C8] hover:text-[#9C27B0] transition-colors group"
+        >
+          <ArrowRight size={14} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
+          <span className="font-medium">Volver</span>
+        </button>
 
-      {/* Header perfil */}
-      <div className="bg-slate-800 border border-slate-700 rounded-2xl p-5 flex items-center gap-4">
-        <img
-          src={currentUser.photoURL || userData.photoURL || ""}
-          onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-          alt="avatar"
-          className="w-16 h-16 rounded-full object-cover border border-slate-600"
-        />
-        <div className="flex-1">
-          <div className="text-xs text-slate-400">{userData.email}</div>
-          <div className="flex items-center gap-2 mt-1">
-            <input
-              value={displayName}
-              onChange={(e) => setDisplayName(e.target.value)}
-              className="bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-sm w-full max-w-xs focus:ring-1 focus:ring-yellow-400"
-              placeholder="Nombre para mostrar"
+        {/* Header perfil */}
+        <div className="bg-[#F5F5F5] border border-[#D0D0D0] rounded-lg p-4 mb-3 shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <img
+              src={currentUser.photoURL || userData.photoURL || ""}
+              onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+              alt="avatar"
+              className="w-14 h-14 rounded-full object-cover border-2 border-[#D0D0D0]"
             />
-            <button
-              onClick={saveDisplayName}
-              disabled={saving}
-              className="bg-yellow-400 text-slate-900 text-sm font-semibold rounded-lg px-3 py-2 hover:bg-yellow-300 disabled:opacity-60 flex items-center gap-1"
-            >
-              {saving ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
-              Guardar
-            </button>
-          </div>
-        </div>
-        <div className="bg-slate-700 border border-slate-600 rounded-xl px-4 py-3 text-center">
-          <div className="text-xs text-slate-300">Puntos</div>
-          <div className="text-xl font-bold text-yellow-400">{userData.points ?? 0}</div>
-        </div>
-      </div>
-
-      {/* Datos de cuenta */}
-      <div className="mt-4 grid sm:grid-cols-2 gap-3">
-        <InfoRow label="Correo" value={userData.email} />
-        <InfoRow label="UID" value={auth.currentUser?.uid || "—"} />
-        <InfoRow label="Creado (users.createdAt)" value={toDate(userData.createdAt)?.toLocaleString() || "—"} />
-        <InfoRow label="Último inicio de sesión" value={lastLogin?.toLocaleString() || "—"} />
-        <InfoRow label="Proveedor(es)" value={providers || "—"} />
-      </div>
-
-      {/* Recompensas */}
-      <div className="mt-6">
-        <div className="flex items-center gap-2 mb-3">
-          <Gift size={16} className="text-yellow-400" />
-          <h3 className="font-semibold">Recompensas disponibles</h3>
-        </div>
-
-        {visibleRewards.length === 0 && (
-          <div className="text-slate-400 text-sm">No hay recompensas activas.</div>
-        )}
-
-        <div className="grid sm:grid-cols-2 gap-4">
-          {visibleRewards.map((r) => {
-            const exp = toDate(r.expiresAt);
-            const canRedeem = (userData?.points ?? 0) >= r.costPoints;
-            return (
-              <div key={r.id} className="bg-slate-800 border border-slate-700 rounded-2xl p-4">
-                <div className="flex items-center gap-2">
-                  <Ticket size={16} className="text-yellow-400" />
-                  <div className="font-semibold">{r.title}</div>
-                </div>
-                <div className="text-slate-300 text-sm mt-1">
-                  Valor: {r.type === "percent" ? `${r.value}%` : `$${r.value}`}
-                </div>
-                <div className="text-slate-400 text-xs mt-1">
-                  Costo: {r.costPoints} pts {exp ? `• vence: ${exp.toLocaleString()}` : ""}
-                </div>
+            <div className="flex-1 w-full sm:w-auto">
+              <div className="text-[10px] text-[#8A8A8A] font-light mb-1">{userData.email}</div>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+                <input
+                  value={displayName}
+                  onChange={(e) => setDisplayName(e.target.value)}
+                  className="w-full sm:max-w-xs bg-white border border-[#D0D0D0] rounded-md px-2.5 py-1.5 text-xs text-[#2A2A2A] focus:border-[#BA68C8] focus:outline-none transition-colors"
+                  placeholder="Nombre para mostrar"
+                />
                 <button
-                  onClick={() => redeem(r)}
-                  aria-disabled={redeeming === r.id}
-                  className={`mt-3 w-full bg-yellow-400 text-slate-900 font-semibold rounded-xl px-4 py-2 hover:bg-yellow-300
-                    ${!canRedeem ? "opacity-60" : ""} ${redeeming === r.id ? "pointer-events-none" : ""}`}
+                  onClick={saveDisplayName}
+                  disabled={saving}
+                  className="bg-[#BA68C8] text-white text-xs font-medium rounded-md px-3 py-1.5 hover:bg-[#9C27B0] disabled:opacity-50 flex items-center gap-1 transition-colors shadow-[0_2px_8px_rgba(186,104,200,0.25)] shrink-0"
                 >
-                  {redeeming === r.id ? "Canjeando..." : canRedeem ? "Canjear" : "Puntos insuficientes"}
+                  {saving ? <Loader2 size={12} className="animate-spin" /> : <Check size={12} />}
+                  Guardar
                 </button>
               </div>
-            );
-          })}
+            </div>
+            <div className="bg-white border border-[#D0D0D0] rounded-md px-4 py-2.5 text-center shrink-0">
+              <div className="text-[9px] text-[#8A8A8A] font-light">Puntos</div>
+              <div className="text-lg font-bold text-[#BA68C8]">{userData.points ?? 0}</div>
+            </div>
+          </div>
         </div>
-      </div>
 
-      {/* Canjes del usuario */}
-      <UserRedemptions />
+        {/* Datos de cuenta */}
+        <div className="grid sm:grid-cols-2 gap-2 mb-3">
+          <InfoRow label="Correo" value={userData.email} />
+          <InfoRow label="UID" value={auth.currentUser?.uid || "—"} />
+          <InfoRow label="Creado" value={toDate(userData.createdAt)?.toLocaleDateString() || "—"} />
+          <InfoRow label="Último acceso" value={lastLogin?.toLocaleDateString() || "—"} />
+          <InfoRow label="Proveedor" value={providers || "—"} />
+        </div>
+
+        {/* Recompensas */}
+        <div className="bg-[#F5F5F5] border border-[#D0D0D0] rounded-lg p-4 mb-3 shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
+          <div className="flex items-center gap-2 mb-3">
+            <Gift size={14} className="text-[#BA68C8]" />
+            <h3 className="font-medium text-sm text-[#2A2A2A]">Recompensas disponibles</h3>
+          </div>
+
+          {visibleRewards.length === 0 ? (
+            <div className="text-[#8A8A8A] text-xs font-light">No hay recompensas activas.</div>
+          ) : (
+            <div className="grid sm:grid-cols-2 gap-2">
+              {visibleRewards.map((r) => {
+                const exp = toDate(r.expiresAt);
+                const canRedeem = (userData?.points ?? 0) >= r.costPoints;
+                return (
+                  <div key={r.id} className="bg-white border border-[#D0D0D0] rounded-md p-3 hover:shadow-[0_2px_12px_rgba(0,0,0,0.08)] transition-shadow">
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <Ticket size={12} className="text-[#BA68C8]" />
+                      <div className="font-medium text-xs text-[#2A2A2A] truncate">{r.title}</div>
+                    </div>
+                    <div className="text-[#5A5A5A] text-[10px] font-light mb-1">
+                      Valor: {r.type === "percent" ? `${r.value}%` : `$${r.value}`}
+                    </div>
+                    <div className="text-[#8A8A8A] text-[9px] font-light mb-2">
+                      Costo: {r.costPoints} pts {exp ? `• vence: ${exp.toLocaleDateString()}` : ""}
+                    </div>
+                    <button
+                      onClick={() => redeem(r)}
+                      aria-disabled={redeeming === r.id}
+                      className={`w-full bg-[#BA68C8] text-white font-medium rounded-md px-3 py-1.5 hover:bg-[#9C27B0] transition-colors text-[10px] shadow-[0_2px_8px_rgba(186,104,200,0.25)]
+                        ${!canRedeem ? "opacity-50" : ""} ${redeeming === r.id ? "pointer-events-none" : ""}`}
+                    >
+                      {redeeming === r.id ? "Canjeando..." : canRedeem ? "Canjear" : "Puntos insuficientes"}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Canjes del usuario */}
+        <UserRedemptions />
+      </div>
     </div>
   );
 }
 
 function InfoRow({ label, value }: { label: string; value?: string }) {
   return (
-    <div className="bg-slate-800 border border-slate-700 rounded-xl px-4 py-3">
-      <div className="text-xs text-slate-400">{label}</div>
-      <div className="text-sm break-all">{value || "—"}</div>
+    <div className="bg-[#F5F5F5] border border-[#D0D0D0] rounded-md px-3 py-2">
+      <div className="text-[9px] text-[#8A8A8A] font-light">{label}</div>
+      <div className="text-[10px] text-[#2A2A2A] break-all">{value || "—"}</div>
     </div>
   );
 }
@@ -359,6 +355,7 @@ function InfoRow({ label, value }: { label: string; value?: string }) {
 function UserRedemptions() {
   const u = auth.currentUser;
   const [items, setItems] = useState<any[]>([]);
+  
   useEffect(() => {
     const run = async () => {
       if (!u) return;
@@ -373,19 +370,19 @@ function UserRedemptions() {
   if (!u) return null;
 
   return (
-    <div className="mt-8">
-      <div className="font-semibold mb-2">Mis canjes</div>
+    <div className="bg-[#F5F5F5] border border-[#D0D0D0] rounded-lg p-4 shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
+      <div className="font-medium text-sm text-[#2A2A2A] mb-2">Mis canjes</div>
       {items.length === 0 ? (
-        <div className="text-slate-400 text-sm">Aún no has canjeado recompensas.</div>
+        <div className="text-[#8A8A8A] text-xs font-light">Aún no has canjeado recompensas.</div>
       ) : (
-        <ul className="space-y-2">
+        <ul className="space-y-1.5 max-h-[300px] overflow-y-auto pr-1">
           {items.map(it => (
-            <li key={it.id} className="bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm">
-              <div className="flex items-center justify-between">
-                <span>{it.title}</span>
-                <span className="text-slate-400">
+            <li key={it.id} className="bg-white border border-[#D0D0D0] rounded-md px-3 py-2 text-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                <span className="font-medium text-[#2A2A2A]">{it.title}</span>
+                <span className="text-[#8A8A8A] text-[9px]">
                   {it.redeemedAt?.seconds
-                    ? new Date(it.redeemedAt.seconds * 1000).toLocaleString()
+                    ? new Date(it.redeemedAt.seconds * 1000).toLocaleDateString()
                     : "—"}
                 </span>
               </div>

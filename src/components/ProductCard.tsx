@@ -27,7 +27,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   return (
     <Link to={`/product/${id}`} className="block">
-      <div className="group relative bg-slate-900/70 rounded-2xl overflow-hidden border border-slate-700/40 transition-transform duration-150 will-change-transform">
+      <div className="group relative bg-white dark:bg-slate-900/70 rounded-2xl overflow-hidden border border-gray-200 dark:border-slate-700/40 shadow-sm dark:shadow-none transition-transform duration-150 will-change-transform">
         {/* Imagen cuadrada consistente */}
         <div className="relative aspect-square overflow-hidden">
           <img
@@ -57,10 +57,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Contenido */}
         <div className="p-3 md:p-4">
           <div className="min-h-[64px] md:min-h-[84px] mb-2">
-            <h3 className="text-slate-200 font-semibold text-sm md:text-base line-clamp-2 break-words">
+            <h3 className="text-gray-900 dark:text-slate-200 font-semibold text-sm md:text-base line-clamp-2 break-words">
               {name}
             </h3>
-            <p className="text-slate-400 text-xs md:text-sm line-clamp-2 leading-snug break-words">
+            <p className="text-gray-600 dark:text-slate-400 text-xs md:text-sm line-clamp-2 leading-snug break-words">
               {description}
             </p>
           </div>
@@ -71,13 +71,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 <Star
                   key={i}
                   size={12}
-                  className={on ? 'text-yellow-400' : 'text-slate-600'}
+                  className={on ? 'text-yellow-400' : 'text-gray-300 dark:text-slate-600'}
                   fill={on ? 'currentColor' : 'none'}
                 />
               ))}
             </div>
-            <span className="text-slate-400">
-              <span className="font-medium text-slate-300">{rating.toFixed(1)}</span> ({reviews})
+            <span className="text-gray-600 dark:text-slate-400">
+              <span className="font-medium text-gray-900 dark:text-slate-300">{rating.toFixed(1)}</span> ({reviews})
             </span>
           </div>
 
@@ -87,7 +87,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 ${price.toLocaleString('es-CO')}
               </span>
               {originalPrice > price && (
-                <span className="text-slate-500 text-xs md:text-sm line-through">
+                <span className="text-gray-500 dark:text-slate-500 text-xs md:text-sm line-through">
                   ${originalPrice.toLocaleString('es-CO')}
                 </span>
               )}
@@ -101,7 +101,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
           <button
             onClick={handleAddToCart}
-            className="w-full bg-yellow-400 hover:bg-yellow-300 text-slate-900 py-2 md:py-2.5 rounded-lg md:rounded-xl font-semibold text-xs md:text-sm transition-transform duration-150 hover:scale-[1.02]"
+            className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 dark:text-slate-900 py-2 md:py-2.5 rounded-lg md:rounded-xl font-semibold text-xs md:text-sm transition-transform duration-150 hover:scale-[1.02]"
           >
             <ShoppingCart size={16} className="inline mr-2" />
             Agregar al Carrito

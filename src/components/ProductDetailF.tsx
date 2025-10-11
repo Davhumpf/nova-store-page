@@ -21,8 +21,8 @@ import { useToast } from './ToastProvider';
 type PFProduct = {
   id: string;
   name: string;
-  imageUrl: string;   // portada (compat con carrito)
-  media?: string[];   // imágenes y/o videos
+  imageUrl: string;
+  media?: string[];
   price: number;
   originalPrice?: number;
   discount?: number;
@@ -52,7 +52,6 @@ const ProductDetailF: React.FC = () => {
   const [index, setIndex] = useState(0);
   const touchStartX = useRef<number | null>(null);
 
-  // Cargar producto
   useEffect(() => {
     let active = true;
     setLoading(true);
@@ -108,7 +107,6 @@ const ProductDetailF: React.FC = () => {
     };
   }, [id]);
 
-  // Navegación con teclado
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (!product?.media?.length) return;
@@ -134,7 +132,6 @@ const ProductDetailF: React.FC = () => {
     setIndex((i) => (i - 1 + media.length) % media.length);
   }, [media.length]);
 
-  // Swipe móvil
   const onTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
   };
@@ -166,10 +163,10 @@ const ProductDetailF: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="bg-slate-900 fix-1px flex items-center justify-center">
+      <div className="bg-[#F2F2F2] min-h-screen flex items-center justify-center">
         <div className="text-center space-y-4 py-16">
-          <div className="w-12 h-12 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-slate-300">Cargando producto…</p>
+          <div className="w-12 h-12 border-4 border-[#BA68C8] border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-[#595959] font-light">Cargando producto…</p>
         </div>
       </div>
     );
@@ -177,16 +174,16 @@ const ProductDetailF: React.FC = () => {
 
   if (error || !product) {
     return (
-      <div className="bg-slate-900 fix-1px flex items-center justify-center px-4">
+      <div className="bg-[#F2F2F2] min-h-screen flex items-center justify-center px-4">
         <div className="text-center space-y-6 max-w-md py-16">
-          <div className="w-24 h-24 bg-slate-800 rounded-full flex items-center justify-center mx-auto">
-            <ShoppingCart className="w-12 h-12 text-slate-400" />
+          <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto shadow-lg border border-[#A6A6A6]/20">
+            <ShoppingCart className="w-12 h-12 text-[#595959]" />
           </div>
-          <h2 className="text-2xl font-bold text-slate-200">Producto no disponible</h2>
-          <p className="text-slate-400">{error ?? 'No existe o fue eliminado.'}</p>
+          <h2 className="text-2xl font-light text-[#0D0D0D]">Producto no disponible</h2>
+          <p className="text-[#595959] font-light">{error ?? 'No existe o fue eliminado.'}</p>
           <button
             onClick={() => (window.history.length > 1 ? navigate(-1) : navigate('/shop-f'))}
-            className="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-slate-900 px-5 py-2.5 rounded-lg font-semibold"
+            className="inline-flex items-center gap-2 bg-[#0D0D0D] hover:bg-[#262626] text-[#BA68C8] px-5 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-md"
           >
             <ArrowLeft size={18} />
             Volver a productos
@@ -197,29 +194,29 @@ const ProductDetailF: React.FC = () => {
   }
 
   return (
-    <div className="bg-slate-900 py-4 fix-1px">
+    <div className="bg-[#F2F2F2] py-6 min-h-screen">
       <div className="container mx-auto px-4 max-w-5xl">
         {/* Breadcrumb */}
         <button
           onClick={() => (window.history.length > 1 ? navigate(-1) : navigate('/shop-f'))}
-          className="inline-flex items-center gap-2 text-slate-400 hover:text-yellow-400 mb-4"
+          className="inline-flex items-center gap-2 text-[#595959] hover:text-[#BA68C8] mb-6 transition-colors duration-200"
         >
           <ArrowLeft size={16} />
-          <span className="text-sm">Volver a Productos</span>
+          <span className="text-sm font-light">Volver a Productos</span>
         </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Galería */}
           <div className="order-1">
             <div
-              className="relative rounded-xl border border-slate-800 overflow-hidden bg-slate-950"
+              className="relative rounded-xl border border-[#A6A6A6]/20 overflow-hidden bg-white shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
               onTouchStart={onTouchStart}
               onTouchEnd={onTouchEnd}
             >
               <div className="aspect-square relative overflow-hidden">
                 {!mainLoaded && (
-                  <div className="absolute inset-0 bg-slate-800 animate-pulse flex items-center justify-center">
-                    <div className="w-8 h-8 border-4 border-slate-600 border-t-yellow-400 rounded-full animate-spin" />
+                  <div className="absolute inset-0 bg-[#F2F2F2] animate-pulse flex items-center justify-center">
+                    <div className="w-8 h-8 border-4 border-[#A6A6A6]/30 border-t-[#BA68C8] rounded-full animate-spin" />
                   </div>
                 )}
 
@@ -250,19 +247,19 @@ const ProductDetailF: React.FC = () => {
 
                 {/* Badges */}
                 {product.discount && product.discount > 0 && (
-                  <div className="absolute top-2 left-2 bg-red-600 text-white font-bold text-xs px-2 py-1 rounded-lg">
+                  <div className="absolute top-3 left-3 bg-red-500 text-white font-semibold text-xs px-3 py-1.5 rounded-lg shadow-md">
                     -{product.discount}%
                   </div>
                 )}
-                <div className="absolute top-2 right-2">
+                <div className="absolute top-3 right-3">
                   {product.inStock && product.stockQuantity > 0 ? (
-                    <span className="bg-slate-900/85 text-green-400 text-[11px] px-2 py-1 rounded-lg flex items-center">
-                      <span className="w-1.5 h-1.5 bg-green-400 rounded-full mr-1.5" />
+                    <span className="bg-white/95 text-[#4CAF50] text-xs px-3 py-1.5 rounded-lg flex items-center shadow-md border border-[#A6A6A6]/20">
+                      <span className="w-2 h-2 bg-[#4CAF50] rounded-full mr-2" />
                       En stock ({product.stockQuantity})
                     </span>
                   ) : (
-                    <span className="bg-slate-900/85 text-red-400 text-[11px] px-2 py-1 rounded-lg flex items-center">
-                      <span className="w-1.5 h-1.5 bg-red-400 rounded-full mr-1.5" />
+                    <span className="bg-white/95 text-red-500 text-xs px-3 py-1.5 rounded-lg flex items-center shadow-md border border-[#A6A6A6]/20">
+                      <span className="w-2 h-2 bg-red-500 rounded-full mr-2" />
                       Sin stock
                     </span>
                   )}
@@ -273,17 +270,17 @@ const ProductDetailF: React.FC = () => {
                   <>
                     <button
                       onClick={prev}
-                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 border border-white/10 w-9 h-9 rounded-full flex items-center justify-center"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white border border-[#A6A6A6]/20 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-200"
                       aria-label="Anterior"
                     >
-                      <ChevronLeft className="text-white" size={18} />
+                      <ChevronLeft className="text-[#0D0D0D]" size={20} />
                     </button>
                     <button
                       onClick={next}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 border border-white/10 w-9 h-9 rounded-full flex items-center justify-center"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white border border-[#A6A6A6]/20 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-200"
                       aria-label="Siguiente"
                     >
-                      <ChevronRight className="text-white" size={18} />
+                      <ChevronRight className="text-[#0D0D0D]" size={20} />
                     </button>
                   </>
                 )}
@@ -302,19 +299,19 @@ const ProductDetailF: React.FC = () => {
                         setIndex(i);
                         setMainLoaded(false);
                       }}
-                      className={`relative aspect-square rounded-lg overflow-hidden border ${
-                        active ? 'border-yellow-400' : 'border-slate-700/60 hover:border-slate-500'
+                      className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all duration-200 ${
+                        active ? 'border-[#BA68C8] shadow-md' : 'border-[#A6A6A6]/20 hover:border-[#BA68C8]/50'
                       }`}
                       title={`Vista ${i + 1}`}
                     >
                       {isVideo(m) ? (
-                        <div className="w-full h-full bg-black/50 flex items-center justify-center">
+                        <div className="w-full h-full bg-[#0D0D0D]/50 flex items-center justify-center">
                           <Play className="text-white/90" size={18} />
                         </div>
                       ) : (
                         <img src={m} alt={`thumb-${i}`} className="w-full h-full object-cover" />
                       )}
-                      <span className="absolute bottom-1 right-1 text-[10px] px-1 rounded bg-black/70 text-white">
+                      <span className="absolute bottom-1 right-1 text-[10px] px-1.5 py-0.5 rounded bg-[#0D0D0D]/70 text-white font-medium">
                         {i + 1}
                       </span>
                     </button>
@@ -325,83 +322,83 @@ const ProductDetailF: React.FC = () => {
           </div>
 
           {/* Info */}
-          <div className="order-2 space-y-4">
+          <div className="order-2 space-y-5">
             <div>
-              <h1 className="text-2xl lg:text-3xl font-extrabold text-slate-100 leading-tight break-words">
+              <h1 className="text-2xl lg:text-3xl font-light text-[#0D0D0D] leading-tight break-words">
                 {product.name}
               </h1>
-              <div className="flex items-center gap-3 mt-2">
+              <div className="flex items-center gap-3 mt-3">
                 <div className="flex items-center gap-0.5">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star
                       key={i}
                       size={16}
-                      className={i < Math.floor(product.rating ?? 0) ? 'text-yellow-400' : 'text-slate-600'}
+                      className={i < Math.floor(product.rating ?? 0) ? 'text-[#BA68C8]' : 'text-[#A6A6A6]'}
                       fill={i < Math.floor(product.rating ?? 0) ? 'currentColor' : 'none'}
                     />
                   ))}
                 </div>
-                <span className="text-slate-300 text-sm">
+                <span className="text-[#595959] text-sm font-light">
                   {(product.rating ?? 0).toFixed(1)} • {product.reviews ?? 0} reseñas
                 </span>
               </div>
             </div>
 
             {/* Precio */}
-            <div className="rounded-xl border border-slate-800 p-4 bg-slate-950/60">
+            <div className="rounded-xl border border-[#A6A6A6]/20 p-5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
               <div className="space-y-1">
                 <div className="flex items-baseline gap-2">
-                  <span className="text-2xl font-black text-yellow-400">
+                  <span className="text-2xl font-semibold text-[#BA68C8]">
                     ${product.price.toLocaleString('es-CO')}
                   </span>
                   {hasDiscount && product.originalPrice && (
-                    <span className="text-sm text-slate-500 line-through">
+                    <span className="text-sm text-[#A6A6A6] line-through">
                       ${product.originalPrice.toLocaleString('es-CO')}
                     </span>
                   )}
                 </div>
                 {hasDiscount && product.originalPrice && (
-                  <div className="bg-green-400/10 text-green-400 font-bold text-[11px] px-2 py-1 rounded-md inline-block">
+                  <div className="bg-[#BA68C8]/10 text-[#BA68C8] font-medium text-xs px-2 py-1 rounded-md inline-block">
                     Ahorra ${(product.originalPrice - product.price).toLocaleString('es-CO')}
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Descripción (ahora respeta saltos de línea) */}
-            <div className="rounded-lg border border-slate-800 p-4 bg-slate-950/60">
-              <div className="text-slate-300 leading-relaxed text-sm whitespace-pre-line">
+            {/* Descripción */}
+            <div className="rounded-lg border border-[#A6A6A6]/20 p-5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
+              <div className="text-[#595959] leading-relaxed text-sm font-light whitespace-pre-line">
                 {product.longDescription || '—'}
               </div>
             </div>
 
             {/* Beneficios físicos */}
-            <div className="flex flex-wrap items-center justify-center gap-4 rounded-lg border border-green-500/30 p-3 bg-emerald-900/10">
-              <div className="flex items-center gap-1 text-slate-300 text-xs">
-                <Truck className="w-3 h-3 text-green-400" />
+            <div className="flex flex-wrap items-center justify-center gap-4 rounded-lg border border-[#BA68C8]/30 p-4 bg-[#BA68C8]/5">
+              <div className="flex items-center gap-2 text-[#595959] text-xs font-light">
+                <Truck className="w-4 h-4 text-[#BA68C8]" />
                 <span>{product.shippingInfo}</span>
               </div>
-              <div className="flex items-center gap-1 text-slate-300 text-xs">
-                <Shield className="w-3 h-3 text-green-400" />
+              <div className="flex items-center gap-2 text-[#595959] text-xs font-light">
+                <Shield className="w-4 h-4 text-[#BA68C8]" />
                 <span>Garantía total</span>
               </div>
               {product.sku && (
-                <div className="flex items-center gap-1 text-slate-300 text-xs">
-                  <Package className="w-3 h-3 text-green-400" />
+                <div className="flex items-center gap-2 text-[#595959] text-xs font-light">
+                  <Package className="w-4 h-4 text-[#BA68C8]" />
                   <span>SKU: {product.sku}</span>
                 </div>
               )}
             </div>
 
             {/* CTA */}
-            <div className="space-y-3 mb-0">
+            <div className="space-y-3">
               <button
                 onClick={handleAddToCart}
                 disabled={!product.inStock || product.stockQuantity <= 0}
-                className={`w-full py-3 px-6 rounded-xl font-black text-base flex items-center justify-center gap-2 ${
+                className={`w-full py-3.5 px-6 rounded-lg font-semibold text-base flex items-center justify-center gap-2 transition-all duration-200 ${
                   product.inStock && product.stockQuantity > 0
-                    ? 'bg-yellow-400 hover:bg-yellow-300 text-slate-900'
-                    : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                    ? 'bg-[#0D0D0D] hover:bg-[#262626] text-[#BA68C8] shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.2)] hover:scale-[1.02]'
+                    : 'bg-[#A6A6A6]/30 text-[#595959] cursor-not-allowed'
                 }`}
               >
                 <ShoppingCart size={18} />
@@ -410,8 +407,8 @@ const ProductDetailF: React.FC = () => {
                   : 'Sin stock'}
               </button>
 
-              <div className="flex items-center justify-center gap-2 text-slate-400 text-sm">
-                <Zap className="w-4 h-4 text-green-400" />
+              <div className="flex items-center justify-center gap-2 text-[#595959] text-sm font-light">
+                <Zap className="w-4 h-4 text-[#BA68C8]" />
                 <span>Compra segura con envío garantizado</span>
               </div>
             </div>

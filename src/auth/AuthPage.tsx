@@ -2,20 +2,20 @@
 import React, { useEffect, useState, useCallback, Suspense } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-// ⚡ Carga diferida para reducir el bundle inicial (mantiene props/onSuccess)
+// ⚡ Carga diferida para reducir el bundle inicial
 const Login = React.lazy(() => import('./Login'));
 const Register = React.lazy(() => import('./Register'));
 
 const FallbackCard = () => (
-  <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-5">
-    <div className="flex items-center gap-3 mb-4">
-      <div className="w-6 h-6 rounded-full border-2 border-yellow-400 border-t-transparent animate-spin" />
-      <span className="text-slate-300 text-sm">Cargando…</span>
+  <div className="bg-[#F5F5F5] border border-[#D0D0D0] rounded-lg p-4">
+    <div className="flex items-center gap-2 mb-3">
+      <div className="w-5 h-5 rounded-full border-2 border-[#4CAF50]/30 border-t-[#4CAF50] animate-spin" />
+      <span className="text-[#8A8A8A] text-xs font-light">Cargando…</span>
     </div>
-    <div className="space-y-3">
-      <div className="h-9 rounded-lg bg-slate-700/50 animate-pulse" />
-      <div className="h-9 rounded-lg bg-slate-700/50 animate-pulse" />
-      <div className="h-10 rounded-lg bg-slate-700/50 animate-pulse" />
+    <div className="space-y-2">
+      <div className="h-8 rounded-md bg-[#E8E8E8] animate-pulse" />
+      <div className="h-8 rounded-md bg-[#E8E8E8] animate-pulse" />
+      <div className="h-9 rounded-md bg-[#E8E8E8] animate-pulse" />
     </div>
   </div>
 );
@@ -42,9 +42,6 @@ const AuthPage: React.FC = () => {
   }, []);
 
   const handleAuthSuccess = useCallback(() => {
-    // Soporta ambos flags que usas en el proyecto:
-    // 1) { returnToCheckout: true }  -> vuelve al inicio (conservado tal cual lo tenías)
-    // 2) { redirect: '/checkout' }  -> redirige a una ruta específica
     const redirect = location.state?.redirect as string | undefined;
 
     if (redirect) {
@@ -71,34 +68,37 @@ const AuthPage: React.FC = () => {
   const isRegister = mode === 'register';
 
   return (
-    <main className="min-h-dvh grid place-items-center px-3 py-6 bg-slate-900">
+    <main className="min-h-dvh grid place-items-center px-3 py-6 bg-[#E8E8E8]">
       <section className="w-full max-w-sm sm:max-w-md">
         <header className="text-center mb-4">
           <h1
-            className="text-2xl font-bold text-slate-100"
+            className="text-xl font-light text-[#2A2A2A]"
             aria-live="polite"
           >
             {isRegister ? 'Crear cuenta' : 'Iniciar sesión'}
           </h1>
+          <p className="text-[10px] text-[#8A8A8A] font-light mt-1">
+            {isRegister ? 'Regístrate para comenzar' : 'Accede a tu cuenta'}
+          </p>
         </header>
 
-        <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-4 shadow-xl">
+        <div className="bg-[#F5F5F5] border border-[#D0D0D0] rounded-lg p-4 shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
           {/* Tabs (segmented) accesibles */}
           <div
             role="tablist"
             aria-label="Seleccionar modo de autenticación"
             onKeyDown={onTabKeyDown}
-            className="grid grid-cols-2 gap-1 bg-slate-900/60 p-1 rounded-lg mb-3"
+            className="grid grid-cols-2 gap-1 bg-[#E8E8E8] p-1 rounded-md mb-3"
           >
             <button
               role="tab"
               aria-selected={!isRegister}
               aria-controls="panel-login"
               onClick={() => setMode('login')}
-              className={`py-2 rounded-md text-sm transition-all ${
+              className={`py-2 rounded-md text-xs font-medium transition-all ${
                 !isRegister
-                  ? 'bg-yellow-400 text-slate-900 font-semibold'
-                  : 'text-slate-300 hover:text-slate-100'
+                  ? 'bg-[#4CAF50] text-white shadow-[0_2px_8px_rgba(76,175,80,0.25)]'
+                  : 'text-[#8A8A8A] hover:text-[#2A2A2A]'
               }`}
             >
               Login
@@ -108,10 +108,10 @@ const AuthPage: React.FC = () => {
               aria-selected={isRegister}
               aria-controls="panel-register"
               onClick={() => setMode('register')}
-              className={`py-2 rounded-md text-sm transition-all ${
+              className={`py-2 rounded-md text-xs font-medium transition-all ${
                 isRegister
-                  ? 'bg-yellow-400 text-slate-900 font-semibold'
-                  : 'text-slate-300 hover:text-slate-100'
+                  ? 'bg-[#4CAF50] text-white shadow-[0_2px_8px_rgba(76,175,80,0.25)]'
+                  : 'text-[#8A8A8A] hover:text-[#2A2A2A]'
               }`}
             >
               Registro
@@ -140,7 +140,7 @@ const AuthPage: React.FC = () => {
         <div className="text-center mt-4">
           <button
             onClick={() => navigate('/')}
-            className="text-yellow-400 hover:text-yellow-300 text-sm"
+            className="text-[#4CAF50] hover:text-[#45a049] text-xs font-medium transition-colors"
           >
             ← Volver al inicio
           </button>

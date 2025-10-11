@@ -104,7 +104,7 @@ const PhysicalProductsCarousel: React.FC = () => {
   if (products.length === 0) {
     return (
       <div className="w-full flex justify-center items-center py-8">
-        <p className="text-slate-400 text-sm">No hay productos físicos</p>
+        <p className="text-gray-500 dark:text-slate-400 text-sm">No hay productos físicos</p>
       </div>
     );
   }
@@ -116,7 +116,7 @@ const PhysicalProductsCarousel: React.FC = () => {
   }
 
   return (
-    <div className="relative w-full bg-slate-800/30 backdrop-blur-sm border border-slate-700/30 rounded-xl overflow-hidden p-4">
+    <div className="relative w-full bg-gray-100 dark:bg-slate-800/30 backdrop-blur-sm border border-gray-200 dark:border-slate-700/30 rounded-xl overflow-hidden p-4">
       <div
         className={`grid gap-4 ${
           visibleCount === 1
@@ -129,7 +129,7 @@ const PhysicalProductsCarousel: React.FC = () => {
         {visibleProducts.map((product) => (
           <div
             key={`${product.id}-${currentIndex}`}
-            className="bg-slate-800 rounded-lg border border-slate-700 hover:border-purple-400/50 shadow-sm hover:shadow-purple-400/10 transition-all duration-300 group"
+            className="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 hover:border-purple-400/50 shadow-sm hover:shadow-purple-400/10 transition-all duration-300 group"
           >
             <div className="relative aspect-video overflow-hidden rounded-t-lg">
               <img
@@ -138,7 +138,7 @@ const PhysicalProductsCarousel: React.FC = () => {
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
             </div>
-            <div className="p-3 min-h-[100px] flex flex-col justify-between">
+            <div className="p-3 min-h-[100px] flex flex-col justify-between bg-slate-900 dark:bg-slate-900">
               <h3 className="text-white font-medium text-sm truncate mb-1">
                 {product.name}
               </h3>
@@ -165,13 +165,13 @@ const PhysicalProductsCarousel: React.FC = () => {
         <>
           <button
             onClick={prevSlide}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-slate-900/80 text-white p-2 rounded-full hover:scale-110 transition"
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-slate-900/80 text-gray-900 dark:text-white p-2 rounded-full hover:scale-110 transition shadow-lg"
           >
             <ChevronLeft size={16} />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-slate-900/80 text-white p-2 rounded-full hover:scale-110 transition"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-slate-900/80 text-gray-900 dark:text-white p-2 rounded-full hover:scale-110 transition shadow-lg"
           >
             <ChevronRight size={16} />
           </button>

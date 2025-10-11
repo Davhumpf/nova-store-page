@@ -30,6 +30,7 @@ import ProductDetailF from "./components/ProductDetailF";
 import ExpressCatalog from "./components/colab/ExpressCatalog";
 
 import { SearchProvider, useSearch } from "./context/SearchContext";
+import { ThemeProvider } from "./context/ThemeContext"; // ⬅️ IMPORTAR
 
 // -------------------- HomePage Legacy --------------------
 function HomePage() {
@@ -116,8 +117,8 @@ function HomePage() {
         <div className="flex justify-center items-center min-h-[400px]">
           <div className="text-center space-y-4">
             <div className="w-16 h-16 border-4 border-[#4CAF50] border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <h3 className="text-2xl font-bold text-[#0D0D0D]">Cargando productos...</h3>
-            <p className="text-[#595959]">Estamos preparando todo para ti</p>
+            <h3 className="text-2xl font-bold text-[#0D0D0D] dark:text-white">Cargando productos...</h3>
+            <p className="text-[#595959] dark:text-gray-400">Estamos preparando todo para ti</p>
           </div>
         </div>
       </div>
@@ -135,10 +136,10 @@ function HomePage() {
               </svg>
             </div>
             <h3 className="text-2xl font-bold text-red-500">Error al cargar</h3>
-            <p className="text-[#595959]">{error}</p>
+            <p className="text-[#595959] dark:text-gray-400">{error}</p>
             <button 
               onClick={() => window.location.reload()} 
-              className="bg-[#0D0D0D] text-[#4CAF50] px-6 py-3 rounded-lg font-semibold hover:bg-[#262626] shadow-md transition-all duration-200"
+              className="bg-[#0D0D0D] dark:bg-gray-700 text-[#4CAF50] dark:text-[#66FF7A] px-6 py-3 rounded-lg font-semibold hover:bg-[#262626] dark:hover:bg-gray-600 shadow-md transition-all duration-200"
             >
               Intentar de nuevo
             </button>
@@ -164,98 +165,100 @@ function HomePage() {
 // -------------------- App --------------------
 function App() {
   return (
-    <SearchProvider>
-      <div className="min-h-screen lg:h-screen lg:overflow-hidden bg-[#F2F2F2] text-[#0D0D0D]">
-        <Routes>
-          {/* Página principal */}
-          <Route path="/" element={<Navigate to="/inicio" replace />} />
-          <Route path="/inicio" element={<HomeWithSmartHeader />} />
+    <ThemeProvider> {/* ⬅️ ENVOLVER TODO CON ThemeProvider */}
+      <SearchProvider>
+        <div className="min-h-screen bg-[#F2F2F2] dark:bg-gray-900 text-[#0D0D0D] dark:text-white transition-colors duration-300">
+          <Routes>
+            {/* Página principal */}
+            <Route path="/" element={<Navigate to="/inicio" replace />} />
+            <Route path="/inicio" element={<HomeWithSmartHeader />} />
 
-          {/* Tiendas principales */}
-          <Route path="/streaming" element={<ShopSection />} />
-          <Route path="/fisicos" element={<ShopSectionF />} />
+            {/* Tiendas principales */}
+            <Route path="/streaming" element={<ShopSection />} />
+            <Route path="/fisicos" element={<ShopSectionF />} />
 
-          {/* Rutas de compatibilidad */}
-          <Route path="/tienda" element={<Navigate to="/streaming" replace />} />
-          <Route path="/tienda-fisicos" element={<Navigate to="/fisicos" replace />} />
+            {/* Rutas de compatibilidad */}
+            <Route path="/tienda" element={<Navigate to="/streaming" replace />} />
+            <Route path="/tienda-fisicos" element={<Navigate to="/fisicos" replace />} />
 
-          {/* Página legacy */}
-          <Route path="/legacy" element={<HomePage />} />
+            {/* Página legacy */}
+            <Route path="/legacy" element={<HomePage />} />
 
-          {/* Detalles de productos */}
-          <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/product-f/:id" element={<ProductDetailF />} />
+            {/* Detalles de productos */}
+            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/product-f/:id" element={<ProductDetailF />} />
 
-          {/* Checkout */}
-          <Route
-            path="/checkout"
-            element={
-              <ProtectedRoute>
-                <CheckoutPage />
-              </ProtectedRoute>
-            }
-          />
+            {/* Checkout */}
+            <Route
+              path="/checkout"
+              element={
+                <ProtectedRoute>
+                  <CheckoutPage />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Autenticación */}
-          <Route path="/auth" element={<AuthPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+            {/* Autenticación */}
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-          {/* Administración */}
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/users" element={<UserManagement />} />
-          <Route path="/admin/products" element={<ProductManagement />} />
-          <Route path="/admin/products-f" element={<ProductManagementF />} />
-          <Route path="/admin/colaborators" element={<Colaborators />} />
-          <Route path="/admin/coupons" element={<CouponsManagement />} />
-          <Route path="/AdminDashboard" element={<Navigate to="/admin" replace />} />
+            {/* Administración */}
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/users" element={<UserManagement />} />
+            <Route path="/admin/products" element={<ProductManagement />} />
+            <Route path="/admin/products-f" element={<ProductManagementF />} />
+            <Route path="/admin/colaborators" element={<Colaborators />} />
+            <Route path="/admin/coupons" element={<CouponsManagement />} />
+            <Route path="/AdminDashboard" element={<Navigate to="/admin" replace />} />
 
-          {/* Colaboradores */}
-          <Route path="/collaborations" element={<Collaborations />} />
-          <Route
-            path="/collaborations/express"
-            element={
-              <ProtectedRoute>
-                <ExpressCatalog />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/colab/collaborator-product-catalog"
-            element={
-              <ProtectedRoute>
-                <CollaboratorProductCatalog />
-              </ProtectedRoute>
-            }
-          />
-          {/* Aliases */}
-          <Route path="/colab" element={<Navigate to="/collaborations" replace />} />
-          <Route path="/colab/express" element={<Navigate to="/collaborations/express" replace />} />
+            {/* Colaboradores */}
+            <Route path="/collaborations" element={<Collaborations />} />
+            <Route
+              path="/collaborations/express"
+              element={
+                <ProtectedRoute>
+                  <ExpressCatalog />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/colab/collaborator-product-catalog"
+              element={
+                <ProtectedRoute>
+                  <CollaboratorProductCatalog />
+                </ProtectedRoute>
+              }
+            />
+            {/* Aliases */}
+            <Route path="/colab" element={<Navigate to="/collaborations" replace />} />
+            <Route path="/colab/express" element={<Navigate to="/collaborations/express" replace />} />
 
-          {/* Perfil y configuración */}
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <UserPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/settings"
-            element={
-              <ProtectedRoute>
-                <ConfigPage />
-              </ProtectedRoute>
-            }
-          />
+            {/* Perfil y configuración */}
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <UserPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute>
+                  <ConfigPage />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Ruta 404 */}
-          <Route path="*" element={<Navigate to="/inicio" replace />} />
-        </Routes>
-        <Cart />
-      </div>
-    </SearchProvider>
+            {/* Ruta 404 */}
+            <Route path="*" element={<Navigate to="/inicio" replace />} />
+          </Routes>
+          <Cart />
+        </div>
+      </SearchProvider>
+    </ThemeProvider>
   );
 }
 
