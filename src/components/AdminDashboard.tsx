@@ -21,9 +21,9 @@ type Product = { id: string; inStock?: boolean };
 const ADMIN_EMAILS = ['scpu.v1@gmail.com'];
 
 const Stat: React.FC<{ label: string; value: string | number }> = ({ label, value }) => (
-  <div className="rounded-lg border border-[#D0D0D0] bg-[#F5F5F5] p-2.5 shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
-    <p className="text-[10px] text-[#8A8A8A] font-light">{label}</p>
-    <p className="text-base sm:text-lg font-bold text-[#4CAF50] leading-tight mt-0.5">{value}</p>
+  <div className="rounded-lg border border-[#D0D0D0] dark:border-gray-700 bg-[#F5F5F5] dark:bg-gray-800 p-2.5 shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:shadow-none">
+    <p className="text-[10px] text-[#8A8A8A] dark:text-gray-400 font-light">{label}</p>
+    <p className="text-base sm:text-lg font-bold text-[#4CAF50] dark:text-[#66FF7A] leading-tight mt-0.5">{value}</p>
   </div>
 );
 
@@ -40,26 +40,26 @@ const Tile: React.FC<{
     disabled={disabled}
     className={`group w-full text-left rounded-lg border p-3 transition-all ${
       disabled
-        ? 'border-[#D0D0D0] bg-[#F5F5F5] opacity-50 cursor-not-allowed'
-        : 'border-[#D0D0D0] bg-[#F5F5F5] hover:border-[#4CAF50] hover:shadow-[0_4px_16px_rgba(76,175,80,0.12)] active:scale-[0.98]'
+        ? 'border-[#D0D0D0] dark:border-gray-700 bg-[#F5F5F5] dark:bg-gray-800 opacity-50 cursor-not-allowed'
+        : 'border-[#D0D0D0] dark:border-gray-700 bg-[#F5F5F5] dark:bg-gray-800 hover:border-[#4CAF50] dark:hover:border-[#66FF7A] hover:shadow-[0_4px_16px_rgba(76,175,80,0.12)] dark:hover:shadow-none active:scale-[0.98]'
     }`}
   >
     <div className="flex items-start gap-2.5">
-      <div className="p-1.5 rounded-md bg-[#E8E8E8] text-[#2A2A2A] shrink-0">
+      <div className="p-1.5 rounded-md bg-[#E8E8E8] dark:bg-gray-700 text-[#2A2A2A] dark:text-white shrink-0">
         {icon}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-2 mb-0.5">
-          <h3 className="text-sm font-semibold text-[#2A2A2A] truncate">{title}</h3>
+          <h3 className="text-sm font-semibold text-[#2A2A2A] dark:text-white truncate">{title}</h3>
           {badge && (
-            <span className="text-[9px] px-1.5 py-0.5 rounded bg-[#4CAF50]/15 text-[#4CAF50] font-medium">
+            <span className="text-[9px] px-1.5 py-0.5 rounded bg-[#4CAF50]/15 dark:bg-[#66FF7A]/20 text-[#4CAF50] dark:text-[#66FF7A] font-medium">
               {badge}
             </span>
           )}
         </div>
-        <p className="text-xs text-[#8A8A8A] font-light leading-tight">{desc}</p>
-        <div className="mt-2 flex items-center gap-1 text-[10px] text-[#8A8A8A]">
-          <span className="group-hover:text-[#4CAF50] transition-colors">Ir</span>
+        <p className="text-xs text-[#8A8A8A] dark:text-gray-400 font-light leading-tight">{desc}</p>
+        <div className="mt-2 flex items-center gap-1 text-[10px] text-[#8A8A8A] dark:text-gray-400">
+          <span className="group-hover:text-[#4CAF50] dark:group-hover:text-[#66FF7A] transition-colors">Ir</span>
           <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
         </div>
       </div>
@@ -133,10 +133,10 @@ const AdminDashboard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen grid place-items-center bg-[#E8E8E8]">
+      <div className="min-h-screen grid place-items-center bg-[#E8E8E8] dark:bg-gray-900">
         <div className="flex flex-col items-center gap-2">
-          <div className="w-10 h-10 rounded-full border-3 border-[#4CAF50]/30 border-t-[#4CAF50] animate-spin" />
-          <p className="text-[#5A5A5A] text-xs font-light">Cargando...</p>
+          <div className="w-10 h-10 rounded-full border-3 border-[#4CAF50]/30 dark:border-[#66FF7A]/30 border-t-[#4CAF50] dark:border-t-[#66FF7A] animate-spin" />
+          <p className="text-[#5A5A5A] dark:text-gray-400 text-xs font-light">Cargando...</p>
         </div>
       </div>
     );
@@ -144,26 +144,26 @@ const AdminDashboard: React.FC = () => {
 
   if (!user || !ADMIN_EMAILS.includes(user.email || '')) {
     return (
-      <div className="min-h-screen grid place-items-center bg-[#E8E8E8] px-4">
-        <div className="max-w-xs w-full p-5 rounded-lg border border-[#D0D0D0] bg-[#F5F5F5] text-center shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
-          <div className="mx-auto w-10 h-10 rounded-full grid place-items-center bg-red-500/10 mb-2">
-            <Lock className="text-red-500" size={18} />
+      <div className="min-h-screen grid place-items-center bg-[#E8E8E8] dark:bg-gray-900 px-4">
+        <div className="max-w-xs w-full p-5 rounded-lg border border-[#D0D0D0] dark:border-gray-700 bg-[#F5F5F5] dark:bg-gray-800 text-center shadow-[0_4px_16px_rgba(0,0,0,0.08)] dark:shadow-none">
+          <div className="mx-auto w-10 h-10 rounded-full grid place-items-center bg-red-500/10 dark:bg-red-500/20 mb-2">
+            <Lock className="text-red-500 dark:text-red-400" size={18} />
           </div>
-          <h2 className="text-base font-semibold text-[#2A2A2A] mb-1">Acceso restringido</h2>
-          <p className="text-[#8A8A8A] text-xs font-light">No tienes permisos.</p>
+          <h2 className="text-base font-semibold text-[#2A2A2A] dark:text-white mb-1">Acceso restringido</h2>
+          <p className="text-[#8A8A8A] dark:text-gray-400 text-xs font-light">No tienes permisos.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#E8E8E8] py-3 px-3 sm:px-4">
+    <div className="min-h-screen bg-[#E8E8E8] dark:bg-gray-900 py-3 px-3 sm:px-4">
       <div className="mx-auto w-full max-w-5xl">
 
         {/* Botón volver estilo Apple - Superior izquierda */}
         <button
           onClick={() => navigate('/')}
-          className="mb-3 flex items-center gap-1.5 text-xs text-[#4CAF50] hover:text-[#45a049] transition-colors group"
+          className="mb-3 flex items-center gap-1.5 text-xs text-[#4CAF50] dark:text-[#66FF7A] hover:text-[#45a049] dark:hover:text-[#4CAF50] transition-colors group"
         >
           <ArrowRight size={14} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
           <span className="font-medium">Inicio</span>
@@ -172,10 +172,10 @@ const AdminDashboard: React.FC = () => {
         {/* Header minimalista */}
         <div className="mb-4">
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-1 h-8 bg-[#4CAF50] rounded-full shadow-sm"></div>
+            <div className="w-1 h-8 bg-[#4CAF50] dark:bg-[#66FF7A] rounded-full shadow-sm"></div>
             <div>
-              <h1 className="text-lg font-light text-[#2A2A2A]">Panel de Administración</h1>
-              <p className="text-[10px] text-[#8A8A8A] font-light">{user.email}</p>
+              <h1 className="text-lg font-light text-[#2A2A2A] dark:text-white">Panel de Administración</h1>
+              <p className="text-[10px] text-[#8A8A8A] dark:text-gray-400 font-light">{user.email}</p>
             </div>
           </div>
 
@@ -224,9 +224,9 @@ const AdminDashboard: React.FC = () => {
         </div>
 
         {/* Footer minimalista */}
-        <div className="flex items-center gap-1.5 mt-3 p-2.5 rounded-lg border border-[#D0D0D0] bg-[#F5F5F5]">
-          <Activity size={12} className="text-[#4CAF50]" />
-          <span className="text-[10px] text-[#8A8A8A]">Actualizado al cargar</span>
+        <div className="flex items-center gap-1.5 mt-3 p-2.5 rounded-lg border border-[#D0D0D0] dark:border-gray-700 bg-[#F5F5F5] dark:bg-gray-800">
+          <Activity size={12} className="text-[#4CAF50] dark:text-[#66FF7A]" />
+          <span className="text-[10px] text-[#8A8A8A] dark:text-gray-400">Actualizado al cargar</span>
         </div>
       </div>
     </div>
