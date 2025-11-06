@@ -47,8 +47,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </div>
           )}
           <div className="absolute top-2 right-2">
-            <span className="bg-slate-900/80 text-green-400 text-[10px] px-2 py-1 rounded-full flex items-center">
-              <span className="w-1.5 h-1.5 bg-green-400 rounded-full mr-1.5" />
+            <span className="bg-slate-900/80 dark:bg-slate-800/90 text-green-400 dark:text-[#66FF7A] text-[10px] px-2 py-1 rounded-full flex items-center">
+              <span className="w-1.5 h-1.5 bg-green-400 dark:bg-[#66FF7A] rounded-full mr-1.5" />
               Disponible
             </span>
           </div>
