@@ -158,10 +158,10 @@ const UserManagement: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#E8E8E8]">
+      <div className="min-h-screen flex items-center justify-center bg-[#E8E8E8] dark:bg-gray-900">
         <div className="text-center">
-          <div className="w-12 h-12 border-3 border-[#BA68C8]/30 border-t-[#BA68C8] rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-[#8A8A8A] text-sm font-light">Cargando usuarios...</p>
+          <div className="w-12 h-12 border-3 border-[#BA68C8]/30 dark:border-[#CE93D8]/30 border-t-[#BA68C8] dark:border-t-[#CE93D8] rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-[#8A8A8A] dark:text-gray-400 text-sm font-light">Cargando usuarios...</p>
         </div>
       </div>
     );
@@ -169,17 +169,17 @@ const UserManagement: React.FC = () => {
 
   if (!user || !userRole || !['super_admin', 'admin', 'collaborator'].includes(userRole)) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#E8E8E8] p-4">
-        <div className="bg-[#F5F5F5] rounded-lg border border-[#D0D0D0] p-6 max-w-md w-full shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
+      <div className="min-h-screen flex items-center justify-center bg-[#E8E8E8] dark:bg-gray-900 p-4">
+        <div className="bg-[#F5F5F5] dark:bg-gray-800 rounded-lg border border-[#D0D0D0] dark:border-gray-700 p-6 max-w-md w-full shadow-[0_4px_16px_rgba(0,0,0,0.08)] dark:shadow-none">
           <div className="text-center">
-            <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-red-500/10 dark:bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-3xl">🔒</span>
             </div>
-            <h2 className="text-lg font-semibold text-[#2A2A2A] mb-2">Acceso Restringido</h2>
-            <p className="text-sm text-[#8A8A8A] mb-4">No tienes permisos para esta sección.</p>
+            <h2 className="text-lg font-semibold text-[#2A2A2A] dark:text-white mb-2">Acceso Restringido</h2>
+            <p className="text-sm text-[#8A8A8A] dark:text-gray-400 mb-4">No tienes permisos para esta sección.</p>
             <button
               onClick={() => navigate('/')}
-              className="bg-[#BA68C8] hover:bg-[#9C27B0] text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+              className="bg-[#BA68C8] dark:bg-[#CE93D8] hover:bg-[#9C27B0] dark:hover:bg-[#BA68C8] text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
             >
               Volver al inicio
             </button>
@@ -197,13 +197,13 @@ const UserManagement: React.FC = () => {
       : 'Colaborador';
 
   return (
-    <div className="min-h-screen bg-[#E8E8E8] py-3 px-3 sm:px-4">
+    <div className="min-h-screen bg-[#E8E8E8] dark:bg-gray-900 py-3 px-3 sm:px-4">
       <div className="mx-auto w-full max-w-7xl">
-        
+
         {/* Botón volver */}
         <button
           onClick={() => navigate('/admin')}
-          className="mb-3 flex items-center gap-1.5 text-xs text-[#BA68C8] hover:text-[#9C27B0] transition-colors group"
+          className="mb-3 flex items-center gap-1.5 text-xs text-[#BA68C8] dark:text-[#CE93D8] hover:text-[#9C27B0] dark:hover:text-[#BA68C8] transition-colors group"
         >
           <ArrowRight size={14} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
           <span className="font-medium">Panel Admin</span>
@@ -212,19 +212,19 @@ const UserManagement: React.FC = () => {
         {/* Header minimalista */}
         <div className="mb-4">
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-1 h-8 bg-[#BA68C8] rounded-full shadow-sm"></div>
+            <div className="w-1 h-8 bg-[#BA68C8] dark:bg-[#CE93D8] rounded-full shadow-sm"></div>
             <div className="flex-1">
-              <h1 className="text-lg font-light text-[#2A2A2A]">Gestión de Usuarios</h1>
-              <p className="text-[10px] text-[#8A8A8A] font-light">Rol: {roleTitle} • {user?.email}</p>
+              <h1 className="text-lg font-light text-[#2A2A2A] dark:text-white">Gestión de Usuarios</h1>
+              <p className="text-[10px] text-[#8A8A8A] dark:text-gray-400 font-light">Rol: {roleTitle} • {user?.email}</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="text-center">
-                <p className="text-[9px] text-[#8A8A8A]">Total</p>
-                <p className="text-sm font-bold text-[#BA68C8]">{users.length}</p>
+                <p className="text-[9px] text-[#8A8A8A] dark:text-gray-400">Total</p>
+                <p className="text-sm font-bold text-[#BA68C8] dark:text-[#CE93D8]">{users.length}</p>
               </div>
               <div className="text-center">
-                <p className="text-[9px] text-[#8A8A8A]">Mostrando</p>
-                <p className="text-sm font-bold text-[#BA68C8]">{filteredUsers.length}</p>
+                <p className="text-[9px] text-[#8A8A8A] dark:text-gray-400">Mostrando</p>
+                <p className="text-sm font-bold text-[#BA68C8] dark:text-[#CE93D8]">{filteredUsers.length}</p>
               </div>
             </div>
           </div>
@@ -234,19 +234,19 @@ const UserManagement: React.FC = () => {
         <div className="grid lg:grid-cols-3 gap-3">
           {/* Lista de usuarios */}
           <div className="lg:col-span-2">
-            <div className="bg-[#F5F5F5] rounded-lg border border-[#D0D0D0] shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
+            <div className="bg-[#F5F5F5] dark:bg-gray-800 rounded-lg border border-[#D0D0D0] dark:border-gray-700 shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:shadow-none">
               {/* Buscador */}
-              <div className="p-3 border-b border-[#D0D0D0]">
+              <div className="p-3 border-b border-[#D0D0D0] dark:border-gray-700">
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Search className="h-4 w-4 text-[#8A8A8A]" />
+                    <Search className="h-4 w-4 text-[#8A8A8A] dark:text-gray-400" />
                   </div>
                   <input
                     type="text"
                     placeholder="Buscar por email, nombre o ID..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full bg-white border border-[#D0D0D0] rounded-md py-2 pl-10 pr-3 text-xs text-[#2A2A2A] placeholder-[#8A8A8A] focus:border-[#BA68C8] focus:outline-none transition-colors"
+                    className="w-full bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded-md py-2 pl-10 pr-3 text-xs text-[#2A2A2A] dark:text-white placeholder-[#8A8A8A] dark:placeholder-gray-400 focus:border-[#BA68C8] dark:focus:border-[#CE93D8] focus:outline-none transition-colors"
                   />
                 </div>
               </div>
@@ -255,8 +255,8 @@ const UserManagement: React.FC = () => {
               <div className="p-3">
                 {filteredUsers.length === 0 ? (
                   <div className="text-center py-8">
-                    <Users className="mx-auto text-[#D0D0D0] mb-2" size={32} />
-                    <p className="text-[#8A8A8A] text-xs font-light">No se encontraron usuarios</p>
+                    <Users className="mx-auto text-[#D0D0D0] dark:text-gray-600 mb-2" size={32} />
+                    <p className="text-[#8A8A8A] dark:text-gray-400 text-xs font-light">No se encontraron usuarios</p>
                   </div>
                 ) : (
                   <div className="space-y-2 max-h-[65vh] overflow-y-auto pr-1">
@@ -266,28 +266,28 @@ const UserManagement: React.FC = () => {
                         onClick={() => setSelectedUser(u)}
                         className={`w-full text-left p-2.5 rounded-md border transition-all ${
                           selectedUser?.id === u.id
-                            ? 'bg-[#BA68C8]/10 border-[#BA68C8]'
-                            : 'bg-white border-[#D0D0D0] hover:border-[#BA68C8]/50'
+                            ? 'bg-[#BA68C8]/10 dark:bg-[#CE93D8]/20 border-[#BA68C8] dark:border-[#CE93D8]'
+                            : 'bg-white dark:bg-gray-700 border-[#D0D0D0] dark:border-gray-600 hover:border-[#BA68C8]/50 dark:hover:border-[#CE93D8]/50'
                         }`}
                       >
                         <div className="flex items-center justify-between gap-2">
                           <div className="flex items-center gap-2.5 min-w-0">
-                            <div className="w-9 h-9 bg-[#BA68C8] rounded-full grid place-items-center shrink-0">
-                              <span className="text-white font-bold text-sm">
+                            <div className="w-9 h-9 bg-[#BA68C8] dark:bg-[#CE93D8] rounded-full grid place-items-center shrink-0">
+                              <span className="text-white dark:text-gray-900 font-bold text-sm">
                                 {(u.name?.[0] || u.email?.[0] || '?').toUpperCase()}
                               </span>
                             </div>
 
                             <div className="min-w-0">
-                              <p className="text-[#2A2A2A] font-semibold text-xs truncate">
+                              <p className="text-[#2A2A2A] dark:text-white font-semibold text-xs truncate">
                                 {u.email}
                               </p>
                               <div className="flex items-center gap-1.5">
                                 {!!u.name && (
-                                  <p className="text-[#8A8A8A] text-[10px] truncate">{u.name}</p>
+                                  <p className="text-[#8A8A8A] dark:text-gray-400 text-[10px] truncate">{u.name}</p>
                                 )}
-                                <span className="inline-flex items-center gap-0.5 text-[9px] text-[#8A8A8A] bg-gray-100 rounded px-1 py-0.5">
-                                  <Hash size={10} className="text-[#BA68C8]" />
+                                <span className="inline-flex items-center gap-0.5 text-[9px] text-[#8A8A8A] dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded px-1 py-0.5">
+                                  <Hash size={10} className="text-[#BA68C8] dark:text-[#CE93D8]" />
                                   {u.id.slice(0, 6)}
                                 </span>
                               </div>
@@ -295,14 +295,14 @@ const UserManagement: React.FC = () => {
                           </div>
 
                           <div className="flex items-center gap-2">
-                            <div className="flex items-center gap-1 bg-[#BA68C8]/10 px-2 py-1 rounded">
-                              <Award size={11} className="text-[#BA68C8]" />
-                              <span className="text-[#BA68C8] font-bold text-[10px]">
+                            <div className="flex items-center gap-1 bg-[#BA68C8]/10 dark:bg-[#CE93D8]/20 px-2 py-1 rounded">
+                              <Award size={11} className="text-[#BA68C8] dark:text-[#CE93D8]" />
+                              <span className="text-[#BA68C8] dark:text-[#CE93D8] font-bold text-[10px]">
                                 {u.points || 0}
                               </span>
                             </div>
                             {selectedUser?.id === u.id && (
-                              <div className="w-1.5 h-1.5 bg-[#BA68C8] rounded-full"></div>
+                              <div className="w-1.5 h-1.5 bg-[#BA68C8] dark:bg-[#CE93D8] rounded-full"></div>
                             )}
                           </div>
                         </div>
@@ -316,32 +316,32 @@ const UserManagement: React.FC = () => {
 
           {/* Panel de edición */}
           <div className="lg:col-span-1">
-            <div className="bg-[#F5F5F5] rounded-lg border border-[#D0D0D0] p-4 shadow-[0_2px_8px_rgba(0,0,0,0.06)] lg:sticky lg:top-4">
+            <div className="bg-[#F5F5F5] dark:bg-gray-800 rounded-lg border border-[#D0D0D0] dark:border-gray-700 p-4 shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:shadow-none lg:sticky lg:top-4">
               {selectedUser ? (
                 <div className="space-y-4">
                   {/* Usuario seleccionado */}
                   <div className="text-center">
-                    <div className="w-14 h-14 bg-[#BA68C8] rounded-full grid place-items-center shadow-md mx-auto mb-2">
-                      <span className="text-white font-bold text-lg">
+                    <div className="w-14 h-14 bg-[#BA68C8] dark:bg-[#CE93D8] rounded-full grid place-items-center shadow-md mx-auto mb-2">
+                      <span className="text-white dark:text-gray-900 font-bold text-lg">
                         {(selectedUser.name?.[0] || selectedUser.email?.[0] || '?').toUpperCase()}
                       </span>
                     </div>
-                    <h3 className="text-[#2A2A2A] font-semibold text-sm break-all mb-1">
+                    <h3 className="text-[#2A2A2A] dark:text-white font-semibold text-sm break-all mb-1">
                       {selectedUser.email}
                     </h3>
                     {!!selectedUser.name && (
-                      <p className="text-[#8A8A8A] text-xs">{selectedUser.name}</p>
+                      <p className="text-[#8A8A8A] dark:text-gray-400 text-xs">{selectedUser.name}</p>
                     )}
 
                     {/* ID con botón copiar */}
                     <div className="mt-2 flex items-center justify-center gap-2">
-                      <span className="inline-flex items-center gap-1 bg-white border border-[#D0D0D0] rounded px-2 py-1 text-[10px] text-[#8A8A8A]">
-                        <Hash size={10} className="text-[#BA68C8]" />
+                      <span className="inline-flex items-center gap-1 bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded px-2 py-1 text-[10px] text-[#8A8A8A] dark:text-gray-400">
+                        <Hash size={10} className="text-[#BA68C8] dark:text-[#CE93D8]" />
                         <code className="break-all">{selectedUser.id.slice(0, 12)}...</code>
                       </span>
                       <button
                         onClick={() => copy(selectedUser.id)}
-                        className="inline-flex items-center gap-1 bg-[#BA68C8]/10 hover:bg-[#BA68C8]/20 text-[#BA68C8] border border-[#BA68C8]/30 rounded px-2 py-1 text-[10px] transition-colors"
+                        className="inline-flex items-center gap-1 bg-[#BA68C8]/10 dark:bg-[#CE93D8]/20 hover:bg-[#BA68C8]/20 dark:hover:bg-[#CE93D8]/30 text-[#BA68C8] dark:text-[#CE93D8] border border-[#BA68C8]/30 dark:border-[#CE93D8]/30 rounded px-2 py-1 text-[10px] transition-colors"
                         title="Copiar ID completo"
                       >
                         <CopyIcon size={10} />
@@ -351,45 +351,45 @@ const UserManagement: React.FC = () => {
                   </div>
 
                   {/* Puntos actuales */}
-                  <div className="bg-white rounded-md p-3 border border-[#D0D0D0]">
+                  <div className="bg-white dark:bg-gray-700 rounded-md p-3 border border-[#D0D0D0] dark:border-gray-600">
                     <div className="flex items-center justify-center gap-1.5 mb-1">
-                      <Award className="text-[#BA68C8]" size={14} />
-                      <span className="text-[#8A8A8A] text-[10px] font-light">Puntos actuales</span>
+                      <Award className="text-[#BA68C8] dark:text-[#CE93D8]" size={14} />
+                      <span className="text-[#8A8A8A] dark:text-gray-400 text-[10px] font-light">Puntos actuales</span>
                     </div>
-                    <p className="text-[#BA68C8] font-bold text-2xl text-center">
+                    <p className="text-[#BA68C8] dark:text-[#CE93D8] font-bold text-2xl text-center">
                       {selectedUser.points || 0}
                     </p>
                   </div>
 
                   {/* Control de puntos */}
                   <div>
-                    <label className="block text-[#8A8A8A] text-[10px] font-light mb-1.5">
+                    <label className="block text-[#8A8A8A] dark:text-gray-400 text-[10px] font-light mb-1.5">
                       Ajustar puntos
                     </label>
                     <div className="flex items-center gap-2 mb-2">
                       <button
                         onClick={() => setPointsToAdd((p) => p - 10)}
-                        className="p-2 bg-red-500/10 hover:bg-red-500/20 rounded-md border border-red-500/30 transition-colors"
+                        className="p-2 bg-red-500/10 dark:bg-red-500/20 hover:bg-red-500/20 dark:hover:bg-red-500/30 rounded-md border border-red-500/30 dark:border-red-500/40 transition-colors"
                         type="button"
                         title="-10"
                       >
-                        <MinusCircle size={16} className="text-red-500" />
+                        <MinusCircle size={16} className="text-red-500 dark:text-red-400" />
                       </button>
 
                       <input
                         type="number"
                         value={pointsToAdd}
                         onChange={(e) => setPointsToAdd(parseInt(e.target.value) || 0)}
-                        className="flex-1 bg-white border border-[#D0D0D0] rounded-md py-2 px-3 text-xs text-[#2A2A2A] text-center focus:border-[#BA68C8] focus:outline-none transition-colors"
+                        className="flex-1 bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded-md py-2 px-3 text-xs text-[#2A2A2A] dark:text-white text-center focus:border-[#BA68C8] dark:focus:border-[#CE93D8] focus:outline-none transition-colors"
                       />
 
                       <button
                         onClick={() => setPointsToAdd((p) => p + 10)}
-                        className="p-2 bg-green-500/10 hover:bg-green-500/20 rounded-md border border-green-500/30 transition-colors"
+                        className="p-2 bg-green-500/10 dark:bg-green-500/20 hover:bg-green-500/20 dark:hover:bg-green-500/30 rounded-md border border-green-500/30 dark:border-green-500/40 transition-colors"
                         type="button"
                         title="+10"
                       >
-                        <PlusCircle size={16} className="text-green-500" />
+                        <PlusCircle size={16} className="text-green-500 dark:text-green-400" />
                       </button>
                     </div>
 
@@ -400,7 +400,7 @@ const UserManagement: React.FC = () => {
                           key={`p-${v}`}
                           onClick={() => setPointsToAdd(v)}
                           type="button"
-                          className="py-1.5 bg-[#BA68C8]/10 hover:bg-[#BA68C8]/20 border border-[#BA68C8]/30 rounded text-[#BA68C8] text-[10px] font-medium transition-colors"
+                          className="py-1.5 bg-[#BA68C8]/10 dark:bg-[#CE93D8]/20 hover:bg-[#BA68C8]/20 dark:hover:bg-[#CE93D8]/30 border border-[#BA68C8]/30 dark:border-[#CE93D8]/30 rounded text-[#BA68C8] dark:text-[#CE93D8] text-[10px] font-medium transition-colors"
                         >
                           +{v}
                         </button>
@@ -414,7 +414,7 @@ const UserManagement: React.FC = () => {
                           key={`n-${v}`}
                           onClick={() => setPointsToAdd(v)}
                           type="button"
-                          className="py-1.5 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 rounded text-red-500 text-[10px] font-medium transition-colors"
+                          className="py-1.5 bg-red-500/10 dark:bg-red-500/20 hover:bg-red-500/20 dark:hover:bg-red-500/30 border border-red-500/30 dark:border-red-500/40 rounded text-red-500 dark:text-red-400 text-[10px] font-medium transition-colors"
                         >
                           {v}
                         </button>
@@ -425,7 +425,7 @@ const UserManagement: React.FC = () => {
                     <button
                       onClick={handleAddPoints}
                       disabled={pointsToAdd === 0 || isUpdating}
-                      className="w-full bg-[#BA68C8] hover:bg-[#9C27B0] disabled:bg-[#D0D0D0] disabled:cursor-not-allowed text-white font-medium py-2.5 rounded-md flex items-center justify-center gap-1.5 text-xs transition-colors shadow-[0_2px_8px_rgba(186,104,200,0.25)] disabled:shadow-none"
+                      className="w-full bg-[#BA68C8] dark:bg-[#CE93D8] hover:bg-[#9C27B0] dark:hover:bg-[#BA68C8] disabled:bg-[#D0D0D0] dark:disabled:bg-gray-600 disabled:cursor-not-allowed text-white dark:text-gray-900 font-medium py-2.5 rounded-md flex items-center justify-center gap-1.5 text-xs transition-colors shadow-[0_2px_8px_rgba(186,104,200,0.25)] dark:shadow-none disabled:shadow-none"
                     >
                       {isUpdating ? (
                         <>
@@ -445,7 +445,7 @@ const UserManagement: React.FC = () => {
                       <button
                         onClick={handleDeleteUser}
                         disabled={isUpdating}
-                        className="w-full mt-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-500 font-medium py-2.5 rounded-md flex items-center justify-center gap-1.5 text-xs transition-colors"
+                        className="w-full mt-2 bg-red-500/10 dark:bg-red-500/20 hover:bg-red-500/20 dark:hover:bg-red-500/30 border border-red-500/30 dark:border-red-500/40 text-red-500 dark:text-red-400 font-medium py-2.5 rounded-md flex items-center justify-center gap-1.5 text-xs transition-colors"
                         title="Eliminar documento del usuario"
                       >
                         <Trash2 size={14} />
@@ -455,20 +455,20 @@ const UserManagement: React.FC = () => {
                   </div>
 
                   {/* Preview de nuevos puntos */}
-                  <div className="bg-white rounded-md p-2.5 border border-[#D0D0D0] text-center">
-                    <p className="text-[10px] text-[#8A8A8A] mb-0.5">Resultado final</p>
-                    <p className="text-sm font-bold text-[#2A2A2A]">
+                  <div className="bg-white dark:bg-gray-700 rounded-md p-2.5 border border-[#D0D0D0] dark:border-gray-600 text-center">
+                    <p className="text-[10px] text-[#8A8A8A] dark:text-gray-400 mb-0.5">Resultado final</p>
+                    <p className="text-sm font-bold text-[#2A2A2A] dark:text-white">
                       {(selectedUser.points || 0) + pointsToAdd} pts
                     </p>
                   </div>
                 </div>
               ) : (
                 <div className="text-center py-12">
-                  <Users className="mx-auto text-[#D0D0D0] mb-3" size={40} />
-                  <p className="text-[#8A8A8A] text-sm font-medium mb-1">
+                  <Users className="mx-auto text-[#D0D0D0] dark:text-gray-600 mb-3" size={40} />
+                  <p className="text-[#8A8A8A] dark:text-gray-400 text-sm font-medium mb-1">
                     Selecciona un usuario
                   </p>
-                  <p className="text-[#8A8A8A] text-xs font-light">
+                  <p className="text-[#8A8A8A] dark:text-gray-400 text-xs font-light">
                     Haz clic en un usuario de la lista
                   </p>
                 </div>
