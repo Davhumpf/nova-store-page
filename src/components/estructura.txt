@@ -1,0 +1,43 @@
+Listado de rutas de carpetas
+El número de serie del volumen es 10A2-F37B
+C:.
+¦   AdminDashboard.tsx
+¦   Cart.tsx
+¦   CategoryMenu.tsx
+¦   CheckoutPage.tsx
+¦   Collaborations.tsx
+¦   estructura.txt
+¦   Header.tsx
+¦   HomeSection.tsx
+¦   HomeWithSmartHeader.tsx
+¦   MainBanner.tsx
+¦   PhysicalProductsCarousel.tsx
+¦   ProductCard.tsx
+¦   ProductDetail.tsx
+¦   ProductDetailF.tsx
+¦   ProductGrid.tsx
+¦   ProductsWithPagination.tsx
+¦   ProfilePage.tsx
+¦   ProtectedRoute.tsx
+¦   Settings.tsx
+¦   ShopSection.tsx
+¦   ShopSectionF.tsx
+¦   SidebarFilters.tsx
+¦   SpotlightCarousel.tsx
+¦   ToastProvider.tsx
+¦   
++---admin
+¦       Colaborators.tsx
+¦       CouponsManagement.tsx
+¦       ProductManagement.tsx
+¦       ProductManagementF.tsx
+¦       UserManagement.tsx
+¦       
++---colab
+¦       CollaboratorProductCatalog.tsx
+¦       ExpressCatalog.tsx
+¦       
++---hamburger
+        config.tsx
+        user.tsx
+        
