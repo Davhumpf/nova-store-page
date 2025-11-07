@@ -185,13 +185,13 @@ const ProductManagement: React.FC = () => {
   const inStockCount = items.filter((x) => x.inStock).length;
 
   return (
-    <div className="min-h-screen bg-[#E8E8E8] py-2 px-2 sm:py-3 sm:px-4">
+    <div className="min-h-screen bg-[#E8E8E8] dark:bg-gray-900 py-2 px-2 sm:py-3 sm:px-4">
       <div className="mx-auto w-full max-w-6xl">
-        
+
         {/* Botón volver */}
         <button
           onClick={() => navigate('/admin')}
-          className="mb-2 flex items-center gap-1 text-[10px] sm:text-xs text-[#BA68C8] hover:text-[#9C27B0] transition-colors group"
+          className="mb-2 flex items-center gap-1 text-[10px] sm:text-xs text-[#BA68C8] dark:text-[#CE93D8] hover:text-[#9C27B0] dark:hover:text-[#BA68C8] transition-colors group"
         >
           <ArrowRight size={12} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
           <span className="font-medium">Panel Admin</span>
@@ -200,19 +200,19 @@ const ProductManagement: React.FC = () => {
         {/* Header compacto para móvil */}
         <div className="mb-2 sm:mb-4">
           <div className="flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3">
-            <div className="w-0.5 sm:w-1 h-6 sm:h-8 bg-[#BA68C8] rounded-full"></div>
+            <div className="w-0.5 sm:w-1 h-6 sm:h-8 bg-[#BA68C8] dark:bg-[#CE93D8] rounded-full"></div>
             <div className="flex-1 min-w-0">
-              <h1 className="text-sm sm:text-lg font-light text-[#2A2A2A] truncate">Productos Digitales</h1>
-              <p className="text-[9px] sm:text-[10px] text-[#8A8A8A] font-light">Streaming y servicios</p>
+              <h1 className="text-sm sm:text-lg font-light text-[#2A2A2A] dark:text-white truncate">Productos Digitales</h1>
+              <p className="text-[9px] sm:text-[10px] text-[#8A8A8A] dark:text-gray-400 font-light">Streaming y servicios</p>
             </div>
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">
               <div className="text-center">
-                <p className="text-[8px] sm:text-[9px] text-[#8A8A8A]">Stock</p>
-                <p className="text-[11px] sm:text-sm font-bold text-[#BA68C8]">{inStockCount}/{total}</p>
+                <p className="text-[8px] sm:text-[9px] text-[#8A8A8A] dark:text-gray-400">Stock</p>
+                <p className="text-[11px] sm:text-sm font-bold text-[#BA68C8] dark:text-[#CE93D8]">{inStockCount}/{total}</p>
               </div>
               <button
                 onClick={openCreate}
-                className="bg-[#BA68C8] hover:bg-[#9C27B0] text-white px-2 py-1 sm:px-3 sm:py-1.5 rounded text-[10px] sm:text-xs font-medium transition-colors flex items-center gap-1 shadow-[0_2px_8px_rgba(186,104,200,0.25)]"
+                className="bg-[#BA68C8] dark:bg-[#CE93D8] hover:bg-[#9C27B0] dark:hover:bg-[#BA68C8] text-white dark:text-gray-900 px-2 py-1 sm:px-3 sm:py-1.5 rounded text-[10px] sm:text-xs font-medium transition-colors flex items-center gap-1 shadow-[0_2px_8px_rgba(186,104,200,0.25)] dark:shadow-none"
               >
                 <Plus size={12} className="sm:w-3.5 sm:h-3.5" />
                 <span className="hidden xs:inline">Nuevo</span>
@@ -222,25 +222,25 @@ const ProductManagement: React.FC = () => {
         </div>
 
         {/* Buscador compacto */}
-        <div className="bg-[#F5F5F5] rounded-lg border border-[#D0D0D0] p-2 sm:p-3 mb-2 sm:mb-3 shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
+        <div className="bg-[#F5F5F5] dark:bg-gray-800 rounded-lg border border-[#D0D0D0] dark:border-gray-700 p-2 sm:p-3 mb-2 sm:mb-3 shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:shadow-none">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-2 sm:pl-3 flex items-center pointer-events-none">
-              <Search className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#8A8A8A]" />
+              <Search className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#8A8A8A] dark:text-gray-400" />
             </div>
             <input
               type="text"
               placeholder="Buscar producto..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-white border border-[#D0D0D0] rounded-md py-1.5 sm:py-2 pl-8 sm:pl-10 pr-2 sm:pr-3 text-[11px] sm:text-xs text-[#2A2A2A] placeholder-[#8A8A8A] focus:border-[#BA68C8] focus:outline-none transition-colors"
+              className="w-full bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded-md py-1.5 sm:py-2 pl-8 sm:pl-10 pr-2 sm:pr-3 text-[11px] sm:text-xs text-[#2A2A2A] dark:text-white placeholder-[#8A8A8A] dark:placeholder-gray-400 focus:border-[#BA68C8] dark:focus:border-[#CE93D8] focus:outline-none transition-colors"
             />
           </div>
         </div>
 
         {/* Lista de productos - Optimizada para móvil */}
-        <div className="bg-[#F5F5F5] rounded-lg border border-[#D0D0D0] overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
-          <div className="p-2 sm:p-3 border-b border-[#D0D0D0]">
-            <h2 className="text-[11px] sm:text-sm font-medium text-[#2A2A2A] flex items-center gap-1 sm:gap-1.5">
+        <div className="bg-[#F5F5F5] dark:bg-gray-800 rounded-lg border border-[#D0D0D0] dark:border-gray-700 overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:shadow-none">
+          <div className="p-2 sm:p-3 border-b border-[#D0D0D0] dark:border-gray-700">
+            <h2 className="text-[11px] sm:text-sm font-medium text-[#2A2A2A] dark:text-white flex items-center gap-1 sm:gap-1.5">
               <Package size={12} className="sm:w-3.5 sm:h-3.5" />
               Productos ({filtered.length})
             </h2>
@@ -249,13 +249,13 @@ const ProductManagement: React.FC = () => {
           <div className="p-2 sm:p-3">
             {loading ? (
               <div className="text-center py-6 sm:py-8">
-                <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-[#BA68C8]/30 border-t-[#BA68C8] rounded-full animate-spin mx-auto mb-1.5 sm:mb-2"></div>
-                <p className="text-[#8A8A8A] text-[10px] sm:text-xs font-light">Cargando...</p>
+                <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-[#BA68C8]/30 dark:border-[#CE93D8]/30 border-t-[#BA68C8] dark:border-t-[#CE93D8] rounded-full animate-spin mx-auto mb-1.5 sm:mb-2"></div>
+                <p className="text-[#8A8A8A] dark:text-gray-400 text-[10px] sm:text-xs font-light">Cargando...</p>
               </div>
             ) : filtered.length === 0 ? (
               <div className="text-center py-6 sm:py-8">
-                <Package className="mx-auto text-[#D0D0D0] mb-1.5 sm:mb-2" size={24} />
-                <p className="text-[#8A8A8A] text-[10px] sm:text-xs font-light">
+                <Package className="mx-auto text-[#D0D0D0] dark:text-gray-600 mb-1.5 sm:mb-2" size={24} />
+                <p className="text-[#8A8A8A] dark:text-gray-400 text-[10px] sm:text-xs font-light">
                   {search ? 'No hay resultados' : 'No hay productos'}
                 </p>
               </div>
@@ -264,16 +264,16 @@ const ProductManagement: React.FC = () => {
                 {filtered.map((p) => (
                   <div
                     key={p.id}
-                    className="rounded-md border border-[#D0D0D0] bg-white p-2 sm:p-3 hover:shadow-[0_2px_12px_rgba(0,0,0,0.08)] transition-shadow"
+                    className="rounded-md border border-[#D0D0D0] dark:border-gray-700 bg-white dark:bg-gray-700 p-2 sm:p-3 hover:shadow-[0_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-none transition-shadow"
                   >
                     <div className="flex gap-2 sm:gap-3">
                       {/* Imagen - más pequeña en móvil */}
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded overflow-hidden border border-[#D0D0D0] bg-[#F5F5F5] shrink-0">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded overflow-hidden border border-[#D0D0D0] dark:border-gray-600 bg-[#F5F5F5] dark:bg-gray-800 shrink-0">
                         {p.imageUrl ? (
                           <img src={p.imageUrl} alt={p.name} className="w-full h-full object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
-                            <Package size={16} className="text-[#D0D0D0]" />
+                            <Package size={16} className="text-[#D0D0D0] dark:text-gray-600" />
                           </div>
                         )}
                       </div>
@@ -282,34 +282,34 @@ const ProductManagement: React.FC = () => {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-1.5 sm:gap-2 mb-1">
                           <div className="min-w-0 flex-1">
-                            <h3 className="text-[11px] sm:text-xs font-semibold text-[#2A2A2A] truncate leading-tight">{p.name}</h3>
+                            <h3 className="text-[11px] sm:text-xs font-semibold text-[#2A2A2A] dark:text-white truncate leading-tight">{p.name}</h3>
                             <div className="flex flex-wrap items-center gap-0.5 sm:gap-1 mt-0.5">
-                              <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 rounded bg-[#BA68C8]/10 text-[#BA68C8] font-medium">
+                              <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 rounded bg-[#BA68C8]/10 dark:bg-[#CE93D8]/20 text-[#BA68C8] dark:text-[#CE93D8] font-medium">
                                 {p.category}
                               </span>
-                              <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 rounded bg-gray-100 text-[#8A8A8A] font-medium">
+                              <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-[#8A8A8A] dark:text-gray-400 font-medium">
                                 {p.planType}
                               </span>
                               {!p.inStock && (
-                                <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 rounded bg-red-500/10 text-red-500 font-medium">
+                                <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 rounded bg-red-500/10 dark:bg-red-500/20 text-red-500 dark:text-red-400 font-medium">
                                   Sin stock
                                 </span>
                               )}
                             </div>
                           </div>
-                          
+
                           {/* Precio */}
                           <div className="text-right shrink-0">
                             {p.discount > 0 && (
-                              <div className="text-[8px] sm:text-[9px] text-red-500 font-bold leading-tight">
+                              <div className="text-[8px] sm:text-[9px] text-red-500 dark:text-red-400 font-bold leading-tight">
                                 -{p.discount}%
                               </div>
                             )}
-                            <div className="text-[#BA68C8] font-bold text-xs sm:text-sm leading-tight">
+                            <div className="text-[#BA68C8] dark:text-[#CE93D8] font-bold text-xs sm:text-sm leading-tight">
                               ${Number(p.price).toLocaleString('es-CO')}
                             </div>
                             {Number(p.originalPrice) > Number(p.price) && (
-                              <div className="text-[8px] sm:text-[9px] text-[#8A8A8A] line-through leading-tight">
+                              <div className="text-[8px] sm:text-[9px] text-[#8A8A8A] dark:text-gray-400 line-through leading-tight">
                                 ${Number(p.originalPrice).toLocaleString('es-CO')}
                               </div>
                             )}
@@ -317,18 +317,18 @@ const ProductManagement: React.FC = () => {
                         </div>
 
                         {/* Descripción - oculta en pantallas muy pequeñas */}
-                        <p className="hidden xs:block text-[9px] sm:text-[10px] text-[#8A8A8A] font-light line-clamp-1 mb-1">
+                        <p className="hidden xs:block text-[9px] sm:text-[10px] text-[#8A8A8A] dark:text-gray-400 font-light line-clamp-1 mb-1">
                           {p.description}
                         </p>
 
                         <div className="flex items-center justify-between gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
-                          <div className="text-[8px] sm:text-[9px] text-[#8A8A8A] font-light truncate">
+                          <div className="text-[8px] sm:text-[9px] text-[#8A8A8A] dark:text-gray-400 font-light truncate">
                             {p.duration} · {p.devices}
                           </div>
                           <div className="flex items-center gap-0.5 sm:gap-1 shrink-0">
                             <Star size={9} className="sm:w-2.5 sm:h-2.5 text-[#FFD700] fill-[#FFD700]" />
-                            <span className="text-[8px] sm:text-[9px] text-[#2A2A2A] font-medium">{p.rating}</span>
-                            <span className="text-[8px] sm:text-[9px] text-[#8A8A8A]">({p.reviews})</span>
+                            <span className="text-[8px] sm:text-[9px] text-[#2A2A2A] dark:text-white font-medium">{p.rating}</span>
+                            <span className="text-[8px] sm:text-[9px] text-[#8A8A8A] dark:text-gray-400">({p.reviews})</span>
                           </div>
                         </div>
 
@@ -336,14 +336,14 @@ const ProductManagement: React.FC = () => {
                         <div className="flex gap-1 sm:gap-1.5">
                           <button
                             onClick={() => openEdit(p)}
-                            className="flex-1 inline-flex items-center justify-center gap-0.5 sm:gap-1 px-1.5 py-1 sm:px-2 sm:py-1.5 rounded border border-[#D0D0D0] hover:border-[#BA68C8] hover:bg-[#BA68C8]/5 text-[#2A2A2A] text-[9px] sm:text-[10px] font-medium transition-colors"
+                            className="flex-1 inline-flex items-center justify-center gap-0.5 sm:gap-1 px-1.5 py-1 sm:px-2 sm:py-1.5 rounded border border-[#D0D0D0] dark:border-gray-600 hover:border-[#BA68C8] dark:hover:border-[#CE93D8] hover:bg-[#BA68C8]/5 dark:hover:bg-[#CE93D8]/10 text-[#2A2A2A] dark:text-white text-[9px] sm:text-[10px] font-medium transition-colors"
                           >
                             <Edit size={10} className="sm:w-3 sm:h-3" />
                             <span className="hidden xs:inline">Editar</span>
                           </button>
                           <button
                             onClick={() => onDelete(p.id)}
-                            className="flex-1 inline-flex items-center justify-center gap-0.5 sm:gap-1 px-1.5 py-1 sm:px-2 sm:py-1.5 rounded border border-red-500/30 text-red-500 hover:bg-red-500/10 text-[9px] sm:text-[10px] font-medium transition-colors"
+                            className="flex-1 inline-flex items-center justify-center gap-0.5 sm:gap-1 px-1.5 py-1 sm:px-2 sm:py-1.5 rounded border border-red-500/30 dark:border-red-500/40 text-red-500 dark:text-red-400 hover:bg-red-500/10 dark:hover:bg-red-500/20 text-[9px] sm:text-[10px] font-medium transition-colors"
                           >
                             <Trash2 size={10} className="sm:w-3 sm:h-3" />
                             <span className="hidden xs:inline">Eliminar</span>
@@ -361,15 +361,15 @@ const ProductManagement: React.FC = () => {
         {/* Modal - Optimizado para móvil con scroll interno */}
         {(creating || editing) && (
           <div className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-end sm:items-center justify-center">
-            <div className="bg-[#F5F5F5] rounded-t-xl sm:rounded-lg border border-[#D0D0D0] w-full sm:max-w-4xl h-[95vh] sm:h-auto sm:max-h-[95vh] flex flex-col shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
+            <div className="bg-[#F5F5F5] dark:bg-gray-800 rounded-t-xl sm:rounded-lg border border-[#D0D0D0] dark:border-gray-700 w-full sm:max-w-4xl h-[95vh] sm:h-auto sm:max-h-[95vh] flex flex-col shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-none">
               {/* Header fijo */}
-              <div className="p-2.5 sm:p-3 border-b border-[#D0D0D0] flex items-center justify-between shrink-0 bg-[#F5F5F5]">
-                <h3 className="text-xs sm:text-sm font-medium text-[#2A2A2A] flex items-center gap-1 sm:gap-1.5">
-                  <Package size={12} className="sm:w-3.5 sm:h-3.5 text-[#BA68C8]" />
+              <div className="p-2.5 sm:p-3 border-b border-[#D0D0D0] dark:border-gray-700 flex items-center justify-between shrink-0 bg-[#F5F5F5] dark:bg-gray-800">
+                <h3 className="text-xs sm:text-sm font-medium text-[#2A2A2A] dark:text-white flex items-center gap-1 sm:gap-1.5">
+                  <Package size={12} className="sm:w-3.5 sm:h-3.5 text-[#BA68C8] dark:text-[#CE93D8]" />
                   {editing ? 'Editar' : 'Nuevo'}
                 </h3>
-                <button onClick={closeModal} className="p-1 sm:p-1.5 hover:bg-[#E8E8E8] rounded transition-colors">
-                  <X size={14} className="sm:w-4 sm:h-4 text-[#8A8A8A]" />
+                <button onClick={closeModal} className="p-1 sm:p-1.5 hover:bg-[#E8E8E8] dark:hover:bg-gray-700 rounded transition-colors">
+                  <X size={14} className="sm:w-4 sm:h-4 text-[#8A8A8A] dark:text-gray-400" />
                 </button>
               </div>
 
@@ -378,32 +378,32 @@ const ProductManagement: React.FC = () => {
                 <div className="p-3 sm:p-4 space-y-2.5 sm:space-y-3">
                   {/* Campos en una sola columna para móvil */}
                   <div>
-                    <label className="block text-[9px] sm:text-[10px] text-[#8A8A8A] font-light mb-0.5 sm:mb-1">Nombre</label>
+                    <label className="block text-[9px] sm:text-[10px] text-[#8A8A8A] dark:text-gray-400 font-light mb-0.5 sm:mb-1">Nombre</label>
                     <input
                       value={form.name}
                       onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
-                      className="w-full bg-white border border-[#D0D0D0] rounded px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs text-[#2A2A2A] focus:border-[#BA68C8] focus:outline-none transition-colors"
+                      className="w-full bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs text-[#2A2A2A] dark:text-white focus:border-[#BA68C8] dark:focus:border-[#CE93D8] focus:outline-none transition-colors"
                       placeholder="Ej: Netflix Premium"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[9px] sm:text-[10px] text-[#8A8A8A] font-light mb-0.5 sm:mb-1">Descripción corta</label>
+                    <label className="block text-[9px] sm:text-[10px] text-[#8A8A8A] dark:text-gray-400 font-light mb-0.5 sm:mb-1">Descripción corta</label>
                     <input
                       value={form.description}
                       onChange={(e) => setForm((s) => ({ ...s, description: e.target.value }))}
-                      className="w-full bg-white border border-[#D0D0D0] rounded px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs text-[#2A2A2A] focus:border-[#BA68C8] focus:outline-none transition-colors"
+                      className="w-full bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs text-[#2A2A2A] dark:text-white focus:border-[#BA68C8] dark:focus:border-[#CE93D8] focus:outline-none transition-colors"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[9px] sm:text-[10px] text-[#8A8A8A] font-light mb-0.5 sm:mb-1">Descripción larga</label>
+                    <label className="block text-[9px] sm:text-[10px] text-[#8A8A8A] dark:text-gray-400 font-light mb-0.5 sm:mb-1">Descripción larga</label>
                     <textarea
                       value={form.longDescription}
                       onChange={(e) => setForm((s) => ({ ...s, longDescription: e.target.value }))}
-                      className="w-full bg-white border border-[#D0D0D0] rounded px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs text-[#2A2A2A] focus:border-[#BA68C8] focus:outline-none transition-colors h-16 sm:h-20 resize-none"
+                      className="w-full bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs text-[#2A2A2A] dark:text-white focus:border-[#BA68C8] dark:focus:border-[#CE93D8] focus:outline-none transition-colors h-16 sm:h-20 resize-none"
                       required
                     />
                   </div>
@@ -563,16 +563,16 @@ const ProductManagement: React.FC = () => {
                 </div>
 
                 {/* Botones fijos en la parte inferior */}
-                <div className="p-2.5 sm:p-3 border-t border-[#D0D0D0] bg-[#F5F5F5] shrink-0">
+                <div className="p-2.5 sm:p-3 border-t border-[#D0D0D0] dark:border-gray-700 bg-[#F5F5F5] dark:bg-gray-800 shrink-0">
                   <div className="flex gap-1.5 sm:gap-2">
                     <button
                       type="submit"
                       disabled={saving}
-                      className="flex-1 inline-flex items-center justify-center gap-1 sm:gap-1.5 bg-[#BA68C8] hover:bg-[#9C27B0] text-white px-3 py-2 sm:px-4 sm:py-2.5 rounded text-[10px] sm:text-xs font-medium transition-colors disabled:opacity-50 shadow-[0_2px_8px_rgba(186,104,200,0.25)]"
+                      className="flex-1 inline-flex items-center justify-center gap-1 sm:gap-1.5 bg-[#BA68C8] dark:bg-[#CE93D8] hover:bg-[#9C27B0] dark:hover:bg-[#BA68C8] text-white dark:text-gray-900 px-3 py-2 sm:px-4 sm:py-2.5 rounded text-[10px] sm:text-xs font-medium transition-colors disabled:opacity-50 shadow-[0_2px_8px_rgba(186,104,200,0.25)] dark:shadow-none"
                     >
                       {saving ? (
                         <>
-                          <div className="w-3 h-3 sm:w-3.5 sm:h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                          <div className="w-3 h-3 sm:w-3.5 sm:h-3.5 border-2 border-white/30 dark:border-gray-900/30 border-t-white dark:border-t-gray-900 rounded-full animate-spin"></div>
                           Guardando...
                         </>
                       ) : (
@@ -585,7 +585,7 @@ const ProductManagement: React.FC = () => {
                     <button
                       type="button"
                       onClick={closeModal}
-                      className="flex-1 inline-flex items-center justify-center gap-1 sm:gap-1.5 bg-white border border-[#D0D0D0] text-[#2A2A2A] px-3 py-2 sm:px-4 sm:py-2.5 rounded text-[10px] sm:text-xs font-medium hover:bg-[#E8E8E8] transition-colors"
+                      className="flex-1 inline-flex items-center justify-center gap-1 sm:gap-1.5 bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 text-[#2A2A2A] dark:text-white px-3 py-2 sm:px-4 sm:py-2.5 rounded text-[10px] sm:text-xs font-medium hover:bg-[#E8E8E8] dark:hover:bg-gray-600 transition-colors"
                     >
                       <X size={12} className="sm:w-3.5 sm:h-3.5" />
                       Cancelar

@@ -79,7 +79,7 @@ const SpotlightCarousel: React.FC = () => {
   if (loading) {
     return (
       <div className="w-full flex justify-center items-center py-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-400"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#4CAF50] dark:border-[#66FF7A]"></div>
       </div>
     );
   }
@@ -87,7 +87,7 @@ const SpotlightCarousel: React.FC = () => {
   if (products.length === 0) {
     return (
       <div className="w-full flex justify-center items-center py-8">
-        <p className="text-gray-500 dark:text-slate-400 text-sm">No hay productos disponibles</p>
+        <p className="text-[#595959] dark:text-gray-400 text-sm">No hay productos disponibles</p>
       </div>
     );
   }
@@ -99,7 +99,7 @@ const SpotlightCarousel: React.FC = () => {
   }
 
   return (
-    <div className="relative w-full bg-gray-100 dark:bg-slate-800/30 backdrop-blur-sm border border-gray-200 dark:border-slate-700/30 rounded-xl overflow-hidden p-4">
+    <div className="relative w-full bg-[#F2F2F2] dark:bg-gray-800/50 backdrop-blur-sm border border-[#A6A6A6]/20 dark:border-gray-700/50 rounded-xl overflow-hidden p-4">
       <div
         className={`grid gap-4 ${
           visibleCount === 1
@@ -112,7 +112,7 @@ const SpotlightCarousel: React.FC = () => {
         {visibleProducts.map((product) => (
           <div
             key={`${product.id}-${currentIndex}`}
-            className="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 hover:border-yellow-400/50 shadow-sm hover:shadow-yellow-400/10 transition-all duration-300 group"
+            className="bg-white dark:bg-gray-800 rounded-lg border border-[#A6A6A6]/20 dark:border-gray-700 hover:border-[#4CAF50]/50 dark:hover:border-[#66FF7A]/50 shadow-sm dark:shadow-none hover:shadow-[#4CAF50]/10 dark:hover:shadow-none transition-all duration-300 group"
           >
             <div className="relative aspect-video overflow-hidden rounded-t-lg">
               <img
@@ -122,14 +122,14 @@ const SpotlightCarousel: React.FC = () => {
               />
             </div>
             <div className="p-3 min-h-[100px] flex flex-col justify-between">
-              <h3 className="text-gray-900 dark:text-white font-medium text-sm truncate mb-1">
+              <h3 className="text-[#0D0D0D] dark:text-white font-medium text-sm truncate mb-1">
                 {product.name}
               </h3>
               <div className="flex items-center justify-between">
-                <p className="text-yellow-400 font-bold text-lg">
+                <p className="text-[#4CAF50] dark:text-[#66FF7A] font-bold text-lg">
                   ${product.price.toLocaleString()}
                 </p>
-                <span className="text-xs text-gray-600 dark:text-slate-400 bg-gray-100 dark:bg-slate-700 px-2 py-1 rounded-full">
+                <span className="text-xs text-[#595959] dark:text-gray-400 bg-[#F2F2F2] dark:bg-gray-700 px-2 py-1 rounded-full">
                   {product.category}
                 </span>
               </div>
@@ -142,13 +142,13 @@ const SpotlightCarousel: React.FC = () => {
         <>
           <button
             onClick={prevSlide}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-slate-900/80 text-gray-900 dark:text-white p-2 rounded-full hover:scale-110 transition shadow-lg"
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 text-[#0D0D0D] dark:text-white p-2 rounded-full hover:scale-110 transition shadow-lg dark:shadow-none"
           >
             <ChevronLeft size={16} />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-slate-900/80 text-gray-900 dark:text-white p-2 rounded-full hover:scale-110 transition shadow-lg"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 text-[#0D0D0D] dark:text-white p-2 rounded-full hover:scale-110 transition shadow-lg dark:shadow-none"
           >
             <ChevronRight size={16} />
           </button>

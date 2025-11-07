@@ -124,10 +124,10 @@ const ProfilePage: React.FC = () => {
 
   if (!user || !userProfile) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F2F2F2]">
+      <div className="min-h-screen flex items-center justify-center bg-[#F2F2F2] dark:bg-gray-900">
         <div className="text-center space-y-4">
-          <div className="w-12 h-12 border-4 border-[#4CAF50] border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="text-[#595959] font-light">Cargando perfil...</p>
+          <div className="w-12 h-12 border-4 border-[#4CAF50] dark:border-[#66FF7A] border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-[#595959] dark:text-gray-400 font-light">Cargando perfil...</p>
         </div>
       </div>
     );
@@ -144,17 +144,17 @@ const ProfilePage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F2F2F2] py-6 px-4">
+    <div className="min-h-screen bg-[#F2F2F2] dark:bg-gray-900 py-6 px-4">
       <div className="container mx-auto max-w-5xl">
-        
+
         {/* Header */}
         <div className="text-center mb-6">
-          <h1 className="text-3xl font-light text-[#0D0D0D] mb-2">Mi Perfil</h1>
-          <p className="text-[#595959] font-light">Gestiona tu cuenta y recompensas</p>
+          <h1 className="text-3xl font-light text-[#0D0D0D] dark:text-white mb-2">Mi Perfil</h1>
+          <p className="text-[#595959] dark:text-gray-400 font-light">Gestiona tu cuenta y recompensas</p>
         </div>
 
         {/* Tarjeta principal */}
-        <div className="bg-white rounded-xl border border-[#A6A6A6]/20 overflow-hidden mb-6 shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-[#A6A6A6]/20 dark:border-gray-700 overflow-hidden mb-6 shadow-[0_8px_24px_rgba(0,0,0,0.12)] dark:shadow-none">
           <div className="bg-gradient-to-r from-[#4CAF50] to-[#66FF7A] p-6">
             <div className="flex flex-col md:flex-row items-center gap-6">
               
@@ -240,15 +240,15 @@ const ProfilePage: React.FC = () => {
           </div>
 
           {/* Estadísticas */}
-          <div className="p-5 bg-[#F2F2F2]">
+          <div className="p-5 bg-[#F2F2F2] dark:bg-gray-700">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {userStats.map((stat, index) => (
-                <div key={index} className="bg-white rounded-lg p-4 text-center hover:shadow-md transition-all duration-200 border border-[#A6A6A6]/10">
-                  <div className={`${stat.color} mb-2 flex justify-center`}>
+                <div key={index} className="bg-white dark:bg-gray-600 rounded-lg p-4 text-center hover:shadow-md dark:hover:shadow-none transition-all duration-200 border border-[#A6A6A6]/10 dark:border-gray-500">
+                  <div className={`${stat.color} dark:text-[#66FF7A] mb-2 flex justify-center`}>
                     {stat.icon}
                   </div>
-                  <div className="text-2xl font-semibold text-[#0D0D0D]">{stat.value}</div>
-                  <div className="text-xs text-[#595959] font-light">{stat.label}</div>
+                  <div className="text-2xl font-semibold text-[#0D0D0D] dark:text-white">{stat.value}</div>
+                  <div className="text-xs text-[#595959] dark:text-gray-300 font-light">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -256,29 +256,29 @@ const ProfilePage: React.FC = () => {
         </div>
 
         {/* Información personal */}
-        <div className="bg-white rounded-xl border border-[#A6A6A6]/20 shadow-[0_4px_12px_rgba(0,0,0,0.08)] p-5 mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-[#A6A6A6]/20 dark:border-gray-700 shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:shadow-none p-5 mb-6">
           <div className="flex items-center justify-between mb-5">
-            <h3 className="text-lg font-medium text-[#0D0D0D]">Información Personal</h3>
+            <h3 className="text-lg font-medium text-[#0D0D0D] dark:text-white">Información Personal</h3>
             {!isEditing ? (
-              <button 
+              <button
                 onClick={() => setIsEditing(true)}
-                className="flex items-center gap-2 bg-[#0D0D0D] hover:bg-[#262626] text-[#4CAF50] px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-md text-sm"
+                className="flex items-center gap-2 bg-[#0D0D0D] dark:bg-gray-700 hover:bg-[#262626] dark:hover:bg-gray-600 text-[#4CAF50] dark:text-[#66FF7A] px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-md dark:shadow-none text-sm"
               >
                 <Edit3 size={14} />
                 Editar
               </button>
             ) : (
               <div className="flex gap-2">
-                <button 
+                <button
                   onClick={handleSave}
-                  className="flex items-center gap-2 bg-[#4CAF50] hover:bg-[#66FF7A] text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-md text-sm"
+                  className="flex items-center gap-2 bg-[#4CAF50] dark:bg-[#66FF7A] hover:bg-[#66FF7A] dark:hover:bg-[#4CAF50] text-white dark:text-gray-900 px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-md dark:shadow-none text-sm"
                 >
                   <Save size={14} />
                   Guardar
                 </button>
-                <button 
+                <button
                   onClick={handleCancel}
-                  className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-md text-sm"
+                  className="flex items-center gap-2 bg-red-500 dark:bg-red-600 hover:bg-red-600 dark:hover:bg-red-500 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-md dark:shadow-none text-sm"
                 >
                   <X size={14} />
                   Cancelar
@@ -289,67 +289,67 @@ const ProfilePage: React.FC = () => {
 
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-[#595959] mb-2">Email</label>
-              <div className="bg-[#F2F2F2] border border-[#A6A6A6]/20 text-[#0D0D0D] rounded-lg px-4 py-3 text-sm">{user.email}</div>
+              <label className="block text-sm font-medium text-[#595959] dark:text-gray-400 mb-2">Email</label>
+              <div className="bg-[#F2F2F2] dark:bg-gray-700 border border-[#A6A6A6]/20 dark:border-gray-600 text-[#0D0D0D] dark:text-white rounded-lg px-4 py-3 text-sm">{user.email}</div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[#595959] mb-2">Nombre</label>
+              <label className="block text-sm font-medium text-[#595959] dark:text-gray-400 mb-2">Nombre</label>
               {isEditing ? (
-                <input 
+                <input
                   type="text"
                   value={tempProfile.displayName}
                   onChange={(e) => setTempProfile({...tempProfile, displayName: e.target.value})}
-                  className="w-full bg-[#F2F2F2] border border-[#A6A6A6]/20 text-[#0D0D0D] rounded-lg px-4 py-3 focus:border-[#4CAF50] focus:outline-none transition-colors text-sm"
+                  className="w-full bg-[#F2F2F2] dark:bg-gray-700 border border-[#A6A6A6]/20 dark:border-gray-600 text-[#0D0D0D] dark:text-white rounded-lg px-4 py-3 focus:border-[#4CAF50] dark:focus:border-[#66FF7A] focus:outline-none transition-colors text-sm"
                   placeholder="Tu nombre"
                 />
               ) : (
-                <div className="bg-[#F2F2F2] border border-[#A6A6A6]/20 text-[#0D0D0D] rounded-lg px-4 py-3 text-sm">
+                <div className="bg-[#F2F2F2] dark:bg-gray-700 border border-[#A6A6A6]/20 dark:border-gray-600 text-[#0D0D0D] dark:text-white rounded-lg px-4 py-3 text-sm">
                   {userProfile.displayName || tempProfile.displayName || 'No especificado'}
                 </div>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[#595959] mb-2">Teléfono</label>
+              <label className="block text-sm font-medium text-[#595959] dark:text-gray-400 mb-2">Teléfono</label>
               {isEditing ? (
-                <input 
+                <input
                   type="tel"
                   value={tempProfile.phone}
                   onChange={(e) => setTempProfile({...tempProfile, phone: e.target.value})}
-                  className="w-full bg-[#F2F2F2] border border-[#A6A6A6]/20 text-[#0D0D0D] rounded-lg px-4 py-3 focus:border-[#4CAF50] focus:outline-none transition-colors text-sm"
+                  className="w-full bg-[#F2F2F2] dark:bg-gray-700 border border-[#A6A6A6]/20 dark:border-gray-600 text-[#0D0D0D] dark:text-white rounded-lg px-4 py-3 focus:border-[#4CAF50] dark:focus:border-[#66FF7A] focus:outline-none transition-colors text-sm"
                   placeholder="+57 300 123 4567"
                 />
               ) : (
-                <div className="bg-[#F2F2F2] border border-[#A6A6A6]/20 text-[#0D0D0D] rounded-lg px-4 py-3 text-sm">
+                <div className="bg-[#F2F2F2] dark:bg-gray-700 border border-[#A6A6A6]/20 dark:border-gray-600 text-[#0D0D0D] dark:text-white rounded-lg px-4 py-3 text-sm">
                   {userProfile.phone || tempProfile.phone || 'No especificado'}
                 </div>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[#595959] mb-2">Fecha de nacimiento</label>
+              <label className="block text-sm font-medium text-[#595959] dark:text-gray-400 mb-2">Fecha de nacimiento</label>
               {isEditing ? (
-                <input 
+                <input
                   type="date"
                   value={tempProfile.birthDate}
                   onChange={(e) => setTempProfile({...tempProfile, birthDate: e.target.value})}
-                  className="w-full bg-[#F2F2F2] border border-[#A6A6A6]/20 text-[#0D0D0D] rounded-lg px-4 py-3 focus:border-[#4CAF50] focus:outline-none transition-colors text-sm"
+                  className="w-full bg-[#F2F2F2] dark:bg-gray-700 border border-[#A6A6A6]/20 dark:border-gray-600 text-[#0D0D0D] dark:text-white rounded-lg px-4 py-3 focus:border-[#4CAF50] dark:focus:border-[#66FF7A] focus:outline-none transition-colors text-sm"
                 />
               ) : (
-                <div className="bg-[#F2F2F2] border border-[#A6A6A6]/20 text-[#0D0D0D] rounded-lg px-4 py-3 text-sm">
+                <div className="bg-[#F2F2F2] dark:bg-gray-700 border border-[#A6A6A6]/20 dark:border-gray-600 text-[#0D0D0D] dark:text-white rounded-lg px-4 py-3 text-sm">
                   {userProfile.birthDate || tempProfile.birthDate || 'No especificado'}
                 </div>
               )}
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-[#595959] mb-2">Categoría favorita</label>
+              <label className="block text-sm font-medium text-[#595959] dark:text-gray-400 mb-2">Categoría favorita</label>
               {isEditing ? (
-                <select 
+                <select
                   value={tempProfile.favoriteCategory}
                   onChange={(e) => setTempProfile({...tempProfile, favoriteCategory: e.target.value})}
-                  className="w-full bg-[#F2F2F2] border border-[#A6A6A6]/20 text-[#0D0D0D] rounded-lg px-4 py-3 focus:border-[#4CAF50] focus:outline-none transition-colors text-sm"
+                  className="w-full bg-[#F2F2F2] dark:bg-gray-700 border border-[#A6A6A6]/20 dark:border-gray-600 text-[#0D0D0D] dark:text-white rounded-lg px-4 py-3 focus:border-[#4CAF50] dark:focus:border-[#66FF7A] focus:outline-none transition-colors text-sm"
                 >
                   <option value="streaming">Streaming</option>
                   <option value="gaming">Gaming</option>
@@ -358,7 +358,7 @@ const ProfilePage: React.FC = () => {
                   <option value="education">Educación</option>
                 </select>
               ) : (
-                <div className="bg-[#F2F2F2] border border-[#A6A6A6]/20 text-[#0D0D0D] rounded-lg px-4 py-3 capitalize text-sm">
+                <div className="bg-[#F2F2F2] dark:bg-gray-700 border border-[#A6A6A6]/20 dark:border-gray-600 text-[#0D0D0D] dark:text-white rounded-lg px-4 py-3 capitalize text-sm">
                   {userProfile.favoriteCategory || tempProfile.favoriteCategory}
                 </div>
               )}
@@ -367,15 +367,15 @@ const ProfilePage: React.FC = () => {
         </div>
 
         {/* Recompensas */}
-        <div className="bg-white rounded-xl border border-[#A6A6A6]/20 shadow-[0_4px_12px_rgba(0,0,0,0.08)] p-5">
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-[#A6A6A6]/20 dark:border-gray-700 shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:shadow-none p-5">
           <div className="flex items-center justify-between mb-5">
-            <h3 className="text-lg font-medium text-[#0D0D0D] flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-[#4CAF50]" />
+            <h3 className="text-lg font-medium text-[#0D0D0D] dark:text-white flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-[#4CAF50] dark:text-[#66FF7A]" />
               Recompensas
             </h3>
-            <button 
+            <button
               onClick={() => setShowRewardsModal(true)}
-              className="text-[#4CAF50] hover:text-[#66FF7A] transition-colors font-medium text-sm"
+              className="text-[#4CAF50] dark:text-[#66FF7A] hover:text-[#66FF7A] dark:hover:text-[#4CAF50] transition-colors font-medium text-sm"
             >
               Ver todas
             </button>
@@ -414,47 +414,47 @@ const ProfilePage: React.FC = () => {
       {/* Modal */}
       {showRewardsModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl max-w-2xl w-full max-h-96 overflow-y-auto border border-[#A6A6A6]/20 shadow-2xl">
+          <div className="bg-white dark:bg-gray-800 rounded-xl max-w-2xl w-full max-h-96 overflow-y-auto border border-[#A6A6A6]/20 dark:border-gray-700 shadow-2xl">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-medium text-[#0D0D0D] flex items-center gap-2">
-                  <Gift className="w-5 h-5 text-[#4CAF50]" />
+                <h3 className="text-xl font-medium text-[#0D0D0D] dark:text-white flex items-center gap-2">
+                  <Gift className="w-5 h-5 text-[#4CAF50] dark:text-[#66FF7A]" />
                   Todas las Recompensas
                 </h3>
-                <button 
+                <button
                   onClick={() => setShowRewardsModal(false)}
-                  className="text-[#595959] hover:text-[#0D0D0D] transition-colors p-1"
+                  className="text-[#595959] dark:text-gray-400 hover:text-[#0D0D0D] dark:hover:text-white transition-colors p-1"
                 >
                   <X size={24} />
                 </button>
               </div>
-              
+
               <div className="space-y-3">
                 {rewards.map((reward) => (
-                  <div 
+                  <div
                     key={reward.id}
                     className={`flex items-center justify-between p-4 rounded-lg border transition-all duration-200 ${
-                      (userProfile.points || 0) >= reward.points 
-                        ? 'border-[#4CAF50]/50 bg-[#4CAF50]/10 hover:bg-[#4CAF50]/20' 
-                        : 'border-[#A6A6A6]/20 bg-[#F2F2F2] hover:bg-white'
+                      (userProfile.points || 0) >= reward.points
+                        ? 'border-[#4CAF50]/50 dark:border-[#66FF7A]/50 bg-[#4CAF50]/10 dark:bg-[#66FF7A]/10 hover:bg-[#4CAF50]/20 dark:hover:bg-[#66FF7A]/20'
+                        : 'border-[#A6A6A6]/20 dark:border-gray-600 bg-[#F2F2F2] dark:bg-gray-700 hover:bg-white dark:hover:bg-gray-600'
                     }`}
                   >
                     <div className="flex items-center gap-4">
-                      <div className={`p-2 rounded-lg bg-gradient-to-br ${reward.color} shadow-md`}>
+                      <div className={`p-2 rounded-lg bg-gradient-to-br ${reward.color} shadow-md dark:shadow-none`}>
                         {reward.icon}
                       </div>
                       <div>
-                        <h4 className="font-medium text-[#0D0D0D] text-sm">{reward.name}</h4>
-                        <p className="text-[#595959] text-xs">{reward.points} puntos</p>
+                        <h4 className="font-medium text-[#0D0D0D] dark:text-white text-sm">{reward.name}</h4>
+                        <p className="text-[#595959] dark:text-gray-400 text-xs">{reward.points} puntos</p>
                       </div>
                     </div>
-                    <button 
+                    <button
                       onClick={() => handleRewardSelect(reward)}
                       disabled={(userProfile.points || 0) < reward.points}
                       className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 text-sm ${
                         (userProfile.points || 0) >= reward.points
-                          ? 'bg-[#4CAF50] hover:bg-[#66FF7A] text-white shadow-md'
-                          : 'bg-[#A6A6A6]/30 text-[#595959] cursor-not-allowed'
+                          ? 'bg-[#4CAF50] dark:bg-[#66FF7A] hover:bg-[#66FF7A] dark:hover:bg-[#4CAF50] text-white dark:text-gray-900 shadow-md dark:shadow-none'
+                          : 'bg-[#A6A6A6]/30 dark:bg-gray-600 text-[#595959] dark:text-gray-400 cursor-not-allowed'
                       }`}
                     >
                       {(userProfile.points || 0) >= reward.points ? 'Canjear' : 'Bloqueado'}
