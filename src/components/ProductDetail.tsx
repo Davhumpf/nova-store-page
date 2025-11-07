@@ -99,10 +99,10 @@ const ProductDetail: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="bg-[#F2F2F2] min-h-screen flex items-center justify-center">
+      <div className="bg-[#F2F2F2] dark:bg-gray-900 min-h-screen flex items-center justify-center">
         <div className="text-center space-y-4">
-          <div className="w-12 h-12 border-4 border-[#4CAF50] border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-[#595959] font-light">Cargando producto…</p>
+          <div className="w-12 h-12 border-4 border-[#4CAF50] dark:border-[#66FF7A] border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-[#595959] dark:text-gray-400 font-light">Cargando producto…</p>
         </div>
       </div>
     );
@@ -110,16 +110,16 @@ const ProductDetail: React.FC = () => {
 
   if (error || !product) {
     return (
-      <div className="bg-[#F2F2F2] min-h-screen flex items-center justify-center px-4">
+      <div className="bg-[#F2F2F2] dark:bg-gray-900 min-h-screen flex items-center justify-center px-4">
         <div className="text-center space-y-6 max-w-md">
-          <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto shadow-lg border border-[#A6A6A6]/20">
-            <ShoppingCart className="w-12 h-12 text-[#595959]" />
+          <div className="w-24 h-24 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto shadow-lg dark:shadow-none border border-[#A6A6A6]/20 dark:border-gray-700">
+            <ShoppingCart className="w-12 h-12 text-[#595959] dark:text-gray-400" />
           </div>
-          <h2 className="text-2xl font-light text-[#0D0D0D]">Producto no disponible</h2>
-          <p className="text-[#595959] font-light">{error ?? 'No existe o fue eliminado.'}</p>
+          <h2 className="text-2xl font-light text-[#0D0D0D] dark:text-white">Producto no disponible</h2>
+          <p className="text-[#595959] dark:text-gray-400 font-light">{error ?? 'No existe o fue eliminado.'}</p>
           <button
             onClick={handleBackToShop}
-            className="inline-flex items-center gap-2 bg-[#0D0D0D] hover:bg-[#262626] text-[#4CAF50] px-5 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-md"
+            className="inline-flex items-center gap-2 bg-[#0D0D0D] dark:bg-gray-700 hover:bg-[#262626] dark:hover:bg-gray-600 text-[#4CAF50] dark:text-[#66FF7A] px-5 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-md dark:shadow-none"
           >
             <ArrowLeft size={18} />
             Volver al catálogo
@@ -130,12 +130,12 @@ const ProductDetail: React.FC = () => {
   }
 
   return (
-    <div className="bg-[#F2F2F2] py-6 min-h-screen">
+    <div className="bg-[#F2F2F2] dark:bg-gray-900 py-6 min-h-screen">
       <div className="container mx-auto px-4 max-w-5xl">
         {/* Breadcrumb */}
         <button
           onClick={handleBackToShop}
-          className="inline-flex items-center gap-2 text-[#595959] hover:text-[#4CAF50] mb-6 transition-colors duration-200"
+          className="inline-flex items-center gap-2 text-[#595959] dark:text-gray-400 hover:text-[#4CAF50] dark:hover:text-[#66FF7A] mb-6 transition-colors duration-200"
         >
           <ArrowLeft size={16} />
           <span className="text-sm font-light">Volver a Productos</span>
@@ -144,11 +144,11 @@ const ProductDetail: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Imagen */}
           <div className="order-1">
-            <div className="relative rounded-xl border border-[#A6A6A6]/20 overflow-hidden bg-white shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
+            <div className="relative rounded-xl border border-[#A6A6A6]/20 dark:border-gray-700 overflow-hidden bg-white dark:bg-gray-800 shadow-[0_8px_24px_rgba(0,0,0,0.12)] dark:shadow-none">
               <div className="aspect-square relative overflow-hidden">
                 {!imageLoaded && (
-                  <div className="absolute inset-0 bg-[#F2F2F2] animate-pulse flex items-center justify-center">
-                    <div className="w-8 h-8 border-4 border-[#A6A6A6]/30 border-t-[#4CAF50] rounded-full animate-spin" />
+                  <div className="absolute inset-0 bg-[#F2F2F2] dark:bg-gray-700 animate-pulse flex items-center justify-center">
+                    <div className="w-8 h-8 border-4 border-[#A6A6A6]/30 dark:border-gray-600 border-t-[#4CAF50] dark:border-t-[#66FF7A] rounded-full animate-spin" />
                   </div>
                 )}
                 <img
@@ -165,13 +165,13 @@ const ProductDetail: React.FC = () => {
                 />
 
                 {product.discount && product.discount > 0 && (
-                  <div className="absolute top-3 left-3 bg-red-500 text-white font-semibold text-xs px-3 py-1.5 rounded-lg shadow-md">
+                  <div className="absolute top-3 left-3 bg-red-500 dark:bg-red-600 text-white font-semibold text-xs px-3 py-1.5 rounded-lg shadow-md dark:shadow-none">
                     -{product.discount}%
                   </div>
                 )}
                 <div className="absolute top-3 right-3">
-                  <span className="bg-white/95 text-[#4CAF50] text-xs px-3 py-1.5 rounded-lg flex items-center shadow-md border border-[#A6A6A6]/20">
-                    <span className="w-2 h-2 bg-[#4CAF50] rounded-full mr-2" />
+                  <span className="bg-white/95 dark:bg-gray-800/95 text-[#4CAF50] dark:text-[#66FF7A] text-xs px-3 py-1.5 rounded-lg flex items-center shadow-md dark:shadow-none border border-[#A6A6A6]/20 dark:border-gray-700">
+                    <span className="w-2 h-2 bg-[#4CAF50] dark:bg-[#66FF7A] rounded-full mr-2" />
                     Disponible
                   </span>
                 </div>
@@ -182,7 +182,7 @@ const ProductDetail: React.FC = () => {
           {/* Info */}
           <div className="order-2 space-y-5">
             <div>
-              <h1 className="text-2xl lg:text-3xl font-light text-[#0D0D0D] leading-tight break-words">
+              <h1 className="text-2xl lg:text-3xl font-light text-[#0D0D0D] dark:text-white leading-tight break-words">
                 {product.title}
               </h1>
               <div className="flex items-center gap-3 mt-3">
@@ -191,70 +191,70 @@ const ProductDetail: React.FC = () => {
                     <Star
                       key={i}
                       size={16}
-                      className={i < Math.floor(product.rating ?? 0) ? 'text-[#4CAF50]' : 'text-[#A6A6A6]'}
+                      className={i < Math.floor(product.rating ?? 0) ? 'text-[#4CAF50] dark:text-[#66FF7A]' : 'text-[#A6A6A6] dark:text-gray-600'}
                       fill={i < Math.floor(product.rating ?? 0) ? 'currentColor' : 'none'}
                     />
                   ))}
                 </div>
-                <span className="text-[#595959] text-sm font-light">
+                <span className="text-[#595959] dark:text-gray-400 text-sm font-light">
                   {product.rating?.toFixed(1) ?? '0.0'} • {product.reviewCount ?? 0} reseñas
                 </span>
               </div>
             </div>
 
             {/* Bloque de precio + specs */}
-            <div className="rounded-xl border border-[#A6A6A6]/20 p-5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
+            <div className="rounded-xl border border-[#A6A6A6]/20 dark:border-gray-700 p-5 bg-white dark:bg-gray-800 shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:shadow-none">
               <div className="grid grid-cols-3 gap-4 items-center">
                 {/* Precio */}
                 <div className="space-y-1">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-semibold text-[#4CAF50]">
+                    <span className="text-2xl font-semibold text-[#4CAF50] dark:text-[#66FF7A]">
                       ${product.price.toLocaleString('es-CO')}
                     </span>
                     {hasDiscount && product.originalPrice && (
-                      <span className="text-sm text-[#A6A6A6] line-through">
+                      <span className="text-sm text-[#A6A6A6] dark:text-gray-500 line-through">
                         ${product.originalPrice.toLocaleString('es-CO')}
                       </span>
                     )}
                   </div>
                   {hasDiscount && product.originalPrice && (
-                    <div className="bg-[#4CAF50]/10 text-[#4CAF50] font-medium text-xs px-2 py-1 rounded-md inline-block">
+                    <div className="bg-[#4CAF50]/10 dark:bg-[#66FF7A]/20 text-[#4CAF50] dark:text-[#66FF7A] font-medium text-xs px-2 py-1 rounded-md inline-block">
                       Ahorra ${(product.originalPrice - product.price).toLocaleString('es-CO')}
                     </div>
                   )}
                 </div>
 
                 {/* Duración */}
-                <div className="text-center border-l border-[#A6A6A6]/20 pl-4">
-                  <Clock className="w-5 h-5 text-[#BA68C8] mx-auto mb-1" />
-                  <div className="text-[#0D0D0D] font-medium text-xs">Duración</div>
-                  <div className="text-[#595959] text-xs font-light">{product.duration}</div>
+                <div className="text-center border-l border-[#A6A6A6]/20 dark:border-gray-700 pl-4">
+                  <Clock className="w-5 h-5 text-[#BA68C8] dark:text-[#CE93D8] mx-auto mb-1" />
+                  <div className="text-[#0D0D0D] dark:text-white font-medium text-xs">Duración</div>
+                  <div className="text-[#595959] dark:text-gray-400 text-xs font-light">{product.duration}</div>
                 </div>
 
                 {/* Dispositivos */}
-                <div className="text-center border-l border-[#A6A6A6]/20 pl-4">
-                  <Monitor className="w-5 h-5 text-[#4FC3F7] mx-auto mb-1" />
-                  <div className="text-[#0D0D0D] font-medium text-xs">Dispositivos</div>
-                  <div className="text-[#595959] text-xs font-light">{product.devices}</div>
+                <div className="text-center border-l border-[#A6A6A6]/20 dark:border-gray-700 pl-4">
+                  <Monitor className="w-5 h-5 text-[#4FC3F7] dark:text-[#81D4FA] mx-auto mb-1" />
+                  <div className="text-[#0D0D0D] dark:text-white font-medium text-xs">Dispositivos</div>
+                  <div className="text-[#595959] dark:text-gray-400 text-xs font-light">{product.devices}</div>
                 </div>
               </div>
             </div>
 
             {/* Descripción */}
-            <div className="rounded-lg border border-[#A6A6A6]/20 p-5 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
-              <p className="text-[#595959] leading-relaxed text-sm font-light">
+            <div className="rounded-lg border border-[#A6A6A6]/20 dark:border-gray-700 p-5 bg-white dark:bg-gray-800 shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:shadow-none">
+              <p className="text-[#595959] dark:text-gray-400 leading-relaxed text-sm font-light">
                 {product.longDescription}
               </p>
             </div>
 
             {/* Beneficios */}
-            <div className="flex items-center justify-center gap-6 rounded-lg border border-[#4CAF50]/30 p-4 bg-[#4CAF50]/5">
-              <div className="flex items-center gap-2 text-[#595959] text-xs font-light">
-                <Check className="w-4 h-4 text-[#4CAF50]" />
+            <div className="flex items-center justify-center gap-6 rounded-lg border border-[#4CAF50]/30 dark:border-[#66FF7A]/30 p-4 bg-[#4CAF50]/5 dark:bg-[#66FF7A]/10">
+              <div className="flex items-center gap-2 text-[#595959] dark:text-gray-400 text-xs font-light">
+                <Check className="w-4 h-4 text-[#4CAF50] dark:text-[#66FF7A]" />
                 <span>Activación inmediata</span>
               </div>
-              <div className="flex items-center gap-2 text-[#595959] text-xs font-light">
-                <Shield className="w-4 h-4 text-[#4CAF50]" />
+              <div className="flex items-center gap-2 text-[#595959] dark:text-gray-400 text-xs font-light">
+                <Shield className="w-4 h-4 text-[#4CAF50] dark:text-[#66FF7A]" />
                 <span>Garantía total</span>
               </div>
             </div>
@@ -263,14 +263,14 @@ const ProductDetail: React.FC = () => {
             <div className="space-y-3">
               <button
                 onClick={handleAddToCart}
-                className="w-full bg-[#0D0D0D] hover:bg-[#262626] text-[#4CAF50] py-3.5 px-6 rounded-lg font-semibold text-base flex items-center justify-center gap-2 transition-all duration-200 shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.2)] hover:scale-[1.02]"
+                className="w-full bg-[#0D0D0D] dark:bg-gray-700 hover:bg-[#262626] dark:hover:bg-gray-600 text-[#4CAF50] dark:text-[#66FF7A] py-3.5 px-6 rounded-lg font-semibold text-base flex items-center justify-center gap-2 transition-all duration-200 shadow-[0_4px_12px_rgba(0,0,0,0.15)] dark:shadow-none hover:shadow-[0_6px_20px_rgba(0,0,0,0.2)] dark:hover:shadow-none hover:scale-[1.02]"
               >
                 <ShoppingCart size={18} />
                 Añadir al Carrito
               </button>
 
-              <div className="flex items-center justify-center gap-2 text-[#595959] text-sm font-light">
-                <Zap className="w-4 h-4 text-[#4CAF50]" />
+              <div className="flex items-center justify-center gap-2 text-[#595959] dark:text-gray-400 text-sm font-light">
+                <Zap className="w-4 h-4 text-[#4CAF50] dark:text-[#66FF7A]" />
                 <span>Activación automática tras la compra</span>
               </div>
             </div>
