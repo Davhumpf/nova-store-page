@@ -96,7 +96,7 @@ const PhysicalProductsCarousel: React.FC = () => {
   if (loading) {
     return (
       <div className="w-full flex justify-center items-center py-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-400"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#BA68C8] dark:border-[#CE93D8]"></div>
       </div>
     );
   }
@@ -104,7 +104,7 @@ const PhysicalProductsCarousel: React.FC = () => {
   if (products.length === 0) {
     return (
       <div className="w-full flex justify-center items-center py-8">
-        <p className="text-gray-500 dark:text-slate-400 text-sm">No hay productos físicos</p>
+        <p className="text-[#595959] dark:text-gray-400 text-sm">No hay productos físicos</p>
       </div>
     );
   }
@@ -116,7 +116,7 @@ const PhysicalProductsCarousel: React.FC = () => {
   }
 
   return (
-    <div className="relative w-full bg-gray-100 dark:bg-slate-800/30 backdrop-blur-sm border border-gray-200 dark:border-slate-700/30 rounded-xl overflow-hidden p-4">
+    <div className="relative w-full bg-[#F2F2F2] dark:bg-gray-800/50 backdrop-blur-sm border border-[#A6A6A6]/20 dark:border-gray-700/50 rounded-xl overflow-hidden p-4">
       <div
         className={`grid gap-4 ${
           visibleCount === 1
@@ -129,7 +129,7 @@ const PhysicalProductsCarousel: React.FC = () => {
         {visibleProducts.map((product) => (
           <div
             key={`${product.id}-${currentIndex}`}
-            className="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 hover:border-purple-400/50 shadow-sm hover:shadow-purple-400/10 transition-all duration-300 group"
+            className="bg-white dark:bg-gray-800 rounded-lg border border-[#A6A6A6]/20 dark:border-gray-700 hover:border-[#BA68C8]/50 dark:hover:border-[#CE93D8]/50 shadow-sm dark:shadow-none hover:shadow-[#BA68C8]/10 dark:hover:shadow-none transition-all duration-300 group"
           >
             <div className="relative aspect-video overflow-hidden rounded-t-lg">
               <img
@@ -138,21 +138,21 @@ const PhysicalProductsCarousel: React.FC = () => {
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
             </div>
-            <div className="p-3 min-h-[100px] flex flex-col justify-between bg-slate-900 dark:bg-slate-900">
+            <div className="p-3 min-h-[100px] flex flex-col justify-between bg-[#0D0D0D] dark:bg-gray-900">
               <h3 className="text-white font-medium text-sm truncate mb-1">
                 {product.name}
               </h3>
               <div className="flex items-center justify-between">
-                <p className="text-purple-400 font-bold text-lg">
+                <p className="text-[#BA68C8] dark:text-[#CE93D8] font-bold text-lg">
                   ${product.price.toLocaleString()}
                 </p>
-                <span className="text-xs text-slate-400 bg-slate-700 px-2 py-1 rounded-full">
+                <span className="text-xs text-gray-400 bg-gray-800 dark:bg-gray-700 px-2 py-1 rounded-full">
                   {product.category}
                 </span>
               </div>
               {product.shippingInfo && (
-                <div className="flex items-center justify-end mt-2 text-xs text-slate-400">
-                  <Truck size={12} className="mr-1 text-blue-400" />
+                <div className="flex items-center justify-end mt-2 text-xs text-gray-400">
+                  <Truck size={12} className="mr-1 text-[#4FC3F7] dark:text-[#81D4FA]" />
                   <span>{product.shippingInfo}</span>
                 </div>
               )}
@@ -165,13 +165,13 @@ const PhysicalProductsCarousel: React.FC = () => {
         <>
           <button
             onClick={prevSlide}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-slate-900/80 text-gray-900 dark:text-white p-2 rounded-full hover:scale-110 transition shadow-lg"
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 text-[#0D0D0D] dark:text-white p-2 rounded-full hover:scale-110 transition shadow-lg dark:shadow-none"
           >
             <ChevronLeft size={16} />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-slate-900/80 text-gray-900 dark:text-white p-2 rounded-full hover:scale-110 transition shadow-lg"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 text-[#0D0D0D] dark:text-white p-2 rounded-full hover:scale-110 transition shadow-lg dark:shadow-none"
           >
             <ChevronRight size={16} />
           </button>
