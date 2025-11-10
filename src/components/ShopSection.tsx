@@ -143,9 +143,9 @@ const ShopSection: React.FC = () => {
     return (
       <div className="min-h-screen bg-[#E8E8E8] dark:bg-gray-900">
         <Header />
-        <div className="flex items-center justify-center py-24">
-          <div className="flex flex-col items-center">
-            <div className="w-10 h-10 rounded-full border-2 border-[#4CAF50]/30 border-t-[#4CAF50] dark:border-[#66FF7A]/30 dark:border-t-[#66FF7A] animate-spin mb-2"></div>
+        <div className="flex items-center justify-center py-24 animate-fadeIn">
+          <div className="flex flex-col items-center bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 rounded-2xl p-8 shadow-lg">
+            <div className="w-12 h-12 rounded-full border-3 border-[#4CAF50]/30 border-t-[#4CAF50] dark:border-[#66FF7A]/30 dark:border-t-[#66FF7A] animate-spin mb-3"></div>
             <p className="text-[#5A5A5A] dark:text-gray-400 text-xs font-light">Cargando productos...</p>
           </div>
         </div>
@@ -157,9 +157,9 @@ const ShopSection: React.FC = () => {
     return (
       <div className="min-h-screen bg-[#E8E8E8] dark:bg-gray-900">
         <Header />
-        <div className="flex items-center justify-center py-24 px-4">
-          <div className="text-center bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 p-4 rounded-lg">
-            <p className="text-red-500 dark:text-red-400 text-xs">{error}</p>
+        <div className="flex items-center justify-center py-24 px-4 animate-fadeIn">
+          <div className="text-center bg-[#F5F5F5] dark:bg-gray-800 border border-red-300 dark:border-red-700 p-6 rounded-2xl shadow-lg">
+            <p className="text-red-500 dark:text-red-400 text-xs font-medium">{error}</p>
           </div>
         </div>
       </div>
@@ -171,23 +171,23 @@ const ShopSection: React.FC = () => {
       <Header />
 
       {/* Barra superior compacta */}
-      <div className="bg-[#F5F5F5] dark:bg-gray-800 border-b border-[#D0D0D0] dark:border-gray-700 sticky top-0 z-10 shadow-sm">
+      <div className="bg-[#F5F5F5] dark:bg-gray-800 border-b border-[#D0D0D0] dark:border-gray-700 sticky top-0 z-10 shadow-sm backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95">
         <div className="container mx-auto px-3 py-2">
           {/* Título y volver */}
           <div className="flex items-center justify-between mb-2">
             <button
               onClick={() => navigate(-1)}
-              className="flex items-center gap-1 text-[10px] text-[#4CAF50] dark:text-[#66FF7A] hover:text-[#45a049] dark:hover:text-[#4CAF50] transition-colors group"
+              className="flex items-center gap-1 text-[10px] text-[#4CAF50] dark:text-[#66FF7A] hover:text-[#45a049] dark:hover:text-[#4CAF50] transition-all duration-300 group"
             >
-              <ArrowRight size={12} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
+              <ArrowRight size={12} className="rotate-180 group-hover:-translate-x-1 transition-transform duration-300" />
               <span className="font-medium">Volver</span>
             </button>
-            <p className="text-[#8A8A8A] dark:text-gray-400 text-[9px] font-light">{filtered.length} productos</p>
+            <p className="text-[#8A8A8A] dark:text-gray-400 text-[9px] font-light animate-fadeIn">{filtered.length} productos</p>
           </div>
 
           {/* Buscador y controles */}
           <div className="flex gap-2">
-            <div className="flex-1 flex items-center bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 px-2 py-1.5 rounded-md">
+            <div className="flex-1 flex items-center bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 px-2 py-1.5 rounded-xl hover:border-[#4CAF50] dark:hover:border-[#66FF7A] transition-all duration-300">
               <Search size={12} className="text-[#8A8A8A] dark:text-gray-400 mr-1.5 shrink-0" />
               <input
                 type="text"
@@ -200,27 +200,27 @@ const ShopSection: React.FC = () => {
 
             <button
               onClick={() => setShowFilters((s) => !s)}
-              className={`p-1.5 rounded-md transition-all shrink-0 ${
-                showFilters ? "bg-[#4CAF50] dark:bg-[#66FF7A] text-white dark:text-gray-900" : "bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 text-[#8A8A8A] dark:text-gray-400"
+              className={`p-1.5 rounded-xl transition-all duration-300 shrink-0 hover:scale-105 ${
+                showFilters ? "bg-[#4CAF50] dark:bg-[#66FF7A] text-white dark:text-gray-900 shadow-md" : "bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 text-[#8A8A8A] dark:text-gray-400"
               }`}
               title="Filtros"
             >
               <Filter size={12} />
             </button>
 
-            <div className="flex bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded-md p-0.5">
+            <div className="flex bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded-xl p-0.5">
               <button
                 onClick={() => setViewMode("grid")}
-                className={`p-1 rounded transition-all ${
-                  viewMode === "grid" ? "bg-[#4CAF50] dark:bg-[#66FF7A] text-white dark:text-gray-900" : "text-[#8A8A8A] dark:text-gray-400"
+                className={`p-1 rounded-lg transition-all duration-300 ${
+                  viewMode === "grid" ? "bg-[#4CAF50] dark:bg-[#66FF7A] text-white dark:text-gray-900 scale-105" : "text-[#8A8A8A] dark:text-gray-400 hover:scale-105"
                 }`}
               >
                 <Grid size={10} />
               </button>
               <button
                 onClick={() => setViewMode("list")}
-                className={`p-1 rounded transition-all ${
-                  viewMode === "list" ? "bg-[#4CAF50] dark:bg-[#66FF7A] text-white dark:text-gray-900" : "text-[#8A8A8A] dark:text-gray-400"
+                className={`p-1 rounded-lg transition-all duration-300 ${
+                  viewMode === "list" ? "bg-[#4CAF50] dark:bg-[#66FF7A] text-white dark:text-gray-900 scale-105" : "text-[#8A8A8A] dark:text-gray-400 hover:scale-105"
                 }`}
               >
                 <List size={10} />
@@ -230,10 +230,10 @@ const ShopSection: React.FC = () => {
 
           {/* Panel de filtros */}
           {showFilters && (
-            <div className="bg-white dark:bg-gray-700 rounded-md border border-[#D0D0D0] dark:border-gray-600 p-3 mt-2">
+            <div className="bg-white dark:bg-gray-700 rounded-2xl border border-[#D0D0D0] dark:border-gray-600 p-3 mt-2 animate-slideDown shadow-lg">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[10px] font-medium text-[#2A2A2A] dark:text-white">Filtros</span>
-                <button onClick={() => setShowFilters(false)} className="text-[#8A8A8A] dark:text-gray-400">
+                <button onClick={() => setShowFilters(false)} className="text-[#8A8A8A] dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors duration-300 hover:rotate-90 transition-transform">
                   <X size={12} />
                 </button>
               </div>
@@ -243,7 +243,7 @@ const ShopSection: React.FC = () => {
                   <select
                     value={category}
                     onChange={(e) => { setCategory(e.target.value); setPage(1); }}
-                    className="w-full bg-[#F5F5F5] dark:bg-gray-600 border border-[#D0D0D0] dark:border-gray-500 text-[#2A2A2A] dark:text-white px-2 py-1 rounded-md text-[10px]"
+                    className="w-full bg-[#F5F5F5] dark:bg-gray-600 border border-[#D0D0D0] dark:border-gray-500 text-[#2A2A2A] dark:text-white px-2 py-1 rounded-lg text-[10px] hover:border-[#4CAF50] dark:hover:border-[#66FF7A] transition-all duration-300 cursor-pointer"
                   >
                     {categories.map((c) => (
                       <option key={c} value={c}>
@@ -258,7 +258,7 @@ const ShopSection: React.FC = () => {
                   <select
                     value={sortBy}
                     onChange={(e) => { setSortBy(e.target.value); setPage(1); }}
-                    className="w-full bg-[#F5F5F5] dark:bg-gray-600 border border-[#D0D0D0] dark:border-gray-500 text-[#2A2A2A] dark:text-white px-2 py-1 rounded-md text-[10px]"
+                    className="w-full bg-[#F5F5F5] dark:bg-gray-600 border border-[#D0D0D0] dark:border-gray-500 text-[#2A2A2A] dark:text-white px-2 py-1 rounded-lg text-[10px] hover:border-[#4CAF50] dark:hover:border-[#66FF7A] transition-all duration-300 cursor-pointer"
                   >
                     <option value="newest">Nuevos</option>
                     <option value="price-low">Menor precio</option>
@@ -278,7 +278,7 @@ const ShopSection: React.FC = () => {
                     step={50}
                     value={priceRange[1]}
                     onChange={(e) => { setPriceRange([0, Number(e.target.value)]); setPage(1); }}
-                    className="w-full accent-[#4CAF50] dark:accent-[#66FF7A] h-1"
+                    className="w-full accent-[#4CAF50] dark:accent-[#66FF7A] h-1 cursor-pointer"
                   />
                 </div>
 
@@ -289,7 +289,7 @@ const ShopSection: React.FC = () => {
                       <button
                         key={rating}
                         onClick={() => { setMinRating(rating === minRating ? 0 : rating); setPage(1); }}
-                        className="transition-all"
+                        className="transition-all duration-300 hover:scale-125"
                       >
                         <Star
                           size={14}
@@ -312,39 +312,43 @@ const ShopSection: React.FC = () => {
       <div ref={topRef} />
 
       {/* Contenido */}
-      <div className="container mx-auto px-3 py-3">
+      <div className="container mx-auto px-3 py-4 md:py-6">
         {paginated.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 rounded-lg p-6 max-w-sm mx-auto">
+          <div className="text-center py-12 animate-fadeIn">
+            <div className="bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 rounded-2xl p-6 max-w-sm mx-auto shadow-sm">
               <Play size={24} className="text-[#D0D0D0] dark:text-gray-600 mx-auto mb-2" />
               <p className="text-[#5A5A5A] dark:text-gray-400 text-xs font-light">No hay productos disponibles</p>
             </div>
           </div>
         ) : (
-          <div className={viewMode === "grid" 
-            ? "grid gap-2 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5" 
-            : "space-y-2"}>
-            {paginated.map((product) => {
+          <div className={viewMode === "grid"
+            ? "grid gap-3 md:gap-4 grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
+            : "space-y-3"}>
+            {paginated.map((product, index) => {
               const inCart = cartItems.some((it) => it.id === product.id);
               const isFav = favorites.includes(product.id);
 
               if (viewMode === "list") {
                 return (
-                  <div key={product.id} className="bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 rounded-md p-2 flex gap-2 hover:shadow-sm transition-shadow">
-                    <div className="relative w-20 h-20 shrink-0">
+                  <div
+                    key={product.id}
+                    className="bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 rounded-2xl p-3 flex gap-3 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 animate-fadeInUp"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    <div className="relative w-24 h-24 shrink-0">
                       <img
                         src={product.imageUrl || "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400"}
                         alt={product.name}
-                        className="w-full h-full object-cover rounded"
+                        className="w-full h-full object-cover rounded-xl"
                       />
                       {product.discount > 0 && (
-                        <div className="absolute top-0 left-0 bg-red-500 text-white text-[8px] px-1 py-0.5 rounded">
+                        <div className="absolute top-0 left-0 bg-red-500 text-white text-[8px] px-1.5 py-0.5 rounded-lg shadow-md">
                           -{product.discount}%
                         </div>
                       )}
                       <button
                         onClick={() => toggleFavorite(product.id)}
-                        className="absolute top-0 right-0 p-1 bg-white/80 dark:bg-gray-900/80 rounded"
+                        className="absolute top-0 right-0 p-1 bg-white/90 dark:bg-gray-900/90 rounded-lg backdrop-blur-sm hover:scale-110 transition-transform duration-300"
                       >
                         <Heart size={10} className={isFav ? "text-red-500 fill-current" : "text-[#8A8A8A] dark:text-gray-400"} />
                       </button>
@@ -370,14 +374,14 @@ const ShopSection: React.FC = () => {
                         <div className="flex gap-1">
                           <Link
                             to={`/product/${product.id}`}
-                            className="bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 text-[#2A2A2A] dark:text-white px-2 py-1 rounded text-[9px] hover:bg-[#FAFAFA] dark:hover:bg-gray-600"
+                            className="bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 text-[#2A2A2A] dark:text-white px-2 py-1 rounded-lg text-[9px] hover:bg-[#FAFAFA] dark:hover:bg-gray-600 hover:scale-105 transition-all duration-300"
                           >
                             Ver
                           </Link>
                           <button
                             onClick={() => handleAddToCart(product)}
                             disabled={!product.inStock || inCart}
-                            className={`px-2 py-1 rounded text-[9px] font-medium flex items-center gap-0.5 ${
+                            className={`px-2 py-1 rounded-lg text-[9px] font-medium flex items-center gap-0.5 hover:scale-105 transition-all duration-300 ${
                               inCart ? "bg-green-500 text-white" : "bg-[#4CAF50] dark:bg-[#66FF7A] text-white dark:text-gray-900 hover:bg-[#45a049] dark:hover:bg-[#4CAF50]"
                             } disabled:opacity-50`}
                           >
@@ -393,33 +397,37 @@ const ShopSection: React.FC = () => {
 
               // Vista Grid
               return (
-                <div key={product.id} className="group bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 rounded-md overflow-hidden hover:shadow-md transition-all">
-                  <div className="relative aspect-square">
+                <div
+                  key={product.id}
+                  className="group bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 rounded-2xl overflow-hidden hover:shadow-xl hover:scale-[1.03] hover:-translate-y-1 transition-all duration-300 animate-fadeInUp"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  <div className="relative aspect-square overflow-hidden">
                     <img
                       src={product.imageUrl || "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400"}
                       alt={product.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     {product.discount > 0 && (
-                      <div className="absolute top-1 left-1 bg-red-500 text-white text-[8px] px-1 py-0.5 rounded">
+                      <div className="absolute top-2 left-2 bg-red-500 text-white text-[8px] px-2 py-1 rounded-lg shadow-md animate-pulse">
                         -{product.discount}%
                       </div>
                     )}
                     <button
                       onClick={() => toggleFavorite(product.id)}
-                      className="absolute top-1 right-1 p-1 bg-white/80 dark:bg-gray-900/80 rounded backdrop-blur-sm"
+                      className="absolute top-2 right-2 p-1.5 bg-white/90 dark:bg-gray-900/90 rounded-xl backdrop-blur-sm hover:scale-110 transition-all duration-300"
                     >
-                      <Heart size={10} className={isFav ? "text-red-500 fill-current" : "text-[#8A8A8A] dark:text-gray-400"} />
+                      <Heart size={10} className={isFav ? "text-red-500 fill-current animate-pulse" : "text-[#8A8A8A] dark:text-gray-400"} />
                     </button>
 
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1">
-                      <Link to={`/product/${product.id}`} className="p-1.5 bg-white dark:bg-gray-700 rounded-full">
-                        <Eye size={12} className="text-[#2A2A2A] dark:text-white" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
+                      <Link to={`/product/${product.id}`} className="p-2 bg-white dark:bg-gray-700 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <Eye size={14} className="text-[#2A2A2A] dark:text-white" />
                       </Link>
                     </div>
                   </div>
 
-                  <div className="p-2">
+                  <div className="p-3">
                     <h3 className="text-[#2A2A2A] dark:text-white font-medium text-[10px] line-clamp-2 mb-1 min-h-[28px]">{product.name}</h3>
 
                     <div className="flex items-center gap-1 mb-1">
@@ -431,7 +439,7 @@ const ShopSection: React.FC = () => {
                       <span className="text-[#8A8A8A] dark:text-gray-400 text-[8px]">({product.reviews})</span>
                     </div>
 
-                    <div className="flex items-center justify-between mb-1.5">
+                    <div className="flex items-center justify-between mb-2">
                       <span className="text-[#4CAF50] dark:text-[#66FF7A] font-bold text-xs">
                         ${product.price.toLocaleString()}
                       </span>
@@ -445,7 +453,7 @@ const ShopSection: React.FC = () => {
                     <button
                       onClick={() => handleAddToCart(product)}
                       disabled={!product.inStock || inCart}
-                      className={`w-full py-1.5 rounded text-[9px] font-medium flex items-center justify-center gap-1 transition-colors ${
+                      className={`w-full py-2 rounded-xl text-[9px] font-medium flex items-center justify-center gap-1 hover:scale-105 transition-all duration-300 shadow-sm ${
                         inCart
                           ? "bg-green-500 text-white"
                           : "bg-[#4CAF50] dark:bg-[#66FF7A] text-white dark:text-gray-900 hover:bg-[#45a049] dark:hover:bg-[#4CAF50]"
@@ -463,11 +471,11 @@ const ShopSection: React.FC = () => {
 
         {/* Paginación compacta */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-1 mt-4">
+          <div className="flex justify-center items-center gap-2 mt-6 animate-fadeIn">
             <button
               disabled={safePage === 1}
               onClick={() => { setPage((p) => Math.max(1, p - 1)); scrollToTop(); }}
-              className="px-2 py-1 bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 text-[#2A2A2A] dark:text-white rounded disabled:opacity-50 text-[10px]"
+              className="px-3 py-1.5 bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 text-[#2A2A2A] dark:text-white rounded-lg disabled:opacity-50 text-[10px] hover:scale-105 hover:bg-[#4CAF50] hover:text-white dark:hover:bg-[#66FF7A] dark:hover:text-gray-900 transition-all duration-300 disabled:hover:scale-100 disabled:hover:bg-[#F5F5F5] dark:disabled:hover:bg-gray-800 disabled:hover:text-[#2A2A2A] dark:disabled:hover:text-white"
             >
               ←
             </button>
@@ -483,10 +491,10 @@ const ShopSection: React.FC = () => {
                 <button
                   key={pageNum}
                   onClick={() => { setPage(pageNum); scrollToTop(); }}
-                  className={`w-6 h-6 rounded text-[10px] font-medium ${
+                  className={`w-8 h-8 rounded-xl text-[10px] font-medium transition-all duration-300 hover:scale-110 ${
                     safePage === pageNum
-                      ? "bg-[#4CAF50] dark:bg-[#66FF7A] text-white dark:text-gray-900"
-                      : "bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 text-[#2A2A2A] dark:text-white"
+                      ? "bg-[#4CAF50] dark:bg-[#66FF7A] text-white dark:text-gray-900 shadow-md scale-105"
+                      : "bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 text-[#2A2A2A] dark:text-white hover:border-[#4CAF50] dark:hover:border-[#66FF7A]"
                   }`}
                 >
                   {pageNum}
@@ -497,7 +505,7 @@ const ShopSection: React.FC = () => {
             <button
               disabled={safePage === totalPages}
               onClick={() => { setPage((p) => Math.min(totalPages, p + 1)); scrollToTop(); }}
-              className="px-2 py-1 bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 text-[#2A2A2A] dark:text-white rounded disabled:opacity-50 text-[10px]"
+              className="px-3 py-1.5 bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 text-[#2A2A2A] dark:text-white rounded-lg disabled:opacity-50 text-[10px] hover:scale-105 hover:bg-[#4CAF50] hover:text-white dark:hover:bg-[#66FF7A] dark:hover:text-gray-900 transition-all duration-300 disabled:hover:scale-100 disabled:hover:bg-[#F5F5F5] dark:disabled:hover:bg-gray-800 disabled:hover:text-[#2A2A2A] dark:disabled:hover:text-white"
             >
               →
             </button>
