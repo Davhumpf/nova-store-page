@@ -167,11 +167,19 @@ const ShopSection: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#E8E8E8] dark:bg-gray-900">
-      <Header />
+    <div className="min-h-screen bg-gradient-to-br from-[#F5F5F5] via-[#FAFAFA] to-[#F0F0F0] dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 relative overflow-hidden">
+      {/* Animated background blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 -left-4 w-96 h-96 bg-[#4CAF50]/10 dark:bg-[#66FF7A]/5 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl animate-blob"></div>
+        <div className="absolute top-0 -right-4 w-96 h-96 bg-[#BA68C8]/10 dark:bg-[#CE93D8]/5 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-[#4FC3F7]/10 dark:bg-[#81D4FA]/5 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl animate-blob animation-delay-4000"></div>
+      </div>
 
-      {/* Barra superior compacta */}
-      <div className="bg-[#F5F5F5] dark:bg-gray-800 border-b border-[#D0D0D0] dark:border-gray-700 sticky top-0 z-10 shadow-sm backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95">
+      <div className="relative z-10">
+        <Header /></div>
+
+      {/* Barra superior futurista */}
+      <div className="bg-white/80 dark:bg-gray-800/80 border-b border-[#4CAF50]/10 dark:border-[#66FF7A]/10 sticky top-0 z-20 shadow-[0_10px_40px_rgba(76,175,80,0.1)] dark:shadow-[0_10px_40px_rgba(102,255,122,0.05)] backdrop-blur-xl">
         <div className="container mx-auto px-3 py-2">
           {/* Título y volver */}
           <div className="flex items-center justify-between mb-2">
@@ -228,9 +236,11 @@ const ShopSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Panel de filtros */}
+          {/* Panel de filtros futurista */}
           {showFilters && (
-            <div className="bg-white dark:bg-gray-700 rounded-2xl border border-[#D0D0D0] dark:border-gray-600 p-3 mt-2 animate-slideDown shadow-lg">
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#4CAF50] via-[#66FF7A] to-[#4CAF50] rounded-3xl blur opacity-20 group-hover:opacity-30 transition-opacity"></div>
+              <div className="relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-2xl border border-[#4CAF50]/20 dark:border-[#66FF7A]/20 p-3 mt-2 animate-slideDown shadow-[0_10px_40px_rgba(76,175,80,0.15)] dark:shadow-[0_10px_40px_rgba(102,255,122,0.1)]">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[10px] font-medium text-[#2A2A2A] dark:text-white">Filtros</span>
                 <button onClick={() => setShowFilters(false)} className="text-[#8A8A8A] dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors duration-300 hover:rotate-90 transition-transform">
@@ -305,6 +315,7 @@ const ShopSection: React.FC = () => {
                 </div>
               </div>
             </div>
+            </div>
           )}
         </div>
       </div>
@@ -332,9 +343,13 @@ const ShopSection: React.FC = () => {
                 return (
                   <div
                     key={product.id}
-                    className="bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 rounded-2xl p-3 flex gap-3 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 animate-fadeInUp"
+                    className="relative group animate-fadeInUp"
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
+                    {/* Glow effect */}
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-[#4CAF50] via-[#66FF7A] to-[#4CAF50] rounded-3xl blur opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+
+                    <div className="relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl border border-[#4CAF50]/10 dark:border-[#66FF7A]/10 rounded-2xl p-3 flex gap-3 hover:shadow-[0_20px_60px_rgba(76,175,80,0.2)] dark:hover:shadow-[0_20px_60px_rgba(102,255,122,0.15)] hover:scale-[1.02] transition-all duration-500">
                     <div className="relative w-24 h-24 shrink-0">
                       <img
                         src={product.imageUrl || "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400"}
@@ -391,17 +406,22 @@ const ShopSection: React.FC = () => {
                         </div>
                       </div>
                     </div>
+                    </div>
                   </div>
                 );
               }
 
-              // Vista Grid
+              // Vista Grid Futurista
               return (
                 <div
                   key={product.id}
-                  className="group bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 rounded-2xl overflow-hidden hover:shadow-xl hover:scale-[1.03] hover:-translate-y-1 transition-all duration-300 animate-fadeInUp"
+                  className="group relative animate-fadeInUp"
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
+                  {/* Glow effect */}
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-[#4CAF50] via-[#66FF7A] to-[#4CAF50] rounded-3xl blur opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
+
+                  <div className="relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl border border-[#4CAF50]/10 dark:border-[#66FF7A]/10 rounded-2xl overflow-hidden hover:shadow-[0_20px_60px_rgba(76,175,80,0.2)] dark:hover:shadow-[0_20px_60px_rgba(102,255,122,0.15)] hover:scale-[1.03] hover:-translate-y-2 transition-all duration-500">
                   <div className="relative aspect-square overflow-hidden">
                     <img
                       src={product.imageUrl || "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400"}
@@ -463,6 +483,7 @@ const ShopSection: React.FC = () => {
                       {inCart ? "En carrito" : "Añadir"}
                     </button>
                   </div>
+                  </div>
                 </div>
               );
             })}
@@ -512,6 +533,28 @@ const ShopSection: React.FC = () => {
           </div>
         )}
       </div>
+      </div>
+
+      {/* CSS Animations for futuristic effects */}
+      <style>{`
+        @keyframes blob {
+          0%, 100% { transform: translate(0px, 0px) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style>
     </div>
   );
 };
