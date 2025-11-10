@@ -533,7 +533,6 @@ const ShopSection: React.FC = () => {
           </div>
         )}
       </div>
-      </div>
 
       {/* CSS Animations for futuristic effects */}
       <style>{`
