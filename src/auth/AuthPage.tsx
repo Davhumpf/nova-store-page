@@ -7,15 +7,15 @@ const Login = React.lazy(() => import('./Login'));
 const Register = React.lazy(() => import('./Register'));
 
 const FallbackCard = () => (
-  <div className="bg-[#F5F5F5] border border-[#D0D0D0] rounded-lg p-4">
-    <div className="flex items-center gap-2 mb-3">
-      <div className="w-5 h-5 rounded-full border-2 border-[#4CAF50]/30 border-t-[#4CAF50] animate-spin" />
-      <span className="text-[#8A8A8A] text-xs font-light">Cargando…</span>
+  <div className="comic-panel halftone-pattern p-5">
+    <div className="flex items-center gap-2 mb-4 relative z-10">
+      <div className="w-6 h-6 rounded-full border-4 border-pop-cyan/30 border-t-pop-cyan animate-spin" />
+      <span className="text-[#000] dark:text-[#FFF] text-sm font-bold">Cargando…</span>
     </div>
-    <div className="space-y-2">
-      <div className="h-8 rounded-md bg-[#E8E8E8] animate-pulse" />
-      <div className="h-8 rounded-md bg-[#E8E8E8] animate-pulse" />
-      <div className="h-9 rounded-md bg-[#E8E8E8] animate-pulse" />
+    <div className="space-y-3 relative z-10">
+      <div className="h-10 comic-border bg-[#E8E8E8] dark:bg-[#333] animate-pulse" />
+      <div className="h-10 comic-border bg-[#E8E8E8] dark:bg-[#333] animate-pulse" />
+      <div className="h-11 comic-border bg-[#E8E8E8] dark:bg-[#333] animate-pulse" />
     </div>
   </div>
 );
@@ -68,37 +68,37 @@ const AuthPage: React.FC = () => {
   const isRegister = mode === 'register';
 
   return (
-    <main className="min-h-dvh grid place-items-center px-3 py-6 bg-[#E8E8E8]">
-      <section className="w-full max-w-sm sm:max-w-md">
-        <header className="text-center mb-4">
+    <main className="min-h-dvh grid place-items-center px-3 py-6 bg-gradient-to-br from-pop-pink/20 via-pop-cyan/20 to-pop-yellow/20 dark:from-pop-pink/10 dark:via-pop-cyan/10 dark:to-pop-yellow/10 crosshatch-pattern">
+      <section className="w-full max-w-sm sm:max-w-md animate-comic-pop">
+        <header className="text-center mb-6">
           <h1
-            className="text-xl font-light text-[#2A2A2A]"
+            className="text-3xl sm:text-4xl font-black text-[#000] dark:text-[#FFF] comic-text-shadow uppercase tracking-tight"
             aria-live="polite"
           >
             {isRegister ? 'Crear cuenta' : 'Iniciar sesión'}
           </h1>
-          <p className="text-[10px] text-[#8A8A8A] font-light mt-1">
+          <p className="text-sm text-[#000] dark:text-[#FFF] font-bold mt-2 uppercase">
             {isRegister ? 'Regístrate para comenzar' : 'Accede a tu cuenta'}
           </p>
         </header>
 
-        <div className="bg-[#F5F5F5] border border-[#D0D0D0] rounded-lg p-4 shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
+        <div className="comic-panel halftone-pattern p-5 sm:p-6">
           {/* Tabs (segmented) accesibles */}
           <div
             role="tablist"
             aria-label="Seleccionar modo de autenticación"
             onKeyDown={onTabKeyDown}
-            className="grid grid-cols-2 gap-1 bg-[#E8E8E8] p-1 rounded-md mb-3"
+            className="grid grid-cols-2 gap-2 mb-5 relative z-10"
           >
             <button
               role="tab"
               aria-selected={!isRegister}
               aria-controls="panel-login"
               onClick={() => setMode('login')}
-              className={`py-2 rounded-md text-xs font-medium transition-all ${
+              className={`py-3 text-sm font-black uppercase transition-all ${
                 !isRegister
-                  ? 'bg-[#4CAF50] text-white shadow-[0_2px_8px_rgba(76,175,80,0.25)]'
-                  : 'text-[#8A8A8A] hover:text-[#2A2A2A]'
+                  ? 'comic-border bg-pop-pink text-white dark:text-black'
+                  : 'border-4 border-[#000] dark:border-[#FFF] bg-white dark:bg-[#1F1F1F] text-[#000] dark:text-[#FFF] hover:bg-[#F0F0F0] dark:hover:bg-[#2A2A2A]'
               }`}
             >
               Login
@@ -108,10 +108,10 @@ const AuthPage: React.FC = () => {
               aria-selected={isRegister}
               aria-controls="panel-register"
               onClick={() => setMode('register')}
-              className={`py-2 rounded-md text-xs font-medium transition-all ${
+              className={`py-3 text-sm font-black uppercase transition-all ${
                 isRegister
-                  ? 'bg-[#4CAF50] text-white shadow-[0_2px_8px_rgba(76,175,80,0.25)]'
-                  : 'text-[#8A8A8A] hover:text-[#2A2A2A]'
+                  ? 'comic-border bg-pop-pink text-white dark:text-black'
+                  : 'border-4 border-[#000] dark:border-[#FFF] bg-white dark:bg-[#1F1F1F] text-[#000] dark:text-[#FFF] hover:bg-[#F0F0F0] dark:hover:bg-[#2A2A2A]'
               }`}
             >
               Registro
@@ -119,7 +119,7 @@ const AuthPage: React.FC = () => {
           </div>
 
           {/* Contenido con transición suave */}
-          <div className="relative">
+          <div className="relative z-10">
             <Suspense fallback={<FallbackCard />}>
               <div
                 id={isRegister ? 'panel-register' : 'panel-login'}
@@ -137,10 +137,10 @@ const AuthPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="text-center mt-4">
+        <div className="text-center mt-6">
           <button
             onClick={() => navigate('/')}
-            className="text-[#4CAF50] hover:text-[#45a049] text-xs font-medium transition-colors"
+            className="comic-border bg-white dark:bg-[#1F1F1F] text-[#000] dark:text-[#FFF] px-6 py-2.5 text-sm font-black uppercase hover:bg-pop-yellow dark:hover:bg-pop-yellow hover:text-black transition-all"
           >
             ← Volver al inicio
           </button>

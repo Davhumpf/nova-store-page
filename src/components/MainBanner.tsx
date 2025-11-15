@@ -30,27 +30,23 @@ const MainBanner: React.FC<MainBannerProps> = ({ selectedCategory = 'all', onCat
       <div className="relative flex-shrink-0">
         <button
           onClick={onClick}
-          className={`group relative px-4 py-3 font-medium text-sm transition-all duration-300 flex flex-col items-center gap-1.5 min-w-[80px] lg:min-w-0 lg:w-full ${
+          className={`group relative px-4 py-3 font-bold text-sm transition-all duration-300 flex flex-col items-center gap-1.5 min-w-[80px] lg:min-w-0 lg:w-full ${
             isSelected
-              ? 'bg-gradient-to-b from-[#FEE440] via-[#FEE440] to-transparent dark:from-[#4CAF50] dark:via-[#4CAF50] text-black dark:text-white shadow-lg shadow-[#FEE440]/30 dark:shadow-[#4CAF50]/30 transform scale-105'
-              : 'bg-gradient-to-b from-white/5 via-white/5 to-transparent dark:from-gray-700/50 dark:via-gray-700/30 text-white/80 dark:text-gray-300 hover:from-white/10 hover:via-white/10 dark:hover:from-gray-600/50 dark:hover:via-gray-600/30 hover:to-transparent hover:text-white hover:shadow-lg border-b border-white/10 dark:border-gray-600/30 hover:border-[#FEE440]/50 dark:hover:border-[#4CAF50]/50'
-          } rounded-t-2xl border-t border-l border-r ${
-            isSelected 
-              ? 'border-[#FEE440]/50 dark:border-[#4CAF50]/50' 
-              : 'border-white/10 dark:border-gray-600/30 hover:border-[#FEE440]/30 dark:hover:border-[#4CAF50]/30'
-          }`}
+              ? 'comic-button bg-pop-yellow dark:bg-pop-green text-[#0D0D0D] dark:text-white transform scale-105 animate-comic-pop'
+              : 'comic-border-light bg-white/80 dark:bg-gray-800/80 text-[#0D0D0D] dark:text-white hover:bg-pop-yellow/20 dark:hover:bg-pop-green/20'
+          } rounded-t-2xl uppercase`}
           style={{
             borderBottomLeftRadius: '0',
             borderBottomRightRadius: '0',
             borderBottom: 'none'
           }}
         >
-          <IconComponent className={`w-4 h-4 ${isSelected ? '' : 'group-hover:text-[#FEE440] dark:group-hover:text-[#66FF7A]'} transition-colors flex-shrink-0`} />
+          <IconComponent className={`w-4 h-4 ${isSelected ? '' : 'group-hover:text-pop-red dark:group-hover:text-pop-cyan'} transition-colors flex-shrink-0`} />
           <span className="text-xs leading-tight text-center whitespace-nowrap overflow-hidden text-ellipsis w-full lg:block">
             {category.label}
           </span>
           {isSelected && (
-            <div className="absolute inset-0 rounded-t-2xl bg-gradient-to-b from-[#FEE440]/20 dark:from-[#4CAF50]/20 via-[#FEE440]/10 dark:via-[#4CAF50]/10 to-transparent animate-pulse pointer-events-none" />
+            <div className="absolute inset-0 rounded-t-2xl halftone-pattern pointer-events-none" />
           )}
         </button>
         
@@ -78,11 +74,11 @@ const MainBanner: React.FC<MainBannerProps> = ({ selectedCategory = 'all', onCat
     <div className="container mx-auto px-4 py-4">
       <div className="w-full">
         {/* Solo categorías */}
-        <div className="bg-black/90 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl border border-white/10 dark:border-gray-700/50 shadow-2xl dark:shadow-gray-950/50 h-48 overflow-hidden">
+        <div className="comic-panel bendaydots-pattern bg-white dark:bg-gray-900 rounded-2xl h-48 overflow-hidden">
           <div className="h-full flex flex-col p-6">
             <div className="flex items-center gap-3 mb-6 flex-shrink-0">
-              <Filter className="w-5 h-5 text-[#FEE440] dark:text-[#66FF7A]" />
-              <h3 className="text-white dark:text-gray-100 font-semibold text-base">Filtrar por categoría</h3>
+              <Filter className="w-5 h-5 text-pop-yellow dark:text-pop-green" />
+              <h3 className="text-[#0D0D0D] dark:text-white font-bold text-base comic-text-shadow">Filtrar por categoría</h3>
             </div>
             
             <div className="flex-1">

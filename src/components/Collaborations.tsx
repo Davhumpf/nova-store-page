@@ -103,14 +103,14 @@ const Collaborations: React.FC = () => {
   // Loading screen
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0a0010] via-[#18001B] to-[#2C2C2C] p-4">
-        <div className="flex flex-col items-center p-6 sm:p-8 bg-[#2C2C2C] rounded-2xl shadow-2xl border border-gray-700/50 w-full max-w-sm">
+      <div className="min-h-screen flex items-center justify-center halftone-pattern bg-white dark:bg-gray-900 p-4">
+        <div className="flex flex-col items-center p-6 sm:p-8 comic-panel bg-white dark:bg-gray-800 w-full max-w-sm animate-comic-pop">
           <div className="relative mb-4">
-            <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-[#FFD600]/20 border-t-[#FFD600] rounded-full animate-spin"></div>
-            <div className="absolute inset-0 w-12 h-12 sm:w-16 sm:h-16 border-4 border-transparent border-b-[#FFC400] rounded-full animate-spin animation-delay-150"></div>
+            <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-pop-purple/20 dark:border-pop-pink/20 border-t-pop-purple dark:border-t-pop-pink rounded-full animate-spin"></div>
+            <div className="absolute inset-0 w-12 h-12 sm:w-16 sm:h-16 border-4 border-transparent border-b-pop-orange rounded-full animate-spin animation-delay-150"></div>
           </div>
-          <p className="text-[#FFD600] font-bold text-lg sm:text-xl text-center">Verificando permisos</p>
-          <p className="text-gray-400 text-sm text-center mt-2">Cargando panel de colaborador...</p>
+          <p className="text-pop-purple dark:text-pop-pink font-black text-lg sm:text-xl text-center uppercase tracking-wide">Verificando permisos</p>
+          <p className="text-gray-600 dark:text-gray-400 text-sm text-center mt-2 font-bold">Cargando panel de colaborador...</p>
         </div>
       </div>
     );
@@ -119,15 +119,15 @@ const Collaborations: React.FC = () => {
   // Access denied
   if (!user || !userRole || !['super_admin', 'admin', 'collaborator'].includes(userRole)) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0a0010] via-[#18001B] to-[#2C2C2C] p-4">
-        <div className="bg-gradient-to-br from-[#2C2C2C] to-[#1a1a1a] p-6 sm:p-8 rounded-2xl shadow-2xl max-w-md w-full border border-gray-700/50">
+      <div className="min-h-screen flex items-center justify-center halftone-pattern bg-white dark:bg-gray-900 p-4">
+        <div className="comic-panel bg-white dark:bg-gray-800 p-6 sm:p-8 max-w-md w-full animate-comic-pop stipple-pattern">
           <div className="flex flex-col items-center text-center">
-            <div className="p-3 sm:p-4 bg-gradient-to-r from-red-500 to-red-600 rounded-full mb-4 sm:mb-6">
+            <div className="p-3 sm:p-4 bg-gradient-to-r from-pop-pink to-pop-purple comic-border mb-4 sm:mb-6">
               <Lock size={24} className="text-white sm:w-8 sm:h-8" />
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3">Acceso Restringido</h2>
-            <p className="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">No tienes permisos para acceder al panel de colaborador.</p>
-            <div className="flex items-center gap-2 text-[#FFD600] font-medium text-sm">
+            <h2 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-2 sm:mb-3 uppercase tracking-wide">Acceso Restringido</h2>
+            <p className="text-gray-700 dark:text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base font-semibold">No tienes permisos para acceder al panel de colaborador.</p>
+            <div className="flex items-center gap-2 text-pop-purple dark:text-pop-pink font-black text-sm uppercase tracking-wide">
               <Shield size={16} />
               <span>Área protegida</span>
             </div>
@@ -167,24 +167,25 @@ const Collaborations: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0010] via-[#18001B] to-[#2C2C2C] p-4">
+    <div className="min-h-screen halftone-pattern bg-white dark:bg-gray-900 p-4">
       <div className="container mx-auto max-w-6xl">
         {/* Header */}
-        <div className="bg-gradient-to-br from-[#2C2C2C] to-[#1a1a1a] rounded-2xl shadow-2xl overflow-hidden border border-gray-700/50 mb-6">
-          <div className="bg-gradient-to-r from-[#FFD600] via-[#FFC400] to-[#FFD600] p-4 sm:p-6">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="comic-panel bg-white dark:bg-gray-800 shadow-2xl overflow-hidden mb-6 animate-comic-pop">
+          <div className="bg-gradient-to-r from-pop-purple via-pop-orange to-pop-pink p-4 sm:p-6 relative">
+            <div className="bendaydots-pattern absolute inset-0 opacity-20"></div>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 relative z-10">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-black/20 rounded-lg backdrop-blur-sm">
+                <div className="p-2 comic-border bg-white dark:bg-gray-800 backdrop-blur-sm">
                   {getRoleIcon()}
                 </div>
                 <div>
-                  <h1 className="text-lg sm:text-xl font-bold text-black">Panel de {getRoleTitle()}</h1>
-                  <p className="text-black/70 font-medium text-xs sm:text-sm">Centro de gestión colaborativa</p>
+                  <h1 className="text-lg sm:text-xl font-black text-white dark:text-white uppercase tracking-wide">Panel de {getRoleTitle()}</h1>
+                  <p className="text-white/90 dark:text-white/90 font-bold text-xs sm:text-sm">Centro de gestión colaborativa</p>
                 </div>
               </div>
               <button
                 onClick={() => navigate('/')}
-                className="flex items-center gap-2 bg-black/20 hover:bg-black/30 text-black px-3 py-2 rounded-lg font-semibold transition-all duration-300 text-sm self-start sm:self-auto"
+                className="comic-button bg-white/20 hover:bg-white/30 text-white dark:text-white px-3 py-2 font-black text-sm self-start sm:self-auto speed-lines"
               >
                 <Home size={16} />
                 <span className="hidden sm:inline">Inicio</span>
@@ -193,30 +194,30 @@ const Collaborations: React.FC = () => {
           </div>
 
           {/* Stats */}
-          <div className="p-4 sm:p-6">
+          <div className="p-4 sm:p-6 crosshatch-pattern">
             <div className="grid grid-cols-3 gap-3 sm:gap-6">
-              <div className="text-center p-3 bg-gradient-to-br from-[#1a1a1a] to-[#2C2C2C] rounded-lg border border-gray-700/30">
+              <div className="text-center p-3 comic-border stipple-pattern bg-white dark:bg-gray-800 comic-hover">
                 <div className="flex justify-center mb-2">
-                  <Users className="text-[#FFD600]" size={16} />
+                  <Users className="text-pop-purple dark:text-pop-pink" size={16} />
                 </div>
-                <p className="text-white text-lg sm:text-xl font-bold">{totalUsers}</p>
-                <p className="text-gray-400 text-xs sm:text-sm font-medium">Usuarios</p>
+                <p className="text-gray-900 dark:text-white text-lg sm:text-xl font-black">{totalUsers}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm font-bold uppercase">Usuarios</p>
               </div>
 
-              <div className="text-center p-3 bg-gradient-to-br from-[#1a1a1a] to-[#2C2C2C] rounded-lg border border-gray-700/30">
+              <div className="text-center p-3 comic-border stipple-pattern bg-white dark:bg-gray-800 comic-hover">
                 <div className="flex justify-center mb-2">
-                  <Trophy className="text-[#FFD600]" size={16} />
+                  <Trophy className="text-pop-orange dark:text-pop-orange" size={16} />
                 </div>
-                <p className="text-white text-lg sm:text-xl font-bold">{totalPoints.toLocaleString()}</p>
-                <p className="text-gray-400 text-xs sm:text-sm font-medium">Puntos Total</p>
+                <p className="text-gray-900 dark:text-white text-lg sm:text-xl font-black">{totalPoints.toLocaleString()}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm font-bold uppercase">Puntos Total</p>
               </div>
 
-              <div className="text-center p-3 bg-gradient-to-br from-[#1a1a1a] to-[#2C2C2C] rounded-lg border border-gray-700/30">
+              <div className="text-center p-3 comic-border stipple-pattern bg-white dark:bg-gray-800 comic-hover">
                 <div className="flex justify-center mb-2">
-                  <TrendingUp className="text-[#FFD600]" size={16} />
+                  <TrendingUp className="text-pop-pink dark:text-pop-purple" size={16} />
                 </div>
-                <p className="text-white text-lg sm:text-xl font-bold">{averagePoints}</p>
-                <p className="text-gray-400 text-xs sm:text-sm font-medium">Promedio</p>
+                <p className="text-gray-900 dark:text-white text-lg sm:text-xl font-black">{averagePoints}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm font-bold uppercase">Promedio</p>
               </div>
             </div>
           </div>
@@ -227,33 +228,33 @@ const Collaborations: React.FC = () => {
           {/* Filtrador de Productos */}
           <div
             onClick={() => navigate('/colab/collaborator-product-catalog')}
-            className="bg-gradient-to-br from-[#2C2C2C] to-[#1a1a1a] rounded-2xl border border-gray-700/50 p-4 sm:p-6 cursor-pointer hover:border-[#FFD600]/50 hover:shadow-2xl hover:shadow-[#FFD600]/10 transition-all duration-300 group active:scale-[0.98]"
+            className="comic-panel stipple-pattern bg-white dark:bg-gray-800 p-4 sm:p-6 cursor-pointer comic-hover transition-all duration-300 group active:scale-[0.98] animate-comic-pop speed-lines"
           >
             <div className="flex items-start gap-4">
-              <div className="p-3 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+              <div className="p-3 bg-pop-purple comic-border shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
                 <Filter className="text-white" size={20} />
               </div>
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-[#FFD600] transition-colors leading-tight">
+                  <h3 className="text-lg sm:text-xl font-black text-gray-900 dark:text-white group-hover:text-pop-purple dark:group-hover:text-pop-pink transition-colors leading-tight uppercase tracking-wide">
                     Filtrador de Productos
                   </h3>
-                  <ArrowRight className="text-gray-400 group-hover:text-[#FFD600] group-hover:translate-x-1 transition-all flex-shrink-0 mt-1" size={18} />
+                  <ArrowRight className="text-gray-600 dark:text-gray-400 group-hover:text-pop-purple dark:group-hover:text-pop-pink group-hover:translate-x-1 transition-all flex-shrink-0 mt-1" size={18} />
                 </div>
 
-                <p className="text-gray-300 mb-4 text-sm leading-relaxed">
+                <p className="text-gray-700 dark:text-gray-300 mb-4 text-sm leading-relaxed font-semibold">
                   Herramienta avanzada para filtrar y buscar productos con funciones especiales
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
                   <div className="flex items-center gap-2">
-                    <Search size={12} className="text-emerald-400 flex-shrink-0" />
-                    <span className="text-gray-400 text-xs font-medium">Búsqueda avanzada</span>
+                    <Search size={12} className="text-pop-purple dark:text-pop-pink flex-shrink-0" />
+                    <span className="text-gray-600 dark:text-gray-400 text-xs font-bold uppercase">Búsqueda avanzada</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Activity size={12} className="text-emerald-400 flex-shrink-0" />
-                    <span className="text-gray-400 text-xs font-medium">Función especial</span>
+                    <Activity size={12} className="text-pop-purple dark:text-pop-pink flex-shrink-0" />
+                    <span className="text-gray-600 dark:text-gray-400 text-xs font-bold uppercase">Función especial</span>
                   </div>
                 </div>
               </div>
@@ -263,33 +264,33 @@ const Collaborations: React.FC = () => {
           {/* Catálogo Express */}
           <div
             onClick={() => navigate('/collaborations/express')}
-            className="bg-gradient-to-br from-[#2C2C2C] to-[#1a1a1a] rounded-2xl border border-gray-700/50 p-4 sm:p-6 cursor-pointer hover:border-[#FFD600]/50 hover:shadow-2xl hover:shadow-[#FFD600]/10 transition-all duration-300 group active:scale-[0.98]"
+            className="comic-panel stipple-pattern bg-white dark:bg-gray-800 p-4 sm:p-6 cursor-pointer comic-hover transition-all duration-300 group active:scale-[0.98] animate-comic-pop speed-lines"
           >
             <div className="flex items-start gap-4">
-              <div className="p-3 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                <ImageIcon className="text-black" size={20} />
+              <div className="p-3 bg-pop-orange comic-border shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                <ImageIcon className="text-white" size={20} />
               </div>
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-[#FFD600] transition-colors leading-tight">
+                  <h3 className="text-lg sm:text-xl font-black text-gray-900 dark:text-white group-hover:text-pop-orange dark:group-hover:text-pop-orange transition-colors leading-tight uppercase tracking-wide">
                     Catálogo Express
                   </h3>
-                  <ArrowRight className="text-gray-400 group-hover:text-[#FFD600] group-hover:translate-x-1 transition-all flex-shrink-0 mt-1" size={18} />
+                  <ArrowRight className="text-gray-600 dark:text-gray-400 group-hover:text-pop-orange dark:group-hover:text-pop-orange group-hover:translate-x-1 transition-all flex-shrink-0 mt-1" size={18} />
                 </div>
 
-                <p className="text-gray-300 mb-4 text-sm leading-relaxed">
+                <p className="text-gray-700 dark:text-gray-300 mb-4 text-sm leading-relaxed font-semibold">
                   Genera historias y un PDF listos para compartir, con tu WhatsApp y QR incluidos.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
                   <div className="flex items-center gap-2">
-                    <ImageIcon size={12} className="text-yellow-400 flex-shrink-0" />
-                    <span className="text-gray-400 text-xs font-medium">Historias 1080×1920</span>
+                    <ImageIcon size={12} className="text-pop-orange dark:text-pop-orange flex-shrink-0" />
+                    <span className="text-gray-600 dark:text-gray-400 text-xs font-bold uppercase">Historias 1080×1920</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Download size={12} className="text-yellow-400 flex-shrink-0" />
-                    <span className="text-gray-400 text-xs font-medium">PDF por producto</span>
+                    <Download size={12} className="text-pop-orange dark:text-pop-orange flex-shrink-0" />
+                    <span className="text-gray-600 dark:text-gray-400 text-xs font-bold uppercase">PDF por producto</span>
                   </div>
                 </div>
               </div>
@@ -298,9 +299,9 @@ const Collaborations: React.FC = () => {
         </div>
 
         {/* Pie de usuario */}
-        <div className="bg-gradient-to-r from-[#2C2C2C] to-[#1a1a1a] rounded-xl p-4 border border-gray-700/50">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="flex items-center gap-2 text-[#FFD600] font-medium text-sm">
+        <div className="comic-panel bg-white dark:bg-gray-800 p-4 bendaydots-pattern">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 relative z-10">
+            <div className="flex items-center gap-2 text-pop-purple dark:text-pop-pink font-black text-sm uppercase tracking-wide">
               {getRoleIcon()}
               <span className="truncate">
                 Sesión como {getRoleTitle()} • {user?.email}
@@ -309,7 +310,7 @@ const Collaborations: React.FC = () => {
 
             <button
               onClick={() => navigate('/')}
-              className="bg-gradient-to-r from-[#FFD600] to-[#FFC400] hover:from-[#FFC400] hover:to-[#FFB800] text-black px-4 py-2 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg text-sm w-full sm:w-auto"
+              className="comic-button bg-gradient-to-r from-pop-purple to-pop-pink hover:from-pop-pink hover:to-pop-orange text-white px-4 py-2 font-black transition-all duration-300 transform hover:scale-105 shadow-lg text-sm w-full sm:w-auto speed-lines"
             >
               Volver al Inicio
             </button>

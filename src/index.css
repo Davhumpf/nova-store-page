@@ -292,3 +292,509 @@ a:focus-visible {
   40% { transform: scale(1); }
 }
 
+/* ================================
+   🎨 COMIC BOOK / POP ART STYLES
+   ================================ */
+
+/* === HALFTONE PATTERN === */
+.halftone-pattern {
+  position: relative;
+  overflow: hidden;
+}
+
+.halftone-pattern::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, currentColor 1px, transparent 1px);
+  background-size: 8px 8px;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dark .halftone-pattern::before {
+  opacity: 0.25;
+}
+
+/* === BEN-DAY DOTS (LICHTENSTEIN STYLE) === */
+.bendaydots-pattern {
+  position: relative;
+  overflow: hidden;
+}
+
+.bendaydots-pattern::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 50% 50%, currentColor 2px, transparent 2px);
+  background-size: 12px 12px;
+  opacity: 0.2;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: multiply;
+}
+
+.dark .bendaydots-pattern::after {
+  mix-blend-mode: screen;
+  opacity: 0.15;
+}
+
+/* === CROSSHATCH PATTERN === */
+.crosshatch-pattern {
+  background-image:
+    repeating-linear-gradient(45deg, transparent, transparent 4px, currentColor 4px, currentColor 5px),
+    repeating-linear-gradient(-45deg, transparent, transparent 4px, currentColor 4px, currentColor 5px);
+  background-size: 20px 20px;
+  opacity: 0.08;
+}
+
+.dark .crosshatch-pattern {
+  opacity: 0.12;
+}
+
+/* === STIPPLE SHADING === */
+.stipple-pattern {
+  position: relative;
+}
+
+.stipple-pattern::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, currentColor 0.5px, transparent 0.5px),
+    radial-gradient(circle, currentColor 0.5px, transparent 0.5px);
+  background-size: 6px 6px, 6px 6px;
+  background-position: 0 0, 3px 3px;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.dark .stipple-pattern::before {
+  opacity: 0.18;
+}
+
+/* === THICK COMIC OUTLINES === */
+.comic-border {
+  border: 4px solid #000000;
+  box-shadow:
+    0 0 0 1px #000000,
+    4px 4px 0 0 rgba(0, 0, 0, 0.3);
+}
+
+.dark .comic-border {
+  border-color: #FFFFFF;
+  box-shadow:
+    0 0 0 1px #FFFFFF,
+    4px 4px 0 0 rgba(255, 255, 255, 0.3);
+}
+
+.comic-border-light {
+  border: 3px solid #000000;
+}
+
+.dark .comic-border-light {
+  border-color: #FFFFFF;
+}
+
+.comic-outline {
+  outline: 3px solid #000000;
+  outline-offset: -3px;
+}
+
+.dark .comic-outline {
+  outline-color: #FFFFFF;
+}
+
+/* === SPEED LINES ANIMATIONS === */
+@keyframes speedLinesLeft {
+  0% {
+    transform: translateX(100%) skewX(-20deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(-100%) skewX(-20deg);
+    opacity: 0;
+  }
+}
+
+@keyframes speedLinesRight {
+  0% {
+    transform: translateX(-100%) skewX(20deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(100%) skewX(20deg);
+    opacity: 0;
+  }
+}
+
+@keyframes speedLinesRadial {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes comicPop {
+  0% {
+    transform: scale(0.8) rotate(-2deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05) rotate(1deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes comicBounce {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  25% {
+    transform: translateY(-8px) scale(1.02, 0.98);
+  }
+  50% {
+    transform: translateY(0) scale(0.98, 1.02);
+  }
+  75% {
+    transform: translateY(-4px) scale(1.01, 0.99);
+  }
+}
+
+/* Speed Lines Container */
+.speed-lines {
+  position: relative;
+  overflow: hidden;
+}
+
+.speed-lines::before,
+.speed-lines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.speed-lines::before {
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 3px,
+    currentColor 3px,
+    currentColor 4px
+  );
+  opacity: 0.4;
+  animation: speedLinesLeft 1.5s ease-in-out infinite;
+}
+
+.speed-lines::after {
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 5px,
+    currentColor 5px,
+    currentColor 6px
+  );
+  opacity: 0.3;
+  animation: speedLinesLeft 2s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+/* Speed Lines - Right Direction */
+.speed-lines-right::before {
+  animation: speedLinesRight 1.5s ease-in-out infinite;
+}
+
+.speed-lines-right::after {
+  animation: speedLinesRight 2s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+/* Speed Lines - Radial Burst */
+.speed-lines-radial::before {
+  background: repeating-radial-gradient(
+    circle at center,
+    transparent 0px,
+    transparent 8px,
+    currentColor 8px,
+    currentColor 10px
+  );
+  animation: speedLinesRadial 2s ease-out infinite;
+}
+
+/* Animation Utilities */
+.animate-comic-pop {
+  animation: comicPop 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.animate-comic-bounce {
+  animation: comicBounce 0.6s ease-in-out;
+}
+
+.animate-speed-lines {
+  animation: speedLinesLeft 1.5s ease-in-out infinite;
+}
+
+/* === POP ART COLORS === */
+:root {
+  /* Primary Pop Art Colors - Light Mode */
+  --pop-red: #FF3B3B;
+  --pop-blue: #0066FF;
+  --pop-yellow: #FFD600;
+  --pop-pink: #FF6AC1;
+  --pop-cyan: #00D9FF;
+  --pop-orange: #FF8C00;
+  --pop-purple: #9B5DE5;
+  --pop-green: #00F5A0;
+
+  /* Comic shadows and highlights */
+  --comic-shadow: rgba(0, 0, 0, 0.4);
+  --comic-highlight: rgba(255, 255, 255, 0.8);
+}
+
+.dark {
+  /* Pop Art Colors - Dark Mode (more vibrant) */
+  --pop-red: #FF5757;
+  --pop-blue: #4D9FFF;
+  --pop-yellow: #FFE34D;
+  --pop-pink: #FF87D4;
+  --pop-cyan: #4DFFFF;
+  --pop-orange: #FFB04D;
+  --pop-purple: #B794F6;
+  --pop-green: #4DFFB8;
+
+  /* Comic shadows and highlights for dark */
+  --comic-shadow: rgba(0, 0, 0, 0.6);
+  --comic-highlight: rgba(255, 255, 255, 0.4);
+}
+
+/* Pop Art Color Utilities */
+.bg-pop-red { background-color: var(--pop-red); }
+.bg-pop-blue { background-color: var(--pop-blue); }
+.bg-pop-yellow { background-color: var(--pop-yellow); }
+.bg-pop-pink { background-color: var(--pop-pink); }
+.bg-pop-cyan { background-color: var(--pop-cyan); }
+.bg-pop-orange { background-color: var(--pop-orange); }
+.bg-pop-purple { background-color: var(--pop-purple); }
+.bg-pop-green { background-color: var(--pop-green); }
+
+.text-pop-red { color: var(--pop-red); }
+.text-pop-blue { color: var(--pop-blue); }
+.text-pop-yellow { color: var(--pop-yellow); }
+.text-pop-pink { color: var(--pop-pink); }
+.text-pop-cyan { color: var(--pop-cyan); }
+.text-pop-orange { color: var(--pop-orange); }
+.text-pop-purple { color: var(--pop-purple); }
+.text-pop-green { color: var(--pop-green); }
+
+.border-pop-red { border-color: var(--pop-red); }
+.border-pop-blue { border-color: var(--pop-blue); }
+.border-pop-yellow { border-color: var(--pop-yellow); }
+.border-pop-pink { border-color: var(--pop-pink); }
+.border-pop-cyan { border-color: var(--pop-cyan); }
+.border-pop-orange { border-color: var(--pop-orange); }
+.border-pop-purple { border-color: var(--pop-purple); }
+.border-pop-green { border-color: var(--pop-green); }
+
+/* Comic Text Effects */
+.comic-text-shadow {
+  text-shadow:
+    3px 3px 0 var(--comic-shadow),
+    -1px -1px 0 var(--comic-highlight);
+}
+
+.comic-text-outline {
+  text-shadow:
+    -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+    2px 2px 0 #000;
+}
+
+.dark .comic-text-outline {
+  text-shadow:
+    -2px -2px 0 #FFF,
+    2px -2px 0 #FFF,
+    -2px 2px 0 #FFF,
+    2px 2px 0 #FFF;
+}
+
+/* Comic Panel Effect */
+.comic-panel {
+  position: relative;
+  border: 4px solid #000000;
+  background: linear-gradient(135deg, #FFFFFF 0%, #F0F0F0 100%);
+  box-shadow:
+    inset 0 0 0 2px #FFFFFF,
+    8px 8px 0 0 rgba(0, 0, 0, 0.3);
+}
+
+.dark .comic-panel {
+  border-color: #FFFFFF;
+  background: linear-gradient(135deg, #1F1F1F 0%, #2A2A2A 100%);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.1),
+    8px 8px 0 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Hover effects with comic style */
+.comic-hover {
+  transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: relative;
+}
+
+.comic-hover:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow:
+    8px 8px 0 0 var(--comic-shadow),
+    12px 12px 0 0 rgba(0, 0, 0, 0.1);
+}
+
+.comic-hover:active {
+  transform: translateY(-2px) scale(0.98);
+  box-shadow:
+    4px 4px 0 0 var(--comic-shadow);
+}
+
+/* Comic Button */
+.comic-button {
+  border: 3px solid #000000;
+  background: var(--pop-yellow);
+  color: #000000;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0.75rem 1.5rem;
+  position: relative;
+  transition: all 0.15s ease;
+  box-shadow: 4px 4px 0 0 #000000;
+}
+
+.comic-button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 #000000;
+}
+
+.comic-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 0 #000000;
+}
+
+.dark .comic-button {
+  border-color: #FFFFFF;
+  box-shadow: 4px 4px 0 0 #FFFFFF;
+}
+
+.dark .comic-button:hover {
+  box-shadow: 6px 6px 0 0 #FFFFFF;
+}
+
+.dark .comic-button:active {
+  box-shadow: 2px 2px 0 0 #FFFFFF;
+}
+
+/* Comic Input Fields */
+.comic-input {
+  border: 3px solid #000000;
+  background: #FFFFFF;
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.comic-input:focus {
+  outline: none;
+  border-color: var(--pop-cyan);
+  box-shadow:
+    0 0 0 3px rgba(0, 217, 255, 0.2),
+    4px 4px 0 0 var(--pop-cyan);
+}
+
+.dark .comic-input {
+  border-color: #FFFFFF;
+  background: #1F1F1F;
+  color: #FFFFFF;
+}
+
+.dark .comic-input:focus {
+  box-shadow:
+    0 0 0 3px rgba(77, 255, 255, 0.2),
+    4px 4px 0 0 var(--pop-cyan);
+}
+
+/* Speech Bubble Effect */
+.speech-bubble {
+  position: relative;
+  background: #FFFFFF;
+  border: 3px solid #000000;
+  border-radius: 20px;
+  padding: 1rem 1.5rem;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.3);
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 30px;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-top-color: #000000;
+  border-bottom: 0;
+  margin-left: -10px;
+}
+
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -14px;
+  left: 30px;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-top-color: #FFFFFF;
+  border-bottom: 0;
+  margin-left: -10px;
+  z-index: 1;
+}
+
+.dark .speech-bubble {
+  background: #1F1F1F;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+}
+
+.dark .speech-bubble::after {
+  border-top-color: #FFFFFF;
+}
+
+.dark .speech-bubble::before {
+  border-top-color: #1F1F1F;
+}
+
+/* ================================
+   END COMIC BOOK STYLES
+   ================================ */
+

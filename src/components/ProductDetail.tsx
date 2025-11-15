@@ -130,25 +130,25 @@ const ProductDetail: React.FC = () => {
   }
 
   return (
-    <div className="bg-[#F2F2F2] dark:bg-gray-900 py-6 min-h-screen">
+    <div className="bg-[#F2F2F2] dark:bg-gray-900 py-6 min-h-screen crosshatch-pattern">
       <div className="container mx-auto px-4 max-w-5xl">
         {/* Breadcrumb */}
         <button
           onClick={handleBackToShop}
-          className="inline-flex items-center gap-2 text-[#595959] dark:text-gray-400 hover:text-[#4CAF50] dark:hover:text-[#66FF7A] mb-6 transition-colors duration-200"
+          className="inline-flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-pop-green dark:hover:text-pop-green mb-6 transition-colors duration-200 font-semibold uppercase text-sm"
         >
           <ArrowLeft size={16} />
-          <span className="text-sm font-light">Volver a Productos</span>
+          <span>Volver a Productos</span>
         </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Imagen */}
-          <div className="order-1">
-            <div className="relative rounded-xl border border-[#A6A6A6]/20 dark:border-gray-700 overflow-hidden bg-white dark:bg-gray-800 shadow-[0_8px_24px_rgba(0,0,0,0.12)] dark:shadow-none">
+          <div className="order-1 animate-comic-pop">
+            <div className="relative comic-border overflow-hidden bendaydots-pattern">
               <div className="aspect-square relative overflow-hidden">
                 {!imageLoaded && (
                   <div className="absolute inset-0 bg-[#F2F2F2] dark:bg-gray-700 animate-pulse flex items-center justify-center">
-                    <div className="w-8 h-8 border-4 border-[#A6A6A6]/30 dark:border-gray-600 border-t-[#4CAF50] dark:border-t-[#66FF7A] rounded-full animate-spin" />
+                    <div className="w-8 h-8 border-4 border-gray-400 border-t-pop-green rounded-full animate-spin" />
                   </div>
                 )}
                 <img
@@ -165,13 +165,13 @@ const ProductDetail: React.FC = () => {
                 />
 
                 {product.discount && product.discount > 0 && (
-                  <div className="absolute top-3 left-3 bg-red-500 dark:bg-red-600 text-white font-semibold text-xs px-3 py-1.5 rounded-lg shadow-md dark:shadow-none">
+                  <div className="absolute top-3 left-3 bg-pop-red text-white font-bold text-xs px-3 py-1.5 comic-border-light uppercase">
                     -{product.discount}%
                   </div>
                 )}
                 <div className="absolute top-3 right-3">
-                  <span className="bg-white/95 dark:bg-gray-800/95 text-[#4CAF50] dark:text-[#66FF7A] text-xs px-3 py-1.5 rounded-lg flex items-center shadow-md dark:shadow-none border border-[#A6A6A6]/20 dark:border-gray-700">
-                    <span className="w-2 h-2 bg-[#4CAF50] dark:bg-[#66FF7A] rounded-full mr-2" />
+                  <span className="bg-pop-green text-black dark:text-white text-xs px-3 py-1.5 comic-border-light flex items-center uppercase font-bold">
+                    <span className="w-2 h-2 bg-black dark:bg-white rounded-full mr-2 animate-pulse" />
                     Disponible
                   </span>
                 </div>
@@ -182,7 +182,7 @@ const ProductDetail: React.FC = () => {
           {/* Info */}
           <div className="order-2 space-y-5">
             <div>
-              <h1 className="text-2xl lg:text-3xl font-light text-[#0D0D0D] dark:text-white leading-tight break-words">
+              <h1 className="text-2xl lg:text-3xl font-black text-black dark:text-white leading-tight break-words comic-text-shadow uppercase">
                 {product.title}
               </h1>
               <div className="flex items-center gap-3 mt-3">
@@ -191,70 +191,70 @@ const ProductDetail: React.FC = () => {
                     <Star
                       key={i}
                       size={16}
-                      className={i < Math.floor(product.rating ?? 0) ? 'text-[#4CAF50] dark:text-[#66FF7A]' : 'text-[#A6A6A6] dark:text-gray-600'}
+                      className={i < Math.floor(product.rating ?? 0) ? 'text-pop-yellow' : 'text-gray-400 dark:text-gray-600'}
                       fill={i < Math.floor(product.rating ?? 0) ? 'currentColor' : 'none'}
                     />
                   ))}
                 </div>
-                <span className="text-[#595959] dark:text-gray-400 text-sm font-light">
+                <span className="text-gray-700 dark:text-gray-300 text-sm font-bold">
                   {product.rating?.toFixed(1) ?? '0.0'} • {product.reviewCount ?? 0} reseñas
                 </span>
               </div>
             </div>
 
             {/* Bloque de precio + specs */}
-            <div className="rounded-xl border border-[#A6A6A6]/20 dark:border-gray-700 p-5 bg-white dark:bg-gray-800 shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:shadow-none">
+            <div className="comic-panel p-5 animate-comic-bounce">
               <div className="grid grid-cols-3 gap-4 items-center">
                 {/* Precio */}
                 <div className="space-y-1">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-semibold text-[#4CAF50] dark:text-[#66FF7A]">
+                    <span className="text-2xl font-black text-pop-green comic-text-shadow">
                       ${product.price.toLocaleString('es-CO')}
                     </span>
                     {hasDiscount && product.originalPrice && (
-                      <span className="text-sm text-[#A6A6A6] dark:text-gray-500 line-through">
+                      <span className="text-sm text-gray-500 dark:text-gray-400 line-through font-semibold">
                         ${product.originalPrice.toLocaleString('es-CO')}
                       </span>
                     )}
                   </div>
                   {hasDiscount && product.originalPrice && (
-                    <div className="bg-[#4CAF50]/10 dark:bg-[#66FF7A]/20 text-[#4CAF50] dark:text-[#66FF7A] font-medium text-xs px-2 py-1 rounded-md inline-block">
+                    <div className="bg-pop-cyan text-black font-bold text-xs px-2 py-1 comic-border-light inline-block uppercase">
                       Ahorra ${(product.originalPrice - product.price).toLocaleString('es-CO')}
                     </div>
                   )}
                 </div>
 
                 {/* Duración */}
-                <div className="text-center border-l border-[#A6A6A6]/20 dark:border-gray-700 pl-4">
-                  <Clock className="w-5 h-5 text-[#BA68C8] dark:text-[#CE93D8] mx-auto mb-1" />
-                  <div className="text-[#0D0D0D] dark:text-white font-medium text-xs">Duración</div>
-                  <div className="text-[#595959] dark:text-gray-400 text-xs font-light">{product.duration}</div>
+                <div className="text-center border-l-4 border-black dark:border-white pl-4">
+                  <Clock className="w-5 h-5 text-pop-blue mx-auto mb-1" />
+                  <div className="text-black dark:text-white font-bold text-xs uppercase">Duración</div>
+                  <div className="text-gray-700 dark:text-gray-300 text-xs font-semibold">{product.duration}</div>
                 </div>
 
                 {/* Dispositivos */}
-                <div className="text-center border-l border-[#A6A6A6]/20 dark:border-gray-700 pl-4">
-                  <Monitor className="w-5 h-5 text-[#4FC3F7] dark:text-[#81D4FA] mx-auto mb-1" />
-                  <div className="text-[#0D0D0D] dark:text-white font-medium text-xs">Dispositivos</div>
-                  <div className="text-[#595959] dark:text-gray-400 text-xs font-light">{product.devices}</div>
+                <div className="text-center border-l-4 border-black dark:border-white pl-4">
+                  <Monitor className="w-5 h-5 text-pop-cyan mx-auto mb-1" />
+                  <div className="text-black dark:text-white font-bold text-xs uppercase">Dispositivos</div>
+                  <div className="text-gray-700 dark:text-gray-300 text-xs font-semibold">{product.devices}</div>
                 </div>
               </div>
             </div>
 
             {/* Descripción */}
-            <div className="rounded-lg border border-[#A6A6A6]/20 dark:border-gray-700 p-5 bg-white dark:bg-gray-800 shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:shadow-none">
-              <p className="text-[#595959] dark:text-gray-400 leading-relaxed text-sm font-light">
+            <div className="speech-bubble">
+              <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-sm font-medium">
                 {product.longDescription}
               </p>
             </div>
 
             {/* Beneficios */}
-            <div className="flex items-center justify-center gap-6 rounded-lg border border-[#4CAF50]/30 dark:border-[#66FF7A]/30 p-4 bg-[#4CAF50]/5 dark:bg-[#66FF7A]/10">
-              <div className="flex items-center gap-2 text-[#595959] dark:text-gray-400 text-xs font-light">
-                <Check className="w-4 h-4 text-[#4CAF50] dark:text-[#66FF7A]" />
+            <div className="flex items-center justify-center gap-6 comic-panel p-4 halftone-pattern">
+              <div className="flex items-center gap-2 text-gray-800 dark:text-gray-200 text-xs font-bold uppercase relative z-10">
+                <Check className="w-4 h-4 text-pop-green" />
                 <span>Activación inmediata</span>
               </div>
-              <div className="flex items-center gap-2 text-[#595959] dark:text-gray-400 text-xs font-light">
-                <Shield className="w-4 h-4 text-[#4CAF50] dark:text-[#66FF7A]" />
+              <div className="flex items-center gap-2 text-gray-800 dark:text-gray-200 text-xs font-bold uppercase relative z-10">
+                <Shield className="w-4 h-4 text-pop-green" />
                 <span>Garantía total</span>
               </div>
             </div>
@@ -263,14 +263,14 @@ const ProductDetail: React.FC = () => {
             <div className="space-y-3">
               <button
                 onClick={handleAddToCart}
-                className="w-full bg-[#0D0D0D] dark:bg-gray-700 hover:bg-[#262626] dark:hover:bg-gray-600 text-[#4CAF50] dark:text-[#66FF7A] py-3.5 px-6 rounded-lg font-semibold text-base flex items-center justify-center gap-2 transition-all duration-200 shadow-[0_4px_12px_rgba(0,0,0,0.15)] dark:shadow-none hover:shadow-[0_6px_20px_rgba(0,0,0,0.2)] dark:hover:shadow-none hover:scale-[1.02]"
+                className="w-full bg-pop-green hover:bg-pop-cyan text-black py-3.5 px-6 font-black text-base flex items-center justify-center gap-2 transition-all duration-200 comic-button animate-comic-bounce"
               >
                 <ShoppingCart size={18} />
                 Añadir al Carrito
               </button>
 
-              <div className="flex items-center justify-center gap-2 text-[#595959] dark:text-gray-400 text-sm font-light">
-                <Zap className="w-4 h-4 text-[#4CAF50] dark:text-[#66FF7A]" />
+              <div className="flex items-center justify-center gap-2 text-gray-700 dark:text-gray-300 text-sm font-bold uppercase">
+                <Zap className="w-4 h-4 text-pop-yellow" />
                 <span>Activación automática tras la compra</span>
               </div>
             </div>

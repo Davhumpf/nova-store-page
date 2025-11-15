@@ -95,16 +95,16 @@ const PhysicalProductsCarousel: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="w-full flex justify-center items-center py-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#BA68C8] dark:border-[#CE93D8]"></div>
+      <div className="w-full flex justify-center items-center py-8 halftone-pattern">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-pop-purple"></div>
       </div>
     );
   }
 
   if (products.length === 0) {
     return (
-      <div className="w-full flex justify-center items-center py-8">
-        <p className="text-[#595959] dark:text-gray-400 text-sm">No hay productos físicos</p>
+      <div className="w-full flex justify-center items-center py-8 halftone-pattern">
+        <p className="text-[#595959] dark:text-gray-400 text-sm comic-text-outline">No hay productos físicos</p>
       </div>
     );
   }
@@ -116,7 +116,7 @@ const PhysicalProductsCarousel: React.FC = () => {
   }
 
   return (
-    <div className="relative w-full bg-[#F2F2F2] dark:bg-gray-800/50 backdrop-blur-sm border border-[#A6A6A6]/20 dark:border-gray-700/50 rounded-xl overflow-hidden p-4">
+    <div className="relative w-full comic-border halftone-pattern bg-white dark:bg-gray-900 rounded-xl overflow-hidden p-4 speed-lines">
       <div
         className={`grid gap-4 ${
           visibleCount === 1
@@ -129,30 +129,30 @@ const PhysicalProductsCarousel: React.FC = () => {
         {visibleProducts.map((product) => (
           <div
             key={`${product.id}-${currentIndex}`}
-            className="bg-white dark:bg-gray-800 rounded-lg border border-[#A6A6A6]/20 dark:border-gray-700 hover:border-[#BA68C8]/50 dark:hover:border-[#CE93D8]/50 shadow-sm dark:shadow-none hover:shadow-[#BA68C8]/10 dark:hover:shadow-none transition-all duration-300 group"
+            className="bg-white dark:bg-gray-800 comic-border-light comic-hover animate-comic-pop halftone-pattern overflow-hidden group"
           >
-            <div className="relative aspect-video overflow-hidden rounded-t-lg">
+            <div className="relative aspect-video overflow-hidden">
               <img
                 src={product.imageUrl}
                 alt={product.name}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
             </div>
-            <div className="p-3 min-h-[100px] flex flex-col justify-between bg-[#0D0D0D] dark:bg-gray-900">
-              <h3 className="text-white font-medium text-sm truncate mb-1">
+            <div className="p-3 min-h-[100px] flex flex-col justify-between bg-pop-purple/10 dark:bg-pop-pink/10">
+              <h3 className="text-white font-bold text-sm truncate mb-1 comic-text-shadow">
                 {product.name}
               </h3>
               <div className="flex items-center justify-between">
-                <p className="text-[#BA68C8] dark:text-[#CE93D8] font-bold text-lg">
+                <p className="text-pop-purple font-bold text-lg comic-text-shadow">
                   ${product.price.toLocaleString()}
                 </p>
-                <span className="text-xs text-gray-400 bg-gray-800 dark:bg-gray-700 px-2 py-1 rounded-full">
+                <span className="text-xs text-[#0D0D0D] dark:text-white bg-pop-purple dark:bg-pop-pink px-2 py-1 rounded-full font-bold uppercase">
                   {product.category}
                 </span>
               </div>
               {product.shippingInfo && (
-                <div className="flex items-center justify-end mt-2 text-xs text-gray-400">
-                  <Truck size={12} className="mr-1 text-[#4FC3F7] dark:text-[#81D4FA]" />
+                <div className="flex items-center justify-end mt-2 text-xs text-pop-cyan font-semibold">
+                  <Truck size={12} className="mr-1 text-pop-cyan" />
                   <span>{product.shippingInfo}</span>
                 </div>
               )}
@@ -165,13 +165,13 @@ const PhysicalProductsCarousel: React.FC = () => {
         <>
           <button
             onClick={prevSlide}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 text-[#0D0D0D] dark:text-white p-2 rounded-full hover:scale-110 transition shadow-lg dark:shadow-none"
+            className="absolute left-2 top-1/2 -translate-y-1/2 comic-button bg-pop-purple text-white p-2 rounded-full hover:scale-110 transition z-10"
           >
             <ChevronLeft size={16} />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 text-[#0D0D0D] dark:text-white p-2 rounded-full hover:scale-110 transition shadow-lg dark:shadow-none"
+            className="absolute right-2 top-1/2 -translate-y-1/2 comic-button bg-pop-purple text-white p-2 rounded-full hover:scale-110 transition z-10"
           >
             <ChevronRight size={16} />
           </button>

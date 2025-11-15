@@ -489,27 +489,27 @@ const ExpressCatalog: React.FC = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white overflow-x-hidden">
+      <div className="min-h-screen halftone-pattern bg-white dark:bg-gray-900 text-gray-900 dark:text-white overflow-x-hidden">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
           {/* Header XS compacto */}
-          <div className="mb-3 sm:mb-6">
+          <div className="mb-3 sm:mb-6 comic-panel bg-white dark:bg-gray-800 p-4 animate-comic-pop">
             <div className="flex items-center justify-between">
-              <button onClick={() => nav('/collaborations')} className="flex items-center gap-1.5 text-yellow-400 hover:text-yellow-300">
+              <button onClick={() => nav('/collaborations')} className="comic-button flex items-center gap-1.5 text-pop-purple dark:text-pop-pink hover:text-pop-orange font-black uppercase tracking-wide speed-lines">
                 <ArrowLeft size={18} /><span className="text-sm">Volver</span><Zap size={18} />
               </button>
               <div className="flex gap-2">
-                <span className="text-[11px] sm:text-xs font-semibold bg-slate-700 px-2.5 py-1 rounded">{selected.length}/{MAX_SELECTION} productos</span>
-                <span className="text-[11px] sm:text-xs font-semibold bg-slate-700 px-2.5 py-1 rounded">{totalPages} páginas</span>
+                <span className="text-[11px] sm:text-xs font-black bg-pop-purple/10 dark:bg-pop-pink/20 text-pop-purple dark:text-pop-pink px-2.5 py-1 comic-border uppercase tracking-wide">{selected.length}/{MAX_SELECTION} productos</span>
+                <span className="text-[11px] sm:text-xs font-black bg-pop-orange/10 text-pop-orange px-2.5 py-1 comic-border uppercase tracking-wide">{totalPages} páginas</span>
               </div>
             </div>
-            <h1 className="mt-2 text-[18px] sm:text-2xl font-extrabold leading-tight">Generador de Catálogos <span className="sm:inline block">Profesional</span></h1>
-            <p className="text-slate-400 text-[13px] sm:text-sm">Diseña catálogos personalizados con múltiples layouts y estilos</p>
+            <h1 className="mt-2 text-[18px] sm:text-2xl font-black leading-tight uppercase tracking-wide">Generador de Catálogos <span className="sm:inline block">Profesional</span></h1>
+            <p className="text-gray-600 dark:text-gray-400 text-[13px] sm:text-sm font-bold">Diseña catálogos personalizados con múltiples layouts y estilos</p>
           </div>
 
           <div className="grid lg:grid-cols-4 gap-4 sm:gap-6">
             {/* Controles / Tabs */}
             <div className="lg:col-span-1 order-1 space-y-3 md:sticky md:top-4 self-start">
-              <div className="bg-slate-800 border border-slate-700 rounded-lg p-1">
+              <div className="comic-panel bg-white dark:bg-gray-800 p-1 stipple-pattern">
                 <div className="overflow-x-auto no-scrollbar">
                   <div className="flex gap-1 min-w-max snap-x">
                     {[
@@ -522,8 +522,8 @@ const ExpressCatalog: React.FC = () => {
                       <button
                         key={t.id}
                         onClick={() => setActiveTab(t.id as any)}
-                        className={`shrink-0 snap-start inline-flex items-center gap-2 px-3 py-2 rounded text-xs sm:text-sm font-medium transition-colors ${
-                          activeTab === t.id ? 'bg-blue-600 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-700'
+                        className={`comic-button shrink-0 snap-start inline-flex items-center gap-2 px-3 py-2 text-xs sm:text-sm font-black transition-colors uppercase tracking-wide ${
+                          activeTab === t.id ? 'bg-pop-purple dark:bg-pop-pink text-white' : 'text-gray-700 dark:text-gray-300 hover:text-pop-purple dark:hover:text-pop-pink hover:bg-gray-100 dark:hover:bg-gray-700'
                         }`}
                       >
                         <t.icon size={16} /><span>{t.label}</span>
@@ -534,16 +534,16 @@ const ExpressCatalog: React.FC = () => {
               </div>
 
               {/* Contenido tabs */}
-              <div className="bg-slate-800 border border-slate-700 rounded-lg overflow-hidden">
+              <div className="comic-panel bg-white dark:bg-gray-800 overflow-hidden crosshatch-pattern">
                 {activeTab === 'products' && (
                   <div className="p-3 sm:p-4 space-y-3">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Buscar productos</label>
+                      <label className="block text-sm font-black mb-2 uppercase tracking-wide text-gray-900 dark:text-white">Buscar productos</label>
                       <input
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         placeholder="Buscar por nombre, categoría..."
-                        className="w-full bg-slate-700 border border-slate-600 rounded px-3 py-2 text-sm"
+                        className="comic-input w-full bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-white font-semibold"
                       />
                     </div>
 
@@ -586,7 +586,7 @@ const ExpressCatalog: React.FC = () => {
                     </div>
 
                     {selected.length > 0 && (
-                      <button onClick={() => setSelected([])} className="w-full px-3 py-2 bg-red-600/20 text-red-400 border border-red-600 rounded hover:bg-red-600/30">
+                      <button onClick={() => setSelected([])} className="comic-button w-full px-3 py-2 bg-pop-pink/20 text-pop-pink border-pop-pink hover:bg-pop-pink/30 font-black uppercase tracking-wide">
                         Limpiar selección ({selected.length})
                       </button>
                     )}
@@ -806,20 +806,20 @@ const ExpressCatalog: React.FC = () => {
 
             {/* Preview */}
             <div className="lg:col-span-2 order-2">
-              <div className="bg-slate-800 border border-slate-700 rounded-lg overflow-hidden">
-                <div className="bg-gradient-to-r from-blue-500 to-purple-500 px-3 sm:px-4 py-2.5">
-                  <div className="flex items-center justify-between">
+              <div className="comic-panel bg-white dark:bg-gray-800 overflow-hidden animate-comic-pop">
+                <div className="bg-gradient-to-r from-pop-purple via-pop-orange to-pop-pink px-3 sm:px-4 py-2.5 relative bendaydots-pattern">
+                  <div className="flex items-center justify-between relative z-10">
                     <div className="flex items-center gap-2">
-                      <Eye size={18} />
+                      <Eye size={18} className="text-white" />
                       <div>
-                        <h3 className="font-bold text-sm sm:text-base">Vista Previa</h3>
-                        <p className="text-xs opacity-90">Página {selected.length ? currentPage + 1 : 0} de {totalPages}</p>
+                        <h3 className="font-black text-sm sm:text-base text-white uppercase tracking-wide">Vista Previa</h3>
+                        <p className="text-xs text-white/90 font-bold">Página {selected.length ? currentPage + 1 : 0} de {totalPages}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <button onClick={() => setCurrentPage(Math.max(0, currentPage - 1))} disabled={currentPage === 0} className="p-2 bg-white/20 rounded disabled:opacity-50 hover:bg-white/30"><Minus size={14} /></button>
-                      <button onClick={() => setCurrentPage(Math.min(Math.max(totalPages - 1, 0), currentPage + 1))} disabled={currentPage >= totalPages - 1 || totalPages === 0} className="p-2 bg-white/20 rounded disabled:opacity-50 hover:bg-white/30"><Plus size={14} /></button>
-                      <button onClick={updatePreview} className="px-3 py-2 bg-white/20 rounded hover:bg-white/30 text-xs sm:text-sm"><RefreshCw size={13} className="inline mr-1" />Actualizar</button>
+                      <button onClick={() => setCurrentPage(Math.max(0, currentPage - 1))} disabled={currentPage === 0} className="comic-button p-2 bg-white/20 disabled:opacity-50 hover:bg-white/30 text-white"><Minus size={14} /></button>
+                      <button onClick={() => setCurrentPage(Math.min(Math.max(totalPages - 1, 0), currentPage + 1))} disabled={currentPage >= totalPages - 1 || totalPages === 0} className="comic-button p-2 bg-white/20 disabled:opacity-50 hover:bg-white/30 text-white"><Plus size={14} /></button>
+                      <button onClick={updatePreview} className="comic-button px-3 py-2 bg-white/20 hover:bg-white/30 text-xs sm:text-sm text-white font-black uppercase tracking-wide"><RefreshCw size={13} className="inline mr-1" />Actualizar</button>
                     </div>
                   </div>
                 </div>
@@ -839,38 +839,38 @@ const ExpressCatalog: React.FC = () => {
 
             {/* Selección desktop */}
             <div className="lg:col-span-1 order-3 hidden lg:block">
-              <div className="bg-slate-800 border border-slate-700 rounded-lg overflow-hidden">
-                <div className="bg-gradient-to-r from-green-500 to-teal-500 px-4 py-3">
-                  <div className="flex items-center justify-between">
+              <div className="comic-panel bg-white dark:bg-gray-800 overflow-hidden animate-comic-pop">
+                <div className="bg-gradient-to-r from-pop-purple to-pop-pink px-4 py-3 relative bendaydots-pattern">
+                  <div className="flex items-center justify-between relative z-10">
                     <div>
-                      <h3 className="font-bold">Productos Seleccionados</h3>
-                      <p className="text-sm opacity-90">{selected.length} de {MAX_SELECTION}</p>
+                      <h3 className="font-black text-white uppercase tracking-wide">Productos Seleccionados</h3>
+                      <p className="text-sm text-white/90 font-bold">{selected.length} de {MAX_SELECTION}</p>
                     </div>
-                    <Settings size={20} />
+                    <Settings size={20} className="text-white" />
                   </div>
                 </div>
                 <div className="p-4">
                   {selected.length ? renderSelectedList(false) : (
-                    <div className="text-center py-8 text-slate-400"><Tag size={32} className="mx-auto mb-3 opacity-50" />No hay productos seleccionados</div>
+                    <div className="text-center py-8 text-gray-600 dark:text-gray-400"><Tag size={32} className="mx-auto mb-3 opacity-50" />No hay productos seleccionados</div>
                   )}
                   {selected.length > 0 && (
-                    <div className="mt-4 pt-4 border-t border-slate-600">
-                      <button onClick={downloadPDF} disabled={isGenerating} className={`w-full px-4 py-3 rounded-lg font-bold transition-all ${isGenerating ? 'bg-slate-600 cursor-not-allowed' : 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 shadow-lg'}`}>
+                    <div className="mt-4 pt-4 border-t comic-border">
+                      <button onClick={downloadPDF} disabled={isGenerating} className={`comic-button w-full px-4 py-3 font-black transition-all uppercase tracking-wide speed-lines ${isGenerating ? 'bg-gray-600 cursor-not-allowed text-gray-400' : 'bg-gradient-to-r from-pop-orange to-pop-pink hover:from-pop-purple hover:to-pop-orange shadow-lg text-white'}`}>
                         {isGenerating ? <div className="flex items-center justify-center gap-2"><Loader className="animate-spin" size={16} />Generando {Math.round(generationProgress)}%</div> : <div className="flex items-center justify-center gap-2"><Download size={16} />Descargar PDF ({totalPages} páginas)</div>}
                       </button>
-                      <div className="mt-2 text-xs text-slate-400 text-center">Template: {currentTemplate.name} • {currentTemplate.productsPerPage} productos/página</div>
+                      <div className="mt-2 text-xs text-gray-600 dark:text-gray-400 text-center font-bold">Template: {currentTemplate.name} • {currentTemplate.productsPerPage} productos/página</div>
                     </div>
                   )}
                 </div>
               </div>
-              <div className="mt-4 bg-slate-800 border border-slate-700 rounded-lg p-4">
-                <h4 className="font-bold mb-3 text-sm">Estadísticas del catálogo</h4>
+              <div className="mt-4 comic-panel bg-white dark:bg-gray-800 p-4 stipple-pattern">
+                <h4 className="font-black mb-3 text-sm uppercase tracking-wide text-gray-900 dark:text-white">Estadísticas del catálogo</h4>
                 <div className="space-y-2 text-xs">
-                  <div className="flex justify-between"><span className="text-slate-400">Total productos:</span><span className="font-medium">{selected.length}</span></div>
-                  <div className="flex justify-between"><span className="text-slate-400">Páginas generadas:</span><span className="font-medium">{totalPages}</span></div>
-                  <div className="flex justify-between"><span className="text-slate-400">Valor total catálogo:</span><span className="font-medium text-green-400">${selected.reduce((s, p) => s + getEffectiveProduct(p).price, 0).toLocaleString()}</span></div>
-                  <div className="flex justify-between"><span className="text-slate-400">Tu ganancia total:</span><span className="font-medium text-yellow-400">${selected.reduce((s, p) => { const e = getEffectiveProduct(p); return s + (e.price - p.price); }, 0).toLocaleString()}</span></div>
-                  {customPrices.size > 0 && <div className="flex justify-between"><span className="text-slate-400">Con precio custom:</span><span className="font-medium text-blue-400">{customPrices.size}</span></div>}
+                  <div className="flex justify-between"><span className="text-gray-600 dark:text-gray-400 font-bold">Total productos:</span><span className="font-black text-gray-900 dark:text-white">{selected.length}</span></div>
+                  <div className="flex justify-between"><span className="text-gray-600 dark:text-gray-400 font-bold">Páginas generadas:</span><span className="font-black text-gray-900 dark:text-white">{totalPages}</span></div>
+                  <div className="flex justify-between"><span className="text-gray-600 dark:text-gray-400 font-bold">Valor total catálogo:</span><span className="font-black text-pop-orange">${selected.reduce((s, p) => s + getEffectiveProduct(p).price, 0).toLocaleString()}</span></div>
+                  <div className="flex justify-between"><span className="text-gray-600 dark:text-gray-400 font-bold">Tu ganancia total:</span><span className="font-black text-pop-purple dark:text-pop-pink">${selected.reduce((s, p) => { const e = getEffectiveProduct(p); return s + (e.price - p.price); }, 0).toLocaleString()}</span></div>
+                  {customPrices.size > 0 && <div className="flex justify-between"><span className="text-gray-600 dark:text-gray-400 font-bold">Con precio custom:</span><span className="font-black text-pop-pink">{customPrices.size}</span></div>}
                 </div>
               </div>
             </div>
