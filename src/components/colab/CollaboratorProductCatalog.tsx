@@ -135,8 +135,8 @@ const MobileCartSummary: React.FC<{
 
   return (
     <div className="fixed bottom-4 left-4 right-4 z-50">
-      <div className="comic-panel bg-gradient-to-r from-pop-purple to-pop-pink p-4 shadow-2xl bendaydots-pattern animate-comic-pop">
-        <div className="flex items-center justify-between text-white relative z-10">
+      <div className="comic-panel bg-white dark:bg-black p-4 shadow-[0_8px_16px_rgba(0,0,0,0.8)] dark:shadow-[0_8px_16px_rgba(255,255,255,0.4)] bendaydots-pattern animate-comic-pop">
+        <div className="flex items-center justify-between text-black dark:text-white relative z-10">
           <div className="flex-1">
             <p className="font-black text-lg uppercase tracking-wide">
               {selectedProducts.length === 1 ? selectedProducts[0].name : comboName}
@@ -144,7 +144,7 @@ const MobileCartSummary: React.FC<{
             <div className="flex items-center gap-4">
               <span className="font-black text-xl">${total.toLocaleString()}</span>
               {profit > 0 && (
-                <span className="text-pop-orange text-sm font-black uppercase">
+                <span className="text-pop-orange dark:text-pop-orange text-sm font-black uppercase">
                   Ganancia ${profit.toLocaleString()}
                 </span>
               )}
@@ -153,7 +153,7 @@ const MobileCartSummary: React.FC<{
 
           <button
             onClick={onOpenGenerator}
-            className="comic-button bg-white/20 hover:bg-white/30 active:bg-white/40 text-white font-black py-3 px-6 transition-all duration-300 active:scale-95 flex items-center gap-2 uppercase tracking-wide speed-lines"
+            className="comic-button bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 text-black dark:text-white font-black py-3 px-6 transition-all duration-300 active:scale-95 flex items-center gap-2 uppercase tracking-wide speed-lines"
           >
             <Megaphone size={20} />
             Crear
@@ -231,18 +231,18 @@ const MobileGeneratorModal: React.FC<{
     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm halftone-pattern">
       <div className="h-full flex flex-col">
         {/* Header */}
-        <div className="bg-gradient-to-r from-pop-purple via-pop-orange to-pop-pink p-4 flex items-center justify-between relative bendaydots-pattern">
-          <h2 className="text-white font-black text-xl uppercase tracking-wide relative z-10">Crear Publicidad</h2>
+        <div className="bg-white dark:bg-black border-b-4 border-black dark:border-white p-4 flex items-center justify-between relative bendaydots-pattern">
+          <h2 className="text-black dark:text-white font-black text-xl uppercase tracking-wide relative z-10">Crear Publicidad</h2>
           <button
             onClick={onClose}
-            className="comic-button bg-white/20 hover:bg-white/30 p-2 transition-colors relative z-10"
+            className="comic-button bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 p-2 transition-colors relative z-10"
           >
-            <X size={24} className="text-white" />
+            <X size={24} className="text-black dark:text-white" />
           </button>
         </div>
 
         {/* Steps indicator */}
-        <div className="bg-white dark:bg-gray-800 px-4 py-3 crosshatch-pattern">
+        <div className="bg-white dark:bg-black px-4 py-3 crosshatch-pattern">
           <div className="flex items-center justify-center space-x-4">
             {steps.map((step, index) => (
               <React.Fragment key={step}>
@@ -271,11 +271,11 @@ const MobileGeneratorModal: React.FC<{
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto halftone-pattern bg-white dark:bg-gray-900 p-4">
+        <div className="flex-1 overflow-y-auto halftone-pattern bg-white dark:bg-black p-4">
           {currentStep === 0 && (
             <div className="space-y-6">
               {/* Resumen de productos */}
-              <div className="comic-panel bg-white dark:bg-gray-800 p-4 stipple-pattern">
+              <div className="comic-panel bg-white dark:bg-black p-4 stipple-pattern">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-pop-purple dark:text-pop-pink font-black text-lg uppercase tracking-wide">
                     {selectedProducts.length === 1 ? 'Producto seleccionado' : comboCalculations.comboName}
@@ -472,7 +472,7 @@ const MobileGeneratorModal: React.FC<{
               <button
                 onClick={adMode === 'text' ? onGenerateText : onGenerateBanner}
                 disabled={!collaboratorName || isGenerating}
-                className="comic-button w-full bg-gradient-to-r from-pop-purple to-pop-pink hover:from-pop-orange hover:to-pop-purple disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-black py-4 px-6 transition-all duration-300 flex items-center justify-center gap-3 text-lg active:scale-95 uppercase tracking-wide speed-lines"
+                className="comic-button w-full bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 disabled:bg-gray-300 dark:disabled:bg-gray-800 disabled:border-gray-400 dark:disabled:border-gray-600 disabled:cursor-not-allowed text-black dark:text-white font-black py-4 px-6 transition-all duration-300 flex items-center justify-center gap-3 text-lg active:scale-95 uppercase tracking-wide speed-lines shadow-[0_4px_8px_rgba(0,0,0,0.6)] dark:shadow-[0_4px_8px_rgba(255,255,255,0.3)]"
               >
                 {isGenerating ? (
                   <Loader size={24} className="animate-spin" />
@@ -484,34 +484,34 @@ const MobileGeneratorModal: React.FC<{
 
               {/* Resultado de texto */}
               {adMode === 'text' && generatedAd && (
-                <div className="bg-gradient-to-br from-green-500/10 to-green-600/10 border border-green-500/20 rounded-xl p-4">
+                <div className="bg-white dark:bg-black border-2 border-green-500 dark:border-green-400 rounded-xl p-4">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
-                      <CheckCircle className="text-green-400" size={24} />
-                      <h4 className="text-green-400 font-bold text-lg">Publicidad Lista</h4>
+                      <CheckCircle className="text-green-500 dark:text-green-400" size={24} />
+                      <h4 className="text-green-500 dark:text-green-400 font-bold text-lg">Publicidad Lista</h4>
                     </div>
-                    
+
                     <button
                       onClick={onGenerateText}
-                      className="p-2 bg-green-500/20 hover:bg-green-500/30 rounded-lg active:scale-95"
+                      className="p-2 bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 rounded-lg active:scale-95"
                       title="Regenerar"
                     >
-                      <RefreshCw size={20} className="text-green-400" />
+                      <RefreshCw size={20} className="text-green-500 dark:text-green-400" />
                     </button>
                   </div>
-                  
-                  <div className="bg-[#1a1a1a] p-4 rounded-xl mb-4 max-h-64 overflow-y-auto">
-                    <pre className="text-gray-100 text-sm whitespace-pre-wrap font-sans leading-relaxed">
+
+                  <div className="bg-gray-100 dark:bg-gray-900 p-4 rounded-xl mb-4 max-h-64 overflow-y-auto border border-black dark:border-white">
+                    <pre className="text-gray-900 dark:text-gray-100 text-sm whitespace-pre-wrap font-sans leading-relaxed">
                       {generatedAd}
                     </pre>
                   </div>
 
                   <button
                     onClick={onCopyToClipboard}
-                    className={`w-full font-bold py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 text-lg active:scale-95 ${
+                    className={`w-full font-bold py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 text-lg active:scale-95 border-2 ${
                       copySuccess
-                        ? 'bg-green-500 text-white'
-                        : 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white'
+                        ? 'bg-green-500 border-green-600 text-white'
+                        : 'bg-white dark:bg-black border-green-500 dark:border-green-400 text-green-500 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-950'
                     }`}
                   >
                     {copySuccess ? <CheckCircle size={20} /> : <Copy size={20} />}
@@ -532,14 +532,14 @@ const MobileGeneratorModal: React.FC<{
                   <div className="flex gap-3">
                     <button
                       onClick={onGenerateBanner}
-                      className="flex-1 bg-[#2a2a2a] hover:bg-[#3a3a3a] text-gray-300 font-medium py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 active:scale-95"
+                      className="flex-1 bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 text-black dark:text-white font-medium py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 active:scale-95"
                     >
                       <RefreshCw size={18} />
                       Regenerar
                     </button>
                     <button
                       onClick={onDownloadBanner}
-                      className="flex-1 bg-gradient-to-r from-[#FFD600] to-[#FFC400] hover:from-[#FFC400] hover:to-[#FFD600] text-black font-bold py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 active:scale-95"
+                      className="flex-1 bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 text-pop-orange dark:text-pop-orange font-bold py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 active:scale-95"
                     >
                       <Download size={18} />
                       Descargar
@@ -552,7 +552,7 @@ const MobileGeneratorModal: React.FC<{
         </div>
 
         {/* Navigation */}
-        <div className="bg-white dark:bg-gray-800 p-4 flex items-center justify-between border-t comic-border crosshatch-pattern">
+        <div className="bg-white dark:bg-black p-4 flex items-center justify-between border-t comic-border crosshatch-pattern">
           <button
             onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
             disabled={currentStep === 0}
@@ -1066,8 +1066,8 @@ ${collaboratorName}${collaboratorPhone ? ` (${collaboratorPhone})` : ''}
   // Componente de carga optimizado para móvil
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center halftone-pattern bg-white dark:bg-gray-900 p-4">
-        <div className="flex flex-col items-center p-8 comic-panel bg-white dark:bg-gray-800 max-w-sm w-full animate-comic-pop">
+      <div className="min-h-screen flex items-center justify-center halftone-pattern bg-white dark:bg-black p-4">
+        <div className="flex flex-col items-center p-8 comic-panel bg-white dark:bg-black max-w-sm w-full animate-comic-pop">
           <div className="relative">
             <div className="w-16 h-16 border-4 border-pop-purple/20 dark:border-pop-pink/20 border-t-pop-purple dark:border-t-pop-pink rounded-full animate-spin"></div>
           </div>
@@ -1079,21 +1079,21 @@ ${collaboratorName}${collaboratorPhone ? ` (${collaboratorPhone})` : ''}
   }
 
   return (
-    <div className="min-h-screen halftone-pattern bg-white dark:bg-gray-900 pb-24">
+    <div className="min-h-screen halftone-pattern bg-white dark:bg-black pb-24">
       {/* Header simplificado para móvil */}
-      <div className="bg-gradient-to-r from-pop-purple via-pop-orange to-pop-pink p-4 sticky top-0 z-40 shadow-lg bendaydots-pattern">
+      <div className="bg-white dark:bg-black border-b-4 border-black dark:border-white p-4 sticky top-0 z-40 shadow-[0_4px_8px_rgba(0,0,0,0.6)] dark:shadow-[0_4px_8px_rgba(255,255,255,0.3)] bendaydots-pattern">
         <div className="flex items-center justify-between relative z-10">
           <button
             onClick={() => navigate('/collaborations')}
-            className="comic-button bg-white/20 hover:bg-white/30 active:bg-white/40 px-4 py-2 font-black text-white active:scale-95 speed-lines"
+            className="comic-button bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 px-4 py-2 font-black text-black dark:text-white active:scale-95 speed-lines"
           >
             <ArrowLeft size={20} />
             <span className="hidden sm:inline">Volver</span>
           </button>
 
           <div className="text-center flex-1 mx-4">
-            <h1 className="text-xl sm:text-2xl font-black text-white uppercase tracking-wide">Catálogo</h1>
-            <p className="text-white/90 font-bold text-sm hidden sm:block">Crea publicidad fácil</p>
+            <h1 className="text-xl sm:text-2xl font-black text-black dark:text-white uppercase tracking-wide">Catálogo</h1>
+            <p className="text-gray-700 dark:text-gray-300 font-bold text-sm hidden sm:block">Crea publicidad fácil</p>
           </div>
 
           <div className="w-16"></div>
@@ -1110,14 +1110,14 @@ ${collaboratorName}${collaboratorPhone ? ` (${collaboratorPhone})` : ''}
               placeholder="Buscar productos..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="comic-input w-full bg-white dark:bg-gray-800 py-4 pl-12 pr-4 text-gray-900 dark:text-white text-lg placeholder-gray-600 dark:placeholder-gray-400 font-semibold"
+              className="comic-input w-full bg-white dark:bg-black py-4 pl-12 pr-4 text-gray-900 dark:text-white text-lg placeholder-gray-600 dark:placeholder-gray-400 font-semibold"
             />
           </div>
 
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="comic-input w-full bg-white dark:bg-gray-800 py-4 px-4 text-gray-900 dark:text-white text-lg appearance-none cursor-pointer font-semibold"
+            className="comic-input w-full bg-white dark:bg-black py-4 px-4 text-gray-900 dark:text-white text-lg appearance-none cursor-pointer font-semibold"
           >
             <option value="all">Todas las categorías</option>
             {categories.slice(1).map(category => (

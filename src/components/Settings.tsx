@@ -18,7 +18,7 @@ const Settings: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen crosshatch-pattern py-6 px-4">
+    <div className="min-h-screen crosshatch-pattern py-6 px-4 bg-white dark:bg-black">
       <div className="container mx-auto max-w-2xl">
         <div className="mb-6">
           <h1 className="text-3xl font-black comic-text-shadow text-[#0D0D0D] dark:text-white mb-2">Configuración</h1>
@@ -27,7 +27,7 @@ const Settings: React.FC = () => {
 
         <div className="space-y-5">
           {/* Perfil */}
-          <div className="comic-panel p-5 animate-comic-bounce">
+          <div className="comic-panel p-5 animate-comic-bounce bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
             <div className="flex items-center gap-3 mb-4">
               <User className="text-[#FF1493] dark:text-[#FFD700]" size={20} />
               <h2 className="text-lg font-black comic-text-shadow text-[#0D0D0D] dark:text-white">Perfil</h2>
@@ -44,9 +44,9 @@ const Settings: React.FC = () => {
 
               <div>
                 <label className="block text-sm font-bold text-[#0D0D0D] dark:text-white mb-2">Puntos acumulados</label>
-                <div className="comic-input p-3 flex items-center gap-3 bg-gradient-to-r from-[#FFD700] to-[#FF8C00]">
-                  <div className="w-4 h-4 bg-[#0D0D0D] dark:bg-white rounded-full"></div>
-                  <span className="text-[#0D0D0D] dark:text-white font-black">0 puntos</span>
+                <div className="comic-input p-3 flex items-center gap-3 bg-white dark:bg-black border-4 border-black dark:border-white">
+                  <div className="w-4 h-4 bg-pop-yellow rounded-full"></div>
+                  <span className="text-pop-yellow font-black">0 puntos</span>
                 </div>
               </div>
             </div>
@@ -56,7 +56,7 @@ const Settings: React.FC = () => {
           <div className="stipple-pattern h-4"></div>
 
           {/* Notificaciones */}
-          <div className="comic-panel p-5 animate-comic-bounce">
+          <div className="comic-panel p-5 animate-comic-bounce bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
             <div className="flex items-center gap-3 mb-4">
               <Bell className="text-[#00CED1] dark:text-[#FF69B4]" size={20} />
               <h2 className="text-lg font-black comic-text-shadow text-[#0D0D0D] dark:text-white">Notificaciones</h2>
@@ -70,12 +70,12 @@ const Settings: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setNotifications(prev => ({ ...prev, email: !prev.email }))}
-                  className={`relative w-12 h-6 rounded-full transition-colors comic-border ${
-                    notifications.email ? 'bg-gradient-to-r from-[#FF1493] to-[#FFD700]' : 'bg-gradient-to-r from-[#A6A6A6] to-[#595959]'
+                  className={`relative w-12 h-6 rounded-full transition-colors comic-border border-2 border-black dark:border-white ${
+                    notifications.email ? 'bg-white dark:bg-black' : 'bg-white dark:bg-black'
                   }`}
                 >
-                  <div className={`absolute w-5 h-5 bg-white dark:bg-[#0D0D0D] rounded-full top-0.5 transition-transform shadow-md border-2 border-[#0D0D0D] dark:border-white ${
-                    notifications.email ? 'translate-x-6' : 'translate-x-0.5'
+                  <div className={`absolute w-5 h-5 rounded-full top-0.5 transition-transform shadow-md border-2 border-black dark:border-white ${
+                    notifications.email ? 'translate-x-6 bg-pop-green' : 'translate-x-0.5 bg-gray-400'
                   }`} />
                 </button>
               </div>
@@ -87,12 +87,12 @@ const Settings: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setNotifications(prev => ({ ...prev, push: !prev.push }))}
-                  className={`relative w-12 h-6 rounded-full transition-colors comic-border ${
-                    notifications.push ? 'bg-gradient-to-r from-[#FF1493] to-[#FFD700]' : 'bg-gradient-to-r from-[#A6A6A6] to-[#595959]'
+                  className={`relative w-12 h-6 rounded-full transition-colors comic-border border-2 border-black dark:border-white ${
+                    notifications.push ? 'bg-white dark:bg-black' : 'bg-white dark:bg-black'
                   }`}
                 >
-                  <div className={`absolute w-5 h-5 bg-white dark:bg-[#0D0D0D] rounded-full top-0.5 transition-transform shadow-md border-2 border-[#0D0D0D] dark:border-white ${
-                    notifications.push ? 'translate-x-6' : 'translate-x-0.5'
+                  <div className={`absolute w-5 h-5 rounded-full top-0.5 transition-transform shadow-md border-2 border-black dark:border-white ${
+                    notifications.push ? 'translate-x-6 bg-pop-green' : 'translate-x-0.5 bg-gray-400'
                   }`} />
                 </button>
               </div>
@@ -103,7 +103,7 @@ const Settings: React.FC = () => {
           <div className="stipple-pattern h-4"></div>
 
           {/* Preferencias */}
-          <div className="comic-panel p-5 animate-comic-bounce">
+          <div className="comic-panel p-5 animate-comic-bounce bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
             <div className="flex items-center gap-3 mb-4">
               <Shield className="text-[#4ECDC4] dark:text-[#FF6B6B]" size={20} />
               <h2 className="text-lg font-black comic-text-shadow text-[#0D0D0D] dark:text-white">Preferencias</h2>
@@ -121,12 +121,12 @@ const Settings: React.FC = () => {
                 </div>
                 <button
                   onClick={toggleTheme}
-                  className={`relative w-12 h-6 rounded-full transition-colors comic-border ${
-                    theme === 'dark' ? 'bg-gradient-to-r from-[#4ECDC4] to-[#44A08D]' : 'bg-gradient-to-r from-[#A6A6A6] to-[#595959]'
+                  className={`relative w-12 h-6 rounded-full transition-colors comic-border border-2 border-black dark:border-white ${
+                    theme === 'dark' ? 'bg-white dark:bg-black' : 'bg-white dark:bg-black'
                   }`}
                 >
-                  <div className={`absolute w-5 h-5 bg-white dark:bg-[#0D0D0D] rounded-full top-0.5 transition-transform shadow-md border-2 border-[#0D0D0D] dark:border-white ${
-                    theme === 'dark' ? 'translate-x-6' : 'translate-x-0.5'
+                  <div className={`absolute w-5 h-5 rounded-full top-0.5 transition-transform shadow-md border-2 border-black dark:border-white ${
+                    theme === 'dark' ? 'translate-x-6 bg-pop-cyan' : 'translate-x-0.5 bg-gray-400'
                   }`} />
                 </button>
               </div>
@@ -151,9 +151,9 @@ const Settings: React.FC = () => {
           {/* Botón guardar */}
           <button
             onClick={handleSave}
-            className="comic-button w-full py-3 px-6 flex items-center justify-center gap-2 bg-gradient-to-r from-[#4ECDC4] to-[#44A08D] transform hover:scale-[1.02]"
+            className="comic-button w-full py-3 px-6 flex items-center justify-center gap-2 bg-white dark:bg-black border-4 border-black dark:border-white text-black dark:text-white transform hover:scale-[1.02] shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]"
           >
-            <Save size={18} />
+            <Save size={18} className="text-pop-green" />
             Guardar cambios
           </button>
         </div>

@@ -144,8 +144,8 @@ const Header: React.FC = () => {
     <header
       className={`sticky top-0 w-full z-50 transition-all duration-300 comic-border-light halftone-pattern ${
         isScrolled
-          ? 'bg-pop-yellow dark:bg-pop-purple backdrop-blur-sm shadow-lg speed-lines'
-          : 'bg-pop-cyan dark:bg-pop-blue'
+          ? 'bg-white dark:bg-black backdrop-blur-sm shadow-lg shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:shadow-[0_4px_8px_rgba(255,255,255,0.2)] speed-lines'
+          : 'bg-white dark:bg-black'
       } border-b-4 border-black dark:border-white`}
     >
       <div className="container mx-auto px-4 py-3">
@@ -156,7 +156,7 @@ const Header: React.FC = () => {
               {/* Logo / Título en burbuja con sombra */}
               <button
                 onClick={goHome}
-                className="text-xl font-bold text-black dark:text-white whitespace-nowrap transition-all duration-200 bg-pop-pink dark:bg-pop-orange px-5 py-2 rounded-full comic-border-light comic-text-shadow hover:animate-comic-pop uppercase tracking-wide"
+                className="text-xl font-bold text-[#FF1493] dark:text-[#00FFFF] whitespace-nowrap transition-all duration-200 bg-white dark:bg-black px-5 py-2 rounded-full comic-border-light border-4 border-black dark:border-white shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)] comic-text-shadow hover:animate-comic-pop uppercase tracking-wide"
               >
                 Nova Store
               </button>
@@ -247,27 +247,27 @@ const Header: React.FC = () => {
             {/* Dropdown usuario (Desktop) */}
             {showUserMenu && (
               <div
-                className="absolute right-0 top-full mt-3 w-64 comic-panel halftone-pattern rounded-lg overflow-hidden z-50 animate-comic-pop"
+                className="absolute right-0 top-full mt-3 w-64 comic-panel bg-white dark:bg-black border-4 border-black dark:border-white halftone-pattern rounded-lg overflow-hidden z-50 animate-comic-pop shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]"
                 onClick={(e) => e.stopPropagation()}
               >
                 {user ? (
                   <>
-                    <div className="flex flex-col items-center px-6 py-5 border-b-4 border-black dark:border-white bg-pop-yellow dark:bg-pop-purple stipple-pattern">
+                    <div className="flex flex-col items-center px-6 py-5 border-b-4 border-black dark:border-white bg-white dark:bg-black stipple-pattern">
                       <div className="mb-3">
-                        <div className="w-14 h-14 rounded-full bg-pop-green dark:bg-pop-cyan flex items-center justify-center comic-border-light">
-                          <User size={24} className="text-black dark:text-white" />
+                        <div className="w-14 h-14 rounded-full bg-white dark:bg-black border-4 border-black dark:border-white flex items-center justify-center comic-border-light shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)]">
+                          <User size={24} className="text-[#4CAF50] dark:text-[#00FFFF]" />
                         </div>
                       </div>
                       <p className="text-sm font-bold text-black dark:text-white truncate max-w-full comic-text-shadow">{user.email}</p>
-                      <div className="flex items-center gap-2 mt-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-md comic-border-light">
-                        <Award size={14} className="text-pop-orange dark:text-pop-orange-dark" />
+                      <div className="flex items-center gap-2 mt-2 bg-white dark:bg-black border-3 border-black dark:border-white px-4 py-2 rounded-md comic-border-light shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.5)]">
+                        <Award size={14} className="text-[#FF4500] dark:text-[#FFD700]" />
                         <span className="text-black dark:text-white text-sm font-bold">
                           {userProfile?.points ?? 0} pts
                         </span>
                       </div>
                       {userRole && userRole !== 'user' && (
-                        <div className="mt-2 bg-pop-pink dark:bg-pop-pink-dark px-4 py-1.5 rounded-md comic-border-light">
-                          <span className="text-black dark:text-white text-xs font-bold uppercase">
+                        <div className="mt-2 bg-white dark:bg-black border-3 border-black dark:border-white px-4 py-1.5 rounded-md comic-border-light shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.5)]">
+                          <span className="text-[#FF1493] dark:text-[#FF1493] text-xs font-bold uppercase">
                             {userRole === 'super_admin' ? 'Super Admin' : userRole === 'admin' ? 'Admin' : 'Colaborador'}
                           </span>
                         </div>
@@ -278,7 +278,7 @@ const Header: React.FC = () => {
                       <Link
                         key={index}
                         to={option.href}
-                        className="w-full text-left px-6 py-4 text-black dark:text-white hover:bg-pop-cyan dark:hover:bg-pop-blue flex items-center gap-3 text-sm transition-all duration-200 comic-hover font-bold border-b-2 border-black/20 dark:border-white/20"
+                        className="w-full text-left px-6 py-4 text-black dark:text-white hover:bg-white hover:text-[#00FFFF] dark:hover:bg-black dark:hover:text-[#FF1493] flex items-center gap-3 text-sm transition-all duration-200 comic-hover font-bold border-b-2 border-black/20 dark:border-white/20"
                         onClick={() => setShowUserMenu(false)}
                       >
                         {option.icon}
@@ -288,7 +288,7 @@ const Header: React.FC = () => {
 
                     <button
                       onClick={handleLogout}
-                      className="w-full text-left px-6 py-4 text-white bg-pop-red dark:bg-pop-red-dark flex items-center gap-3 text-sm transition-all duration-200 comic-hover font-bold border-t-4 border-black dark:border-white"
+                      className="w-full text-left px-6 py-4 text-white bg-[#FF4500] dark:bg-[#FF4500] flex items-center gap-3 text-sm transition-all duration-200 comic-hover font-bold border-t-4 border-black dark:border-white"
                     >
                       <LogOut size={16} />
                       <span className="font-bold">Cerrar sesión</span>
@@ -314,27 +314,27 @@ const Header: React.FC = () => {
       {/* Menú móvil */}
       {isMobileMenuOpen && (
         <div
-          className="md:hidden bg-white dark:bg-gray-800 halftone-pattern border-t-4 border-black dark:border-white shadow-lg animate-slideDown"
+          className="md:hidden bg-white dark:bg-black halftone-pattern border-t-4 border-black dark:border-white shadow-lg animate-slideDown"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="p-6">
             {user ? (
-              <div className="flex flex-col items-center gap-4 mt-2 py-6 border-t-4 border-black dark:border-white bg-pop-yellow dark:bg-pop-purple stipple-pattern rounded-lg comic-border-light">
+              <div className="flex flex-col items-center gap-4 mt-2 py-6 border-t-4 border-black dark:border-white bg-white dark:bg-black stipple-pattern rounded-lg comic-border-light shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
                 <div className="mb-2">
-                  <div className="w-16 h-16 rounded-full bg-pop-green dark:bg-pop-cyan flex items-center justify-center comic-border-light">
-                    <User size={28} className="text-black dark:text-white" />
+                  <div className="w-16 h-16 rounded-full bg-white dark:bg-black border-4 border-black dark:border-white flex items-center justify-center comic-border-light shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)]">
+                    <User size={28} className="text-[#4CAF50] dark:text-[#00FFFF]" />
                   </div>
                 </div>
                 <span className="text-black dark:text-white font-bold truncate max-w-[200px] text-sm comic-text-shadow">{user.email}</span>
-                <div className="flex items-center gap-2 bg-white dark:bg-gray-800 px-3 py-2 rounded-md comic-border-light">
-                  <Award size={16} className="text-pop-orange dark:text-pop-orange-dark" />
+                <div className="flex items-center gap-2 bg-white dark:bg-black border-3 border-black dark:border-white px-3 py-2 rounded-md comic-border-light shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.5)]">
+                  <Award size={16} className="text-[#FF4500] dark:text-[#FFD700]" />
                   <span className="text-black dark:text-white text-sm font-bold">
                     {userProfile?.points ?? 0} pts
                   </span>
                 </div>
                 {userRole && userRole !== 'user' && (
-                  <div className="bg-pop-pink dark:bg-pop-pink-dark px-3 py-1.5 rounded-md comic-border-light">
-                    <span className="text-black dark:text-white text-xs font-bold uppercase">
+                  <div className="bg-white dark:bg-black border-3 border-black dark:border-white px-3 py-1.5 rounded-md comic-border-light shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.5)]">
+                    <span className="text-[#FF1493] dark:text-[#FF1493] text-xs font-bold uppercase">
                       {userRole === 'super_admin' ? 'Super Admin' : userRole === 'admin' ? 'Admin' : 'Colaborador'}
                     </span>
                   </div>
@@ -365,7 +365,7 @@ const Header: React.FC = () => {
                     <Link
                       key={index}
                       to={option.href}
-                      className="w-full bg-white dark:bg-gray-700 text-black dark:text-white rounded-md py-3 px-5 flex items-center justify-center gap-3 hover:bg-pop-cyan dark:hover:bg-pop-blue text-sm transition-all duration-200 comic-hover comic-border-light"
+                      className="w-full bg-white dark:bg-black border-3 border-black dark:border-white text-black dark:text-white rounded-md py-3 px-5 flex items-center justify-center gap-3 hover:text-[#00FFFF] dark:hover:text-[#FF1493] text-sm transition-all duration-200 comic-hover comic-border-light shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)]"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {option.icon}
@@ -375,7 +375,7 @@ const Header: React.FC = () => {
 
                   <button
                     onClick={handleLogout}
-                    className="w-full bg-pop-red dark:bg-pop-red-dark text-white rounded-md py-3 px-5 flex items-center justify-center gap-3 text-sm transition-all duration-200 comic-hover comic-border-light"
+                    className="w-full bg-[#FF4500] dark:bg-[#FF4500] text-white rounded-md py-3 px-5 flex items-center justify-center gap-3 text-sm transition-all duration-200 comic-hover comic-border-light border-3 border-black dark:border-white shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)]"
                   >
                     <LogOut size={18} />
                     <span className="font-bold">Cerrar sesión</span>

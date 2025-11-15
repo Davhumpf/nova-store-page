@@ -241,44 +241,44 @@ const Colaborators: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center halftone-pattern bg-white dark:bg-gray-900">
-        <div className="flex flex-col items-center comic-panel bg-white dark:bg-gray-800 p-6 animate-comic-pop">
-          <div className="w-10 h-10 border-3 border-pop-purple/30 dark:border-pop-pink/30 border-t-pop-purple dark:border-t-pop-pink rounded-full animate-spin"></div>
-          <p className="mt-2 text-gray-900 dark:text-white text-xs font-black uppercase tracking-wide">Cargando...</p>
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black">
+        <div className="flex flex-col items-center bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)] p-6">
+          <div className="w-10 h-10 border-3 border-black/30 dark:border-white/30 border-t-black dark:border-t-white rounded-full animate-spin"></div>
+          <p className="mt-2 text-pop-purple font-black uppercase tracking-wide text-xs">Cargando...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen halftone-pattern bg-white dark:bg-gray-900 py-3 px-3 sm:px-4">
+    <div className="min-h-screen bg-white dark:bg-black py-3 px-3 sm:px-4">
       <div className="container mx-auto max-w-5xl">
 
         {/* Botón volver estilo Apple */}
         <button
           onClick={() => navigate('/admin')}
-          className="mb-3 flex items-center gap-1.5 text-xs text-pop-purple dark:text-pop-pink hover:text-pop-orange dark:hover:text-pop-orange transition-colors group font-black uppercase tracking-wide speed-lines"
+          className="mb-3 flex items-center gap-1.5 text-xs text-pop-purple hover:text-pop-orange transition-colors group font-black uppercase tracking-wide"
         >
           <ArrowRight size={14} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
           <span className="font-black">Panel Admin</span>
         </button>
 
         {/* Header minimalista */}
-        <div className="mb-4 comic-panel bg-white dark:bg-gray-800 p-4 animate-comic-pop">
+        <div className="mb-4 bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)] p-4">
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-1 h-8 bg-gradient-to-b from-pop-purple to-pop-pink rounded-full shadow-sm"></div>
+            <div className="w-1 h-8 bg-pop-purple rounded-full shadow-sm"></div>
             <div className="flex-1">
               <h1 className="text-lg font-black text-gray-900 dark:text-white uppercase tracking-wide">Gestión de Colaboradores</h1>
               <p className="text-[10px] text-gray-600 dark:text-gray-400 font-bold uppercase">Administra roles y permisos del equipo</p>
             </div>
             <div className="flex gap-3 text-center">
-              <div className="comic-border px-2 py-1 bg-white dark:bg-gray-800 stipple-pattern">
+              <div className="border-2 border-black dark:border-white px-2 py-1 bg-white dark:bg-black">
                 <p className="text-[9px] text-gray-600 dark:text-gray-400 font-bold uppercase">Total</p>
-                <p className="text-sm font-black text-pop-purple dark:text-pop-pink">{roles.length}</p>
+                <p className="text-sm font-black text-pop-purple">{roles.length}</p>
               </div>
-              <div className="comic-border px-2 py-1 bg-white dark:bg-gray-800 stipple-pattern">
+              <div className="border-2 border-black dark:border-white px-2 py-1 bg-white dark:bg-black">
                 <p className="text-[9px] text-gray-600 dark:text-gray-400 font-bold uppercase">Activos</p>
-                <p className="text-sm font-black text-pop-orange dark:text-pop-orange">{roles.filter(r => r.isActive).length}</p>
+                <p className="text-sm font-black text-pop-orange">{roles.filter(r => r.isActive).length}</p>
               </div>
             </div>
           </div>
@@ -286,20 +286,20 @@ const Colaborators: React.FC = () => {
 
         {/* Mensaje de feedback */}
         {message && (
-          <div className={`mb-3 p-2.5 comic-border flex items-center gap-2 text-xs animate-comic-pop ${
-            message.type === 'success' ? 'bg-pop-orange/10 dark:bg-pop-orange/20 text-pop-orange dark:text-pop-orange' :
-            message.type === 'error' ? 'bg-pop-pink/10 dark:bg-pop-pink/20 text-pop-pink dark:text-pop-pink' :
-            'bg-pop-purple/10 dark:bg-pop-purple/20 text-pop-purple dark:text-pop-purple'
-          }`}>
-            {message.type === 'success' ? <CheckCircle size={14} /> :
-             message.type === 'error' ? <XCircle size={14} /> :
-             <Activity size={14} />}
-            <span className="font-black uppercase tracking-wide">{message.text}</span>
+          <div className="mb-3 p-2.5 border-4 border-black dark:border-white bg-white dark:bg-black flex items-center gap-2 text-xs shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
+            {message.type === 'success' ? <CheckCircle size={14} className="text-pop-orange" /> :
+             message.type === 'error' ? <XCircle size={14} className="text-pop-pink" /> :
+             <Activity size={14} className="text-pop-purple" />}
+            <span className={`font-black uppercase tracking-wide ${
+              message.type === 'success' ? 'text-pop-orange' :
+              message.type === 'error' ? 'text-pop-pink' :
+              'text-pop-purple'
+            }`}>{message.text}</span>
           </div>
         )}
 
         {/* Controles de búsqueda y agregar */}
-        <div className="comic-panel bg-white dark:bg-gray-800 p-3 mb-3 stipple-pattern animate-comic-pop">
+        <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] p-3 mb-3">
           <div className="flex flex-col sm:flex-row gap-2">
             {/* Buscador */}
             <div className="flex-1 relative">
@@ -316,7 +316,7 @@ const Colaborators: React.FC = () => {
             {/* Botón agregar */}
             <button
               onClick={() => setShowAddForm(!showAddForm)}
-              className="comic-button bg-pop-purple dark:bg-pop-pink hover:bg-pop-orange dark:hover:bg-pop-orange text-white dark:text-white px-4 py-2 text-xs font-black flex items-center justify-center gap-1.5 uppercase tracking-wide speed-lines"
+              className="border-4 border-black dark:border-white bg-white dark:bg-black text-pop-purple hover:text-pop-orange px-4 py-2 text-xs font-black flex items-center justify-center gap-1.5 uppercase tracking-wide shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
             >
               <Plus size={14} />
               Agregar
@@ -325,7 +325,7 @@ const Colaborators: React.FC = () => {
 
           {/* Formulario de agregar */}
           {showAddForm && (
-            <div className="mt-3 p-3 comic-border bg-white dark:bg-gray-700 crosshatch-pattern">
+            <div className="mt-3 p-3 border-2 border-black dark:border-white bg-white dark:bg-black">
               <h3 className="text-xs text-gray-900 dark:text-white font-black mb-2 flex items-center gap-1.5 uppercase tracking-wide">
                 <Mail size={12} />
                 Nuevo Colaborador
@@ -342,7 +342,7 @@ const Colaborators: React.FC = () => {
                   <button
                     onClick={addCollaborator}
                     disabled={isAdding}
-                    className="comic-button bg-pop-orange dark:bg-pop-orange hover:bg-pop-purple dark:hover:bg-pop-purple disabled:opacity-50 text-white dark:text-white px-4 py-2 text-xs font-black uppercase tracking-wide flex items-center gap-1"
+                    className="border-4 border-black dark:border-white bg-white dark:bg-black text-pop-orange hover:text-pop-purple disabled:opacity-50 px-4 py-2 text-xs font-black uppercase tracking-wide flex items-center gap-1 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
                   >
                     {isAdding ? <Loader className="animate-spin" size={12} /> : <CheckCircle size={12} />}
                     {isAdding ? 'Agregando...' : 'Agregar'}
@@ -352,7 +352,7 @@ const Colaborators: React.FC = () => {
                       setShowAddForm(false);
                       setNewCollaboratorEmail('');
                     }}
-                    className="comic-button bg-gray-600 dark:bg-gray-600 hover:bg-gray-800 dark:hover:bg-gray-500 text-white px-3 py-2 text-xs font-black uppercase tracking-wide"
+                    className="border-4 border-black dark:border-white bg-white dark:bg-black text-[#8A8A8A] dark:text-gray-400 hover:text-black dark:hover:text-white px-3 py-2 text-xs font-black uppercase tracking-wide shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
                   >
                     Cancelar
                   </button>
@@ -363,8 +363,8 @@ const Colaborators: React.FC = () => {
         </div>
 
         {/* Lista de colaboradores */}
-        <div className="comic-panel bg-white dark:bg-gray-800 overflow-hidden stipple-pattern animate-comic-pop">
-          <div className="p-3 border-b comic-border bendaydots-pattern">
+        <div className="bg-white dark:bg-black border-4 border-black dark:border-white overflow-hidden shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+          <div className="p-3 border-b-4 border-black dark:border-white bg-white dark:bg-black">
             <h2 className="text-sm font-black text-gray-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wide">
               <Shield size={14} />
               Colaboradores ({filteredRoles.length})
@@ -385,11 +385,11 @@ const Colaborators: React.FC = () => {
                 const collaboratorHistory = getCollaboratorHistory(role.email);
                 
                 return (
-                  <div key={role.id} className="p-3 comic-hover transition-colors crosshatch-pattern">
+                  <div key={role.id} className="p-3 border-b-2 border-black dark:border-white last:border-b-0 hover:shadow-[4px_4px_0px_rgba(0,0,0,0.8)_inset] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,0.5)_inset] transition-all">
                     <div className="flex flex-col gap-2">
                       {/* Info */}
                       <div className="flex items-start gap-2.5">
-                        <div className={`p-1.5 comic-border shrink-0 ${role.isActive ? 'bg-pop-orange/10' : 'bg-pop-pink/10'}`}>
+                        <div className={`p-1.5 border-2 border-black dark:border-white shrink-0 bg-white dark:bg-black`}>
                           <Mail className={`${role.isActive ? 'text-pop-orange' : 'text-pop-pink'}`} size={14} />
                         </div>
                         <div className="flex-1 min-w-0">
@@ -416,7 +416,7 @@ const Colaborators: React.FC = () => {
                             setSelectedCollaborator(role.email);
                             setShowHistory(true);
                           }}
-                          className="comic-button flex-1 min-w-[80px] p-1.5 bg-pop-purple hover:bg-pop-orange text-white text-[10px] font-black flex items-center justify-center gap-1 uppercase tracking-wide speed-lines"
+                          className="flex-1 min-w-[80px] p-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-pop-purple hover:text-pop-orange text-[10px] font-black flex items-center justify-center gap-1 uppercase tracking-wide hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
                           title="Ver historial"
                         >
                           <History size={12} />
@@ -425,10 +425,8 @@ const Colaborators: React.FC = () => {
 
                         <button
                           onClick={() => toggleCollaboratorStatus(role.id, role.isActive)}
-                          className={`comic-button p-1.5 transition-colors ${
-                            role.isActive
-                              ? 'bg-pop-orange hover:bg-pop-pink text-white'
-                              : 'bg-pop-purple hover:bg-pop-orange text-white'
+                          className={`p-1.5 border-2 border-black dark:border-white bg-white dark:bg-black hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all ${
+                            role.isActive ? 'text-pop-orange' : 'text-pop-purple'
                           }`}
                           title={role.isActive ? 'Inactivar' : 'Activar'}
                         >
@@ -437,7 +435,7 @@ const Colaborators: React.FC = () => {
 
                         <button
                           onClick={() => deleteCollaborator(role.id, role.email)}
-                          className="comic-button p-1.5 bg-pop-pink hover:bg-pop-purple text-white transition-colors"
+                          className="p-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-pop-pink hover:text-pop-red hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
                           title="Eliminar"
                         >
                           <Trash2 size={12} />
@@ -453,11 +451,11 @@ const Colaborators: React.FC = () => {
 
         {/* Modal de historial */}
         {showHistory && selectedCollaborator && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3 overflow-y-auto backdrop-blur-sm halftone-pattern">
-            <div className="comic-panel bg-white dark:bg-gray-800 w-full max-w-3xl my-4 animate-comic-pop">
-              <div className="p-3 border-b comic-border flex items-center justify-between sticky top-0 bg-white dark:bg-gray-800 z-10 bendaydots-pattern">
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3 overflow-y-auto backdrop-blur-sm">
+            <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[12px_12px_0px_rgba(0,0,0,0.8)] dark:shadow-[12px_12px_0px_rgba(255,255,255,0.5)] w-full max-w-3xl my-4">
+              <div className="p-3 border-b-4 border-black dark:border-white flex items-center justify-between sticky top-0 bg-white dark:bg-black z-10">
                 <h3 className="text-sm font-black text-gray-900 dark:text-white flex items-center gap-1.5 truncate uppercase tracking-wide">
-                  <History size={14} className="shrink-0" />
+                  <History size={14} className="shrink-0 text-pop-purple" />
                   <span className="truncate">Historial de {selectedCollaborator}</span>
                 </h3>
                 <button
@@ -465,7 +463,7 @@ const Colaborators: React.FC = () => {
                     setShowHistory(false);
                     setSelectedCollaborator(null);
                   }}
-                  className="comic-button p-1.5 bg-gray-600 hover:bg-gray-800 text-white shrink-0"
+                  className="p-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-[#8A8A8A] dark:text-gray-400 hover:text-black dark:hover:text-white hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] shrink-0 transition-all"
                 >
                   <XCircle size={14} />
                 </button>
@@ -480,11 +478,9 @@ const Colaborators: React.FC = () => {
                 ) : (
                   <div className="space-y-2">
                     {getCollaboratorHistory(selectedCollaborator).map((action) => (
-                      <div key={action.id} className="comic-border bg-white dark:bg-gray-700 p-3 stipple-pattern comic-hover">
+                      <div key={action.id} className="border-4 border-black dark:border-white bg-white dark:bg-black p-3 hover:shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] transition-all shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.5)]">
                         <div className="flex items-start gap-2">
-                          <div className={`p-1.5 comic-border shrink-0 ${
-                            action.pointsChanged > 0 ? 'bg-pop-orange/10' : 'bg-pop-pink/10'
-                          }`}>
+                          <div className={`p-1.5 border-2 border-black dark:border-white shrink-0 bg-white dark:bg-black`}>
                             <Activity className={`${
                               action.pointsChanged > 0 ? 'text-pop-orange' : 'text-pop-pink'
                             }`} size={12} />
@@ -492,10 +488,8 @@ const Colaborators: React.FC = () => {
                           <div className="flex-1 min-w-0">
                             <div className="flex flex-wrap items-center gap-2 mb-1">
                               <span className="text-xs text-gray-900 dark:text-white font-black uppercase tracking-wide">{action.action}</span>
-                              <span className={`text-[9px] px-1.5 py-0.5 comic-border shrink-0 font-black ${
-                                action.pointsChanged > 0
-                                  ? 'bg-pop-orange/10 text-pop-orange'
-                                  : 'bg-pop-pink/10 text-pop-pink'
+                              <span className={`text-[9px] px-1.5 py-0.5 border-2 border-black dark:border-white shrink-0 font-black bg-white dark:bg-black ${
+                                action.pointsChanged > 0 ? 'text-pop-orange' : 'text-pop-pink'
                               }`}>
                                 {action.pointsChanged > 0 ? '+' : ''}{action.pointsChanged} pts
                               </span>

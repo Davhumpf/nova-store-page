@@ -224,7 +224,7 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
 
       {/* requisitos */}
       {pw && (
-        <div className="comic-panel bendaydots-pattern p-3 space-y-2">
+        <div className="bg-white dark:bg-black border-4 border-black dark:border-white p-3 space-y-2 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
           <div className="text-xs text-[#000] dark:text-[#FFF] font-bold uppercase relative z-10">Requisitos:</div>
           <div className="grid grid-cols-2 gap-2 text-xs font-medium relative z-10">
             <div className={`flex items-center gap-1.5 ${reqs.length ? 'text-pop-green' : 'text-pop-red'}`}>
@@ -275,8 +275,8 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
       <button
         type="submit"
         disabled={loading || !valid}
-        className={`comic-button w-full text-sm ${
-          valid ? 'bg-pop-yellow text-black dark:text-black' : 'bg-[#E8E8E8] dark:bg-[#333] text-[#8A8A8A] dark:text-[#666] cursor-not-allowed opacity-60'
+        className={`w-full border-4 border-black dark:border-white text-sm font-black uppercase py-2.5 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] ${
+          valid ? 'bg-white dark:bg-black text-pop-yellow' : 'bg-white dark:bg-black text-[#8A8A8A] dark:text-[#666] cursor-not-allowed opacity-60'
         }`}
       >
         {loading ? 'Creando…' : 'Crear cuenta'}
@@ -287,7 +287,7 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
           <div className="w-full border-t-2 border-[#000] dark:border-[#FFF] opacity-20" />
         </div>
         <div className="relative flex justify-center text-xs">
-          <span className="bg-[#F5F5F5] dark:bg-[#1F1F1F] px-3 text-[#666] dark:text-[#999] font-bold uppercase">o continuar con</span>
+          <span className="bg-white dark:bg-black px-3 text-[#666] dark:text-[#999] font-bold uppercase">o continuar con</span>
         </div>
       </div>
 
@@ -295,16 +295,16 @@ const Register: React.FC<RegisterProps> = ({ onSuccess }) => {
         type="button"
         onClick={onGoogle}
         disabled={loading}
-        className="comic-border w-full bg-white dark:bg-[#1F1F1F] text-[#2A2A2A] dark:text-white hover:bg-[#FAFAFA] dark:hover:bg-[#2A2A2A] py-2.5 font-bold text-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors halftone-pattern"
+        className="w-full border-4 border-black dark:border-white bg-white dark:bg-black text-[#2A2A2A] dark:text-white hover:shadow-[6px_6px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[6px_6px_0px_rgba(255,255,255,0.5)] py-2.5 font-bold text-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
       >
         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" width={16} height={16} className="relative z-10" />
         <span className="relative z-10">Continuar con Google</span>
       </button>
 
       {err && (
-        <div className="speech-bubble bg-pop-pink text-white dark:text-black font-bold text-xs flex items-center gap-2 animate-comic-pop">
-          <AlertCircle size={14} className="shrink-0" />
-          <span>{err}</span>
+        <div className="border-4 border-black dark:border-white bg-white dark:bg-black px-3 py-2 font-bold text-xs flex items-center gap-2 animate-comic-pop shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
+          <AlertCircle size={14} className="shrink-0 text-pop-pink" />
+          <span className="text-pop-pink">{err}</span>
         </div>
       )}
     </form>

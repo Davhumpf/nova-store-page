@@ -15,9 +15,14 @@ html, body {
 
 /* Fondo y tipografía */
 body {
-  background-color: #31013F;
-  color: #FFF800;
+  background-color: #FFFFFF;
+  color: #000000;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.dark body {
+  background-color: #000000;
+  color: #FFFFFF;
 }
 
 /* Utilidad para eliminar el scroll 1px bajo header fijo */
@@ -644,18 +649,18 @@ a:focus-visible {
 .comic-panel {
   position: relative;
   border: 4px solid #000000;
-  background: linear-gradient(135deg, #FFFFFF 0%, #F0F0F0 100%);
+  background: #FFFFFF;
   box-shadow:
-    inset 0 0 0 2px #FFFFFF,
-    8px 8px 0 0 rgba(0, 0, 0, 0.3);
+    inset 0 0 0 2px #000000,
+    8px 8px 0 0 #000000;
 }
 
 .dark .comic-panel {
   border-color: #FFFFFF;
-  background: linear-gradient(135deg, #1F1F1F 0%, #2A2A2A 100%);
+  background: #000000;
   box-shadow:
-    inset 0 0 0 2px rgba(255, 255, 255, 0.1),
-    8px 8px 0 0 rgba(255, 255, 255, 0.2);
+    inset 0 0 0 2px #FFFFFF,
+    8px 8px 0 0 #FFFFFF;
 }
 
 /* Hover effects with comic style */

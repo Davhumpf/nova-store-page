@@ -185,20 +185,20 @@ const ProductManagement: React.FC = () => {
   const inStockCount = items.filter((x) => x.inStock).length;
 
   return (
-    <div className="min-h-screen bg-[#E8E8E8] dark:bg-gray-900 py-2 px-2 sm:py-3 sm:px-4 halftone-pattern">
+    <div className="min-h-screen bg-white dark:bg-black py-2 px-2 sm:py-3 sm:px-4">
       <div className="mx-auto w-full max-w-6xl">
 
         {/* Botón volver */}
         <button
           onClick={() => navigate('/admin')}
-          className="mb-2 flex items-center gap-1 text-[10px] sm:text-xs text-[#BA68C8] dark:text-[#CE93D8] hover:text-[#9C27B0] dark:hover:text-[#BA68C8] transition-colors group"
+          className="mb-2 flex items-center gap-1 text-[10px] sm:text-xs text-pop-purple hover:text-pop-pink transition-colors group"
         >
           <ArrowRight size={12} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
           <span className="font-medium">Panel Admin</span>
         </button>
 
         {/* Header compacto para móvil */}
-        <div className="mb-2 sm:mb-4 comic-panel bendaydots-pattern">
+        <div className="mb-2 sm:mb-4 bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
           <div className="flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3 p-3">
             <div className="w-0.5 sm:w-1 h-6 sm:h-8 bg-pop-purple rounded-full"></div>
             <div className="flex-1 min-w-0">
@@ -208,11 +208,11 @@ const ProductManagement: React.FC = () => {
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">
               <div className="text-center">
                 <p className="text-[8px] sm:text-[9px] text-[#8A8A8A] dark:text-gray-400">Stock</p>
-                <p className="text-[11px] sm:text-sm font-bold text-[#BA68C8] dark:text-[#CE93D8]">{inStockCount}/{total}</p>
+                <p className="text-[11px] sm:text-sm font-bold text-pop-purple">{inStockCount}/{total}</p>
               </div>
               <button
                 onClick={openCreate}
-                className="comic-button bg-pop-yellow text-black px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-xs flex items-center gap-1"
+                className="border-4 border-black dark:border-white bg-white dark:bg-black text-pop-yellow font-black uppercase px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-xs flex items-center gap-1 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
               >
                 <Plus size={12} className="sm:w-3.5 sm:h-3.5" />
                 <span className="hidden xs:inline">Nuevo</span>
@@ -222,7 +222,7 @@ const ProductManagement: React.FC = () => {
         </div>
 
         {/* Buscador compacto */}
-        <div className="comic-panel p-2 sm:p-3 mb-2 sm:mb-3">
+        <div className="bg-white dark:bg-black border-4 border-black dark:border-white p-2 sm:p-3 mb-2 sm:mb-3 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-2 sm:pl-3 flex items-center pointer-events-none">
               <Search className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#8A8A8A] dark:text-gray-400" />
@@ -238,9 +238,9 @@ const ProductManagement: React.FC = () => {
         </div>
 
         {/* Lista de productos - Optimizada para móvil */}
-        <div className="comic-panel overflow-hidden">
-          <div className="p-2 sm:p-3 comic-border-light bg-pop-cyan">
-            <h2 className="text-[11px] sm:text-sm font-bold text-black uppercase flex items-center gap-1 sm:gap-1.5">
+        <div className="bg-white dark:bg-black border-4 border-black dark:border-white overflow-hidden shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+          <div className="p-2 sm:p-3 border-b-4 border-black dark:border-white bg-white dark:bg-black">
+            <h2 className="text-[11px] sm:text-sm font-bold text-pop-cyan uppercase flex items-center gap-1 sm:gap-1.5">
               <Package size={12} className="sm:w-3.5 sm:h-3.5" />
               Productos ({filtered.length})
             </h2>
@@ -249,8 +249,8 @@ const ProductManagement: React.FC = () => {
           <div className="p-2 sm:p-3">
             {loading ? (
               <div className="text-center py-6 sm:py-8">
-                <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-[#BA68C8]/30 dark:border-[#CE93D8]/30 border-t-[#BA68C8] dark:border-t-[#CE93D8] rounded-full animate-spin mx-auto mb-1.5 sm:mb-2"></div>
-                <p className="text-[#8A8A8A] dark:text-gray-400 text-[10px] sm:text-xs font-light">Cargando...</p>
+                <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-black/30 dark:border-white/30 border-t-black dark:border-t-white rounded-full animate-spin mx-auto mb-1.5 sm:mb-2"></div>
+                <p className="text-pop-purple font-bold text-[10px] sm:text-xs">Cargando...</p>
               </div>
             ) : filtered.length === 0 ? (
               <div className="text-center py-6 sm:py-8">
@@ -264,11 +264,11 @@ const ProductManagement: React.FC = () => {
                 {filtered.map((p) => (
                   <div
                     key={p.id}
-                    className="comic-border bg-white dark:bg-gray-800 p-2 sm:p-3 comic-hover bendaydots-pattern"
+                    className="border-4 border-black dark:border-white bg-white dark:bg-black p-2 sm:p-3 hover:shadow-[6px_6px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[6px_6px_0px_rgba(255,255,255,0.5)] transition-all shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
                   >
                     <div className="flex gap-2 sm:gap-3">
                       {/* Imagen - más pequeña en móvil */}
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded overflow-hidden border border-[#D0D0D0] dark:border-gray-600 bg-[#F5F5F5] dark:bg-gray-800 shrink-0">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded overflow-hidden border-2 border-black dark:border-white bg-white dark:bg-black shrink-0">
                         {p.imageUrl ? (
                           <img src={p.imageUrl} alt={p.name} className="w-full h-full object-cover" />
                         ) : (
@@ -284,14 +284,14 @@ const ProductManagement: React.FC = () => {
                           <div className="min-w-0 flex-1">
                             <h3 className="text-[11px] sm:text-xs font-semibold text-[#2A2A2A] dark:text-white truncate leading-tight">{p.name}</h3>
                             <div className="flex flex-wrap items-center gap-0.5 sm:gap-1 mt-0.5">
-                              <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 bg-pop-purple text-white font-bold uppercase border-2 border-black dark:border-white">
+                              <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 bg-white dark:bg-black text-pop-purple font-bold uppercase border-2 border-black dark:border-white">
                                 {p.category}
                               </span>
-                              <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 bg-pop-blue text-white font-bold uppercase border-2 border-black dark:border-white">
+                              <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 bg-white dark:bg-black text-pop-blue font-bold uppercase border-2 border-black dark:border-white">
                                 {p.planType}
                               </span>
                               {!p.inStock && (
-                                <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 bg-pop-red text-white font-bold uppercase border-2 border-black dark:border-white">
+                                <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 bg-white dark:bg-black text-pop-red font-bold uppercase border-2 border-black dark:border-white">
                                   Sin stock
                                 </span>
                               )}
@@ -336,14 +336,14 @@ const ProductManagement: React.FC = () => {
                         <div className="flex gap-1 sm:gap-1.5">
                           <button
                             onClick={() => openEdit(p)}
-                            className="flex-1 inline-flex items-center justify-center gap-0.5 sm:gap-1 px-1.5 py-1 sm:px-2 sm:py-1.5 border-2 border-black dark:border-white bg-pop-cyan text-black font-bold text-[9px] sm:text-[10px] uppercase hover:bg-pop-blue transition-all"
+                            className="flex-1 inline-flex items-center justify-center gap-0.5 sm:gap-1 px-1.5 py-1 sm:px-2 sm:py-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-pop-cyan font-bold text-[9px] sm:text-[10px] uppercase hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
                           >
                             <Edit size={10} className="sm:w-3 sm:h-3" />
                             <span className="hidden xs:inline">Editar</span>
                           </button>
                           <button
                             onClick={() => onDelete(p.id)}
-                            className="flex-1 inline-flex items-center justify-center gap-0.5 sm:gap-1 px-1.5 py-1 sm:px-2 sm:py-1.5 border-2 border-black dark:border-white bg-pop-red text-white font-bold text-[9px] sm:text-[10px] uppercase hover:bg-red-600 transition-all"
+                            className="flex-1 inline-flex items-center justify-center gap-0.5 sm:gap-1 px-1.5 py-1 sm:px-2 sm:py-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-pop-red font-bold text-[9px] sm:text-[10px] uppercase hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
                           >
                             <Trash2 size={10} className="sm:w-3 sm:h-3" />
                             <span className="hidden xs:inline">Eliminar</span>
@@ -361,14 +361,14 @@ const ProductManagement: React.FC = () => {
         {/* Modal - Optimizado para móvil con scroll interno */}
         {(creating || editing) && (
           <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-end sm:items-center justify-center">
-            <div className="comic-panel animate-comic-pop w-full sm:max-w-4xl h-[95vh] sm:h-auto sm:max-h-[95vh] flex flex-col">
+            <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[12px_12px_0px_rgba(0,0,0,0.8)] dark:shadow-[12px_12px_0px_rgba(255,255,255,0.5)] animate-comic-pop w-full sm:max-w-4xl h-[95vh] sm:h-auto sm:max-h-[95vh] flex flex-col">
               {/* Header fijo */}
-              <div className="p-2.5 sm:p-3 comic-border-light flex items-center justify-between shrink-0 bg-pop-yellow">
-                <h3 className="text-xs sm:text-sm font-bold text-black uppercase flex items-center gap-1 sm:gap-1.5 comic-text-shadow">
+              <div className="p-2.5 sm:p-3 border-b-4 border-black dark:border-white flex items-center justify-between shrink-0 bg-white dark:bg-black">
+                <h3 className="text-xs sm:text-sm font-bold text-pop-yellow uppercase flex items-center gap-1 sm:gap-1.5">
                   <Package size={12} className="sm:w-3.5 sm:h-3.5" />
                   {editing ? 'Editar' : 'Nuevo'}
                 </h3>
-                <button onClick={closeModal} className="p-1 sm:p-1.5 hover:bg-[#E8E8E8] dark:hover:bg-gray-700 rounded transition-colors">
+                <button onClick={closeModal} className="p-1 sm:p-1.5 hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all">
                   <X size={14} className="sm:w-4 sm:h-4 text-[#8A8A8A] dark:text-gray-400" />
                 </button>
               </div>
@@ -532,26 +532,26 @@ const ProductManagement: React.FC = () => {
                     />
                   </div>
 
-                  <div className="flex items-center gap-1.5 sm:gap-2 p-2 sm:p-3 bg-white rounded border border-[#D0D0D0]">
+                  <div className="flex items-center gap-1.5 sm:gap-2 p-2 sm:p-3 bg-white dark:bg-black border-2 border-black dark:border-white">
                     <input
                       type="checkbox"
                       id="inStock"
                       checked={!!form.inStock}
                       onChange={(e) => setForm((s) => ({ ...s, inStock: e.target.checked }))}
-                      className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#BA68C8] bg-white border-[#D0D0D0] rounded focus:ring-[#BA68C8] focus:ring-2"
+                      className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-pop-purple bg-white dark:bg-black border-2 border-black dark:border-white"
                     />
-                    <label htmlFor="inStock" className="text-[10px] sm:text-xs text-[#2A2A2A] font-medium">
+                    <label htmlFor="inStock" className="text-[10px] sm:text-xs text-[#2A2A2A] dark:text-white font-medium">
                       En stock
                     </label>
                   </div>
 
                   {form.imageUrl && (
                     <div>
-                      <label className="block text-[9px] sm:text-[10px] text-[#8A8A8A] font-light mb-0.5 sm:mb-1">Vista previa</label>
-                      <div className="w-full h-24 sm:h-32 rounded border border-[#D0D0D0] bg-white overflow-hidden">
-                        <img 
-                          src={form.imageUrl} 
-                          alt="Preview" 
+                      <label className="block text-[9px] sm:text-[10px] text-[#8A8A8A] dark:text-gray-400 font-light mb-0.5 sm:mb-1">Vista previa</label>
+                      <div className="w-full h-24 sm:h-32 border-2 border-black dark:border-white bg-white dark:bg-black overflow-hidden">
+                        <img
+                          src={form.imageUrl}
+                          alt="Preview"
                           className="w-full h-full object-contain"
                           onError={(e) => {
                             e.currentTarget.style.display = 'none';
@@ -563,16 +563,16 @@ const ProductManagement: React.FC = () => {
                 </div>
 
                 {/* Botones fijos en la parte inferior */}
-                <div className="p-2.5 sm:p-3 comic-border-light bg-pop-pink shrink-0">
+                <div className="p-2.5 sm:p-3 border-t-4 border-black dark:border-white bg-white dark:bg-black shrink-0">
                   <div className="flex gap-1.5 sm:gap-2">
                     <button
                       type="submit"
                       disabled={saving}
-                      className="comic-button flex-1 inline-flex items-center justify-center gap-1 sm:gap-1.5 bg-pop-green text-black px-3 py-2 sm:px-4 sm:py-2.5 text-[10px] sm:text-xs disabled:opacity-50"
+                      className="flex-1 inline-flex items-center justify-center gap-1 sm:gap-1.5 border-4 border-black dark:border-white bg-white dark:bg-black text-pop-green font-black uppercase px-3 py-2 sm:px-4 sm:py-2.5 text-[10px] sm:text-xs disabled:opacity-50 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
                     >
                       {saving ? (
                         <>
-                          <div className="w-3 h-3 sm:w-3.5 sm:h-3.5 border-2 border-white/30 dark:border-gray-900/30 border-t-white dark:border-t-gray-900 rounded-full animate-spin"></div>
+                          <div className="w-3 h-3 sm:w-3.5 sm:h-3.5 border-2 border-black/30 dark:border-white/30 border-t-black dark:border-t-white rounded-full animate-spin"></div>
                           Guardando...
                         </>
                       ) : (
@@ -585,7 +585,7 @@ const ProductManagement: React.FC = () => {
                     <button
                       type="button"
                       onClick={closeModal}
-                      className="comic-button flex-1 inline-flex items-center justify-center gap-1 sm:gap-1.5 bg-pop-red text-white px-3 py-2 sm:px-4 sm:py-2.5 text-[10px] sm:text-xs"
+                      className="flex-1 inline-flex items-center justify-center gap-1 sm:gap-1.5 border-4 border-black dark:border-white bg-white dark:bg-black text-pop-red font-black uppercase px-3 py-2 sm:px-4 sm:py-2.5 text-[10px] sm:text-xs shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
                     >
                       <X size={12} className="sm:w-3.5 sm:h-3.5" />
                       Cancelar

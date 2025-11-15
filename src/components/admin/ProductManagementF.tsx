@@ -218,20 +218,20 @@ const ProductManagementF: React.FC = () => {
   const inStockCount = items.filter((x) => x.inStock).length;
 
   return (
-    <div className="min-h-screen bg-[#E8E8E8] dark:bg-gray-900 py-3 px-3 sm:px-4 halftone-pattern">
+    <div className="min-h-screen bg-white dark:bg-black py-3 px-3 sm:px-4">
       <div className="mx-auto w-full max-w-6xl">
 
         {/* Botón volver */}
         <button
           onClick={() => navigate('/admin')}
-          className="mb-3 flex items-center gap-1.5 text-xs text-[#BA68C8] dark:text-[#CE93D8] hover:text-[#9C27B0] dark:hover:text-[#BA68C8] transition-colors group"
+          className="mb-3 flex items-center gap-1.5 text-xs text-pop-orange hover:text-pop-purple transition-colors group"
         >
           <ArrowRight size={14} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
           <span className="font-medium">Panel Admin</span>
         </button>
 
         {/* Header minimalista */}
-        <div className="mb-4 comic-panel bendaydots-pattern p-3">
+        <div className="mb-4 bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)] p-3">
           <div className="flex items-center gap-2 mb-3">
             <div className="w-1 h-8 bg-pop-orange rounded-full shadow-sm"></div>
             <div className="flex-1">
@@ -241,11 +241,11 @@ const ProductManagementF: React.FC = () => {
             <div className="flex items-center gap-3">
               <div className="text-center">
                 <p className="text-[9px] text-[#8A8A8A] dark:text-gray-400">En stock</p>
-                <p className="text-sm font-bold text-[#BA68C8] dark:text-[#CE93D8]">{inStockCount}/{total}</p>
+                <p className="text-sm font-bold text-pop-orange">{inStockCount}/{total}</p>
               </div>
               <button
                 onClick={openCreate}
-                className="comic-button bg-pop-yellow text-black px-3 py-1.5 text-xs flex items-center gap-1.5"
+                className="border-4 border-black dark:border-white bg-white dark:bg-black text-pop-yellow font-black uppercase px-3 py-1.5 text-xs flex items-center gap-1.5 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
               >
                 <Plus size={14} />
                 Nuevo
@@ -255,7 +255,7 @@ const ProductManagementF: React.FC = () => {
         </div>
 
         {/* Buscador */}
-        <div className="comic-panel p-3 mb-3">
+        <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] p-3 mb-3">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Search className="h-4 w-4 text-[#8A8A8A] dark:text-gray-400" />
@@ -271,9 +271,9 @@ const ProductManagementF: React.FC = () => {
         </div>
 
         {/* Lista de productos */}
-        <div className="comic-panel overflow-hidden">
-          <div className="p-3 comic-border-light bg-pop-orange">
-            <h2 className="text-sm font-bold text-black uppercase flex items-center gap-1.5">
+        <div className="bg-white dark:bg-black border-4 border-black dark:border-white overflow-hidden shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+          <div className="p-3 border-b-4 border-black dark:border-white bg-white dark:bg-black">
+            <h2 className="text-sm font-bold text-pop-orange uppercase flex items-center gap-1.5">
               <Package size={14} />
               Productos ({filtered.length})
             </h2>
@@ -282,8 +282,8 @@ const ProductManagementF: React.FC = () => {
           <div className="p-3">
             {loading ? (
               <div className="text-center py-8">
-                <div className="w-8 h-8 border-2 border-[#BA68C8]/30 dark:border-[#CE93D8]/30 border-t-[#BA68C8] dark:border-t-[#CE93D8] rounded-full animate-spin mx-auto mb-2"></div>
-                <p className="text-[#8A8A8A] dark:text-gray-400 text-xs font-light">Cargando productos...</p>
+                <div className="w-8 h-8 border-2 border-black/30 dark:border-white/30 border-t-black dark:border-t-white rounded-full animate-spin mx-auto mb-2"></div>
+                <p className="text-pop-orange font-bold text-xs">Cargando productos...</p>
               </div>
             ) : filtered.length === 0 ? (
               <div className="text-center py-8">
@@ -299,11 +299,11 @@ const ProductManagementF: React.FC = () => {
                   return (
                     <div
                       key={p.id}
-                      className="comic-border bg-white dark:bg-gray-800 p-3 comic-hover stipple-pattern"
+                      className="border-4 border-black dark:border-white bg-white dark:bg-black p-3 hover:shadow-[6px_6px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[6px_6px_0px_rgba(255,255,255,0.5)] transition-all shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
                     >
                       <div className="flex gap-3">
                         {/* Imagen/Video */}
-                        <div className="w-16 h-16 rounded-md overflow-hidden border border-[#D0D0D0] dark:border-gray-600 bg-[#F5F5F5] dark:bg-gray-800 shrink-0 relative">
+                        <div className="w-16 h-16 rounded-md overflow-hidden border-2 border-black dark:border-white bg-white dark:bg-black shrink-0 relative">
                           {cover ? (
                             isVideo(cover) ? (
                               <div className="w-full h-full flex items-center justify-center">
@@ -318,7 +318,7 @@ const ProductManagementF: React.FC = () => {
                             </div>
                           )}
                           {(p.media?.length ?? 0) > 1 && (
-                            <span className="absolute bottom-1 right-1 text-[9px] px-1.5 py-0.5 rounded bg-[#BA68C8] dark:bg-[#CE93D8] text-white dark:text-gray-900 font-medium">
+                            <span className="absolute bottom-1 right-1 text-[9px] px-1.5 py-0.5 border-2 border-black dark:border-white bg-white dark:bg-black text-pop-purple font-bold">
                               {p.media!.length}
                             </span>
                           )}
@@ -330,14 +330,14 @@ const ProductManagementF: React.FC = () => {
                             <div className="min-w-0 flex-1">
                               <h3 className="text-xs font-semibold text-[#2A2A2A] dark:text-white truncate">{p.name}</h3>
                               <div className="flex flex-wrap items-center gap-1 mt-0.5">
-                                <span className="text-[9px] px-1.5 py-0.5 bg-pop-purple text-white font-bold uppercase border-2 border-black dark:border-white">
+                                <span className="text-[9px] px-1.5 py-0.5 bg-white dark:bg-black text-pop-purple font-bold uppercase border-2 border-black dark:border-white">
                                   {p.category || 'Sin categoría'}
                                 </span>
-                                <span className="text-[9px] px-1.5 py-0.5 bg-pop-blue text-white font-bold uppercase border-2 border-black dark:border-white">
+                                <span className="text-[9px] px-1.5 py-0.5 bg-white dark:bg-black text-pop-blue font-bold uppercase border-2 border-black dark:border-white">
                                   SKU: {p.sku || 'N/A'}
                                 </span>
                                 {!p.inStock && (
-                                  <span className="text-[9px] px-1.5 py-0.5 bg-pop-red text-white font-bold uppercase border-2 border-black dark:border-white">
+                                  <span className="text-[9px] px-1.5 py-0.5 bg-white dark:bg-black text-pop-red font-bold uppercase border-2 border-black dark:border-white">
                                     Sin stock
                                   </span>
                                 )}
@@ -387,14 +387,14 @@ const ProductManagementF: React.FC = () => {
                           <div className="flex gap-1.5">
                             <button
                               onClick={() => openEdit(p)}
-                              className="flex-1 inline-flex items-center justify-center gap-1 px-2 py-1.5 border-2 border-black dark:border-white bg-pop-cyan text-black font-bold text-[10px] uppercase hover:bg-pop-blue transition-all"
+                              className="flex-1 inline-flex items-center justify-center gap-1 px-2 py-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-pop-cyan font-bold text-[10px] uppercase hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
                             >
                               <Edit size={12} />
                               Editar
                             </button>
                             <button
                               onClick={() => onDelete(p.id)}
-                              className="flex-1 inline-flex items-center justify-center gap-1 px-2 py-1.5 border-2 border-black dark:border-white bg-pop-red text-white font-bold text-[10px] uppercase hover:bg-red-600 transition-all"
+                              className="flex-1 inline-flex items-center justify-center gap-1 px-2 py-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-pop-red font-bold text-[10px] uppercase hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
                             >
                               <Trash2 size={12} />
                               Eliminar
@@ -413,14 +413,14 @@ const ProductManagementF: React.FC = () => {
         {/* Modal Crear/Editar */}
         {(creating || editing) && (
           <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-3">
-            <div className="comic-panel animate-comic-pop w-full max-w-4xl max-h-[95vh] overflow-y-auto">
+            <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[12px_12px_0px_rgba(0,0,0,0.8)] dark:shadow-[12px_12px_0px_rgba(255,255,255,0.5)] animate-comic-pop w-full max-w-4xl max-h-[95vh] overflow-y-auto">
               {/* Header del modal */}
-              <div className="p-3 comic-border-light flex items-center justify-between sticky top-0 bg-pop-yellow z-10">
-                <h3 className="text-sm font-bold text-black uppercase flex items-center gap-1.5 comic-text-shadow">
+              <div className="p-3 border-b-4 border-black dark:border-white flex items-center justify-between sticky top-0 bg-white dark:bg-black z-10">
+                <h3 className="text-sm font-bold text-pop-yellow uppercase flex items-center gap-1.5">
                   <Package size={14} />
                   {editing ? 'Editar producto físico' : 'Nuevo producto físico'}
                 </h3>
-                <button onClick={closeModal} className="p-1.5 hover:bg-[#E8E8E8] dark:hover:bg-gray-700 rounded-md transition-colors">
+                <button onClick={closeModal} className="p-1.5 hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all">
                   <X size={16} className="text-[#8A8A8A] dark:text-gray-400" />
                 </button>
               </div>
@@ -609,35 +609,35 @@ const ProductManagementF: React.FC = () => {
 
                     {/* Vista previa de media */}
                     <div>
-                      <label className="block text-[10px] text-[#8A8A8A] font-light mb-1">Vista previa</label>
+                      <label className="block text-[10px] text-[#8A8A8A] dark:text-gray-400 font-light mb-1">Vista previa</label>
                       {form.media && form.media.length > 0 ? (
                         <div className="grid grid-cols-3 gap-2">
                           {form.media.slice(0, 6).map((m, i) => (
-                            <div 
-                              key={i} 
-                              className="relative rounded-md overflow-hidden border border-[#D0D0D0] bg-[#F5F5F5] aspect-square flex items-center justify-center"
+                            <div
+                              key={i}
+                              className="relative overflow-hidden border-2 border-black dark:border-white bg-white dark:bg-black aspect-square flex items-center justify-center"
                             >
                               {isVideo(m) ? (
-                                <Film className="text-[#8A8A8A]" size={18} />
+                                <Film className="text-[#8A8A8A] dark:text-gray-400" size={18} />
                               ) : (
-                                <img 
-                                  src={m} 
-                                  alt={`media-${i}`} 
+                                <img
+                                  src={m}
+                                  alt={`media-${i}`}
                                   className="w-full h-full object-cover"
                                   onError={(e) => {
                                     e.currentTarget.style.display = 'none';
                                   }}
                                 />
                               )}
-                              <span className="absolute bottom-1 right-1 text-[9px] px-1.5 py-0.5 rounded bg-[#BA68C8] text-white font-medium">
+                              <span className="absolute bottom-1 right-1 text-[9px] px-1.5 py-0.5 border-2 border-black dark:border-white bg-white dark:bg-black text-pop-purple font-bold">
                                 {i + 1}
                               </span>
                             </div>
                           ))}
                         </div>
                       ) : (
-                        <div className="h-24 rounded-md border border-[#D0D0D0] bg-white flex items-center justify-center">
-                          <p className="text-[#8A8A8A] text-xs">Sin media aún</p>
+                        <div className="h-24 border-2 border-black dark:border-white bg-white dark:bg-black flex items-center justify-center">
+                          <p className="text-[#8A8A8A] dark:text-gray-400 text-xs">Sin media aún</p>
                         </div>
                       )}
                     </div>
@@ -645,15 +645,15 @@ const ProductManagementF: React.FC = () => {
                 </div>
 
                 {/* Botones del formulario */}
-                <div className="pt-3 comic-border-light bg-pop-pink flex gap-2">
+                <div className="pt-3 border-t-4 border-black dark:border-white bg-white dark:bg-black flex gap-2">
                   <button
                     type="submit"
                     disabled={saving}
-                    className="comic-button flex-1 inline-flex items-center justify-center gap-1.5 bg-pop-green text-black px-4 py-2.5 text-xs disabled:opacity-50"
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 border-4 border-black dark:border-white bg-white dark:bg-black text-pop-green font-black uppercase px-4 py-2.5 text-xs disabled:opacity-50 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
                   >
                     {saving ? (
                       <>
-                        <div className="w-3.5 h-3.5 border-2 border-white/30 dark:border-gray-900/30 border-t-white dark:border-t-gray-900 rounded-full animate-spin"></div>
+                        <div className="w-3.5 h-3.5 border-2 border-black/30 dark:border-white/30 border-t-black dark:border-t-white rounded-full animate-spin"></div>
                         Guardando...
                       </>
                     ) : (
@@ -666,7 +666,7 @@ const ProductManagementF: React.FC = () => {
                   <button
                     type="button"
                     onClick={closeModal}
-                    className="comic-button flex-1 inline-flex items-center justify-center gap-1.5 bg-pop-red text-white px-4 py-2.5 text-xs"
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 border-4 border-black dark:border-white bg-white dark:bg-black text-pop-red font-black uppercase px-4 py-2.5 text-xs shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
                   >
                     <X size={14} />
                     Cancelar

@@ -32,8 +32,8 @@ const MainBanner: React.FC<MainBannerProps> = ({ selectedCategory = 'all', onCat
           onClick={onClick}
           className={`group relative px-4 py-3 font-bold text-sm transition-all duration-300 flex flex-col items-center gap-1.5 min-w-[80px] lg:min-w-0 lg:w-full ${
             isSelected
-              ? 'comic-button bg-pop-yellow dark:bg-pop-green text-[#0D0D0D] dark:text-white transform scale-105 animate-comic-pop'
-              : 'comic-border-light bg-white/80 dark:bg-gray-800/80 text-[#0D0D0D] dark:text-white hover:bg-pop-yellow/20 dark:hover:bg-pop-green/20'
+              ? 'comic-button bg-white dark:bg-black border-2 border-black dark:border-white text-pop-yellow transform scale-105 animate-comic-pop shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]'
+              : 'comic-border-light bg-white/80 dark:bg-black/80 border-2 border-black dark:border-white text-black dark:text-white'
           } rounded-t-2xl uppercase`}
           style={{
             borderBottomLeftRadius: '0',
@@ -74,7 +74,7 @@ const MainBanner: React.FC<MainBannerProps> = ({ selectedCategory = 'all', onCat
     <div className="container mx-auto px-4 py-4">
       <div className="w-full">
         {/* Solo categorías */}
-        <div className="comic-panel bendaydots-pattern bg-white dark:bg-gray-900 rounded-2xl h-48 overflow-hidden">
+        <div className="comic-panel bendaydots-pattern bg-white dark:bg-black border-4 border-black dark:border-white rounded-2xl h-48 overflow-hidden shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
           <div className="h-full flex flex-col p-6">
             <div className="flex items-center gap-3 mb-6 flex-shrink-0">
               <Filter className="w-5 h-5 text-pop-yellow dark:text-pop-green" />

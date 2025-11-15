@@ -99,7 +99,7 @@ const SpotlightCarousel: React.FC = () => {
   }
 
   return (
-    <div className="relative w-full comic-border halftone-pattern bg-white dark:bg-gray-900 rounded-xl overflow-hidden p-4 speed-lines">
+    <div className="relative w-full comic-border halftone-pattern bg-white dark:bg-black border-4 border-black dark:border-white rounded-xl overflow-hidden p-4 speed-lines shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
       <div
         className={`grid gap-4 ${
           visibleCount === 1
@@ -112,7 +112,7 @@ const SpotlightCarousel: React.FC = () => {
         {visibleProducts.map((product) => (
           <div
             key={`${product.id}-${currentIndex}`}
-            className="bg-white dark:bg-gray-800 comic-border-light comic-hover animate-comic-pop halftone-pattern overflow-hidden group"
+            className="bg-white dark:bg-black border-2 border-black dark:border-white comic-border-light comic-hover animate-comic-pop halftone-pattern overflow-hidden group shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
           >
             <div className="relative aspect-video overflow-hidden">
               <img
@@ -121,16 +121,16 @@ const SpotlightCarousel: React.FC = () => {
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
             </div>
-            <div className="p-3 min-h-[100px] flex flex-col justify-between bg-pop-yellow/10 dark:bg-pop-cyan/10">
-              <h3 className="text-[#0D0D0D] dark:text-white font-bold text-sm truncate mb-1 comic-text-shadow">
+            <div className="p-3 min-h-[100px] flex flex-col justify-between bg-white dark:bg-black">
+              <h3 className="text-black dark:text-white font-bold text-sm truncate mb-1 comic-text-shadow">
                 {product.name}
               </h3>
               <div className="flex items-center justify-between">
                 <p className="text-pop-green font-bold text-lg comic-text-shadow">
                   ${product.price.toLocaleString()}
                 </p>
-                <span className="text-xs text-[#0D0D0D] dark:text-white bg-pop-yellow dark:bg-pop-cyan px-2 py-1 rounded-full font-bold uppercase">
-                  {product.category}
+                <span className="text-xs text-black dark:text-white bg-white dark:bg-black border-2 border-black dark:border-white px-2 py-1 rounded-full font-bold uppercase">
+                  <span className="text-pop-yellow">{product.category}</span>
                 </span>
               </div>
             </div>
@@ -142,13 +142,13 @@ const SpotlightCarousel: React.FC = () => {
         <>
           <button
             onClick={prevSlide}
-            className="absolute left-2 top-1/2 -translate-y-1/2 comic-button bg-pop-red text-white p-2 rounded-full hover:scale-110 transition z-10"
+            className="absolute left-2 top-1/2 -translate-y-1/2 comic-button bg-white dark:bg-black border-4 border-black dark:border-white text-pop-red p-2 rounded-full hover:scale-110 transition z-10 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
           >
             <ChevronLeft size={16} />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-2 top-1/2 -translate-y-1/2 comic-button bg-pop-red text-white p-2 rounded-full hover:scale-110 transition z-10"
+            className="absolute right-2 top-1/2 -translate-y-1/2 comic-button bg-white dark:bg-black border-4 border-black dark:border-white text-pop-red p-2 rounded-full hover:scale-110 transition z-10 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
           >
             <ChevronRight size={16} />
           </button>

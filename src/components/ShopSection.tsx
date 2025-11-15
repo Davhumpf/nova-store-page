@@ -141,13 +141,13 @@ const ShopSection: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#FFEB3B] dark:bg-gray-900 relative overflow-hidden">
+      <div className="min-h-screen bg-white dark:bg-black relative overflow-hidden">
         <div className="absolute inset-0 halftone-pattern opacity-20 dark:opacity-10 pointer-events-none"></div>
         <Header />
         <div className="flex items-center justify-center py-24 animate-fadeIn relative z-10">
-          <div className="flex flex-col items-center comic-panel bg-white dark:bg-gray-800 border-4 border-black dark:border-[#00FFFF] p-8 shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(0,255,255,0.5)] relative overflow-hidden">
+          <div className="flex flex-col items-center comic-panel bg-white dark:bg-black border-4 border-black dark:border-white p-8 shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)] relative overflow-hidden">
             <div className="absolute inset-0 bendaydots-pattern opacity-20 dark:opacity-10 pointer-events-none"></div>
-            <div className="w-12 h-12 border-4 border-black dark:border-[#00FFFF] border-t-[#FF1493] dark:border-t-[#FF1493] animate-spin mb-3 relative z-10"></div>
+            <div className="w-12 h-12 border-4 border-black dark:border-white border-t-[#FF1493] dark:border-t-[#FF1493] animate-spin mb-3 relative z-10"></div>
             <p className="text-black dark:text-white text-xs font-black uppercase relative z-10 comic-text-shadow">¡Cargando productos!</p>
           </div>
         </div>
@@ -157,13 +157,13 @@ const ShopSection: React.FC = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#FFEB3B] dark:bg-gray-900 relative overflow-hidden">
+      <div className="min-h-screen bg-white dark:bg-black relative overflow-hidden">
         <div className="absolute inset-0 halftone-pattern opacity-20 dark:opacity-10 pointer-events-none"></div>
         <Header />
         <div className="flex items-center justify-center py-24 px-4 animate-fadeIn relative z-10">
-          <div className="text-center comic-panel bg-[#FF4500] dark:bg-gray-800 border-4 border-black dark:border-red-700 p-6 shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,0,0,0.5)] relative overflow-hidden">
+          <div className="text-center comic-panel bg-white dark:bg-black border-4 border-black dark:border-white p-6 shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)] relative overflow-hidden">
             <div className="absolute inset-0 stipple-pattern opacity-30 dark:opacity-20 pointer-events-none"></div>
-            <p className="text-white dark:text-red-400 text-xs font-black uppercase relative z-10 comic-text-shadow">¡Error! {error}</p>
+            <p className="text-[#FF4500] dark:text-[#FF4500] text-xs font-black uppercase relative z-10 comic-text-shadow">¡Error! {error}</p>
           </div>
         </div>
       </div>
@@ -171,22 +171,15 @@ const ShopSection: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#FFEB3B] dark:bg-gray-900 relative overflow-hidden">
+    <div className="min-h-screen bg-white dark:bg-black relative overflow-hidden">
       {/* Comic halftone background pattern */}
       <div className="absolute inset-0 halftone-pattern opacity-20 dark:opacity-10 pointer-events-none"></div>
-
-      {/* Pop art color blocks */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 -left-4 w-96 h-96 bg-[#FF1493] opacity-30 dark:opacity-20 rounded-full mix-blend-multiply dark:mix-blend-screen animate-blob"></div>
-        <div className="absolute top-0 -right-4 w-96 h-96 bg-[#00FFFF] opacity-30 dark:opacity-20 rounded-full mix-blend-multiply dark:mix-blend-screen animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-[#FF4500] opacity-30 dark:opacity-20 rounded-full mix-blend-multiply dark:mix-blend-screen animate-blob animation-delay-4000"></div>
-      </div>
 
       <div className="relative z-10">
         <Header /></div>
 
       {/* Comic-style top bar */}
-      <div className="comic-border bg-white dark:bg-gray-800 border-b-4 border-black dark:border-[#00FFFF] sticky top-0 z-20 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(0,255,255,0.5)] backdrop-blur-xl relative overflow-hidden">
+      <div className="comic-border bg-white dark:bg-black border-b-4 border-black dark:border-white sticky top-0 z-20 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] backdrop-blur-xl relative overflow-hidden">
         <div className="absolute inset-0 bendaydots-pattern opacity-10 dark:opacity-5 pointer-events-none"></div>
         <div className="container mx-auto px-3 py-2 relative z-10">
           {/* Título y volver */}
@@ -203,31 +196,31 @@ const ShopSection: React.FC = () => {
 
           {/* Buscador y controles - Comic Style */}
           <div className="flex gap-2">
-            <div className="flex-1 flex items-center comic-border bg-[#FFEB3B] dark:bg-gray-700 border-4 border-black dark:border-[#00FFFF] px-2 py-1.5 shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(0,255,255,0.5)] hover:shadow-[5px_5px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[5px_5px_0px_rgba(0,255,255,0.5)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden speed-lines-on-hover">
+            <div className="flex-1 flex items-center comic-border bg-white dark:bg-black border-4 border-black dark:border-white px-2 py-1.5 shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)] hover:shadow-[5px_5px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[5px_5px_0px_rgba(255,255,255,0.5)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden speed-lines-on-hover">
               <div className="absolute inset-0 stipple-pattern opacity-20 dark:opacity-10 pointer-events-none"></div>
-              <Search size={12} className="text-black dark:text-[#00FFFF] mr-1.5 shrink-0 relative z-10 animate-comic-pop" />
+              <Search size={12} className="text-[#FF1493] dark:text-[#00FFFF] mr-1.5 shrink-0 relative z-10 animate-comic-pop" />
               <input
                 type="text"
                 placeholder="¡BUSCA AQUÍ!"
                 value={search}
                 onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                className="bg-transparent outline-none text-black dark:text-white flex-1 placeholder-black/70 dark:placeholder-[#00FFFF]/70 text-[10px] font-bold uppercase relative z-10"
+                className="bg-transparent outline-none text-black dark:text-white flex-1 placeholder-black/50 dark:placeholder-white/50 text-[10px] font-bold uppercase relative z-10"
               />
             </div>
 
             <button
               onClick={() => setShowFilters((s) => !s)}
-              className={`comic-border p-1.5 transition-all duration-300 shrink-0 animate-comic-pop hover:animate-comic-bounce border-4 shadow-[3px_3px_0px_rgba(0,0,0,0.8)] hover:shadow-[5px_5px_0px_rgba(0,0,0,0.8)] hover:-translate-x-0.5 hover:-translate-y-0.5 speed-lines-on-hover ${
+              className={`comic-border p-1.5 transition-all duration-300 shrink-0 animate-comic-pop hover:animate-comic-bounce border-4 shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)] hover:shadow-[5px_5px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[5px_5px_0px_rgba(255,255,255,0.5)] hover:-translate-x-0.5 hover:-translate-y-0.5 speed-lines-on-hover ${
                 showFilters
-                  ? "bg-[#FF1493] dark:bg-[#FF4500] text-white border-black dark:border-[#00FFFF] shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(0,255,255,0.5)]"
-                  : "bg-white dark:bg-gray-700 border-black dark:border-[#00FFFF] text-black dark:text-[#00FFFF]"
+                  ? "bg-white dark:bg-black text-[#FF1493] dark:text-[#00FFFF] border-black dark:border-white"
+                  : "bg-white dark:bg-black border-black dark:border-white text-black dark:text-white"
               }`}
               title="Filtros"
             >
               <Filter size={12} />
             </button>
 
-            <div className="flex comic-border bg-white dark:bg-gray-700 border-4 border-black dark:border-[#00FFFF] p-0.5 shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(0,255,255,0.5)]">
+            <div className="flex comic-border bg-white dark:bg-black border-4 border-black dark:border-white p-0.5 shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)]">
               <button
                 onClick={() => setViewMode("grid")}
                 className={`p-1 transition-all duration-300 animate-comic-pop ${
@@ -254,12 +247,11 @@ const ShopSection: React.FC = () => {
           {/* Comic-style filter panel */}
           {showFilters && (
             <div className="relative group">
-              <div className="absolute -inset-1 bg-[#FF1493] dark:bg-[#00FFFF] rounded-none blur-sm opacity-50 group-hover:opacity-70 transition-opacity animate-comic-pop"></div>
-              <div className="relative comic-panel bg-[#FFD700] dark:bg-gray-800 backdrop-blur-xl border-4 border-black dark:border-[#FF1493] p-3 mt-2 animate-slideDown shadow-[6px_6px_0px_rgba(0,0,0,0.8)] dark:shadow-[6px_6px_0px_rgba(255,20,147,0.6)] overflow-hidden">
+              <div className="relative comic-panel bg-white dark:bg-black backdrop-blur-xl border-4 border-black dark:border-white p-3 mt-2 animate-slideDown shadow-[6px_6px_0px_rgba(0,0,0,0.8)] dark:shadow-[6px_6px_0px_rgba(255,255,255,0.6)] overflow-hidden">
               <div className="absolute inset-0 halftone-pattern opacity-30 dark:opacity-20 pointer-events-none"></div>
               <div className="flex items-center justify-between mb-2 relative z-10">
                 <span className="text-[10px] font-black text-black dark:text-white uppercase tracking-wider comic-text-shadow">⚡ Filtros ⚡</span>
-                <button onClick={() => setShowFilters(false)} className="text-black dark:text-[#FF1493] hover:text-[#FF1493] dark:hover:text-[#00FFFF] transition-colors duration-300 hover:rotate-90 transition-transform comic-border bg-white dark:bg-gray-700 border-2 border-black dark:border-[#00FFFF] p-1 shadow-[2px_2px_0px_rgba(0,0,0,0.8)] animate-comic-pop">
+                <button onClick={() => setShowFilters(false)} className="text-black dark:text-white hover:text-[#FF1493] dark:hover:text-[#00FFFF] transition-colors duration-300 hover:rotate-90 transition-transform comic-border bg-white dark:bg-black border-2 border-black dark:border-white p-1 shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.8)] animate-comic-pop">
                   <X size={12} />
                 </button>
               </div>
@@ -269,7 +261,7 @@ const ShopSection: React.FC = () => {
                   <select
                     value={category}
                     onChange={(e) => { setCategory(e.target.value); setPage(1); }}
-                    className="w-full comic-border bg-white dark:bg-gray-600 border-3 border-black dark:border-[#00FFFF] text-black dark:text-white px-2 py-1 text-[10px] font-bold shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(0,255,255,0.5)] hover:shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[4px_4px_0px_rgba(0,255,255,0.5)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer animate-comic-pop"
+                    className="w-full comic-border bg-white dark:bg-black border-3 border-black dark:border-white text-black dark:text-white px-2 py-1 text-[10px] font-bold shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)] hover:shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer animate-comic-pop"
                   >
                     {categories.map((c) => (
                       <option key={c} value={c}>
@@ -284,7 +276,7 @@ const ShopSection: React.FC = () => {
                   <select
                     value={sortBy}
                     onChange={(e) => { setSortBy(e.target.value); setPage(1); }}
-                    className="w-full comic-border bg-white dark:bg-gray-600 border-3 border-black dark:border-[#00FFFF] text-black dark:text-white px-2 py-1 text-[10px] font-bold shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(0,255,255,0.5)] hover:shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[4px_4px_0px_rgba(0,255,255,0.5)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer animate-comic-pop"
+                    className="w-full comic-border bg-white dark:bg-black border-3 border-black dark:border-white text-black dark:text-white px-2 py-1 text-[10px] font-bold shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)] hover:shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer animate-comic-pop"
                   >
                     <option value="newest">NUEVOS</option>
                     <option value="price-low">$ MENOR</option>
@@ -315,7 +307,7 @@ const ShopSection: React.FC = () => {
                       <button
                         key={rating}
                         onClick={() => { setMinRating(rating === minRating ? 0 : rating); setPage(1); }}
-                        className="transition-all duration-300 hover:scale-125 animate-comic-pop comic-border bg-white dark:bg-gray-700 border-2 border-black dark:border-[#00FFFF] p-1 shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(0,255,255,0.5)] hover:shadow-[3px_3px_0px_rgba(0,0,0,0.8)]"
+                        className="transition-all duration-300 hover:scale-125 animate-comic-pop comic-border bg-white dark:bg-black border-2 border-black dark:border-white p-1 shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] hover:shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[3px_3px_0px_rgba(255,255,255,0.5)]"
                       >
                         <Star
                           size={14}
@@ -342,9 +334,9 @@ const ShopSection: React.FC = () => {
       <div className="container mx-auto px-3 py-4 md:py-6">
         {paginated.length === 0 ? (
           <div className="text-center py-12 animate-fadeIn">
-            <div className="comic-panel bg-[#FFD700] dark:bg-gray-800 border-4 border-black dark:border-[#FF1493] p-6 max-w-sm mx-auto shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,20,147,0.6)] relative overflow-hidden">
+            <div className="comic-panel bg-white dark:bg-black border-4 border-black dark:border-white p-6 max-w-sm mx-auto shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.6)] relative overflow-hidden">
               <div className="absolute inset-0 halftone-pattern opacity-30 dark:opacity-20 pointer-events-none"></div>
-              <Play size={24} className="text-black dark:text-[#00FFFF] mx-auto mb-2 relative z-10 animate-comic-pop" />
+              <Play size={24} className="text-[#FF1493] dark:text-[#00FFFF] mx-auto mb-2 relative z-10 animate-comic-pop" />
               <p className="text-black dark:text-white text-xs font-black uppercase relative z-10 comic-text-shadow">¡No hay productos!</p>
             </div>
           </div>
@@ -363,10 +355,7 @@ const ShopSection: React.FC = () => {
                     className="relative group animate-fadeInUp"
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
-                    {/* Comic glow effect */}
-                    <div className="absolute -inset-1 bg-[#FF1493] dark:bg-[#00FFFF] blur opacity-0 group-hover:opacity-40 transition-opacity duration-500 animate-comic-pop"></div>
-
-                    <div className="relative comic-panel bg-white dark:bg-gray-800 backdrop-blur-xl border-4 border-black dark:border-[#00FFFF] p-3 flex gap-3 shadow-[5px_5px_0px_rgba(0,0,0,0.8)] dark:shadow-[5px_5px_0px_rgba(0,255,255,0.5)] hover:shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[8px_8px_0px_rgba(0,255,255,0.5)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-500 overflow-hidden speed-lines-on-hover group-hover:animate-comic-bounce">
+                    <div className="relative comic-panel bg-white dark:bg-black backdrop-blur-xl border-4 border-black dark:border-white p-3 flex gap-3 shadow-[5px_5px_0px_rgba(0,0,0,0.8)] dark:shadow-[5px_5px_0px_rgba(255,255,255,0.5)] hover:shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[8px_8px_0px_rgba(255,255,255,0.5)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-500 overflow-hidden speed-lines-on-hover group-hover:animate-comic-bounce">
                     <div className="absolute inset-0 stipple-pattern opacity-10 dark:opacity-5 pointer-events-none"></div>
                     <div className="relative w-24 h-24 shrink-0 z-10">
                       <div className="comic-border border-3 border-black dark:border-[#FF1493] overflow-hidden h-full">
@@ -383,9 +372,9 @@ const ShopSection: React.FC = () => {
                       )}
                       <button
                         onClick={() => toggleFavorite(product.id)}
-                        className="absolute -top-1 -right-1 p-1 comic-border bg-white dark:bg-gray-900 border-2 border-black dark:border-[#FF1493] backdrop-blur-sm hover:scale-110 transition-transform duration-300 shadow-[2px_2px_0px_rgba(0,0,0,0.8)] animate-comic-pop"
+                        className="absolute -top-1 -right-1 p-1 comic-border bg-white dark:bg-black border-2 border-black dark:border-white backdrop-blur-sm hover:scale-110 transition-transform duration-300 shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.8)] animate-comic-pop"
                       >
-                        <Heart size={10} className={isFav ? "text-[#FF1493] fill-current" : "text-black dark:text-[#00FFFF]"} />
+                        <Heart size={10} className={isFav ? "text-[#FF1493] fill-current" : "text-black dark:text-white"} />
                       </button>
                     </div>
 
@@ -409,7 +398,7 @@ const ShopSection: React.FC = () => {
                         <div className="flex gap-1">
                           <Link
                             to={`/product/${product.id}`}
-                            className="comic-border bg-white dark:bg-gray-700 border-3 border-black dark:border-[#00FFFF] text-black dark:text-white px-2 py-1 text-[9px] font-bold uppercase shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(0,255,255,0.5)] hover:shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[3px_3px_0px_rgba(0,255,255,0.5)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-300 animate-comic-pop"
+                            className="comic-border bg-white dark:bg-black border-3 border-black dark:border-white text-black dark:text-white px-2 py-1 text-[9px] font-bold uppercase shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] hover:shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[3px_3px_0px_rgba(255,255,255,0.5)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-300 animate-comic-pop"
                           >
                             Ver
                           </Link>
@@ -440,10 +429,7 @@ const ShopSection: React.FC = () => {
                   className="group relative animate-fadeInUp"
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
-                  {/* Comic glow effect */}
-                  <div className="absolute -inset-1 bg-[#FF1493] dark:bg-[#00FFFF] blur opacity-0 group-hover:opacity-50 transition-opacity duration-500 animate-comic-pop"></div>
-
-                  <div className="relative comic-panel bg-white dark:bg-gray-800 backdrop-blur-xl border-4 border-black dark:border-[#00FFFF] overflow-hidden shadow-[5px_5px_0px_rgba(0,0,0,0.8)] dark:shadow-[5px_5px_0px_rgba(0,255,255,0.5)] hover:shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[8px_8px_0px_rgba(0,255,255,0.5)] hover:-translate-x-1 hover:-translate-y-2 transition-all duration-500 speed-lines-on-hover group-hover:animate-comic-bounce">
+                  <div className="relative comic-panel bg-white dark:bg-black backdrop-blur-xl border-4 border-black dark:border-white overflow-hidden shadow-[5px_5px_0px_rgba(0,0,0,0.8)] dark:shadow-[5px_5px_0px_rgba(255,255,255,0.5)] hover:shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[8px_8px_0px_rgba(255,255,255,0.5)] hover:-translate-x-1 hover:-translate-y-2 transition-all duration-500 speed-lines-on-hover group-hover:animate-comic-bounce">
                   <div className="absolute inset-0 halftone-pattern opacity-20 dark:opacity-10 pointer-events-none"></div>
                   <div className="relative aspect-square overflow-hidden border-b-4 border-black dark:border-[#FF1493]">
                     <img
@@ -458,13 +444,13 @@ const ShopSection: React.FC = () => {
                     )}
                     <button
                       onClick={() => toggleFavorite(product.id)}
-                      className="absolute top-2 right-2 p-1.5 comic-border bg-white dark:bg-gray-900 border-2 border-black dark:border-[#FF1493] backdrop-blur-sm hover:scale-110 transition-all duration-300 shadow-[2px_2px_0px_rgba(0,0,0,0.8)] animate-comic-pop"
+                      className="absolute top-2 right-2 p-1.5 comic-border bg-white dark:bg-black border-2 border-black dark:border-white backdrop-blur-sm hover:scale-110 transition-all duration-300 shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.8)] animate-comic-pop"
                     >
-                      <Heart size={10} className={isFav ? "text-[#FF1493] fill-current animate-pulse" : "text-black dark:text-[#00FFFF]"} />
+                      <Heart size={10} className={isFav ? "text-[#FF1493] fill-current animate-pulse" : "text-black dark:text-white"} />
                     </button>
 
-                    <div className="absolute inset-0 bg-[#FFEB3B] dark:bg-black/80 opacity-0 group-hover:opacity-90 transition-opacity duration-300 flex items-center justify-center gap-2">
-                      <Link to={`/product/${product.id}`} className="comic-border p-2 bg-white dark:bg-gray-700 border-3 border-black dark:border-[#00FFFF] hover:scale-110 transition-transform duration-300 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(0,255,255,0.5)] animate-comic-bounce">
+                    <div className="absolute inset-0 bg-white/90 dark:bg-black/90 opacity-0 group-hover:opacity-90 transition-opacity duration-300 flex items-center justify-center gap-2">
+                      <Link to={`/product/${product.id}`} className="comic-border p-2 bg-white dark:bg-black border-3 border-black dark:border-white hover:scale-110 transition-transform duration-300 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] animate-comic-bounce">
                         <Eye size={14} className="text-black dark:text-white" />
                       </Link>
                     </div>
@@ -519,7 +505,7 @@ const ShopSection: React.FC = () => {
             <button
               disabled={safePage === 1}
               onClick={() => { setPage((p) => Math.max(1, p - 1)); scrollToTop(); }}
-              className="comic-border px-3 py-1.5 bg-[#FFEB3B] dark:bg-gray-800 border-3 border-black dark:border-[#00FFFF] text-black dark:text-white disabled:opacity-50 text-[10px] font-black hover:scale-105 shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(0,255,255,0.5)] hover:shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[4px_4px_0px_rgba(0,255,255,0.5)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-300 disabled:hover:scale-100 disabled:hover:translate-x-0 disabled:hover:translate-y-0 animate-comic-pop uppercase speed-lines-on-hover"
+              className="comic-border px-3 py-1.5 bg-white dark:bg-black border-3 border-black dark:border-white text-black dark:text-white disabled:opacity-50 text-[10px] font-black hover:scale-105 shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)] hover:shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-300 disabled:hover:scale-100 disabled:hover:translate-x-0 disabled:hover:translate-y-0 animate-comic-pop uppercase speed-lines-on-hover"
             >
               ←
             </button>
@@ -535,10 +521,10 @@ const ShopSection: React.FC = () => {
                 <button
                   key={pageNum}
                   onClick={() => { setPage(pageNum); scrollToTop(); }}
-                  className={`comic-border w-8 h-8 text-[10px] font-black transition-all duration-300 hover:scale-110 border-3 shadow-[3px_3px_0px_rgba(0,0,0,0.8)] hover:shadow-[4px_4px_0px_rgba(0,0,0,0.8)] hover:-translate-x-0.5 hover:-translate-y-0.5 uppercase animate-comic-pop ${
+                  className={`comic-border w-8 h-8 text-[10px] font-black transition-all duration-300 hover:scale-110 border-3 shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.8)] hover:shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,0.8)] hover:-translate-x-0.5 hover:-translate-y-0.5 uppercase animate-comic-pop ${
                     safePage === pageNum
-                      ? "bg-[#FF1493] dark:bg-[#00FFFF] text-white dark:text-black border-black scale-110 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(0,0,0,0.8)]"
-                      : "bg-white dark:bg-gray-800 border-black dark:border-[#00FFFF] text-black dark:text-white"
+                      ? "bg-white dark:bg-black text-[#FF1493] dark:text-[#00FFFF] border-black dark:border-white scale-110"
+                      : "bg-white dark:bg-black border-black dark:border-white text-black dark:text-white"
                   }`}
                 >
                   {pageNum}
@@ -549,7 +535,7 @@ const ShopSection: React.FC = () => {
             <button
               disabled={safePage === totalPages}
               onClick={() => { setPage((p) => Math.min(totalPages, p + 1)); scrollToTop(); }}
-              className="comic-border px-3 py-1.5 bg-[#FFEB3B] dark:bg-gray-800 border-3 border-black dark:border-[#00FFFF] text-black dark:text-white disabled:opacity-50 text-[10px] font-black hover:scale-105 shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(0,255,255,0.5)] hover:shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[4px_4px_0px_rgba(0,255,255,0.5)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-300 disabled:hover:scale-100 disabled:hover:translate-x-0 disabled:hover:translate-y-0 animate-comic-pop uppercase speed-lines-on-hover"
+              className="comic-border px-3 py-1.5 bg-white dark:bg-black border-3 border-black dark:border-white text-black dark:text-white disabled:opacity-50 text-[10px] font-black hover:scale-105 shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)] hover:shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-300 disabled:hover:scale-100 disabled:hover:translate-x-0 disabled:hover:translate-y-0 animate-comic-pop uppercase speed-lines-on-hover"
             >
               →
             </button>
