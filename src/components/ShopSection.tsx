@@ -565,7 +565,7 @@ const ShopSection: React.FC = () => {
         }
 
         .title-shadow {
-          text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
+          /* Shadow effects removed for formal typography */
         }
 
         @keyframes scale-in {
