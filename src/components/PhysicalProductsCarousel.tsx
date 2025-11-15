@@ -95,7 +95,7 @@ const PhysicalProductsCarousel: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="w-full flex justify-center items-center py-8 halftone-pattern">
+      <div className="w-full flex justify-center items-center py-8 ">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black dark:border-white"></div>
       </div>
     );
@@ -103,7 +103,7 @@ const PhysicalProductsCarousel: React.FC = () => {
 
   if (products.length === 0) {
     return (
-      <div className="w-full flex justify-center items-center py-8 halftone-pattern">
+      <div className="w-full flex justify-center items-center py-8 ">
         <p className="elegant-text-secondary text-sm">No hay productos físicos</p>
       </div>
     );

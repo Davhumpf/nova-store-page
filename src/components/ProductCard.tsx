@@ -101,7 +101,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
           <button
             onClick={handleAddToCart}
-            className="w-full comic-button text-xs md:text-sm flex items-center justify-center gap-2"
+            className="w-full classic-btn text-xs md:text-sm flex items-center justify-center gap-2"
           >
             <ShoppingCart size={16} className="inking-icon" />
             Agregar al Carrito

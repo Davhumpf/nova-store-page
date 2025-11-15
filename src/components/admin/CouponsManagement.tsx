@@ -122,29 +122,29 @@ const CouponsManagement: React.FC = () => {
         {/* Botón volver estilo Apple */}
         <button
           onClick={() => nav('/admin')}
-          className="mb-3 flex items-center gap-1.5 text-xs text-pop-cyan hover:text-pop-blue transition-colors group"
+          className="mb-3 flex items-center gap-1.5 text-xs text-accent-primary hover:text-accent-primary transition-colors group"
         >
           <ArrowRight size={14} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
           <span className="font-medium">Panel Admin</span>
         </button>
 
         {/* Header minimalista */}
-        <div className="mb-4 bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)] p-3">
+        <div className="mb-4 bg-white dark:bg-black border-4 border-black dark:border-white shadow-classic-lg p-3">
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-1 h-8 bg-pop-cyan rounded-full shadow-sm"></div>
+            <div className="w-1 h-8 bg-accent-primary rounded-full shadow-sm"></div>
             <div className="flex-1">
               <h1 className="text-lg font-bold text-[#2A2A2A] dark:text-white uppercase">Canjes por Puntos</h1>
               <p className="text-[10px] text-[#8A8A8A] dark:text-gray-400 font-medium">Crear y administrar recompensas</p>
             </div>
             <div className="text-center">
               <p className="text-[9px] text-[#8A8A8A] dark:text-gray-400">Total</p>
-              <p className="text-sm font-bold text-pop-cyan">{items.length}</p>
+              <p className="text-sm font-bold text-accent-primary">{items.length}</p>
             </div>
           </div>
         </div>
 
         {/* Formulario de creación */}
-        <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] p-3 mb-3">
+        <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-classic-md p-3 mb-3">
           <h2 className="text-xs font-medium text-[#2A2A2A] dark:text-white mb-2.5 flex items-center gap-1.5">
             <Plus size={12} />
             Nueva Recompensa
@@ -157,7 +157,7 @@ const CouponsManagement: React.FC = () => {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Ej: 10% OFF en total"
-                className="comic-input w-full px-2.5 py-1.5 text-xs"
+                className="classic-input w-full px-2.5 py-1.5 text-xs"
                 required
               />
             </div>
@@ -169,7 +169,7 @@ const CouponsManagement: React.FC = () => {
                 type="number"
                 value={costPoints}
                 onChange={(e) => setCostPoints(Number(e.target.value))}
-                className="comic-input w-full px-2.5 py-1.5 text-xs"
+                className="classic-input w-full px-2.5 py-1.5 text-xs"
                 min={1}
                 required
               />
@@ -181,7 +181,7 @@ const CouponsManagement: React.FC = () => {
               <select
                 value={type}
                 onChange={(e) => setType(e.target.value as any)}
-                className="comic-input w-full px-2.5 py-1.5 text-xs"
+                className="classic-input w-full px-2.5 py-1.5 text-xs"
               >
                 <option value="percent">% Porcentaje</option>
                 <option value="fixed">$ Fijo</option>
@@ -197,7 +197,7 @@ const CouponsManagement: React.FC = () => {
                 type="number"
                 value={value}
                 onChange={(e) => setValue(Number(e.target.value))}
-                className="comic-input w-full px-2.5 py-1.5 text-xs"
+                className="classic-input w-full px-2.5 py-1.5 text-xs"
                 min={1}
                 max={type === 'percent' ? 90 : undefined}
                 required
@@ -211,14 +211,14 @@ const CouponsManagement: React.FC = () => {
                 type="date"
                 value={expires}
                 onChange={(e) => setExpires(e.target.value)}
-                className="comic-input w-full px-2.5 py-1.5 text-xs"
+                className="classic-input w-full px-2.5 py-1.5 text-xs"
               />
             </div>
 
             {/* Botón crear */}
             <button
               type="submit"
-              className="lg:col-span-2 border-4 border-black dark:border-white bg-white dark:bg-black text-pop-yellow font-black uppercase px-4 py-1.5 text-xs flex items-center justify-center gap-1.5 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+              className="lg:col-span-2 border-4 border-black dark:border-white bg-white dark:bg-black text-accent-primary font-black uppercase px-4 py-1.5 text-xs flex items-center justify-center gap-1.5 shadow-classic-md"
             >
               <Plus size={14} />
               Crear
@@ -227,9 +227,9 @@ const CouponsManagement: React.FC = () => {
         </div>
 
         {/* Lista de recompensas */}
-        <div className="bg-white dark:bg-black border-4 border-black dark:border-white overflow-hidden shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+        <div className="bg-white dark:bg-black border-4 border-black dark:border-white overflow-hidden shadow-classic-lg">
           <div className="p-3 border-b-4 border-black dark:border-white bg-white dark:bg-black">
-            <h2 className="text-sm font-bold text-pop-cyan uppercase flex items-center gap-1.5">
+            <h2 className="text-sm font-bold text-accent-primary uppercase flex items-center gap-1.5">
               <Gift size={14} />
               Recompensas Activas
             </h2>
@@ -239,7 +239,7 @@ const CouponsManagement: React.FC = () => {
             {loading ? (
               <div className="text-center py-8">
                 <div className="w-8 h-8 border-2 border-black/30 dark:border-white/30 border-t-black dark:border-t-white rounded-full animate-spin mx-auto mb-2"></div>
-                <p className="text-pop-cyan font-bold text-xs">Cargando...</p>
+                <p className="text-accent-primary font-bold text-xs">Cargando...</p>
               </div>
             ) : items.length === 0 ? (
               <div className="text-center py-8">
@@ -255,7 +255,7 @@ const CouponsManagement: React.FC = () => {
                   return (
                     <div
                       key={r.id}
-                      className="border-4 border-black dark:border-white bg-white dark:bg-black p-3 hover:shadow-[6px_6px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[6px_6px_0px_rgba(255,255,255,0.5)] transition-all shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+                      className="border-4 border-black dark:border-white bg-white dark:bg-black p-3 hover:shadow-[6px_6px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[6px_6px_0px_rgba(255,255,255,0.5)] transition-all shadow-classic-md"
                     >
                       <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                         {/* Info */}
@@ -264,17 +264,17 @@ const CouponsManagement: React.FC = () => {
                             <span className="text-xs text-[#2A2A2A] dark:text-white font-semibold truncate">
                               {r.title}
                             </span>
-                            <span className="text-[9px] px-1.5 py-0.5 bg-white dark:bg-black text-pop-purple font-bold uppercase border-2 border-black dark:border-white">
+                            <span className="text-[9px] px-1.5 py-0.5 bg-white dark:bg-black text-accent-primary font-bold uppercase border-2 border-black dark:border-white">
                               {r.type === 'percent' ? `${r.value}%` : `$${r.value}`}
                             </span>
                             {!r.active && (
-                              <span className="text-[9px] px-1.5 py-0.5 bg-white dark:bg-black text-pop-red font-bold uppercase border-2 border-black dark:border-white">
+                              <span className="text-[9px] px-1.5 py-0.5 bg-white dark:bg-black text-accent-error font-bold uppercase border-2 border-black dark:border-white">
                                 Inactiva
                               </span>
                             )}
                           </div>
                           <div className="text-[10px] text-[#8A8A8A] dark:text-gray-400 font-light">
-                            Costo: <span className="font-medium text-pop-cyan">{r.costPoints} pts</span> · Expira: {exp}
+                            Costo: <span className="font-medium text-accent-primary">{r.costPoints} pts</span> · Expira: {exp}
                           </div>
                         </div>
 
@@ -282,21 +282,21 @@ const CouponsManagement: React.FC = () => {
                         <div className="flex items-center gap-1.5">
                           <button
                             onClick={() => toggle(r.id, r.active)}
-                            className="flex items-center gap-1 px-3 py-1.5 border-2 border-black dark:border-white bg-white dark:bg-black hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] font-bold transition-all"
+                            className="flex items-center gap-1 px-3 py-1.5 border-2 border-black dark:border-white bg-white dark:bg-black hover:shadow-classic-sm dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] font-bold transition-all"
                             title={r.active ? 'Desactivar' : 'Activar'}
                           >
                             {r.active ? (
-                              <ToggleRight size={16} className="text-pop-green" />
+                              <ToggleRight size={16} className="text-accent-success" />
                             ) : (
                               <ToggleLeft size={16} className="text-[#8A8A8A] dark:text-gray-400" />
                             )}
                             <span className="text-[10px] font-medium hidden xs:inline">
-                              {r.active ? <span className="text-pop-green">Activa</span> : <span className="text-[#8A8A8A] dark:text-gray-400">Inactiva</span>}
+                              {r.active ? <span className="text-accent-success">Activa</span> : <span className="text-[#8A8A8A] dark:text-gray-400">Inactiva</span>}
                             </span>
                           </button>
                           <button
                             onClick={() => remove(r.id)}
-                            className="p-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-pop-red hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
+                            className="p-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-accent-error hover:shadow-classic-sm dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
                             title="Eliminar"
                           >
                             <Trash2 size={14} />

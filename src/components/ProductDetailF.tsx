@@ -194,12 +194,12 @@ const ProductDetailF: React.FC = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-black py-6 min-h-screen bendaydots-pattern">
+    <div className="bg-white dark:bg-black py-6 min-h-screen ">
       <div className="container mx-auto px-4 max-w-5xl">
         {/* Breadcrumb */}
         <button
           onClick={() => (window.history.length > 1 ? navigate(-1) : navigate('/shop-f'))}
-          className="inline-flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-pop-purple dark:hover:text-pop-purple mb-6 transition-colors duration-200 font-semibold uppercase text-sm"
+          className="inline-flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-accent-primary dark:hover:text-accent-primary mb-6 transition-colors duration-200 font-semibold uppercase text-sm"
         >
           <ArrowLeft size={16} />
           <span>Volver a Productos</span>
@@ -207,16 +207,16 @@ const ProductDetailF: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Galería */}
-          <div className="order-1 animate-comic-pop">
+          <div className="order-1 animate-scale-in">
             <div
-              className="relative comic-border overflow-hidden crosshatch-pattern"
+              className="relative border border-primary rounded-lg overflow-hidden "
               onTouchStart={onTouchStart}
               onTouchEnd={onTouchEnd}
             >
               <div className="aspect-square relative overflow-hidden">
                 {!mainLoaded && (
                   <div className="absolute inset-0 bg-[#F2F2F2] dark:bg-gray-700 animate-pulse flex items-center justify-center">
-                    <div className="w-8 h-8 border-4 border-gray-400 border-t-pop-purple rounded-full animate-spin" />
+                    <div className="w-8 h-8 border-4 border-gray-400 border-t-accent-primary rounded-full animate-spin" />
                   </div>
                 )}
 
@@ -247,18 +247,18 @@ const ProductDetailF: React.FC = () => {
 
                 {/* Badges */}
                 {product.discount && product.discount > 0 && (
-                  <div className="absolute top-3 left-3 bg-pop-red text-white font-bold text-xs px-3 py-1.5 comic-border-light uppercase">
+                  <div className="absolute top-3 left-3 bg-accent-error text-white font-bold text-xs px-3 py-1.5 border border-primary rounded-lg uppercase">
                     -{product.discount}%
                   </div>
                 )}
                 <div className="absolute top-3 right-3">
                   {product.inStock && product.stockQuantity > 0 ? (
-                    <span className="bg-pop-green text-black dark:text-white text-xs px-3 py-1.5 comic-border-light flex items-center uppercase font-bold">
+                    <span className="bg-accent-success text-black dark:text-white text-xs px-3 py-1.5 border border-primary rounded-lg flex items-center uppercase font-bold">
                       <span className="w-2 h-2 bg-black dark:bg-white rounded-full mr-2 animate-pulse" />
                       En stock ({product.stockQuantity})
                     </span>
                   ) : (
-                    <span className="bg-pop-red text-white text-xs px-3 py-1.5 comic-border-light flex items-center uppercase font-bold">
+                    <span className="bg-accent-error text-white text-xs px-3 py-1.5 border border-primary rounded-lg flex items-center uppercase font-bold">
                       <span className="w-2 h-2 bg-white rounded-full mr-2" />
                       Sin stock
                     </span>
@@ -270,14 +270,14 @@ const ProductDetailF: React.FC = () => {
                   <>
                     <button
                       onClick={prev}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 bg-pop-pink hover:bg-pop-purple text-black dark:text-white comic-border-light w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 animate-comic-bounce"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 bg-accent-primary hover:bg-accent-primary text-black dark:text-white border border-primary rounded-lg w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 "
                       aria-label="Anterior"
                     >
                       <ChevronLeft className="text-black dark:text-white font-black" size={20} />
                     </button>
                     <button
                       onClick={next}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 bg-pop-pink hover:bg-pop-purple text-black dark:text-white comic-border-light w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 animate-comic-bounce"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 bg-accent-primary hover:bg-accent-primary text-black dark:text-white border border-primary rounded-lg w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 "
                       aria-label="Siguiente"
                     >
                       <ChevronRight className="text-black dark:text-white font-black" size={20} />
@@ -299,19 +299,19 @@ const ProductDetailF: React.FC = () => {
                         setIndex(i);
                         setMainLoaded(false);
                       }}
-                      className={`relative aspect-square overflow-hidden border-3 transition-all duration-200 comic-border-light ${
-                        active ? 'border-pop-purple' : 'border-gray-400 hover:border-pop-pink'
+                      className={`relative aspect-square overflow-hidden border-3 transition-all duration-200 border border-primary rounded-lg ${
+                        active ? 'border-accent-primary' : 'border-gray-400 hover:border-accent-primary'
                       }`}
                       title={`Vista ${i + 1}`}
                     >
                       {isVideo(m) ? (
-                        <div className="w-full h-full bg-pop-purple/80 flex items-center justify-center">
+                        <div className="w-full h-full bg-accent-primary/80 flex items-center justify-center">
                           <Play className="text-white" size={18} />
                         </div>
                       ) : (
                         <img src={m} alt={`thumb-${i}`} className="w-full h-full object-cover" />
                       )}
-                      <span className="absolute bottom-1 right-1 text-[10px] px-1.5 py-0.5 bg-pop-pink text-black font-bold comic-border-light">
+                      <span className="absolute bottom-1 right-1 text-[10px] px-1.5 py-0.5 bg-accent-primary text-black font-bold border border-primary rounded-lg">
                         {i + 1}
                       </span>
                     </button>
@@ -324,7 +324,7 @@ const ProductDetailF: React.FC = () => {
           {/* Info */}
           <div className="order-2 space-y-5">
             <div>
-              <h1 className="text-2xl lg:text-3xl font-black text-black dark:text-white leading-tight break-words comic-text-shadow uppercase">
+              <h1 className="text-2xl lg:text-3xl font-black text-black dark:text-white leading-tight break-words title-shadow uppercase">
                 {product.name}
               </h1>
               <div className="flex items-center gap-3 mt-3">
@@ -333,7 +333,7 @@ const ProductDetailF: React.FC = () => {
                     <Star
                       key={i}
                       size={16}
-                      className={i < Math.floor(product.rating ?? 0) ? 'text-pop-yellow' : 'text-gray-400 dark:text-gray-600'}
+                      className={i < Math.floor(product.rating ?? 0) ? 'text-accent-primary' : 'text-gray-400 dark:text-gray-600'}
                       fill={i < Math.floor(product.rating ?? 0) ? 'currentColor' : 'none'}
                     />
                   ))}
@@ -345,10 +345,10 @@ const ProductDetailF: React.FC = () => {
             </div>
 
             {/* Precio */}
-            <div className="comic-panel p-5 animate-comic-bounce">
+            <div className="classic-card p-5 ">
               <div className="space-y-1">
                 <div className="flex items-baseline gap-2">
-                  <span className="text-2xl font-black text-pop-purple comic-text-shadow">
+                  <span className="text-2xl font-black text-accent-primary title-shadow">
                     ${product.price.toLocaleString('es-CO')}
                   </span>
                   {hasDiscount && product.originalPrice && (
@@ -358,7 +358,7 @@ const ProductDetailF: React.FC = () => {
                   )}
                 </div>
                 {hasDiscount && product.originalPrice && (
-                  <div className="bg-pop-pink text-black font-bold text-xs px-2 py-1 comic-border-light inline-block uppercase">
+                  <div className="bg-accent-primary text-black font-bold text-xs px-2 py-1 border border-primary rounded-lg inline-block uppercase">
                     Ahorra ${(product.originalPrice - product.price).toLocaleString('es-CO')}
                   </div>
                 )}
@@ -373,18 +373,18 @@ const ProductDetailF: React.FC = () => {
             </div>
 
             {/* Beneficios físicos */}
-            <div className="flex flex-wrap items-center justify-center gap-4 comic-panel p-4 stipple-pattern">
+            <div className="flex flex-wrap items-center justify-center gap-4 classic-card p-4 ">
               <div className="flex items-center gap-2 text-gray-800 dark:text-gray-200 text-xs font-bold uppercase relative z-10">
-                <Truck className="w-4 h-4 text-pop-purple" />
+                <Truck className="w-4 h-4 text-accent-primary" />
                 <span>{product.shippingInfo}</span>
               </div>
               <div className="flex items-center gap-2 text-gray-800 dark:text-gray-200 text-xs font-bold uppercase relative z-10">
-                <Shield className="w-4 h-4 text-pop-purple" />
+                <Shield className="w-4 h-4 text-accent-primary" />
                 <span>Garantía total</span>
               </div>
               {product.sku && (
                 <div className="flex items-center gap-2 text-gray-800 dark:text-gray-200 text-xs font-bold uppercase relative z-10">
-                  <Package className="w-4 h-4 text-pop-purple" />
+                  <Package className="w-4 h-4 text-accent-primary" />
                   <span>SKU: {product.sku}</span>
                 </div>
               )}
@@ -397,8 +397,8 @@ const ProductDetailF: React.FC = () => {
                 disabled={!product.inStock || product.stockQuantity <= 0}
                 className={`w-full py-3.5 px-6 font-black text-base flex items-center justify-center gap-2 transition-all duration-200 ${
                   product.inStock && product.stockQuantity > 0
-                    ? 'bg-pop-purple hover:bg-pop-pink text-white comic-button animate-comic-bounce'
-                    : 'bg-gray-400 dark:bg-gray-600 text-gray-700 dark:text-gray-400 cursor-not-allowed comic-border-light uppercase'
+                    ? 'bg-accent-primary hover:bg-accent-primary text-white classic-btn '
+                    : 'bg-gray-400 dark:bg-gray-600 text-gray-700 dark:text-gray-400 cursor-not-allowed border border-primary rounded-lg uppercase'
                 }`}
               >
                 <ShoppingCart size={18} />
@@ -408,7 +408,7 @@ const ProductDetailF: React.FC = () => {
               </button>
 
               <div className="flex items-center justify-center gap-2 text-gray-700 dark:text-gray-300 text-sm font-bold uppercase">
-                <Zap className="w-4 h-4 text-pop-yellow" />
+                <Zap className="w-4 h-4 text-accent-primary" />
                 <span>Compra segura con envío garantizado</span>
               </div>
             </div>

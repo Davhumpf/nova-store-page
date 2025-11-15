@@ -163,9 +163,9 @@ const ShopSectionF: React.FC = () => {
       <div className="min-h-screen bg-white dark:bg-black">
         <Header />
         <div className="flex items-center justify-center py-24 animate-fadeIn">
-          <div className="flex flex-col items-center comic-panel bg-white dark:bg-black border-4 border-black dark:border-white halftone-pattern p-8 shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+          <div className="flex flex-col items-center classic-card bg-white dark:bg-black border-4 border-black dark:border-white  p-8 shadow-classic-lg">
             <div className="w-12 h-12 rounded-full border-4 border-black dark:border-white border-t-[#FF4500] dark:border-t-[#00FFFF] animate-spin mb-3"></div>
-            <p className="text-black dark:text-white text-xs font-bold uppercase comic-text-outline">Cargando productos físicos...</p>
+            <p className="text-black dark:text-white text-xs font-bold uppercase ">Cargando productos físicos...</p>
           </div>
         </div>
       </div>
@@ -176,8 +176,8 @@ const ShopSectionF: React.FC = () => {
       <div className="min-h-screen bg-white dark:bg-black">
         <Header />
         <div className="flex items-center justify-center py-24 px-4 animate-fadeIn">
-          <div className="text-center comic-panel bg-white dark:bg-black border-4 border-black dark:border-white halftone-pattern p-6 shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
-            <p className="text-[#FF4500] dark:text-[#FF4500] font-bold text-xs uppercase comic-text-outline">{error}</p>
+          <div className="text-center classic-card bg-white dark:bg-black border-4 border-black dark:border-white  p-6 shadow-classic-lg">
+            <p className="text-[#FF4500] dark:text-[#FF4500] font-bold text-xs uppercase ">{error}</p>
           </div>
         </div>
       </div>
@@ -188,28 +188,28 @@ const ShopSectionF: React.FC = () => {
     <div className="min-h-screen bg-white dark:bg-black relative overflow-hidden">
       {/* Comic Crosshatch Background Pattern */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 crosshatch-pattern text-black dark:text-white opacity-10"></div>
+        <div className="absolute inset-0  text-black dark:text-white opacity-10"></div>
       </div>
 
       <div className="relative z-10">
         <Header />
 
       {/* Comic-Style Top Bar */}
-      <div className="bg-white dark:bg-black comic-border-light border-b-4 border-black dark:border-white sticky top-0 z-20 halftone-pattern shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
+      <div className="bg-white dark:bg-black border border-primary rounded-lg-light border-b-4 border-black dark:border-white sticky top-0 z-20  shadow-classic-md">
         <div className="container mx-auto px-3 py-2">
           <div className="flex items-center justify-between mb-2">
             <button
               onClick={() => navigate(-1)}
-              className="flex items-center gap-1 text-[10px] text-black dark:text-white hover:text-pop-orange dark:hover:text-pop-cyan transition-all duration-300 group font-bold uppercase speed-lines"
+              className="flex items-center gap-1 text-[10px] text-black dark:text-white hover:text-accent-primary dark:hover:text-accent-primary transition-all duration-300 group font-bold uppercase "
             >
               <ArrowRight size={12} className="rotate-180 group-hover:-translate-x-1 transition-transform duration-300" />
-              <span className="comic-text-outline">Volver</span>
+              <span className="">Volver</span>
             </button>
-            <p className="text-black dark:text-white text-[9px] font-bold uppercase comic-text-outline animate-fadeIn">{filtered.length} productos físicos</p>
+            <p className="text-black dark:text-white text-[9px] font-bold uppercase  animate-fadeIn">{filtered.length} productos físicos</p>
           </div>
 
           <div className="flex gap-2">
-            <div className="flex-1 flex items-center bg-white dark:bg-black comic-border border-4 border-black dark:border-white px-2 py-1.5 bendaydots-pattern hover:speed-lines transition-all duration-300 shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)]">
+            <div className="flex-1 flex items-center bg-white dark:bg-black border border-primary rounded-lg border-4 border-black dark:border-white px-2 py-1.5  hover: transition-all duration-300 shadow-classic-md">
               <Search size={12} className="text-[#FF4500] dark:text-[#00FFFF] mr-1.5 shrink-0" />
               <input
                 type="text"
@@ -222,7 +222,7 @@ const ShopSectionF: React.FC = () => {
 
             <button
               onClick={() => setShowFilters((s) => !s)}
-              className={`p-1.5 comic-border border-4 border-black dark:border-white transition-all duration-300 shrink-0 hover:scale-105 animate-comic-pop font-bold shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)] ${
+              className={`p-1.5 border border-primary rounded-lg border-4 border-black dark:border-white transition-all duration-300 shrink-0 hover:scale-105 animate-scale-in font-bold shadow-classic-md ${
                 showFilters ? "bg-white dark:bg-black text-[#FF4500] dark:text-[#00FFFF]" : "bg-white dark:bg-black text-black dark:text-white"
               }`}
               title="Filtros"
@@ -230,11 +230,11 @@ const ShopSectionF: React.FC = () => {
               <Filter size={12} />
             </button>
 
-            <div className="flex bg-white dark:bg-black comic-border border-4 border-black dark:border-white p-0.5 shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)]">
+            <div className="flex bg-white dark:bg-black border border-primary rounded-lg border-4 border-black dark:border-white p-0.5 shadow-classic-md">
               <button
                 onClick={() => setViewMode("grid")}
                 className={`p-1 transition-all duration-300 ${
-                  viewMode === "grid" ? "bg-pop-cyan text-black scale-105" : "text-black dark:text-white hover:scale-105"
+                  viewMode === "grid" ? "bg-accent-primary text-black scale-105" : "text-black dark:text-white hover:scale-105"
                 }`}
               >
                 <Grid size={10} />
@@ -242,7 +242,7 @@ const ShopSectionF: React.FC = () => {
               <button
                 onClick={() => setViewMode("list")}
                 className={`p-1 transition-all duration-300 ${
-                  viewMode === "list" ? "bg-pop-cyan text-black scale-105" : "text-black dark:text-white hover:scale-105"
+                  viewMode === "list" ? "bg-accent-primary text-black scale-105" : "text-black dark:text-white hover:scale-105"
                 }`}
               >
                 <List size={10} />
@@ -252,11 +252,11 @@ const ShopSectionF: React.FC = () => {
 
           {/* Comic-Style Filter Panel */}
           {showFilters && (
-            <div className="relative group animate-comic-pop">
-              <div className="relative comic-panel bg-white dark:bg-black border-4 border-black dark:border-white halftone-pattern p-3 mt-2 animate-slideDown shadow-[6px_6px_0px_rgba(0,0,0,0.8)] dark:shadow-[6px_6px_0px_rgba(255,255,255,0.5)]">
+            <div className="relative group animate-scale-in">
+              <div className="relative classic-card bg-white dark:bg-black border-4 border-black dark:border-white  p-3 mt-2 animate-slideDown shadow-classic-md">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-bold uppercase text-black dark:text-white comic-text-outline">Filtros</span>
-                <button onClick={() => setShowFilters(false)} className="text-black dark:text-white hover:text-[#FF4500] dark:hover:text-[#00FFFF] transition-colors duration-300 hover:rotate-90 transition-transform comic-border bg-white dark:bg-black border-2 border-black dark:border-white p-1 shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.5)]">
+                <span className="text-[10px] font-bold uppercase text-black dark:text-white ">Filtros</span>
+                <button onClick={() => setShowFilters(false)} className="text-black dark:text-white hover:text-[#FF4500] dark:hover:text-[#00FFFF] transition-colors duration-300 hover:rotate-90 transition-transform border border-primary rounded-lg bg-white dark:bg-black border-2 border-black dark:border-white p-1 shadow-classic-sm">
                   <X size={12} />
                 </button>
               </div>
@@ -266,7 +266,7 @@ const ShopSectionF: React.FC = () => {
                   <select
                     value={category}
                     onChange={(e) => { setCategory(e.target.value); setPage(1); }}
-                    className="w-full bg-white dark:bg-black comic-border border-3 border-black dark:border-white text-black dark:text-white px-2 py-1 text-[10px] font-bold transition-all duration-300 cursor-pointer shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)]"
+                    className="w-full bg-white dark:bg-black border border-primary rounded-lg border-3 border-black dark:border-white text-black dark:text-white px-2 py-1 text-[10px] font-bold transition-all duration-300 cursor-pointer shadow-classic-md"
                   >
                     {categories.map((c) => (
                       <option key={c} value={c}>
@@ -281,7 +281,7 @@ const ShopSectionF: React.FC = () => {
                   <select
                     value={sortBy}
                     onChange={(e) => { setSortBy(e.target.value); setPage(1); }}
-                    className="w-full bg-white dark:bg-black comic-border border-3 border-black dark:border-white text-black dark:text-white px-2 py-1 text-[10px] font-bold transition-all duration-300 cursor-pointer shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)]"
+                    className="w-full bg-white dark:bg-black border border-primary rounded-lg border-3 border-black dark:border-white text-black dark:text-white px-2 py-1 text-[10px] font-bold transition-all duration-300 cursor-pointer shadow-classic-md"
                   >
                     <option value="newest">Nuevos</option>
                     <option value="price-low">Menor precio</option>
@@ -302,7 +302,7 @@ const ShopSectionF: React.FC = () => {
                     step={50}
                     value={priceRange[1]}
                     onChange={(e) => { setPriceRange([0, Number(e.target.value)]); setPage(1); }}
-                    className="w-full accent-pop-orange h-2 cursor-pointer"
+                    className="w-full accent-accent-primary h-2 cursor-pointer"
                   />
                 </div>
 
@@ -313,14 +313,14 @@ const ShopSectionF: React.FC = () => {
                       <button
                         key={rating}
                         onClick={() => { setMinRating(rating === minRating ? 0 : rating); setPage(1); }}
-                        className="transition-all duration-300 hover:scale-125 animate-comic-pop"
+                        className="transition-all duration-300 hover:scale-125 animate-scale-in"
                       >
                         <Star
                           size={14}
                           className={
                             rating <= minRating
-                              ? "text-pop-yellow fill-current"
-                              : "text-black/30 dark:text-white/30 hover:text-pop-yellow"
+                              ? "text-accent-primary fill-current"
+                              : "text-black/30 dark:text-white/30 hover:text-accent-primary"
                           }
                         />
                       </button>
@@ -340,9 +340,9 @@ const ShopSectionF: React.FC = () => {
       <div className="container mx-auto px-3 py-4 md:py-6">
         {paginated.length === 0 ? (
           <div className="text-center py-12 animate-fadeIn">
-            <div className="comic-panel bg-white dark:bg-black border-4 border-black dark:border-white halftone-pattern p-6 max-w-sm mx-auto animate-comic-pop shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+            <div className="classic-card bg-white dark:bg-black border-4 border-black dark:border-white  p-6 max-w-sm mx-auto animate-scale-in shadow-classic-lg">
               <Play size={24} className="text-[#FF4500] dark:text-[#00FFFF] mx-auto mb-2" />
-              <p className="text-black dark:text-white text-xs font-bold uppercase comic-text-outline">No hay productos disponibles</p>
+              <p className="text-black dark:text-white text-xs font-bold uppercase ">No hay productos disponibles</p>
             </div>
           </div>
         ) : (
@@ -361,21 +361,21 @@ const ShopSectionF: React.FC = () => {
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
                     {/* Comic Speed Lines Effect */}
-                    <div className="relative comic-panel bg-white dark:bg-black border-4 border-black dark:border-white bendaydots-pattern p-3 flex gap-3 hover:speed-lines-right comic-hover animate-comic-pop shadow-[5px_5px_0px_rgba(0,0,0,0.8)] dark:shadow-[5px_5px_0px_rgba(255,255,255,0.5)]">
-                    <div className="relative w-24 h-24 shrink-0 comic-border border-3 border-black dark:border-white">
+                    <div className="relative classic-card bg-white dark:bg-black border-4 border-black dark:border-white  p-3 flex gap-3 hover:-right transition-all duration-200 hover:shadow-classic-md animate-scale-in shadow-classic-md">
+                    <div className="relative w-24 h-24 shrink-0 border border-primary rounded-lg border-3 border-black dark:border-white">
                       <img
                         src={product.imageUrl || "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400"}
                         alt={product.name}
                         className="w-full h-full object-cover"
                       />
                       {product.discount > 0 && (
-                        <div className="absolute top-0 left-0 bg-pop-red text-white text-[8px] px-1.5 py-0.5 comic-border font-bold uppercase">
+                        <div className="absolute top-0 left-0 bg-accent-error text-white text-[8px] px-1.5 py-0.5 border border-primary rounded-lg font-bold uppercase">
                           -{product.discount}%
                         </div>
                       )}
                       <button
                         onClick={() => toggleFavorite(product.id)}
-                        className="absolute top-0 right-0 p-1 bg-white dark:bg-black hover:scale-110 transition-transform duration-300 comic-border border-2 border-black dark:border-white shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.5)]"
+                        className="absolute top-0 right-0 p-1 bg-white dark:bg-black hover:scale-110 transition-transform duration-300 border border-primary rounded-lg border-2 border-black dark:border-white shadow-classic-sm"
                       >
                         <Heart size={10} className={isFav ? "text-[#FF1493] fill-current" : "text-black dark:text-white"} />
                       </button>
@@ -388,28 +388,28 @@ const ShopSectionF: React.FC = () => {
                       <div className="flex items-center gap-1 mb-1">
                         <div className="flex">
                           {[1, 2, 3, 4, 5].map((i) => (
-                            <Star key={i} size={8} className={i <= product.rating ? "text-pop-yellow fill-current" : "text-black/30 dark:text-white/30"} />
+                            <Star key={i} size={8} className={i <= product.rating ? "text-accent-primary fill-current" : "text-black/30 dark:text-white/30"} />
                           ))}
                         </div>
                         <span className="text-black/70 dark:text-white/70 text-[8px] font-bold">({product.reviews})</span>
                       </div>
 
                       <div className="flex items-center justify-between">
-                        <span className="text-pop-orange font-bold text-xs uppercase comic-text-shadow">
+                        <span className="text-accent-primary font-bold text-xs uppercase title-shadow">
                           ${product.price.toLocaleString()}
                         </span>
                         <div className="flex gap-1">
                           <Link
                             to={`/product-f/${product.id}`}
-                            className="bg-pop-cyan text-black px-2 py-1 comic-border text-[9px] font-bold uppercase hover:scale-105 transition-all duration-300"
+                            className="bg-accent-primary text-black px-2 py-1 border border-primary rounded-lg text-[9px] font-bold uppercase hover:scale-105 transition-all duration-300"
                           >
                             Ver
                           </Link>
                           <button
                             onClick={() => handleAddToCart(product)}
                             disabled={!product.inStock || inCart}
-                            className={`px-2 py-1 comic-border text-[9px] font-bold uppercase flex items-center gap-0.5 hover:scale-105 transition-all duration-300 ${
-                              inCart ? "bg-pop-green text-black" : "bg-pop-purple text-white hover:bg-pop-orange"
+                            className={`px-2 py-1 border border-primary rounded-lg text-[9px] font-bold uppercase flex items-center gap-0.5 hover:scale-105 transition-all duration-300 ${
+                              inCart ? "bg-accent-success text-black" : "bg-accent-primary text-white hover:bg-accent-primary"
                             } disabled:opacity-50`}
                           >
                             <ShoppingCart size={9} />
@@ -431,27 +431,27 @@ const ShopSectionF: React.FC = () => {
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
                   {/* Comic Panel with Speed Lines on Hover */}
-                  <div className="relative comic-panel bg-white dark:bg-black border-4 border-black dark:border-white crosshatch-pattern overflow-hidden hover:speed-lines-right comic-hover animate-comic-pop shadow-[5px_5px_0px_rgba(0,0,0,0.8)] dark:shadow-[5px_5px_0px_rgba(255,255,255,0.5)]">
-                  <div className="relative aspect-square overflow-hidden comic-border border-b-4 border-black dark:border-white">
+                  <div className="relative classic-card bg-white dark:bg-black border-4 border-black dark:border-white  overflow-hidden hover:-right transition-all duration-200 hover:shadow-classic-md animate-scale-in shadow-classic-md">
+                  <div className="relative aspect-square overflow-hidden border border-primary rounded-lg border-b-4 border-black dark:border-white">
                     <img
                       src={product.imageUrl || "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400"}
                       alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     {product.discount > 0 && (
-                      <div className="absolute top-2 left-2 bg-pop-red text-white text-[8px] px-2 py-1 comic-border font-bold uppercase animate-comic-bounce">
+                      <div className="absolute top-2 left-2 bg-accent-error text-white text-[8px] px-2 py-1 border border-primary rounded-lg font-bold uppercase ">
                         -{product.discount}%
                       </div>
                     )}
                     <button
                       onClick={() => toggleFavorite(product.id)}
-                      className="absolute top-2 right-2 p-1.5 bg-white dark:bg-black comic-border border-2 border-black dark:border-white hover:scale-110 transition-all duration-300 animate-comic-pop shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.5)]"
+                      className="absolute top-2 right-2 p-1.5 bg-white dark:bg-black border border-primary rounded-lg border-2 border-black dark:border-white hover:scale-110 transition-all duration-300 animate-scale-in shadow-classic-sm"
                     >
                       <Heart size={10} className={isFav ? "text-[#FF1493] fill-current animate-pulse" : "text-black dark:text-white"} />
                     </button>
 
-                    <div className="absolute inset-0 bg-white/90 dark:bg-black/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2 halftone-pattern">
-                      <Link to={`/product-f/${product.id}`} className="p-2 bg-white dark:bg-black comic-border border-3 border-black dark:border-white hover:scale-110 transition-transform duration-300 relative z-10 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
+                    <div className="absolute inset-0 bg-white/90 dark:bg-black/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2 ">
+                      <Link to={`/product-f/${product.id}`} className="p-2 bg-white dark:bg-black border border-primary rounded-lg border-3 border-black dark:border-white hover:scale-110 transition-transform duration-300 relative z-10 shadow-classic-md">
                         <Eye size={14} className="text-black dark:text-white" />
                       </Link>
                     </div>
@@ -463,14 +463,14 @@ const ShopSectionF: React.FC = () => {
                     <div className="flex items-center gap-1 mb-1">
                       <div className="flex">
                         {[1, 2, 3, 4, 5].map((i) => (
-                          <Star key={i} size={8} className={i <= product.rating ? "text-pop-yellow fill-current" : "text-black/30 dark:text-white/30"} />
+                          <Star key={i} size={8} className={i <= product.rating ? "text-accent-primary fill-current" : "text-black/30 dark:text-white/30"} />
                         ))}
                       </div>
                       <span className="text-black/70 dark:text-white/70 text-[8px] font-bold">({product.reviews})</span>
                     </div>
 
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-pop-orange font-bold text-xs uppercase comic-text-shadow">
+                      <span className="text-accent-primary font-bold text-xs uppercase title-shadow">
                         ${product.price.toLocaleString()}
                       </span>
                       {product.originalPrice > product.price && (
@@ -483,10 +483,10 @@ const ShopSectionF: React.FC = () => {
                     <button
                       onClick={() => handleAddToCart(product)}
                       disabled={!product.inStock || inCart}
-                      className={`w-full py-2 comic-border text-[9px] font-bold uppercase flex items-center justify-center gap-1 hover:scale-105 transition-all duration-300 ${
+                      className={`w-full py-2 border border-primary rounded-lg text-[9px] font-bold uppercase flex items-center justify-center gap-1 hover:scale-105 transition-all duration-300 ${
                         inCart
-                          ? "bg-pop-green text-black"
-                          : "bg-pop-purple text-white hover:bg-pop-orange hover:text-black"
+                          ? "bg-accent-success text-black"
+                          : "bg-accent-primary text-white hover:bg-accent-primary hover:text-black"
                       } disabled:opacity-50 disabled:cursor-not-allowed`}
                     >
                       <ShoppingCart size={10} />
@@ -506,7 +506,7 @@ const ShopSectionF: React.FC = () => {
             <button
               disabled={safePage === 1}
               onClick={() => { setPage((p) => Math.max(1, p - 1)); scrollToTop(); }}
-              className="px-3 py-1.5 bg-white dark:bg-black comic-border border-3 border-black dark:border-white text-black dark:text-white disabled:opacity-50 text-[10px] font-bold uppercase hover:scale-105 transition-all duration-300 disabled:hover:scale-100 shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)]"
+              className="px-3 py-1.5 bg-white dark:bg-black border border-primary rounded-lg border-3 border-black dark:border-white text-black dark:text-white disabled:opacity-50 text-[10px] font-bold uppercase hover:scale-105 transition-all duration-300 disabled:hover:scale-100 shadow-classic-md"
             >
               ←
             </button>
@@ -522,7 +522,7 @@ const ShopSectionF: React.FC = () => {
                 <button
                   key={pageNum}
                   onClick={() => { setPage(pageNum); scrollToTop(); }}
-                  className={`w-8 h-8 comic-border border-3 border-black dark:border-white text-[10px] font-bold uppercase transition-all duration-300 hover:scale-110 animate-comic-pop shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)] ${
+                  className={`w-8 h-8 border border-primary rounded-lg border-3 border-black dark:border-white text-[10px] font-bold uppercase transition-all duration-300 hover:scale-110 animate-scale-in shadow-classic-md ${
                     safePage === pageNum
                       ? "bg-white dark:bg-black text-[#FF4500] dark:text-[#00FFFF] scale-105"
                       : "bg-white dark:bg-black text-black dark:text-white"
@@ -536,7 +536,7 @@ const ShopSectionF: React.FC = () => {
             <button
               disabled={safePage === totalPages}
               onClick={() => { setPage((p) => Math.min(totalPages, p + 1)); scrollToTop(); }}
-              className="px-3 py-1.5 bg-white dark:bg-black comic-border border-3 border-black dark:border-white text-black dark:text-white disabled:opacity-50 text-[10px] font-bold uppercase hover:scale-105 transition-all duration-300 disabled:hover:scale-100 shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)]"
+              className="px-3 py-1.5 bg-white dark:bg-black border border-primary rounded-lg border-3 border-black dark:border-white text-black dark:text-white disabled:opacity-50 text-[10px] font-bold uppercase hover:scale-105 transition-all duration-300 disabled:hover:scale-100 shadow-classic-md"
             >
               →
             </button>

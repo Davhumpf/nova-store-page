@@ -242,9 +242,9 @@ const Colaborators: React.FC = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black">
-        <div className="flex flex-col items-center bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)] p-6">
+        <div className="flex flex-col items-center bg-white dark:bg-black border-4 border-black dark:border-white shadow-classic-lg p-6">
           <div className="w-10 h-10 border-3 border-black/30 dark:border-white/30 border-t-black dark:border-t-white rounded-full animate-spin"></div>
-          <p className="mt-2 text-pop-purple font-black uppercase tracking-wide text-xs">Cargando...</p>
+          <p className="mt-2 text-accent-primary font-black uppercase tracking-wide text-xs">Cargando...</p>
         </div>
       </div>
     );
@@ -257,16 +257,16 @@ const Colaborators: React.FC = () => {
         {/* Botón volver estilo Apple */}
         <button
           onClick={() => navigate('/admin')}
-          className="mb-3 flex items-center gap-1.5 text-xs text-pop-purple hover:text-pop-orange transition-colors group font-black uppercase tracking-wide"
+          className="mb-3 flex items-center gap-1.5 text-xs text-accent-primary hover:text-accent-primary transition-colors group font-black uppercase tracking-wide"
         >
           <ArrowRight size={14} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
           <span className="font-black">Panel Admin</span>
         </button>
 
         {/* Header minimalista */}
-        <div className="mb-4 bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)] p-4">
+        <div className="mb-4 bg-white dark:bg-black border-4 border-black dark:border-white shadow-classic-lg p-4">
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-1 h-8 bg-pop-purple rounded-full shadow-sm"></div>
+            <div className="w-1 h-8 bg-accent-primary rounded-full shadow-sm"></div>
             <div className="flex-1">
               <h1 className="text-lg font-black text-gray-900 dark:text-white uppercase tracking-wide">Gestión de Colaboradores</h1>
               <p className="text-[10px] text-gray-600 dark:text-gray-400 font-bold uppercase">Administra roles y permisos del equipo</p>
@@ -274,11 +274,11 @@ const Colaborators: React.FC = () => {
             <div className="flex gap-3 text-center">
               <div className="border-2 border-black dark:border-white px-2 py-1 bg-white dark:bg-black">
                 <p className="text-[9px] text-gray-600 dark:text-gray-400 font-bold uppercase">Total</p>
-                <p className="text-sm font-black text-pop-purple">{roles.length}</p>
+                <p className="text-sm font-black text-accent-primary">{roles.length}</p>
               </div>
               <div className="border-2 border-black dark:border-white px-2 py-1 bg-white dark:bg-black">
                 <p className="text-[9px] text-gray-600 dark:text-gray-400 font-bold uppercase">Activos</p>
-                <p className="text-sm font-black text-pop-orange">{roles.filter(r => r.isActive).length}</p>
+                <p className="text-sm font-black text-accent-primary">{roles.filter(r => r.isActive).length}</p>
               </div>
             </div>
           </div>
@@ -286,37 +286,37 @@ const Colaborators: React.FC = () => {
 
         {/* Mensaje de feedback */}
         {message && (
-          <div className="mb-3 p-2.5 border-4 border-black dark:border-white bg-white dark:bg-black flex items-center gap-2 text-xs shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
-            {message.type === 'success' ? <CheckCircle size={14} className="text-pop-orange" /> :
-             message.type === 'error' ? <XCircle size={14} className="text-pop-pink" /> :
-             <Activity size={14} className="text-pop-purple" />}
+          <div className="mb-3 p-2.5 border-4 border-black dark:border-white bg-white dark:bg-black flex items-center gap-2 text-xs shadow-classic-md">
+            {message.type === 'success' ? <CheckCircle size={14} className="text-accent-primary" /> :
+             message.type === 'error' ? <XCircle size={14} className="text-accent-primary" /> :
+             <Activity size={14} className="text-accent-primary" />}
             <span className={`font-black uppercase tracking-wide ${
-              message.type === 'success' ? 'text-pop-orange' :
-              message.type === 'error' ? 'text-pop-pink' :
-              'text-pop-purple'
+              message.type === 'success' ? 'text-accent-primary' :
+              message.type === 'error' ? 'text-accent-primary' :
+              'text-accent-primary'
             }`}>{message.text}</span>
           </div>
         )}
 
         {/* Controles de búsqueda y agregar */}
-        <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] p-3 mb-3">
+        <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-classic-md p-3 mb-3">
           <div className="flex flex-col sm:flex-row gap-2">
             {/* Buscador */}
             <div className="flex-1 relative">
-              <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-pop-purple dark:text-pop-pink" size={14} />
+              <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-accent-primary dark:text-accent-primary" size={14} />
               <input
                 type="email"
                 value={searchEmail}
                 onChange={(e) => setSearchEmail(e.target.value)}
                 placeholder="Buscar por correo..."
-                className="comic-input w-full pl-8 pr-3 py-2 bg-white dark:bg-gray-700 text-xs text-gray-900 dark:text-white placeholder-gray-600 dark:placeholder-gray-400 font-semibold"
+                className="classic-input w-full pl-8 pr-3 py-2 bg-white dark:bg-gray-700 text-xs text-gray-900 dark:text-white placeholder-gray-600 dark:placeholder-gray-400 font-semibold"
               />
             </div>
 
             {/* Botón agregar */}
             <button
               onClick={() => setShowAddForm(!showAddForm)}
-              className="border-4 border-black dark:border-white bg-white dark:bg-black text-pop-purple hover:text-pop-orange px-4 py-2 text-xs font-black flex items-center justify-center gap-1.5 uppercase tracking-wide shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+              className="border-4 border-black dark:border-white bg-white dark:bg-black text-accent-primary hover:text-accent-primary px-4 py-2 text-xs font-black flex items-center justify-center gap-1.5 uppercase tracking-wide shadow-classic-md"
             >
               <Plus size={14} />
               Agregar
@@ -336,13 +336,13 @@ const Colaborators: React.FC = () => {
                   value={newCollaboratorEmail}
                   onChange={(e) => setNewCollaboratorEmail(e.target.value)}
                   placeholder="correo@ejemplo.com"
-                  className="comic-input flex-1 px-3 py-2 bg-white dark:bg-gray-800 text-xs text-gray-900 dark:text-white placeholder-gray-600 dark:placeholder-gray-400 font-semibold"
+                  className="classic-input flex-1 px-3 py-2 bg-white dark:bg-gray-800 text-xs text-gray-900 dark:text-white placeholder-gray-600 dark:placeholder-gray-400 font-semibold"
                 />
                 <div className="flex gap-2">
                   <button
                     onClick={addCollaborator}
                     disabled={isAdding}
-                    className="border-4 border-black dark:border-white bg-white dark:bg-black text-pop-orange hover:text-pop-purple disabled:opacity-50 px-4 py-2 text-xs font-black uppercase tracking-wide flex items-center gap-1 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+                    className="border-4 border-black dark:border-white bg-white dark:bg-black text-accent-primary hover:text-accent-primary disabled:opacity-50 px-4 py-2 text-xs font-black uppercase tracking-wide flex items-center gap-1 shadow-classic-md"
                   >
                     {isAdding ? <Loader className="animate-spin" size={12} /> : <CheckCircle size={12} />}
                     {isAdding ? 'Agregando...' : 'Agregar'}
@@ -352,7 +352,7 @@ const Colaborators: React.FC = () => {
                       setShowAddForm(false);
                       setNewCollaboratorEmail('');
                     }}
-                    className="border-4 border-black dark:border-white bg-white dark:bg-black text-[#8A8A8A] dark:text-gray-400 hover:text-black dark:hover:text-white px-3 py-2 text-xs font-black uppercase tracking-wide shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+                    className="border-4 border-black dark:border-white bg-white dark:bg-black text-[#8A8A8A] dark:text-gray-400 hover:text-black dark:hover:text-white px-3 py-2 text-xs font-black uppercase tracking-wide shadow-classic-md"
                   >
                     Cancelar
                   </button>
@@ -363,7 +363,7 @@ const Colaborators: React.FC = () => {
         </div>
 
         {/* Lista de colaboradores */}
-        <div className="bg-white dark:bg-black border-4 border-black dark:border-white overflow-hidden shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+        <div className="bg-white dark:bg-black border-4 border-black dark:border-white overflow-hidden shadow-classic-lg">
           <div className="p-3 border-b-4 border-black dark:border-white bg-white dark:bg-black">
             <h2 className="text-sm font-black text-gray-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wide">
               <Shield size={14} />
@@ -373,7 +373,7 @@ const Colaborators: React.FC = () => {
 
           {filteredRoles.length === 0 ? (
             <div className="p-8 text-center">
-              <Users className="mx-auto text-pop-purple dark:text-pop-pink mb-2" size={32} />
+              <Users className="mx-auto text-accent-primary dark:text-accent-primary mb-2" size={32} />
               <p className="text-gray-600 dark:text-gray-400 text-xs font-bold uppercase tracking-wide">
                 {searchEmail ? 'No se encontraron colaboradores' : 'No hay colaboradores registrados'}
               </p>
@@ -390,13 +390,13 @@ const Colaborators: React.FC = () => {
                       {/* Info */}
                       <div className="flex items-start gap-2.5">
                         <div className={`p-1.5 border-2 border-black dark:border-white shrink-0 bg-white dark:bg-black`}>
-                          <Mail className={`${role.isActive ? 'text-pop-orange' : 'text-pop-pink'}`} size={14} />
+                          <Mail className={`${role.isActive ? 'text-accent-primary' : 'text-accent-primary'}`} size={14} />
                         </div>
                         <div className="flex-1 min-w-0">
                           <h3 className="text-xs text-gray-900 dark:text-white font-black break-all uppercase tracking-wide">{role.email}</h3>
                           <div className="flex flex-wrap items-center gap-2 text-[10px] text-gray-600 dark:text-gray-400 mt-0.5">
                             <span className="font-bold uppercase">{role.role}</span>
-                            <span className={`flex items-center gap-0.5 font-black ${role.isActive ? 'text-pop-orange' : 'text-pop-pink'}`}>
+                            <span className={`flex items-center gap-0.5 font-black ${role.isActive ? 'text-accent-primary' : 'text-accent-primary'}`}>
                               {role.isActive ? <CheckCircle size={10} /> : <XCircle size={10} />}
                               {role.isActive ? 'Activo' : 'Inactivo'}
                             </span>
@@ -416,7 +416,7 @@ const Colaborators: React.FC = () => {
                             setSelectedCollaborator(role.email);
                             setShowHistory(true);
                           }}
-                          className="flex-1 min-w-[80px] p-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-pop-purple hover:text-pop-orange text-[10px] font-black flex items-center justify-center gap-1 uppercase tracking-wide hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
+                          className="flex-1 min-w-[80px] p-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-accent-primary hover:text-accent-primary text-[10px] font-black flex items-center justify-center gap-1 uppercase tracking-wide hover:shadow-classic-sm dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
                           title="Ver historial"
                         >
                           <History size={12} />
@@ -425,8 +425,8 @@ const Colaborators: React.FC = () => {
 
                         <button
                           onClick={() => toggleCollaboratorStatus(role.id, role.isActive)}
-                          className={`p-1.5 border-2 border-black dark:border-white bg-white dark:bg-black hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all ${
-                            role.isActive ? 'text-pop-orange' : 'text-pop-purple'
+                          className={`p-1.5 border-2 border-black dark:border-white bg-white dark:bg-black hover:shadow-classic-sm dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all ${
+                            role.isActive ? 'text-accent-primary' : 'text-accent-primary'
                           }`}
                           title={role.isActive ? 'Inactivar' : 'Activar'}
                         >
@@ -435,7 +435,7 @@ const Colaborators: React.FC = () => {
 
                         <button
                           onClick={() => deleteCollaborator(role.id, role.email)}
-                          className="p-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-pop-pink hover:text-pop-red hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
+                          className="p-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-accent-primary hover:text-accent-error hover:shadow-classic-sm dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
                           title="Eliminar"
                         >
                           <Trash2 size={12} />
@@ -455,7 +455,7 @@ const Colaborators: React.FC = () => {
             <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[12px_12px_0px_rgba(0,0,0,0.8)] dark:shadow-[12px_12px_0px_rgba(255,255,255,0.5)] w-full max-w-3xl my-4">
               <div className="p-3 border-b-4 border-black dark:border-white flex items-center justify-between sticky top-0 bg-white dark:bg-black z-10">
                 <h3 className="text-sm font-black text-gray-900 dark:text-white flex items-center gap-1.5 truncate uppercase tracking-wide">
-                  <History size={14} className="shrink-0 text-pop-purple" />
+                  <History size={14} className="shrink-0 text-accent-primary" />
                   <span className="truncate">Historial de {selectedCollaborator}</span>
                 </h3>
                 <button
@@ -463,7 +463,7 @@ const Colaborators: React.FC = () => {
                     setShowHistory(false);
                     setSelectedCollaborator(null);
                   }}
-                  className="p-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-[#8A8A8A] dark:text-gray-400 hover:text-black dark:hover:text-white hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] shrink-0 transition-all"
+                  className="p-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-[#8A8A8A] dark:text-gray-400 hover:text-black dark:hover:text-white hover:shadow-classic-sm dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] shrink-0 transition-all"
                 >
                   <XCircle size={14} />
                 </button>
@@ -472,24 +472,24 @@ const Colaborators: React.FC = () => {
               <div className="p-3 max-h-[60vh] overflow-y-auto">
                 {getCollaboratorHistory(selectedCollaborator).length === 0 ? (
                   <div className="text-center py-8">
-                    <Activity className="mx-auto text-pop-purple dark:text-pop-pink mb-2" size={32} />
+                    <Activity className="mx-auto text-accent-primary dark:text-accent-primary mb-2" size={32} />
                     <p className="text-gray-600 dark:text-gray-400 text-xs font-bold uppercase tracking-wide">No hay actividades registradas</p>
                   </div>
                 ) : (
                   <div className="space-y-2">
                     {getCollaboratorHistory(selectedCollaborator).map((action) => (
-                      <div key={action.id} className="border-4 border-black dark:border-white bg-white dark:bg-black p-3 hover:shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] transition-all shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.5)]">
+                      <div key={action.id} className="border-4 border-black dark:border-white bg-white dark:bg-black p-3 hover:shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] transition-all shadow-classic-sm">
                         <div className="flex items-start gap-2">
                           <div className={`p-1.5 border-2 border-black dark:border-white shrink-0 bg-white dark:bg-black`}>
                             <Activity className={`${
-                              action.pointsChanged > 0 ? 'text-pop-orange' : 'text-pop-pink'
+                              action.pointsChanged > 0 ? 'text-accent-primary' : 'text-accent-primary'
                             }`} size={12} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex flex-wrap items-center gap-2 mb-1">
                               <span className="text-xs text-gray-900 dark:text-white font-black uppercase tracking-wide">{action.action}</span>
                               <span className={`text-[9px] px-1.5 py-0.5 border-2 border-black dark:border-white shrink-0 font-black bg-white dark:bg-black ${
-                                action.pointsChanged > 0 ? 'text-pop-orange' : 'text-pop-pink'
+                                action.pointsChanged > 0 ? 'text-accent-primary' : 'text-accent-primary'
                               }`}>
                                 {action.pointsChanged > 0 ? '+' : ''}{action.pointsChanged} pts
                               </span>

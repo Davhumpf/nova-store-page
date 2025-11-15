@@ -17,51 +17,33 @@ const CATEGORY_DATA = [
 ];
 
 const MainBanner: React.FC<MainBannerProps> = ({ selectedCategory = 'all', onCategoryChange }) => {
-  
+
   // Componente de categoría optimizado
-  const CategoryButton = React.memo(({ category, isSelected, onClick }: { 
-    category: typeof CATEGORY_DATA[0], 
-    isSelected: boolean, 
-    onClick: () => void 
+  const CategoryButton = React.memo(({ category, isSelected, onClick }: {
+    category: typeof CATEGORY_DATA[0],
+    isSelected: boolean,
+    onClick: () => void
   }) => {
     const IconComponent = category.icon;
-    
+
     return (
-      <div className="relative flex-shrink-0">
-        <button
-          onClick={onClick}
-          className={`group relative px-4 py-3 font-bold text-sm transition-all duration-300 flex flex-col items-center gap-1.5 min-w-[80px] lg:min-w-0 lg:w-full ${
-            isSelected
-              ? 'comic-button bg-white dark:bg-black border-2 border-black dark:border-white text-pop-yellow transform scale-105 animate-comic-pop shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]'
-              : 'comic-border-light bg-white/80 dark:bg-black/80 border-2 border-black dark:border-white text-black dark:text-white'
-          } rounded-t-2xl uppercase`}
-          style={{
-            borderBottomLeftRadius: '0',
-            borderBottomRightRadius: '0',
-            borderBottom: 'none'
-          }}
-        >
-          <IconComponent className={`w-4 h-4 ${isSelected ? '' : 'group-hover:text-pop-red dark:group-hover:text-pop-cyan'} transition-colors flex-shrink-0`} />
-          <span className="text-xs leading-tight text-center whitespace-nowrap overflow-hidden text-ellipsis w-full lg:block">
-            {category.label}
-          </span>
-          {isSelected && (
-            <div className="absolute inset-0 rounded-t-2xl halftone-pattern pointer-events-none" />
-          )}
-        </button>
-        
-        <div 
-          className={`absolute bottom-0 left-0 right-0 h-0.5 transition-all duration-300 ${
-            isSelected 
-              ? 'bg-gradient-to-r from-transparent via-[#FEE440] dark:via-[#4CAF50] to-transparent' 
-              : 'bg-transparent group-hover:bg-gradient-to-r group-hover:from-transparent group-hover:via-white/30 dark:group-hover:via-gray-400/30 group-hover:to-transparent'
-          }`}
-          style={{ 
-            transform: 'translateY(1px)',
-            zIndex: 10
-          }}
-        />
-      </div>
+      <button
+        onClick={onClick}
+        className={`
+          group relative px-4 py-2.5 font-medium text-sm
+          transition-all duration-200 flex flex-col items-center gap-1.5
+          min-w-[80px] lg:min-w-0 lg:w-full rounded-lg
+          ${isSelected
+            ? 'bg-accent-primary text-white shadow-classic-md'
+            : 'bg-card border border-primary text-primary hover:border-secondary hover:shadow-classic-sm'
+          }
+        `}
+      >
+        <IconComponent className="w-4 h-4 flex-shrink-0" />
+        <span className="text-xs leading-tight text-center whitespace-nowrap overflow-hidden text-ellipsis w-full">
+          {category.label}
+        </span>
+      </button>
     );
   });
 
@@ -73,57 +55,44 @@ const MainBanner: React.FC<MainBannerProps> = ({ selectedCategory = 'all', onCat
   return (
     <div className="container mx-auto px-4 py-4">
       <div className="w-full">
-        {/* Solo categorías */}
-        <div className="comic-panel bendaydots-pattern bg-white dark:bg-black border-4 border-black dark:border-white rounded-2xl h-48 overflow-hidden shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
-          <div className="h-full flex flex-col p-6">
-            <div className="flex items-center gap-3 mb-6 flex-shrink-0">
-              <Filter className="w-5 h-5 text-pop-yellow dark:text-pop-green" />
-              <h3 className="text-[#0D0D0D] dark:text-white font-bold text-base comic-text-shadow">Filtrar por categoría</h3>
-            </div>
-            
-            <div className="flex-1">
-              {/* Desktop: Grid */}
-              <div className="hidden lg:block">
-                <div className="grid grid-cols-7 gap-2">
-                  {CATEGORY_DATA.map((category) => (
-                    <CategoryButton
-                      key={category.key}
-                      category={category}
-                      isSelected={selectedCategory === category.key}
-                      onClick={() => handleCategoryChange(category.key)}
-                    />
-                  ))}
-                </div>
-              </div>
+        {/* Panel de categorías */}
+        <div className="classic-container">
+          <div className="flex items-center gap-3 mb-4">
+            <Filter className="w-5 h-5 text-accent-primary" />
+            <h3 className="text-primary font-semibold text-base title-shadow">
+              Filtrar por categoría
+            </h3>
+          </div>
 
-              {/* Mobile: Scroll horizontal */}
-              <div className="lg:hidden">
-                <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2 -mr-6 pr-6">
-                  {CATEGORY_DATA.map((category) => (
-                    <CategoryButton
-                      key={category.key}
-                      category={category}
-                      isSelected={selectedCategory === category.key}
-                      onClick={() => handleCategoryChange(category.key)}
-                    />
-                  ))}
-                </div>
-              </div>
+          {/* Desktop: Grid */}
+          <div className="hidden lg:block">
+            <div className="grid grid-cols-7 gap-2">
+              {CATEGORY_DATA.map((category) => (
+                <CategoryButton
+                  key={category.key}
+                  category={category}
+                  isSelected={selectedCategory === category.key}
+                  onClick={() => handleCategoryChange(category.key)}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Mobile: Scroll horizontal */}
+          <div className="lg:hidden">
+            <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-2 -mr-4 pr-4">
+              {CATEGORY_DATA.map((category) => (
+                <CategoryButton
+                  key={category.key}
+                  category={category}
+                  isSelected={selectedCategory === category.key}
+                  onClick={() => handleCategoryChange(category.key)}
+                />
+              ))}
             </div>
           </div>
         </div>
       </div>
-
-      {/* CSS para scroll horizontal */}
-      <style jsx>{`
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </div>
   );
 };

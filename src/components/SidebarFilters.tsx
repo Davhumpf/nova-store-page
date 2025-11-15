@@ -86,17 +86,17 @@ const SidebarFilters: React.FC<SidebarFiltersProps> = ({
     <div className="border-b-4 border-black dark:border-white/30 last:border-b-0">
       <button
         onClick={() => toggleSection(section)}
-        className="w-full flex items-center justify-between p-4 text-left hover:bg-pop-yellow/10 dark:hover:bg-pop-cyan/10 transition-colors halftone-pattern"
+        className="w-full flex items-center justify-between p-4 text-left hover:bg-accent-primary/10 dark:hover:bg-accent-primary/10 transition-colors "
       >
-        <span className="font-bold text-[#0D0D0D] dark:text-white comic-text-shadow uppercase">{title}</span>
+        <span className="font-bold text-[#0D0D0D] dark:text-white title-shadow uppercase">{title}</span>
         {expandedSections[section] ? (
-          <ChevronUp className="w-4 h-4 text-pop-red dark:text-pop-cyan" />
+          <ChevronUp className="w-4 h-4 text-accent-error dark:text-accent-primary" />
         ) : (
-          <ChevronDown className="w-4 h-4 text-pop-red dark:text-pop-cyan" />
+          <ChevronDown className="w-4 h-4 text-accent-error dark:text-accent-primary" />
         )}
       </button>
       {expandedSections[section] && (
-        <div className="px-4 pb-4 space-y-3 bg-pop-yellow/5 dark:bg-pop-cyan/5">
+        <div className="px-4 pb-4 space-y-3 bg-accent-primary/5 dark:bg-accent-primary/5">
           {children}
         </div>
       )}
@@ -118,29 +118,28 @@ const SidebarFilters: React.FC<SidebarFiltersProps> = ({
         className={`
           fixed lg:static top-0 right-0 h-full lg:h-auto
           w-80 lg:w-72 xl:w-80 bg-white dark:bg-gray-900
-          comic-border halftone-pattern
-          z-50 lg:z-0 transform transition-transform duration-300 ease-out
+          border border-primary rounded-lg           z-50 lg:z-0 transform transition-transform duration-300 ease-out
           ${isOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'}
           overflow-y-auto rounded-l-2xl lg:rounded-2xl filters-sidebar
           ${className}
         `}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b-4 border-black dark:border-white bendaydots-pattern bg-white dark:bg-black">
+        <div className="flex items-center justify-between p-4 border-b-4 border-black dark:border-white  bg-white dark:bg-black">
           <div className="flex items-center gap-2">
-            <Filter className="w-5 h-5 text-pop-yellow" />
-            <h2 className="text-lg font-bold text-black dark:text-white comic-text-shadow uppercase">Filtros</h2>
+            <Filter className="w-5 h-5 text-accent-primary" />
+            <h2 className="text-lg font-bold text-black dark:text-white title-shadow uppercase">Filtros</h2>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={onClearFilters}
-              className="text-sm text-[#0D0D0D] dark:text-white hover:text-pop-red dark:hover:text-pop-pink transition-colors font-bold uppercase"
+              className="text-sm text-[#0D0D0D] dark:text-white hover:text-accent-error dark:hover:text-accent-primary transition-colors font-bold uppercase"
             >
               Limpiar
             </button>
             <button
               onClick={onClose}
-              className="lg:hidden text-[#0D0D0D] dark:text-white hover:text-pop-red dark:hover:text-pop-pink transition-colors p-1 comic-button"
+              className="lg:hidden text-[#0D0D0D] dark:text-white hover:text-accent-error dark:hover:text-accent-primary transition-colors p-1 classic-btn"
             >
               <X className="w-5 h-5" />
             </button>
@@ -193,7 +192,7 @@ const SidebarFilters: React.FC<SidebarFiltersProps> = ({
                     max="1000"
                     value={filters.priceRange[0]}
                     onChange={(e) => handlePriceRangeChange(parseInt(e.target.value) || 0, filters.priceRange[1])}
-                    className="w-full comic-input text-sm text-[#0D0D0D] dark:text-white"
+                    className="w-full classic-input text-sm text-[#0D0D0D] dark:text-white"
                     placeholder="0"
                   />
                 </div>
@@ -205,7 +204,7 @@ const SidebarFilters: React.FC<SidebarFiltersProps> = ({
                     max="1000"
                     value={filters.priceRange[1]}
                     onChange={(e) => handlePriceRangeChange(filters.priceRange[0], parseInt(e.target.value) || 1000)}
-                    className="w-full comic-input text-sm text-[#0D0D0D] dark:text-white"
+                    className="w-full classic-input text-sm text-[#0D0D0D] dark:text-white"
                     placeholder="1000"
                   />
                 </div>
@@ -225,8 +224,8 @@ const SidebarFilters: React.FC<SidebarFiltersProps> = ({
                     className={`
                       text-xs py-2 px-3 rounded-lg font-bold transition-colors uppercase
                       ${filters.priceRange[0] === 0 && filters.priceRange[1] === range.max
-                        ? 'comic-button bg-white dark:bg-black border-2 border-black dark:border-white text-pop-yellow shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]'
-                        : 'comic-border-light bg-white dark:bg-black border-2 border-black dark:border-white text-black dark:text-white'
+                        ? 'classic-btn bg-white dark:bg-black border-2 border-black dark:border-white text-accent-primary shadow-classic-md'
+                        : 'border border-primary rounded-lg-light bg-white dark:bg-black border-2 border-black dark:border-white text-black dark:text-white'
                       }
                     `}
                   >
@@ -326,15 +325,15 @@ const SidebarFilters: React.FC<SidebarFiltersProps> = ({
             filters.minDiscount !== 0 || 
             filters.inStock || 
             filters.rating !== 0) && (
-            <div className="p-4 bg-white dark:bg-black border-t-4 border-black dark:border-white halftone-pattern">
-              <h4 className="text-sm font-bold text-[#0D0D0D] dark:text-white mb-3 comic-text-shadow uppercase">Filtros activos:</h4>
+            <div className="p-4 bg-white dark:bg-black border-t-4 border-black dark:border-white ">
+              <h4 className="text-sm font-bold text-[#0D0D0D] dark:text-white mb-3 title-shadow uppercase">Filtros activos:</h4>
               <div className="flex flex-wrap gap-2">
                 {filters.category !== "all" && (
-                  <span className="inline-flex items-center gap-1 comic-border-light bg-white dark:bg-black border-2 border-black dark:border-white text-pop-yellow text-xs px-2 py-1 rounded-full font-bold">
+                  <span className="inline-flex items-center gap-1 border border-primary rounded-lg-light bg-white dark:bg-black border-2 border-black dark:border-white text-accent-primary text-xs px-2 py-1 rounded-full font-bold">
                     {categories.find(c => c.id === filters.category)?.name || filters.category}
                     <button
                       onClick={() => handleCategoryChange("all")}
-                      className="hover:text-pop-red dark:hover:text-pop-pink"
+                      className="hover:text-accent-error dark:hover:text-accent-primary"
                     >
                       <X className="w-3 h-3" />
                     </button>
@@ -342,11 +341,11 @@ const SidebarFilters: React.FC<SidebarFiltersProps> = ({
                 )}
 
                 {(filters.priceRange[0] !== 0 || filters.priceRange[1] !== 1000) && (
-                  <span className="inline-flex items-center gap-1 comic-border-light bg-white dark:bg-black border-2 border-black dark:border-white text-pop-yellow text-xs px-2 py-1 rounded-full font-bold">
+                  <span className="inline-flex items-center gap-1 border border-primary rounded-lg-light bg-white dark:bg-black border-2 border-black dark:border-white text-accent-primary text-xs px-2 py-1 rounded-full font-bold">
                     ${filters.priceRange[0]} - ${filters.priceRange[1]}
                     <button
                       onClick={() => handlePriceRangeChange(0, 1000)}
-                      className="hover:text-pop-red dark:hover:text-pop-pink"
+                      className="hover:text-accent-error dark:hover:text-accent-primary"
                     >
                       <X className="w-3 h-3" />
                     </button>
@@ -354,11 +353,11 @@ const SidebarFilters: React.FC<SidebarFiltersProps> = ({
                 )}
 
                 {filters.minDiscount > 0 && (
-                  <span className="inline-flex items-center gap-1 comic-border-light bg-white dark:bg-black border-2 border-black dark:border-white text-pop-yellow text-xs px-2 py-1 rounded-full font-bold">
+                  <span className="inline-flex items-center gap-1 border border-primary rounded-lg-light bg-white dark:bg-black border-2 border-black dark:border-white text-accent-primary text-xs px-2 py-1 rounded-full font-bold">
                     {filters.minDiscount}% descuento
                     <button
                       onClick={() => handleDiscountChange(0)}
-                      className="hover:text-pop-red dark:hover:text-pop-pink"
+                      className="hover:text-accent-error dark:hover:text-accent-primary"
                     >
                       <X className="w-3 h-3" />
                     </button>
@@ -366,11 +365,11 @@ const SidebarFilters: React.FC<SidebarFiltersProps> = ({
                 )}
 
                 {filters.inStock && (
-                  <span className="inline-flex items-center gap-1 comic-border-light bg-white dark:bg-black border-2 border-black dark:border-white text-pop-green text-xs px-2 py-1 rounded-full font-bold">
+                  <span className="inline-flex items-center gap-1 border border-primary rounded-lg-light bg-white dark:bg-black border-2 border-black dark:border-white text-accent-success text-xs px-2 py-1 rounded-full font-bold">
                     En stock
                     <button
                       onClick={() => handleStockChange(false)}
-                      className="hover:text-pop-red dark:hover:text-pop-pink"
+                      className="hover:text-accent-error dark:hover:text-accent-primary"
                     >
                       <X className="w-3 h-3" />
                     </button>
@@ -378,11 +377,11 @@ const SidebarFilters: React.FC<SidebarFiltersProps> = ({
                 )}
 
                 {filters.rating > 0 && (
-                  <span className="inline-flex items-center gap-1 comic-border-light bg-white dark:bg-black border-2 border-black dark:border-white text-pop-yellow text-xs px-2 py-1 rounded-full font-bold">
+                  <span className="inline-flex items-center gap-1 border border-primary rounded-lg-light bg-white dark:bg-black border-2 border-black dark:border-white text-accent-primary text-xs px-2 py-1 rounded-full font-bold">
                     {filters.rating}+ estrellas
                     <button
                       onClick={() => handleRatingChange(0)}
-                      className="hover:text-pop-red dark:hover:text-pop-pink"
+                      className="hover:text-accent-error dark:hover:text-accent-primary"
                     >
                       <X className="w-3 h-3" />
                     </button>
@@ -397,7 +396,7 @@ const SidebarFilters: React.FC<SidebarFiltersProps> = ({
         <div className="p-4 lg:hidden border-t-4 border-black dark:border-white">
           <button
             onClick={onClose}
-            className="w-full comic-button bg-white dark:bg-black border-4 border-black dark:border-white text-black dark:text-white py-3 rounded-xl font-bold transition-colors uppercase shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]"
+            className="w-full classic-btn bg-white dark:bg-black border-4 border-black dark:border-white text-black dark:text-white py-3 rounded-xl font-bold transition-colors uppercase shadow-classic-lg"
           >
             Aplicar filtros
           </button>
