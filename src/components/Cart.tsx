@@ -39,10 +39,10 @@ const CartItem = memo(function CartItem({
   const increase = () => onUpdateQty(item.id, item.quantity + 1);
 
   return (
-    <div className="comic-border halftone-pattern bg-white dark:bg-gray-800 rounded-lg p-3.5 sm:p-4 group hover:speed-lines transition-all animate-comic-pop">
+    <div className="border border-primary rounded-lg  bg-white dark:bg-gray-800 rounded-lg p-3.5 sm:p-4 group hover: transition-all animate-scale-in">
       <div className="flex gap-3.5 relative z-10">
         <div className="relative flex-shrink-0">
-          <div className="w-16 h-16 rounded-lg overflow-hidden comic-border-light bg-white dark:bg-gray-700">
+          <div className="w-16 h-16 rounded-lg overflow-hidden border border-primary rounded-lg-light bg-white dark:bg-gray-700">
             <img
               src={item.imageUrl}
               alt={item.name}
@@ -67,7 +67,7 @@ const CartItem = memo(function CartItem({
             </div>
             <button
               onClick={() => onRemove(item.id)}
-              className="w-7 h-7 bg-pop-red hover:bg-red-600 border-2 border-black dark:border-white rounded-lg grid place-items-center transition-all hover:scale-110"
+              className="w-7 h-7 bg-accent-error hover:bg-red-600 border-2 border-black dark:border-white rounded-lg grid place-items-center transition-all hover:scale-110"
               aria-label={`Quitar ${item.name} del carrito`}
             >
               <Trash2 size={14} className="text-white" />
@@ -75,31 +75,31 @@ const CartItem = memo(function CartItem({
           </div>
 
           {/* Stipple pattern divider */}
-          <div className="stipple-pattern h-px my-2 text-gray-400 dark:text-gray-600"></div>
+          <div className=" h-px my-2 text-gray-400 dark:text-gray-600"></div>
 
           <div className="flex items-center justify-between gap-3">
             <div className="space-y-0.5">
-              <p className="font-bold text-pop-yellow comic-text-shadow text-base">{currency(item.price)}</p>
-              <p className="text-xs text-pop-cyan font-semibold">
+              <p className="font-bold text-accent-primary title-shadow text-base">{currency(item.price)}</p>
+              <p className="text-xs text-accent-primary font-semibold">
                 Total: {currency(item.price * item.quantity)}
               </p>
             </div>
 
-            <div className="flex items-center comic-border-light rounded-lg overflow-hidden bg-white dark:bg-gray-900">
+            <div className="flex items-center border border-primary rounded-lg-light rounded-lg overflow-hidden bg-white dark:bg-gray-900">
               <button
                 onClick={decrease}
-                className="w-8 h-8 grid place-items-center text-[#8A8A8A] dark:text-gray-400 hover:text-pop-red hover:bg-[#F5F5F5] dark:hover:bg-gray-700 disabled:opacity-40 transition-all disabled:cursor-not-allowed"
+                className="w-8 h-8 grid place-items-center text-[#8A8A8A] dark:text-gray-400 hover:text-accent-error hover:bg-[#F5F5F5] dark:hover:bg-gray-700 disabled:opacity-40 transition-all disabled:cursor-not-allowed"
                 disabled={item.quantity <= 1}
                 aria-label="Disminuir cantidad"
               >
                 <Minus size={14} />
               </button>
-              <div className="min-w-10 px-2 h-8 grid place-items-center bg-white dark:bg-black border-2 border-black dark:border-white text-pop-yellow font-bold text-sm tabular-nums">
+              <div className="min-w-10 px-2 h-8 grid place-items-center bg-white dark:bg-black border-2 border-black dark:border-white text-accent-primary font-bold text-sm tabular-nums">
                 {item.quantity}
               </div>
               <button
                 onClick={increase}
-                className="w-8 h-8 grid place-items-center text-[#8A8A8A] dark:text-gray-400 hover:text-pop-green hover:bg-[#F5F5F5] dark:hover:bg-gray-700 transition-all"
+                className="w-8 h-8 grid place-items-center text-[#8A8A8A] dark:text-gray-400 hover:text-accent-success hover:bg-[#F5F5F5] dark:hover:bg-gray-700 transition-all"
                 aria-label="Aumentar cantidad"
               >
                 <Plus size={14} />
@@ -213,17 +213,17 @@ Gracias.`;
       {/* Panel (full en móvil, 420px en desktop) */}
       <div className="absolute inset-y-0 right-0 max-w-full flex">
         <div className="relative w-screen max-w-full sm:max-w-md">
-          <div className="h-full flex flex-col comic-panel halftone-pattern bg-white dark:bg-gray-900 shadow-2xl">
+          <div className="h-full flex flex-col classic-card  bg-white dark:bg-gray-900 shadow-2xl">
 
             {/* Header compacto */}
-            <div className="flex items-center justify-between px-3.5 sm:px-4 py-3 comic-border-light bg-white dark:bg-black border-b-4 border-black dark:border-white relative overflow-hidden">
-              <div className="crosshatch-pattern absolute inset-0 opacity-10 text-black dark:text-white"></div>
+            <div className="flex items-center justify-between px-3.5 sm:px-4 py-3 border border-primary rounded-lg-light bg-white dark:bg-black border-b-4 border-black dark:border-white relative overflow-hidden">
+              <div className=" absolute inset-0 opacity-10 text-black dark:text-white"></div>
               <div className="flex items-center gap-2 relative z-10">
-                <div className="w-9 h-9 bg-white dark:bg-black border-2 border-black dark:border-white rounded-lg grid place-items-center comic-border-light">
-                  <ShoppingCart size={18} className="text-pop-cyan" />
+                <div className="w-9 h-9 bg-white dark:bg-black border-2 border-black dark:border-white rounded-lg grid place-items-center border border-primary rounded-lg-light">
+                  <ShoppingCart size={18} className="text-accent-primary" />
                 </div>
                 <div className="min-w-0">
-                  <h2 id="cart-title" className="text-base sm:text-lg font-bold text-black comic-text-outline truncate">
+                  <h2 id="cart-title" className="text-base sm:text-lg font-bold text-black  truncate">
                     Tu Carrito
                   </h2>
                   {cartItems.length > 0 && (
@@ -238,7 +238,7 @@ Gracias.`;
               <button
                 ref={closeBtnRef}
                 onClick={() => setIsCartOpen(false)}
-                className="w-8 h-8 bg-pop-red hover:bg-red-600 comic-border-light rounded-lg grid place-items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-pop-red/40 transition-all hover:scale-110 relative z-10"
+                className="w-8 h-8 bg-accent-error hover:bg-red-600 border border-primary rounded-lg-light rounded-lg grid place-items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-error/40 transition-all hover:scale-110 relative z-10"
                 aria-label="Cerrar carrito"
               >
                 <X size={16} className="text-white" />
@@ -247,18 +247,18 @@ Gracias.`;
 
             {/* Items */}
             <div className="flex-1 overflow-y-auto py-4 px-3.5 sm:px-4 space-y-3 bg-white dark:bg-black relative">
-              <div className="bendaydots-pattern absolute inset-0 text-pop-cyan opacity-10 pointer-events-none"></div>
+              <div className=" absolute inset-0 text-accent-primary opacity-10 pointer-events-none"></div>
               {cartItems.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center space-y-4 relative z-10">
-                  <div className="w-16 h-16 bg-white dark:bg-black border-4 border-black dark:border-white rounded-full grid place-items-center comic-border-light animate-comic-bounce shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
-                    <ShoppingCart size={28} className="text-pop-cyan" />
+                  <div className="w-16 h-16 bg-white dark:bg-black border-4 border-black dark:border-white rounded-full grid place-items-center border border-primary rounded-lg-light  shadow-classic-md">
+                    <ShoppingCart size={28} className="text-accent-primary" />
                   </div>
-                  <p className="text-pop-red text-base font-bold comic-text-shadow">Tu carrito está vacío</p>
+                  <p className="text-accent-error text-base font-bold title-shadow">Tu carrito está vacío</p>
                   <button
                     onClick={() => setIsCartOpen(false)}
-                    className="comic-button bg-white dark:bg-black border-4 border-black dark:border-white text-black dark:text-white px-5 py-2 rounded-lg font-semibold flex items-center gap-2 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+                    className="classic-btn bg-white dark:bg-black border-4 border-black dark:border-white text-black dark:text-white px-5 py-2 rounded-lg font-semibold flex items-center gap-2 shadow-classic-md"
                   >
-                    <ChevronLeft size={16} className="text-pop-green" />
+                    <ChevronLeft size={16} className="text-accent-success" />
                     Seguir explorando
                   </button>
                 </div>
@@ -279,17 +279,17 @@ Gracias.`;
 
             {/* Footer sticky */}
             {cartItems.length > 0 && (
-              <div className="comic-border-light px-3.5 sm:px-4 pt-4 pb-[calc(16px+env(safe-area-inset-bottom))] bg-white dark:bg-black border-t-4 border-black dark:border-white relative overflow-hidden">
-                <div className="stipple-pattern absolute inset-0 text-black dark:text-white opacity-10 pointer-events-none"></div>
+              <div className="border border-primary rounded-lg-light px-3.5 sm:px-4 pt-4 pb-[calc(16px+env(safe-area-inset-bottom))] bg-white dark:bg-black border-t-4 border-black dark:border-white relative overflow-hidden">
+                <div className=" absolute inset-0 text-black dark:text-white opacity-10 pointer-events-none"></div>
                 <div className="flex items-center justify-between mb-3 relative z-10">
                   <div className="text-black dark:text-white text-sm font-bold">
                     Total ({totalItems}):{' '}
-                    <span className="text-pop-yellow dark:text-pop-yellow comic-text-shadow text-xl tabular-nums">
+                    <span className="text-accent-primary dark:text-accent-primary title-shadow text-xl tabular-nums">
                       {currency(cartTotal)}
                     </span>
                   </div>
                   <div className="hidden sm:flex items-center gap-3 text-xs font-semibold">
-                    <div className="flex items-center gap-1 text-pop-green dark:text-pop-cyan">
+                    <div className="flex items-center gap-1 text-accent-success dark:text-accent-primary">
                       <Shield size={12} />
                       Garantía
                     </div>
@@ -303,22 +303,22 @@ Gracias.`;
                 <div className="space-y-2.5 relative z-10">
                   <button
                     onClick={handleCheckout}
-                    className="comic-button w-full bg-white dark:bg-black border-4 border-black dark:border-white text-black dark:text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-pop-green/40 uppercase shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+                    className="classic-btn w-full bg-white dark:bg-black border-4 border-black dark:border-white text-black dark:text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-success/40 uppercase shadow-classic-md"
                   >
-                    <ShoppingCart size={18} className="text-pop-green" />
+                    <ShoppingCart size={18} className="text-accent-success" />
                     {user ? 'Finalizar compra' : 'Inicia sesión'}
                   </button>
 
                   <div className="grid grid-cols-2 gap-2">
                     <button
                       onClick={() => setIsCartOpen(false)}
-                      className="comic-button w-full bg-white dark:bg-black border-4 border-black dark:border-white text-black dark:text-white py-2.5 rounded-lg font-semibold text-sm shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+                      className="classic-btn w-full bg-white dark:bg-black border-4 border-black dark:border-white text-black dark:text-white py-2.5 rounded-lg font-semibold text-sm shadow-classic-md"
                     >
                       Explorar
                     </button>
                     <button
                       onClick={clearCart}
-                      className="comic-button w-full bg-white dark:bg-black border-4 border-black dark:border-white text-pop-red py-2.5 rounded-lg font-semibold text-sm shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+                      className="classic-btn w-full bg-white dark:bg-black border-4 border-black dark:border-white text-accent-error py-2.5 rounded-lg font-semibold text-sm shadow-classic-md"
                     >
                       Vaciar
                     </button>

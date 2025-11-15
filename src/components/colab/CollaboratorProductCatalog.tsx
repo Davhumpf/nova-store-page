@@ -61,10 +61,10 @@ const MobileProductCard: React.FC<{
   onToggle: (product: Product) => void;
 }> = React.memo(({ product, isSelected, onToggle }) => (
   <div
-    className={`comic-panel p-4 transition-all duration-300 group cursor-pointer active:scale-95 animate-comic-pop stipple-pattern comic-hover ${
+    className={`classic-card p-4 transition-all duration-300 group cursor-pointer active:scale-95 animate-scale-in  transition-all duration-200 hover:shadow-classic-md ${
       isSelected
-        ? 'bg-pop-purple/10 dark:bg-pop-pink/20 border-pop-purple dark:border-pop-pink shadow-lg'
-        : 'bg-white dark:bg-gray-800 hover:border-pop-purple dark:hover:border-pop-pink'
+        ? 'bg-accent-primary/10 dark:bg-accent-primary/20 border-accent-primary dark:border-accent-primary shadow-lg'
+        : 'bg-white dark:bg-gray-800 hover:border-accent-primary dark:hover:border-accent-primary'
     } ${!product.inStock ? 'opacity-60' : ''}`}
     onClick={() => onToggle(product)}
   >
@@ -73,15 +73,15 @@ const MobileProductCard: React.FC<{
         <img
           src={product.imageUrl}
           alt={product.name}
-          className="w-16 h-16 comic-border object-cover group-hover:border-pop-purple dark:group-hover:border-pop-pink transition-colors"
+          className="w-16 h-16 border border-primary rounded-lg object-cover group-hover:border-accent-primary dark:group-hover:border-accent-primary transition-colors"
         />
         {!product.inStock && (
-          <div className="absolute inset-0 bg-black/70 comic-border flex items-center justify-center">
-            <span className="text-pop-pink text-xs font-black uppercase">Sin Stock</span>
+          <div className="absolute inset-0 bg-black/70 border border-primary rounded-lg flex items-center justify-center">
+            <span className="text-accent-primary text-xs font-black uppercase">Sin Stock</span>
           </div>
         )}
         {isSelected && (
-          <div className="absolute -top-2 -right-2 bg-pop-purple dark:bg-pop-pink text-white w-7 h-7 comic-border flex items-center justify-center shadow-lg">
+          <div className="absolute -top-2 -right-2 bg-accent-primary dark:bg-accent-primary text-white w-7 h-7 border border-primary rounded-lg flex items-center justify-center shadow-lg">
             <CheckCircle size={18} />
           </div>
         )}
@@ -90,7 +90,7 @@ const MobileProductCard: React.FC<{
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between mb-2">
           <h3 className="text-gray-900 dark:text-white font-black text-base leading-tight uppercase tracking-wide">{product.name}</h3>
-          <div className="flex items-center gap-1 text-pop-orange text-sm ml-2 flex-shrink-0">
+          <div className="flex items-center gap-1 text-accent-primary text-sm ml-2 flex-shrink-0">
             <Star size={14} className="fill-current" />
             <span className="font-black">{product.rating}</span>
           </div>
@@ -100,11 +100,11 @@ const MobileProductCard: React.FC<{
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="bg-pop-purple/10 dark:bg-pop-pink/20 text-pop-purple dark:text-pop-pink px-3 py-1 comic-border text-xs font-black uppercase">
+            <span className="bg-accent-primary/10 dark:bg-accent-primary/20 text-accent-primary dark:text-accent-primary px-3 py-1 border border-primary rounded-lg text-xs font-black uppercase">
               {product.category}
             </span>
             {product.discount > 0 && (
-              <span className="bg-pop-pink/10 text-pop-pink px-2 py-1 comic-border text-xs font-black uppercase">
+              <span className="bg-accent-primary/10 text-accent-primary px-2 py-1 border border-primary rounded-lg text-xs font-black uppercase">
                 -{product.discount}%
               </span>
             )}
@@ -114,7 +114,7 @@ const MobileProductCard: React.FC<{
             {product.discount > 0 && (
               <span className="text-gray-500 dark:text-gray-400 line-through text-sm block font-bold">${product.originalPrice.toLocaleString()}</span>
             )}
-            <p className="text-pop-purple dark:text-pop-pink font-black text-lg">${product.price.toLocaleString()}</p>
+            <p className="text-accent-primary dark:text-accent-primary font-black text-lg">${product.price.toLocaleString()}</p>
           </div>
         </div>
       </div>
@@ -135,7 +135,7 @@ const MobileCartSummary: React.FC<{
 
   return (
     <div className="fixed bottom-4 left-4 right-4 z-50">
-      <div className="comic-panel bg-white dark:bg-black p-4 shadow-[0_8px_16px_rgba(0,0,0,0.8)] dark:shadow-[0_8px_16px_rgba(255,255,255,0.4)] bendaydots-pattern animate-comic-pop">
+      <div className="classic-card bg-white dark:bg-black p-4 shadow-[0_8px_16px_rgba(0,0,0,0.8)] dark:shadow-[0_8px_16px_rgba(255,255,255,0.4)]  animate-scale-in">
         <div className="flex items-center justify-between text-black dark:text-white relative z-10">
           <div className="flex-1">
             <p className="font-black text-lg uppercase tracking-wide">
@@ -144,7 +144,7 @@ const MobileCartSummary: React.FC<{
             <div className="flex items-center gap-4">
               <span className="font-black text-xl">${total.toLocaleString()}</span>
               {profit > 0 && (
-                <span className="text-pop-orange dark:text-pop-orange text-sm font-black uppercase">
+                <span className="text-accent-primary dark:text-accent-primary text-sm font-black uppercase">
                   Ganancia ${profit.toLocaleString()}
                 </span>
               )}
@@ -153,7 +153,7 @@ const MobileCartSummary: React.FC<{
 
           <button
             onClick={onOpenGenerator}
-            className="comic-button bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 text-black dark:text-white font-black py-3 px-6 transition-all duration-300 active:scale-95 flex items-center gap-2 uppercase tracking-wide speed-lines"
+            className="classic-btn bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 text-black dark:text-white font-black py-3 px-6 transition-all duration-300 active:scale-95 flex items-center gap-2 uppercase tracking-wide "
           >
             <Megaphone size={20} />
             Crear
@@ -228,28 +228,28 @@ const MobileGeneratorModal: React.FC<{
   const steps = ['Configuración', 'Personalización', 'Generación'];
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm halftone-pattern">
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm ">
       <div className="h-full flex flex-col">
         {/* Header */}
-        <div className="bg-white dark:bg-black border-b-4 border-black dark:border-white p-4 flex items-center justify-between relative bendaydots-pattern">
+        <div className="bg-white dark:bg-black border-b-4 border-black dark:border-white p-4 flex items-center justify-between relative ">
           <h2 className="text-black dark:text-white font-black text-xl uppercase tracking-wide relative z-10">Crear Publicidad</h2>
           <button
             onClick={onClose}
-            className="comic-button bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 p-2 transition-colors relative z-10"
+            className="classic-btn bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 p-2 transition-colors relative z-10"
           >
             <X size={24} className="text-black dark:text-white" />
           </button>
         </div>
 
         {/* Steps indicator */}
-        <div className="bg-white dark:bg-black px-4 py-3 crosshatch-pattern">
+        <div className="bg-white dark:bg-black px-4 py-3 ">
           <div className="flex items-center justify-center space-x-4">
             {steps.map((step, index) => (
               <React.Fragment key={step}>
                 <div className="flex flex-col items-center">
-                  <div className={`w-8 h-8 comic-border flex items-center justify-center text-sm font-black ${
+                  <div className={`w-8 h-8 border border-primary rounded-lg flex items-center justify-center text-sm font-black ${
                     index <= currentStep
-                      ? 'bg-pop-purple dark:bg-pop-pink text-white'
+                      ? 'bg-accent-primary dark:bg-accent-primary text-white'
                       : 'bg-gray-400 dark:bg-gray-600 text-gray-700 dark:text-gray-300'
                   }`}>
                     {index + 1}
@@ -262,7 +262,7 @@ const MobileGeneratorModal: React.FC<{
                 </div>
                 {index < steps.length - 1 && (
                   <div className={`w-6 h-0.5 mt-2 ${
-                    index < currentStep ? 'bg-pop-purple dark:bg-pop-pink' : 'bg-gray-400 dark:bg-gray-600'
+                    index < currentStep ? 'bg-accent-primary dark:bg-accent-primary' : 'bg-gray-400 dark:bg-gray-600'
                   }`} />
                 )}
               </React.Fragment>
@@ -271,18 +271,18 @@ const MobileGeneratorModal: React.FC<{
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto halftone-pattern bg-white dark:bg-black p-4">
+        <div className="flex-1 overflow-y-auto  bg-white dark:bg-black p-4">
           {currentStep === 0 && (
             <div className="space-y-6">
               {/* Resumen de productos */}
-              <div className="comic-panel bg-white dark:bg-black p-4 stipple-pattern">
+              <div className="classic-card bg-white dark:bg-black p-4 ">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-pop-purple dark:text-pop-pink font-black text-lg uppercase tracking-wide">
+                  <h3 className="text-accent-primary dark:text-accent-primary font-black text-lg uppercase tracking-wide">
                     {selectedProducts.length === 1 ? 'Producto seleccionado' : comboCalculations.comboName}
                   </h3>
                   <button
                     onClick={() => setShowPriceEditor(!showPriceEditor)}
-                    className="text-gray-600 dark:text-gray-400 hover:text-pop-purple dark:hover:text-pop-pink transition-colors"
+                    className="text-gray-600 dark:text-gray-400 hover:text-accent-primary dark:hover:text-accent-primary transition-colors"
                   >
                     <Settings size={20} />
                   </button>
@@ -357,14 +357,14 @@ const MobileGeneratorModal: React.FC<{
                   value={collaboratorName}
                   onChange={(e) => setCollaboratorName(e.target.value)}
                   placeholder="Tu nombre"
-                  className="comic-input w-full bg-white dark:bg-gray-800 py-4 px-4 text-gray-900 dark:text-white text-lg font-semibold"
+                  className="classic-input w-full bg-white dark:bg-gray-800 py-4 px-4 text-gray-900 dark:text-white text-lg font-semibold"
                 />
                 <input
                   type="text"
                   value={collaboratorPhone}
                   onChange={(e) => setCollaboratorPhone(e.target.value)}
                   placeholder="Tu teléfono"
-                  className="comic-input w-full bg-white dark:bg-gray-800 py-4 px-4 text-gray-900 dark:text-white text-lg font-semibold"
+                  className="classic-input w-full bg-white dark:bg-gray-800 py-4 px-4 text-gray-900 dark:text-white text-lg font-semibold"
                 />
               </div>
             </div>
@@ -472,7 +472,7 @@ const MobileGeneratorModal: React.FC<{
               <button
                 onClick={adMode === 'text' ? onGenerateText : onGenerateBanner}
                 disabled={!collaboratorName || isGenerating}
-                className="comic-button w-full bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 disabled:bg-gray-300 dark:disabled:bg-gray-800 disabled:border-gray-400 dark:disabled:border-gray-600 disabled:cursor-not-allowed text-black dark:text-white font-black py-4 px-6 transition-all duration-300 flex items-center justify-center gap-3 text-lg active:scale-95 uppercase tracking-wide speed-lines shadow-[0_4px_8px_rgba(0,0,0,0.6)] dark:shadow-[0_4px_8px_rgba(255,255,255,0.3)]"
+                className="classic-btn w-full bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 disabled:bg-gray-300 dark:disabled:bg-gray-800 disabled:border-gray-400 dark:disabled:border-gray-600 disabled:cursor-not-allowed text-black dark:text-white font-black py-4 px-6 transition-all duration-300 flex items-center justify-center gap-3 text-lg active:scale-95 uppercase tracking-wide  shadow-[0_4px_8px_rgba(0,0,0,0.6)] dark:shadow-[0_4px_8px_rgba(255,255,255,0.3)]"
               >
                 {isGenerating ? (
                   <Loader size={24} className="animate-spin" />
@@ -539,7 +539,7 @@ const MobileGeneratorModal: React.FC<{
                     </button>
                     <button
                       onClick={onDownloadBanner}
-                      className="flex-1 bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 text-pop-orange dark:text-pop-orange font-bold py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 active:scale-95"
+                      className="flex-1 bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 text-accent-primary dark:text-accent-primary font-bold py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 active:scale-95"
                     >
                       <Download size={18} />
                       Descargar
@@ -552,11 +552,11 @@ const MobileGeneratorModal: React.FC<{
         </div>
 
         {/* Navigation */}
-        <div className="bg-white dark:bg-black p-4 flex items-center justify-between border-t comic-border crosshatch-pattern">
+        <div className="bg-white dark:bg-black p-4 flex items-center justify-between border-t border border-primary rounded-lg ">
           <button
             onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
             disabled={currentStep === 0}
-            className="comic-button flex items-center gap-2 px-6 py-3 bg-gray-600 hover:bg-gray-700 disabled:bg-gray-400 disabled:text-gray-600 text-white font-black transition-colors active:scale-95 uppercase tracking-wide"
+            className="classic-btn flex items-center gap-2 px-6 py-3 bg-gray-600 hover:bg-gray-700 disabled:bg-gray-400 disabled:text-gray-600 text-white font-black transition-colors active:scale-95 uppercase tracking-wide"
           >
             <ChevronUp size={20} />
             Anterior
@@ -569,7 +569,7 @@ const MobileGeneratorModal: React.FC<{
           <button
             onClick={() => setCurrentStep(Math.min(steps.length - 1, currentStep + 1))}
             disabled={currentStep === steps.length - 1}
-            className="comic-button flex items-center gap-2 px-6 py-3 bg-pop-purple dark:bg-pop-pink hover:bg-pop-orange disabled:bg-gray-400 disabled:text-gray-600 text-white font-black transition-colors active:scale-95 uppercase tracking-wide speed-lines"
+            className="classic-btn flex items-center gap-2 px-6 py-3 bg-accent-primary dark:bg-accent-primary hover:bg-accent-primary disabled:bg-gray-400 disabled:text-gray-600 text-white font-black transition-colors active:scale-95 uppercase tracking-wide "
           >
             Siguiente
             <ChevronDown size={20} />
@@ -1066,12 +1066,12 @@ ${collaboratorName}${collaboratorPhone ? ` (${collaboratorPhone})` : ''}
   // Componente de carga optimizado para móvil
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center halftone-pattern bg-white dark:bg-black p-4">
-        <div className="flex flex-col items-center p-8 comic-panel bg-white dark:bg-black max-w-sm w-full animate-comic-pop">
+      <div className="min-h-screen flex items-center justify-center  bg-white dark:bg-black p-4">
+        <div className="flex flex-col items-center p-8 classic-card bg-white dark:bg-black max-w-sm w-full animate-scale-in">
           <div className="relative">
-            <div className="w-16 h-16 border-4 border-pop-purple/20 dark:border-pop-pink/20 border-t-pop-purple dark:border-t-pop-pink rounded-full animate-spin"></div>
+            <div className="w-16 h-16 border-4 border-accent-primary/20 dark:border-accent-primary/20 border-t-accent-primary dark:border-t-accent-primary rounded-full animate-spin"></div>
           </div>
-          <p className="mt-4 text-pop-purple dark:text-pop-pink font-black text-lg text-center uppercase tracking-wide">Cargando productos</p>
+          <p className="mt-4 text-accent-primary dark:text-accent-primary font-black text-lg text-center uppercase tracking-wide">Cargando productos</p>
           <p className="text-gray-600 dark:text-gray-400 text-sm text-center mt-2 font-bold">Preparando tu catálogo</p>
         </div>
       </div>
@@ -1079,13 +1079,13 @@ ${collaboratorName}${collaboratorPhone ? ` (${collaboratorPhone})` : ''}
   }
 
   return (
-    <div className="min-h-screen halftone-pattern bg-white dark:bg-black pb-24">
+    <div className="min-h-screen  bg-white dark:bg-black pb-24">
       {/* Header simplificado para móvil */}
-      <div className="bg-white dark:bg-black border-b-4 border-black dark:border-white p-4 sticky top-0 z-40 shadow-[0_4px_8px_rgba(0,0,0,0.6)] dark:shadow-[0_4px_8px_rgba(255,255,255,0.3)] bendaydots-pattern">
+      <div className="bg-white dark:bg-black border-b-4 border-black dark:border-white p-4 sticky top-0 z-40 shadow-[0_4px_8px_rgba(0,0,0,0.6)] dark:shadow-[0_4px_8px_rgba(255,255,255,0.3)] ">
         <div className="flex items-center justify-between relative z-10">
           <button
             onClick={() => navigate('/collaborations')}
-            className="comic-button bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 px-4 py-2 font-black text-black dark:text-white active:scale-95 speed-lines"
+            className="classic-btn bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 px-4 py-2 font-black text-black dark:text-white active:scale-95 "
           >
             <ArrowLeft size={20} />
             <span className="hidden sm:inline">Volver</span>
@@ -1104,20 +1104,20 @@ ${collaboratorName}${collaboratorPhone ? ` (${collaboratorPhone})` : ''}
         {/* Controles de búsqueda simplificados */}
         <div className="space-y-4 mb-6">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-pop-purple dark:text-pop-pink" size={20} />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-accent-primary dark:text-accent-primary" size={20} />
             <input
               type="text"
               placeholder="Buscar productos..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="comic-input w-full bg-white dark:bg-black py-4 pl-12 pr-4 text-gray-900 dark:text-white text-lg placeholder-gray-600 dark:placeholder-gray-400 font-semibold"
+              className="classic-input w-full bg-white dark:bg-black py-4 pl-12 pr-4 text-gray-900 dark:text-white text-lg placeholder-gray-600 dark:placeholder-gray-400 font-semibold"
             />
           </div>
 
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="comic-input w-full bg-white dark:bg-black py-4 px-4 text-gray-900 dark:text-white text-lg appearance-none cursor-pointer font-semibold"
+            className="classic-input w-full bg-white dark:bg-black py-4 px-4 text-gray-900 dark:text-white text-lg appearance-none cursor-pointer font-semibold"
           >
             <option value="all">Todas las categorías</option>
             {categories.slice(1).map(category => (

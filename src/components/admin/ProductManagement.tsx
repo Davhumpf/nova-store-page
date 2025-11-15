@@ -191,28 +191,28 @@ const ProductManagement: React.FC = () => {
         {/* Botón volver */}
         <button
           onClick={() => navigate('/admin')}
-          className="mb-2 flex items-center gap-1 text-[10px] sm:text-xs text-pop-purple hover:text-pop-pink transition-colors group"
+          className="mb-2 flex items-center gap-1 text-[10px] sm:text-xs text-accent-primary hover:text-accent-primary transition-colors group"
         >
           <ArrowRight size={12} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
           <span className="font-medium">Panel Admin</span>
         </button>
 
         {/* Header compacto para móvil */}
-        <div className="mb-2 sm:mb-4 bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+        <div className="mb-2 sm:mb-4 bg-white dark:bg-black border-4 border-black dark:border-white shadow-classic-lg">
           <div className="flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3 p-3">
-            <div className="w-0.5 sm:w-1 h-6 sm:h-8 bg-pop-purple rounded-full"></div>
+            <div className="w-0.5 sm:w-1 h-6 sm:h-8 bg-accent-primary rounded-full"></div>
             <div className="flex-1 min-w-0">
-              <h1 className="text-sm sm:text-lg font-bold text-[#2A2A2A] dark:text-white truncate comic-text-shadow uppercase">Productos Digitales</h1>
+              <h1 className="text-sm sm:text-lg font-bold text-[#2A2A2A] dark:text-white truncate title-shadow uppercase">Productos Digitales</h1>
               <p className="text-[9px] sm:text-[10px] text-[#8A8A8A] dark:text-gray-400 font-medium">Streaming y servicios</p>
             </div>
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">
               <div className="text-center">
                 <p className="text-[8px] sm:text-[9px] text-[#8A8A8A] dark:text-gray-400">Stock</p>
-                <p className="text-[11px] sm:text-sm font-bold text-pop-purple">{inStockCount}/{total}</p>
+                <p className="text-[11px] sm:text-sm font-bold text-accent-primary">{inStockCount}/{total}</p>
               </div>
               <button
                 onClick={openCreate}
-                className="border-4 border-black dark:border-white bg-white dark:bg-black text-pop-yellow font-black uppercase px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-xs flex items-center gap-1 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+                className="border-4 border-black dark:border-white bg-white dark:bg-black text-accent-primary font-black uppercase px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-xs flex items-center gap-1 shadow-classic-md"
               >
                 <Plus size={12} className="sm:w-3.5 sm:h-3.5" />
                 <span className="hidden xs:inline">Nuevo</span>
@@ -222,7 +222,7 @@ const ProductManagement: React.FC = () => {
         </div>
 
         {/* Buscador compacto */}
-        <div className="bg-white dark:bg-black border-4 border-black dark:border-white p-2 sm:p-3 mb-2 sm:mb-3 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
+        <div className="bg-white dark:bg-black border-4 border-black dark:border-white p-2 sm:p-3 mb-2 sm:mb-3 shadow-classic-md">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-2 sm:pl-3 flex items-center pointer-events-none">
               <Search className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#8A8A8A] dark:text-gray-400" />
@@ -232,15 +232,15 @@ const ProductManagement: React.FC = () => {
               placeholder="Buscar producto..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="comic-input w-full py-1.5 sm:py-2 pl-8 sm:pl-10 pr-2 sm:pr-3 text-[11px] sm:text-xs"
+              className="classic-input w-full py-1.5 sm:py-2 pl-8 sm:pl-10 pr-2 sm:pr-3 text-[11px] sm:text-xs"
             />
           </div>
         </div>
 
         {/* Lista de productos - Optimizada para móvil */}
-        <div className="bg-white dark:bg-black border-4 border-black dark:border-white overflow-hidden shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+        <div className="bg-white dark:bg-black border-4 border-black dark:border-white overflow-hidden shadow-classic-lg">
           <div className="p-2 sm:p-3 border-b-4 border-black dark:border-white bg-white dark:bg-black">
-            <h2 className="text-[11px] sm:text-sm font-bold text-pop-cyan uppercase flex items-center gap-1 sm:gap-1.5">
+            <h2 className="text-[11px] sm:text-sm font-bold text-accent-primary uppercase flex items-center gap-1 sm:gap-1.5">
               <Package size={12} className="sm:w-3.5 sm:h-3.5" />
               Productos ({filtered.length})
             </h2>
@@ -250,7 +250,7 @@ const ProductManagement: React.FC = () => {
             {loading ? (
               <div className="text-center py-6 sm:py-8">
                 <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-black/30 dark:border-white/30 border-t-black dark:border-t-white rounded-full animate-spin mx-auto mb-1.5 sm:mb-2"></div>
-                <p className="text-pop-purple font-bold text-[10px] sm:text-xs">Cargando...</p>
+                <p className="text-accent-primary font-bold text-[10px] sm:text-xs">Cargando...</p>
               </div>
             ) : filtered.length === 0 ? (
               <div className="text-center py-6 sm:py-8">
@@ -264,7 +264,7 @@ const ProductManagement: React.FC = () => {
                 {filtered.map((p) => (
                   <div
                     key={p.id}
-                    className="border-4 border-black dark:border-white bg-white dark:bg-black p-2 sm:p-3 hover:shadow-[6px_6px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[6px_6px_0px_rgba(255,255,255,0.5)] transition-all shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+                    className="border-4 border-black dark:border-white bg-white dark:bg-black p-2 sm:p-3 hover:shadow-[6px_6px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[6px_6px_0px_rgba(255,255,255,0.5)] transition-all shadow-classic-md"
                   >
                     <div className="flex gap-2 sm:gap-3">
                       {/* Imagen - más pequeña en móvil */}
@@ -284,14 +284,14 @@ const ProductManagement: React.FC = () => {
                           <div className="min-w-0 flex-1">
                             <h3 className="text-[11px] sm:text-xs font-semibold text-[#2A2A2A] dark:text-white truncate leading-tight">{p.name}</h3>
                             <div className="flex flex-wrap items-center gap-0.5 sm:gap-1 mt-0.5">
-                              <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 bg-white dark:bg-black text-pop-purple font-bold uppercase border-2 border-black dark:border-white">
+                              <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 bg-white dark:bg-black text-accent-primary font-bold uppercase border-2 border-black dark:border-white">
                                 {p.category}
                               </span>
-                              <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 bg-white dark:bg-black text-pop-blue font-bold uppercase border-2 border-black dark:border-white">
+                              <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 bg-white dark:bg-black text-accent-primary font-bold uppercase border-2 border-black dark:border-white">
                                 {p.planType}
                               </span>
                               {!p.inStock && (
-                                <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 bg-white dark:bg-black text-pop-red font-bold uppercase border-2 border-black dark:border-white">
+                                <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 bg-white dark:bg-black text-accent-error font-bold uppercase border-2 border-black dark:border-white">
                                   Sin stock
                                 </span>
                               )}
@@ -305,7 +305,7 @@ const ProductManagement: React.FC = () => {
                                 -{p.discount}%
                               </div>
                             )}
-                            <div className="text-pop-green font-bold text-xs sm:text-sm leading-tight comic-text-shadow">
+                            <div className="text-accent-success font-bold text-xs sm:text-sm leading-tight title-shadow">
                               ${Number(p.price).toLocaleString('es-CO')}
                             </div>
                             {Number(p.originalPrice) > Number(p.price) && (
@@ -336,14 +336,14 @@ const ProductManagement: React.FC = () => {
                         <div className="flex gap-1 sm:gap-1.5">
                           <button
                             onClick={() => openEdit(p)}
-                            className="flex-1 inline-flex items-center justify-center gap-0.5 sm:gap-1 px-1.5 py-1 sm:px-2 sm:py-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-pop-cyan font-bold text-[9px] sm:text-[10px] uppercase hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
+                            className="flex-1 inline-flex items-center justify-center gap-0.5 sm:gap-1 px-1.5 py-1 sm:px-2 sm:py-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-accent-primary font-bold text-[9px] sm:text-[10px] uppercase hover:shadow-classic-sm dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
                           >
                             <Edit size={10} className="sm:w-3 sm:h-3" />
                             <span className="hidden xs:inline">Editar</span>
                           </button>
                           <button
                             onClick={() => onDelete(p.id)}
-                            className="flex-1 inline-flex items-center justify-center gap-0.5 sm:gap-1 px-1.5 py-1 sm:px-2 sm:py-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-pop-red font-bold text-[9px] sm:text-[10px] uppercase hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
+                            className="flex-1 inline-flex items-center justify-center gap-0.5 sm:gap-1 px-1.5 py-1 sm:px-2 sm:py-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-accent-error font-bold text-[9px] sm:text-[10px] uppercase hover:shadow-classic-sm dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
                           >
                             <Trash2 size={10} className="sm:w-3 sm:h-3" />
                             <span className="hidden xs:inline">Eliminar</span>
@@ -361,14 +361,14 @@ const ProductManagement: React.FC = () => {
         {/* Modal - Optimizado para móvil con scroll interno */}
         {(creating || editing) && (
           <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-end sm:items-center justify-center">
-            <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[12px_12px_0px_rgba(0,0,0,0.8)] dark:shadow-[12px_12px_0px_rgba(255,255,255,0.5)] animate-comic-pop w-full sm:max-w-4xl h-[95vh] sm:h-auto sm:max-h-[95vh] flex flex-col">
+            <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[12px_12px_0px_rgba(0,0,0,0.8)] dark:shadow-[12px_12px_0px_rgba(255,255,255,0.5)] animate-scale-in w-full sm:max-w-4xl h-[95vh] sm:h-auto sm:max-h-[95vh] flex flex-col">
               {/* Header fijo */}
               <div className="p-2.5 sm:p-3 border-b-4 border-black dark:border-white flex items-center justify-between shrink-0 bg-white dark:bg-black">
-                <h3 className="text-xs sm:text-sm font-bold text-pop-yellow uppercase flex items-center gap-1 sm:gap-1.5">
+                <h3 className="text-xs sm:text-sm font-bold text-accent-primary uppercase flex items-center gap-1 sm:gap-1.5">
                   <Package size={12} className="sm:w-3.5 sm:h-3.5" />
                   {editing ? 'Editar' : 'Nuevo'}
                 </h3>
-                <button onClick={closeModal} className="p-1 sm:p-1.5 hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all">
+                <button onClick={closeModal} className="p-1 sm:p-1.5 hover:shadow-classic-sm dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all">
                   <X size={14} className="sm:w-4 sm:h-4 text-[#8A8A8A] dark:text-gray-400" />
                 </button>
               </div>
@@ -382,7 +382,7 @@ const ProductManagement: React.FC = () => {
                     <input
                       value={form.name}
                       onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
-                      className="comic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs"
+                      className="classic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs"
                       placeholder="Ej: Netflix Premium"
                       required
                     />
@@ -393,7 +393,7 @@ const ProductManagement: React.FC = () => {
                     <input
                       value={form.description}
                       onChange={(e) => setForm((s) => ({ ...s, description: e.target.value }))}
-                      className="comic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs"
+                      className="classic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs"
                       required
                     />
                   </div>
@@ -403,7 +403,7 @@ const ProductManagement: React.FC = () => {
                     <textarea
                       value={form.longDescription}
                       onChange={(e) => setForm((s) => ({ ...s, longDescription: e.target.value }))}
-                      className="comic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs h-16 sm:h-20 resize-none"
+                      className="classic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs h-16 sm:h-20 resize-none"
                       required
                     />
                   </div>
@@ -414,7 +414,7 @@ const ProductManagement: React.FC = () => {
                       <select
                         value={form.category}
                         onChange={(e) => setForm((s) => ({ ...s, category: e.target.value }))}
-                        className="comic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs"
+                        className="classic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs"
                         required
                       >
                         {CATEGORIES.map((c) => (
@@ -428,7 +428,7 @@ const ProductManagement: React.FC = () => {
                       <select
                         value={form.planType}
                         onChange={(e) => setForm((s) => ({ ...s, planType: e.target.value }))}
-                        className="comic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs"
+                        className="classic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs"
                         required
                       >
                         {PLANS.map((p) => (
@@ -445,7 +445,7 @@ const ProductManagement: React.FC = () => {
                         type="number"
                         value={Number(form.originalPrice)}
                         onChange={(e) => setForm((s) => ({ ...s, originalPrice: Number(e.target.value) }))}
-                        className="comic-input w-full px-1.5 py-1.5 sm:px-2 sm:py-2 text-[11px] sm:text-xs"
+                        className="classic-input w-full px-1.5 py-1.5 sm:px-2 sm:py-2 text-[11px] sm:text-xs"
                         min={0}
                         required
                       />
@@ -456,7 +456,7 @@ const ProductManagement: React.FC = () => {
                         type="number"
                         value={Number(form.price)}
                         onChange={(e) => setForm((s) => ({ ...s, price: Number(e.target.value) }))}
-                        className="comic-input w-full px-1.5 py-1.5 sm:px-2 sm:py-2 text-[11px] sm:text-xs"
+                        className="classic-input w-full px-1.5 py-1.5 sm:px-2 sm:py-2 text-[11px] sm:text-xs"
                         min={0}
                         required
                       />
@@ -467,7 +467,7 @@ const ProductManagement: React.FC = () => {
                         type="number"
                         value={Number(form.discount)}
                         onChange={(e) => setForm((s) => ({ ...s, discount: Number(e.target.value) }))}
-                        className="comic-input w-full px-1.5 py-1.5 sm:px-2 sm:py-2 text-[11px] sm:text-xs"
+                        className="classic-input w-full px-1.5 py-1.5 sm:px-2 sm:py-2 text-[11px] sm:text-xs"
                         min={0}
                         max={100}
                       />
@@ -484,7 +484,7 @@ const ProductManagement: React.FC = () => {
                         max={5}
                         value={Number(form.rating)}
                         onChange={(e) => setForm((s) => ({ ...s, rating: Number(e.target.value) }))}
-                        className="comic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs"
+                        className="classic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs"
                       />
                     </div>
                     <div>
@@ -494,7 +494,7 @@ const ProductManagement: React.FC = () => {
                         min={0}
                         value={Number(form.reviews)}
                         onChange={(e) => setForm((s) => ({ ...s, reviews: Number(e.target.value) }))}
-                        className="comic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs"
+                        className="classic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs"
                       />
                     </div>
                   </div>
@@ -505,7 +505,7 @@ const ProductManagement: React.FC = () => {
                       <input
                         value={form.duration}
                         onChange={(e) => setForm((s) => ({ ...s, duration: e.target.value }))}
-                        className="comic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs"
+                        className="classic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs"
                         required
                       />
                     </div>
@@ -514,7 +514,7 @@ const ProductManagement: React.FC = () => {
                       <input
                         value={form.devices}
                         onChange={(e) => setForm((s) => ({ ...s, devices: e.target.value }))}
-                        className="comic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs"
+                        className="classic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs"
                         required
                       />
                     </div>
@@ -526,7 +526,7 @@ const ProductManagement: React.FC = () => {
                       type="url"
                       value={form.imageUrl}
                       onChange={(e) => setForm((s) => ({ ...s, imageUrl: e.target.value }))}
-                      className="comic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs"
+                      className="classic-input w-full px-2 py-1.5 sm:px-2.5 sm:py-2 text-[11px] sm:text-xs"
                       placeholder="https://..."
                       required
                     />
@@ -538,7 +538,7 @@ const ProductManagement: React.FC = () => {
                       id="inStock"
                       checked={!!form.inStock}
                       onChange={(e) => setForm((s) => ({ ...s, inStock: e.target.checked }))}
-                      className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-pop-purple bg-white dark:bg-black border-2 border-black dark:border-white"
+                      className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent-primary bg-white dark:bg-black border-2 border-black dark:border-white"
                     />
                     <label htmlFor="inStock" className="text-[10px] sm:text-xs text-[#2A2A2A] dark:text-white font-medium">
                       En stock
@@ -568,7 +568,7 @@ const ProductManagement: React.FC = () => {
                     <button
                       type="submit"
                       disabled={saving}
-                      className="flex-1 inline-flex items-center justify-center gap-1 sm:gap-1.5 border-4 border-black dark:border-white bg-white dark:bg-black text-pop-green font-black uppercase px-3 py-2 sm:px-4 sm:py-2.5 text-[10px] sm:text-xs disabled:opacity-50 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+                      className="flex-1 inline-flex items-center justify-center gap-1 sm:gap-1.5 border-4 border-black dark:border-white bg-white dark:bg-black text-accent-success font-black uppercase px-3 py-2 sm:px-4 sm:py-2.5 text-[10px] sm:text-xs disabled:opacity-50 shadow-classic-md"
                     >
                       {saving ? (
                         <>
@@ -585,7 +585,7 @@ const ProductManagement: React.FC = () => {
                     <button
                       type="button"
                       onClick={closeModal}
-                      className="flex-1 inline-flex items-center justify-center gap-1 sm:gap-1.5 border-4 border-black dark:border-white bg-white dark:bg-black text-pop-red font-black uppercase px-3 py-2 sm:px-4 sm:py-2.5 text-[10px] sm:text-xs shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+                      className="flex-1 inline-flex items-center justify-center gap-1 sm:gap-1.5 border-4 border-black dark:border-white bg-white dark:bg-black text-accent-error font-black uppercase px-3 py-2 sm:px-4 sm:py-2.5 text-[10px] sm:text-xs shadow-classic-md"
                     >
                       <X size={12} className="sm:w-3.5 sm:h-3.5" />
                       Cancelar

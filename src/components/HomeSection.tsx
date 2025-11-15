@@ -14,25 +14,25 @@ const HomeSection: React.FC<HomeSectionProps> = () => {
       {/* Comic background effects with patterns */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Crosshatch pattern overlay */}
-        <div className="absolute inset-0 crosshatch-pattern text-gray-900 dark:text-white opacity-5"></div>
+        <div className="absolute inset-0  text-gray-900 dark:text-white opacity-5"></div>
 
         {/* Halftone pattern overlay */}
-        <div className="absolute inset-0 halftone-pattern text-gray-900 dark:text-white opacity-5"></div>
+        <div className="absolute inset-0  text-gray-900 dark:text-white opacity-5"></div>
       </div>
 
       <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 max-w-7xl">
         {/* Hero Section with Comic Panel */}
-        <div className="text-center mb-8 sm:mb-12 comic-panel halftone-pattern p-8 rounded-3xl animate-comic-pop bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-black border-4 border-black dark:border-white mb-6 shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)] speed-lines">
-            <Zap className="w-4 h-4 text-pop-orange animate-pulse relative z-10" />
-            <span className="text-xs sm:text-sm font-bold text-pop-orange uppercase tracking-wide relative z-10">
+        <div className="text-center mb-8 sm:mb-12 classic-card  p-8 rounded-3xl animate-scale-in bg-white dark:bg-black border-4 border-black dark:border-white shadow-classic-lg">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-black border-4 border-black dark:border-white mb-6 shadow-classic-lg ">
+            <Zap className="w-4 h-4 text-accent-primary animate-pulse relative z-10" />
+            <span className="text-xs sm:text-sm font-bold text-accent-primary uppercase tracking-wide relative z-10">
               Nueva Tienda Online
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-black dark:text-white mb-4 leading-tight comic-text-outline">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-black dark:text-white mb-4 leading-tight ">
             Bienvenido a{" "}
-            <span className="text-pop-red dark:text-pop-cyan comic-text-shadow animate-comic-bounce inline-block">
+            <span className="text-accent-error dark:text-accent-primary title-shadow  inline-block">
               Nova Store
             </span>
           </h1>
@@ -44,20 +44,20 @@ const HomeSection: React.FC<HomeSectionProps> = () => {
 
           {/* Stats with comic styling */}
           <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mt-8">
-            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-black border-3 border-black dark:border-white comic-hover bendaydots-pattern shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
-              <Star className="w-5 h-5 text-pop-green fill-current" />
+            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-black border-3 border-black dark:border-white transition-all duration-200 hover:shadow-classic-md  shadow-classic-md">
+              <Star className="w-5 h-5 text-accent-success fill-current" />
               <span className="text-sm font-bold text-black dark:text-white uppercase tracking-wide">
                 100% Seguro
               </span>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-black border-3 border-black dark:border-white comic-hover bendaydots-pattern shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
-              <TrendingUp className="w-5 h-5 text-pop-purple" />
+            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-black border-3 border-black dark:border-white transition-all duration-200 hover:shadow-classic-md  shadow-classic-md">
+              <TrendingUp className="w-5 h-5 text-accent-primary" />
               <span className="text-sm font-bold text-black dark:text-white uppercase tracking-wide">
                 Mejores Precios
               </span>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-black border-3 border-black dark:border-white comic-hover bendaydots-pattern shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
-              <Zap className="w-5 h-5 text-pop-cyan" />
+            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-black border-3 border-black dark:border-white transition-all duration-200 hover:shadow-classic-md  shadow-classic-md">
+              <Zap className="w-5 h-5 text-accent-primary" />
               <span className="text-sm font-bold text-black dark:text-white uppercase tracking-wide">
                 Entrega Rápida
               </span>
@@ -69,23 +69,23 @@ const HomeSection: React.FC<HomeSectionProps> = () => {
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           <Link
             to="/streaming"
-            className="comic-button bg-white dark:bg-black hover:animate-comic-bounce rounded-xl animate-comic-pop overflow-hidden speed-lines-right border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]"
+            className="classic-btn bg-white dark:bg-black hover: rounded-xl animate-scale-in overflow-hidden  border-4 border-black dark:border-white shadow-classic-lg"
           >
             <div className="relative flex items-center gap-3 z-10">
-              <Sparkles className="w-5 h-5 animate-pulse text-pop-green" />
+              <Sparkles className="w-5 h-5 animate-pulse text-accent-success" />
               <span className="text-black dark:text-white">Explorar Streaming</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300 text-pop-green" />
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300 text-accent-success" />
             </div>
           </Link>
 
           <Link
             to="/fisicos"
-            className="comic-button bg-white dark:bg-black hover:animate-comic-bounce rounded-xl animate-comic-pop overflow-hidden speed-lines-right border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]"
+            className="classic-btn bg-white dark:bg-black hover: rounded-xl animate-scale-in overflow-hidden  border-4 border-black dark:border-white shadow-classic-lg"
           >
             <div className="relative flex items-center gap-3 z-10">
-              <Package className="w-5 h-5 text-pop-pink" />
+              <Package className="w-5 h-5 text-accent-primary" />
               <span className="text-black dark:text-white">Ver Productos</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300 text-pop-pink" />
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300 text-accent-primary" />
             </div>
           </Link>
 
@@ -97,15 +97,15 @@ const HomeSection: React.FC<HomeSectionProps> = () => {
               const whatsappUrl = `https://wa.me/573027214125?text=${encodeURIComponent(message)}`;
               window.open(whatsappUrl, "_blank");
             }}
-            className="comic-button bg-white dark:bg-black hover:animate-comic-bounce rounded-xl animate-comic-pop overflow-hidden speed-lines border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]"
+            className="classic-btn bg-white dark:bg-black hover: rounded-xl animate-scale-in overflow-hidden  border-4 border-black dark:border-white shadow-classic-lg"
           >
             <div className="relative flex items-center gap-3 z-10">
               <div className="relative">
-                <div className="w-2 h-2 bg-pop-cyan rounded-full animate-ping absolute"></div>
-                <div className="w-2 h-2 bg-pop-cyan rounded-full"></div>
+                <div className="w-2 h-2 bg-accent-primary rounded-full animate-ping absolute"></div>
+                <div className="w-2 h-2 bg-accent-primary rounded-full"></div>
               </div>
               <span className="text-black dark:text-white">Ser Colaborador</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300 text-pop-cyan" />
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300 text-accent-primary" />
             </div>
           </button>
         </div>
@@ -114,15 +114,15 @@ const HomeSection: React.FC<HomeSectionProps> = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-8">
           {/* Streaming Section */}
           <div className="group relative">
-            <div className="relative comic-panel rounded-2xl p-6 stipple-pattern bg-white dark:bg-black comic-hover border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+            <div className="relative classic-card rounded-2xl p-6  bg-white dark:bg-black transition-all duration-200 hover:shadow-classic-md border-4 border-black dark:border-white shadow-classic-lg">
               {/* Header */}
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 rounded-xl bg-white dark:bg-black border-3 border-black dark:border-white comic-border-light shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
-                    <Sparkles className="w-6 h-6 text-pop-green" />
+                  <div className="p-3 rounded-xl bg-white dark:bg-black border-3 border-black dark:border-white border border-primary rounded-lg shadow-classic-md">
+                    <Sparkles className="w-6 h-6 text-accent-success" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-black text-black dark:text-white comic-text-outline">
+                    <h2 className="text-2xl font-black text-black dark:text-white ">
                       Streaming
                     </h2>
                     <p className="text-sm text-black dark:text-white font-bold">
@@ -132,7 +132,7 @@ const HomeSection: React.FC<HomeSectionProps> = () => {
                 </div>
                 <Link
                   to="/streaming"
-                  className="text-pop-red dark:text-pop-cyan hover:underline text-sm font-bold flex items-center gap-1 uppercase tracking-wide"
+                  className="text-accent-error dark:text-accent-primary hover:underline text-sm font-bold flex items-center gap-1 uppercase tracking-wide"
                 >
                   Ver todo
                   <ArrowRight className="w-4 h-4" />
@@ -146,15 +146,15 @@ const HomeSection: React.FC<HomeSectionProps> = () => {
 
           {/* Physical Products Section */}
           <div className="group relative">
-            <div className="relative comic-panel rounded-2xl p-6 stipple-pattern bg-white dark:bg-black comic-hover border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+            <div className="relative classic-card rounded-2xl p-6  bg-white dark:bg-black transition-all duration-200 hover:shadow-classic-md border-4 border-black dark:border-white shadow-classic-lg">
               {/* Header */}
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 rounded-xl bg-white dark:bg-black border-3 border-black dark:border-white comic-border-light shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
-                    <Package className="w-6 h-6 text-pop-purple" />
+                  <div className="p-3 rounded-xl bg-white dark:bg-black border-3 border-black dark:border-white border border-primary rounded-lg shadow-classic-md">
+                    <Package className="w-6 h-6 text-accent-primary" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-black text-black dark:text-white comic-text-outline">
+                    <h2 className="text-2xl font-black text-black dark:text-white ">
                       Productos Físicos
                     </h2>
                     <p className="text-sm text-black dark:text-white font-bold">
@@ -164,7 +164,7 @@ const HomeSection: React.FC<HomeSectionProps> = () => {
                 </div>
                 <Link
                   to="/fisicos"
-                  className="text-pop-red dark:text-pop-pink hover:underline text-sm font-bold flex items-center gap-1 uppercase tracking-wide"
+                  className="text-accent-error dark:text-accent-primary hover:underline text-sm font-bold flex items-center gap-1 uppercase tracking-wide"
                 >
                   Ver todo
                   <ArrowRight className="w-4 h-4" />
@@ -178,12 +178,12 @@ const HomeSection: React.FC<HomeSectionProps> = () => {
         </div>
 
         {/* Footer - Comic Style */}
-        <footer className="text-center py-6 border-t-4 border-black dark:border-white comic-panel rounded-2xl p-4 bg-white dark:bg-black shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+        <footer className="text-center py-6 border-t-4 border-black dark:border-white classic-card rounded-2xl p-4 bg-white dark:bg-black shadow-classic-lg">
           <p className="text-sm text-black dark:text-white font-bold">
             Diseñado con{" "}
-            <span className="text-pop-red animate-pulse">❤️</span>{" "}
+            <span className="text-accent-error animate-pulse">❤️</span>{" "}
             por{" "}
-            <span className="font-black text-pop-green dark:text-pop-cyan comic-text-shadow">
+            <span className="font-black text-accent-success dark:text-accent-primary title-shadow">
               Davhumpf
             </span>
           </p>

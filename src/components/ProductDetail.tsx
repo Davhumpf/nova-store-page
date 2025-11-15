@@ -130,12 +130,12 @@ const ProductDetail: React.FC = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-black py-6 min-h-screen crosshatch-pattern">
+    <div className="bg-white dark:bg-black py-6 min-h-screen ">
       <div className="container mx-auto px-4 max-w-5xl">
         {/* Breadcrumb */}
         <button
           onClick={handleBackToShop}
-          className="inline-flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-pop-green dark:hover:text-pop-green mb-6 transition-colors duration-200 font-semibold uppercase text-sm"
+          className="inline-flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-accent-success dark:hover:text-accent-success mb-6 transition-colors duration-200 font-semibold uppercase text-sm"
         >
           <ArrowLeft size={16} />
           <span>Volver a Productos</span>
@@ -143,12 +143,12 @@ const ProductDetail: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Imagen */}
-          <div className="order-1 animate-comic-pop">
-            <div className="relative comic-border overflow-hidden bendaydots-pattern">
+          <div className="order-1 animate-scale-in">
+            <div className="relative border border-primary rounded-lg overflow-hidden ">
               <div className="aspect-square relative overflow-hidden">
                 {!imageLoaded && (
                   <div className="absolute inset-0 bg-[#F2F2F2] dark:bg-gray-700 animate-pulse flex items-center justify-center">
-                    <div className="w-8 h-8 border-4 border-gray-400 border-t-pop-green rounded-full animate-spin" />
+                    <div className="w-8 h-8 border-4 border-gray-400 border-t-accent-success rounded-full animate-spin" />
                   </div>
                 )}
                 <img
@@ -165,12 +165,12 @@ const ProductDetail: React.FC = () => {
                 />
 
                 {product.discount && product.discount > 0 && (
-                  <div className="absolute top-3 left-3 bg-pop-red text-white font-bold text-xs px-3 py-1.5 comic-border-light uppercase">
+                  <div className="absolute top-3 left-3 bg-accent-error text-white font-bold text-xs px-3 py-1.5 border border-primary rounded-lg uppercase">
                     -{product.discount}%
                   </div>
                 )}
                 <div className="absolute top-3 right-3">
-                  <span className="bg-pop-green text-black dark:text-white text-xs px-3 py-1.5 comic-border-light flex items-center uppercase font-bold">
+                  <span className="bg-accent-success text-black dark:text-white text-xs px-3 py-1.5 border border-primary rounded-lg flex items-center uppercase font-bold">
                     <span className="w-2 h-2 bg-black dark:bg-white rounded-full mr-2 animate-pulse" />
                     Disponible
                   </span>
@@ -182,7 +182,7 @@ const ProductDetail: React.FC = () => {
           {/* Info */}
           <div className="order-2 space-y-5">
             <div>
-              <h1 className="text-2xl lg:text-3xl font-black text-black dark:text-white leading-tight break-words comic-text-shadow uppercase">
+              <h1 className="text-2xl lg:text-3xl font-black text-black dark:text-white leading-tight break-words title-shadow uppercase">
                 {product.title}
               </h1>
               <div className="flex items-center gap-3 mt-3">
@@ -191,7 +191,7 @@ const ProductDetail: React.FC = () => {
                     <Star
                       key={i}
                       size={16}
-                      className={i < Math.floor(product.rating ?? 0) ? 'text-pop-yellow' : 'text-gray-400 dark:text-gray-600'}
+                      className={i < Math.floor(product.rating ?? 0) ? 'text-accent-primary' : 'text-gray-400 dark:text-gray-600'}
                       fill={i < Math.floor(product.rating ?? 0) ? 'currentColor' : 'none'}
                     />
                   ))}
@@ -203,12 +203,12 @@ const ProductDetail: React.FC = () => {
             </div>
 
             {/* Bloque de precio + specs */}
-            <div className="comic-panel p-5 animate-comic-bounce">
+            <div className="classic-card p-5 ">
               <div className="grid grid-cols-3 gap-4 items-center">
                 {/* Precio */}
                 <div className="space-y-1">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-black text-pop-green comic-text-shadow">
+                    <span className="text-2xl font-black text-accent-success title-shadow">
                       ${product.price.toLocaleString('es-CO')}
                     </span>
                     {hasDiscount && product.originalPrice && (
@@ -218,7 +218,7 @@ const ProductDetail: React.FC = () => {
                     )}
                   </div>
                   {hasDiscount && product.originalPrice && (
-                    <div className="bg-pop-cyan text-black font-bold text-xs px-2 py-1 comic-border-light inline-block uppercase">
+                    <div className="bg-accent-primary text-black font-bold text-xs px-2 py-1 border border-primary rounded-lg inline-block uppercase">
                       Ahorra ${(product.originalPrice - product.price).toLocaleString('es-CO')}
                     </div>
                   )}
@@ -226,14 +226,14 @@ const ProductDetail: React.FC = () => {
 
                 {/* Duración */}
                 <div className="text-center border-l-4 border-black dark:border-white pl-4">
-                  <Clock className="w-5 h-5 text-pop-blue mx-auto mb-1" />
+                  <Clock className="w-5 h-5 text-accent-primary mx-auto mb-1" />
                   <div className="text-black dark:text-white font-bold text-xs uppercase">Duración</div>
                   <div className="text-gray-700 dark:text-gray-300 text-xs font-semibold">{product.duration}</div>
                 </div>
 
                 {/* Dispositivos */}
                 <div className="text-center border-l-4 border-black dark:border-white pl-4">
-                  <Monitor className="w-5 h-5 text-pop-cyan mx-auto mb-1" />
+                  <Monitor className="w-5 h-5 text-accent-primary mx-auto mb-1" />
                   <div className="text-black dark:text-white font-bold text-xs uppercase">Dispositivos</div>
                   <div className="text-gray-700 dark:text-gray-300 text-xs font-semibold">{product.devices}</div>
                 </div>
@@ -248,13 +248,13 @@ const ProductDetail: React.FC = () => {
             </div>
 
             {/* Beneficios */}
-            <div className="flex items-center justify-center gap-6 comic-panel p-4 halftone-pattern">
+            <div className="flex items-center justify-center gap-6 classic-card p-4 ">
               <div className="flex items-center gap-2 text-gray-800 dark:text-gray-200 text-xs font-bold uppercase relative z-10">
-                <Check className="w-4 h-4 text-pop-green" />
+                <Check className="w-4 h-4 text-accent-success" />
                 <span>Activación inmediata</span>
               </div>
               <div className="flex items-center gap-2 text-gray-800 dark:text-gray-200 text-xs font-bold uppercase relative z-10">
-                <Shield className="w-4 h-4 text-pop-green" />
+                <Shield className="w-4 h-4 text-accent-success" />
                 <span>Garantía total</span>
               </div>
             </div>
@@ -263,14 +263,14 @@ const ProductDetail: React.FC = () => {
             <div className="space-y-3">
               <button
                 onClick={handleAddToCart}
-                className="w-full bg-pop-green hover:bg-pop-cyan text-black py-3.5 px-6 font-black text-base flex items-center justify-center gap-2 transition-all duration-200 comic-button animate-comic-bounce"
+                className="w-full bg-accent-success hover:bg-accent-primary text-black py-3.5 px-6 font-black text-base flex items-center justify-center gap-2 transition-all duration-200 classic-btn "
               >
                 <ShoppingCart size={18} />
                 Añadir al Carrito
               </button>
 
               <div className="flex items-center justify-center gap-2 text-gray-700 dark:text-gray-300 text-sm font-bold uppercase">
-                <Zap className="w-4 h-4 text-pop-yellow" />
+                <Zap className="w-4 h-4 text-accent-primary" />
                 <span>Activación automática tras la compra</span>
               </div>
             </div>

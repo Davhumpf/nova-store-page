@@ -144,23 +144,23 @@ const ProfilePage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen halftone-pattern py-6 px-4 bg-white dark:bg-black">
+    <div className="min-h-screen  py-6 px-4 bg-white dark:bg-black">
       <div className="container mx-auto max-w-5xl">
 
         {/* Header */}
         <div className="text-center mb-6">
-          <h1 className="text-3xl font-black comic-text-shadow text-[#0D0D0D] dark:text-white mb-2">Mi Perfil</h1>
+          <h1 className="text-3xl font-black title-shadow text-[#0D0D0D] dark:text-white mb-2">Mi Perfil</h1>
           <p className="text-[#595959] dark:text-gray-400 font-bold">Gestiona tu cuenta y recompensas</p>
         </div>
 
         {/* Tarjeta principal */}
-        <div className="comic-panel overflow-hidden mb-6 animate-comic-pop bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+        <div className="classic-card overflow-hidden mb-6 animate-scale-in bg-white dark:bg-black border-4 border-black dark:border-white shadow-classic-lg">
           <div className="bg-white dark:bg-black border-b-4 border-black dark:border-white p-6">
             <div className="flex flex-col md:flex-row items-center gap-6">
 
               {/* Foto perfil */}
               <div className="relative group">
-                <div className="relative comic-border">
+                <div className="relative border border-primary rounded-lg">
                   {userProfile.photoURL ? (
                     <img
                       src={userProfile.photoURL}
@@ -208,12 +208,12 @@ const ProfilePage: React.FC = () => {
 
               {/* Info usuario */}
               <div className="flex-1 text-[#0D0D0D] dark:text-white text-center md:text-left">
-                <h2 className="text-2xl font-black comic-text-shadow mb-1">
+                <h2 className="text-2xl font-black title-shadow mb-1">
                   {userProfile.displayName || user.email?.split('@')[0] || 'Usuario'}
                 </h2>
                 <p className="text-[#0D0D0D]/80 dark:text-white/80 mb-3 text-sm font-bold">{user.email}</p>
 
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-black border-4 border-black dark:border-white text-pop-cyan font-black shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] text-sm comic-border">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-black border-4 border-black dark:border-white text-accent-primary font-black shadow-classic-md text-sm border border-primary rounded-lg">
                   {userLevel.icon}
                   <span>Nivel {userLevel.level}</span>
                 </div>
@@ -221,15 +221,15 @@ const ProfilePage: React.FC = () => {
 
               {/* Puntos */}
               <div className="text-center">
-                <div className="bg-white dark:bg-black backdrop-blur-sm rounded-xl p-4 border-4 border-black dark:border-white comic-border shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+                <div className="bg-white dark:bg-black backdrop-blur-sm rounded-xl p-4 border-4 border-black dark:border-white border border-primary rounded-lg shadow-classic-lg">
                   <div className="flex items-center justify-center gap-2 mb-2">
-                    <Award className="w-5 h-5 text-pop-yellow" />
+                    <Award className="w-5 h-5 text-accent-primary" />
                     <span className="text-black dark:text-white font-black text-sm">Puntos</span>
                   </div>
-                  <div className="text-3xl font-black comic-text-shadow text-pop-yellow">{userProfile.points || 0}</div>
+                  <div className="text-3xl font-black title-shadow text-accent-primary">{userProfile.points || 0}</div>
                   <button
                     onClick={handleRedeemPoints}
-                    className="comic-button mt-3 px-5 py-2 flex items-center gap-2 mx-auto text-sm"
+                    className="classic-btn mt-3 px-5 py-2 flex items-center gap-2 mx-auto text-sm"
                   >
                     <MessageCircle size={14} />
                     Redimir
@@ -240,14 +240,14 @@ const ProfilePage: React.FC = () => {
           </div>
 
           {/* Estadísticas */}
-          <div className="bendaydots-pattern p-5 bg-white dark:bg-black">
+          <div className=" p-5 bg-white dark:bg-black">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {userStats.map((stat, index) => (
-                <div key={index} className="comic-panel p-4 text-center hover:shadow-md dark:hover:shadow-none transition-all duration-200 animate-comic-pop bg-white dark:bg-black border-4 border-black dark:border-white shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
+                <div key={index} className="classic-card p-4 text-center hover:shadow-md dark:hover:shadow-none transition-all duration-200 animate-scale-in bg-white dark:bg-black border-4 border-black dark:border-white shadow-classic-md">
                   <div className="text-[#0D0D0D] dark:text-white mb-2 flex justify-center">
                     {stat.icon}
                   </div>
-                  <div className="text-2xl font-black comic-text-shadow text-[#0D0D0D] dark:text-white">{stat.value}</div>
+                  <div className="text-2xl font-black title-shadow text-[#0D0D0D] dark:text-white">{stat.value}</div>
                   <div className="text-xs text-[#0D0D0D] dark:text-white font-bold">{stat.label}</div>
                 </div>
               ))}
@@ -256,13 +256,13 @@ const ProfilePage: React.FC = () => {
         </div>
 
         {/* Información personal */}
-        <div className="comic-panel p-5 mb-6 animate-comic-pop bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+        <div className="classic-card p-5 mb-6 animate-scale-in bg-white dark:bg-black border-4 border-black dark:border-white shadow-classic-lg">
           <div className="flex items-center justify-between mb-5">
-            <h3 className="text-lg font-black comic-text-shadow text-[#0D0D0D] dark:text-white">Información Personal</h3>
+            <h3 className="text-lg font-black title-shadow text-[#0D0D0D] dark:text-white">Información Personal</h3>
             {!isEditing ? (
               <button
                 onClick={() => setIsEditing(true)}
-                className="comic-button flex items-center gap-2 px-4 py-2 text-sm"
+                className="classic-btn flex items-center gap-2 px-4 py-2 text-sm"
               >
                 <Edit3 size={14} />
                 Editar
@@ -271,14 +271,14 @@ const ProfilePage: React.FC = () => {
               <div className="flex gap-2">
                 <button
                   onClick={handleSave}
-                  className="comic-button flex items-center gap-2 px-4 py-2 text-sm bg-gradient-to-r from-[#4ECDC4] to-[#44A08D]"
+                  className="classic-btn flex items-center gap-2 px-4 py-2 text-sm bg-gradient-to-r from-[#4ECDC4] to-[#44A08D]"
                 >
                   <Save size={14} />
                   Guardar
                 </button>
                 <button
                   onClick={handleCancel}
-                  className="comic-button flex items-center gap-2 px-4 py-2 text-sm bg-gradient-to-r from-[#FF6B6B] to-[#EE5A6F]"
+                  className="classic-btn flex items-center gap-2 px-4 py-2 text-sm bg-gradient-to-r from-[#FF6B6B] to-[#EE5A6F]"
                 >
                   <X size={14} />
                   Cancelar
@@ -290,7 +290,7 @@ const ProfilePage: React.FC = () => {
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-bold text-[#0D0D0D] dark:text-white mb-2">Email</label>
-              <div className="comic-input px-4 py-3 text-sm">{user.email}</div>
+              <div className="classic-input px-4 py-3 text-sm">{user.email}</div>
             </div>
 
             <div>
@@ -300,11 +300,11 @@ const ProfilePage: React.FC = () => {
                   type="text"
                   value={tempProfile.displayName}
                   onChange={(e) => setTempProfile({...tempProfile, displayName: e.target.value})}
-                  className="comic-input w-full px-4 py-3 text-sm"
+                  className="classic-input w-full px-4 py-3 text-sm"
                   placeholder="Tu nombre"
                 />
               ) : (
-                <div className="comic-input px-4 py-3 text-sm">
+                <div className="classic-input px-4 py-3 text-sm">
                   {userProfile.displayName || tempProfile.displayName || 'No especificado'}
                 </div>
               )}
@@ -317,11 +317,11 @@ const ProfilePage: React.FC = () => {
                   type="tel"
                   value={tempProfile.phone}
                   onChange={(e) => setTempProfile({...tempProfile, phone: e.target.value})}
-                  className="comic-input w-full px-4 py-3 text-sm"
+                  className="classic-input w-full px-4 py-3 text-sm"
                   placeholder="+57 300 123 4567"
                 />
               ) : (
-                <div className="comic-input px-4 py-3 text-sm">
+                <div className="classic-input px-4 py-3 text-sm">
                   {userProfile.phone || tempProfile.phone || 'No especificado'}
                 </div>
               )}
@@ -334,10 +334,10 @@ const ProfilePage: React.FC = () => {
                   type="date"
                   value={tempProfile.birthDate}
                   onChange={(e) => setTempProfile({...tempProfile, birthDate: e.target.value})}
-                  className="comic-input w-full px-4 py-3 text-sm"
+                  className="classic-input w-full px-4 py-3 text-sm"
                 />
               ) : (
-                <div className="comic-input px-4 py-3 text-sm">
+                <div className="classic-input px-4 py-3 text-sm">
                   {userProfile.birthDate || tempProfile.birthDate || 'No especificado'}
                 </div>
               )}
@@ -349,7 +349,7 @@ const ProfilePage: React.FC = () => {
                 <select
                   value={tempProfile.favoriteCategory}
                   onChange={(e) => setTempProfile({...tempProfile, favoriteCategory: e.target.value})}
-                  className="comic-input w-full px-4 py-3 text-sm"
+                  className="classic-input w-full px-4 py-3 text-sm"
                 >
                   <option value="streaming">Streaming</option>
                   <option value="gaming">Gaming</option>
@@ -358,7 +358,7 @@ const ProfilePage: React.FC = () => {
                   <option value="education">Educación</option>
                 </select>
               ) : (
-                <div className="comic-input px-4 py-3 capitalize text-sm">
+                <div className="classic-input px-4 py-3 capitalize text-sm">
                   {userProfile.favoriteCategory || tempProfile.favoriteCategory}
                 </div>
               )}
@@ -367,15 +367,15 @@ const ProfilePage: React.FC = () => {
         </div>
 
         {/* Recompensas */}
-        <div className="comic-panel p-5 animate-comic-pop bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+        <div className="classic-card p-5 animate-scale-in bg-white dark:bg-black border-4 border-black dark:border-white shadow-classic-lg">
           <div className="flex items-center justify-between mb-5">
-            <h3 className="text-lg font-black comic-text-shadow text-[#0D0D0D] dark:text-white flex items-center gap-2">
+            <h3 className="text-lg font-black title-shadow text-[#0D0D0D] dark:text-white flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-[#FF1493] dark:text-[#FFD700]" />
               Recompensas
             </h3>
             <button
               onClick={() => setShowRewardsModal(true)}
-              className="comic-button px-4 py-2 text-sm"
+              className="classic-btn px-4 py-2 text-sm"
             >
               Ver todas
             </button>
@@ -385,7 +385,7 @@ const ProfilePage: React.FC = () => {
             {rewards.map((reward) => (
               <div
                 key={reward.id}
-                className={`relative group comic-panel p-4 cursor-pointer transition-all duration-200 bg-white dark:bg-black border-4 border-black dark:border-white shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] ${
+                className={`relative group classic-card p-4 cursor-pointer transition-all duration-200 bg-white dark:bg-black border-4 border-black dark:border-white shadow-classic-md ${
                   (userProfile.points || 0) >= reward.points ? 'transform hover:scale-105 shadow-md hover:shadow-lg' : 'opacity-50'
                 }`}
                 onClick={() => handleRewardSelect(reward)}
@@ -414,10 +414,10 @@ const ProfilePage: React.FC = () => {
       {/* Modal */}
       {showRewardsModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="comic-panel max-w-2xl w-full max-h-96 overflow-y-auto shadow-2xl">
+          <div className="classic-card max-w-2xl w-full max-h-96 overflow-y-auto shadow-2xl">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-black comic-text-shadow text-[#0D0D0D] dark:text-white flex items-center gap-2">
+                <h3 className="text-xl font-black title-shadow text-[#0D0D0D] dark:text-white flex items-center gap-2">
                   <Gift className="w-5 h-5 text-[#FF1493] dark:text-[#FFD700]" />
                   Todas las Recompensas
                 </h3>
@@ -433,14 +433,14 @@ const ProfilePage: React.FC = () => {
                 {rewards.map((reward) => (
                   <div
                     key={reward.id}
-                    className={`flex items-center justify-between p-4 comic-panel transition-all duration-200 ${
+                    className={`flex items-center justify-between p-4 classic-card transition-all duration-200 ${
                       (userProfile.points || 0) >= reward.points
                         ? 'bg-gradient-to-r from-[#4ECDC4] to-[#44A08D]'
                         : 'bg-gradient-to-r from-[#A6A6A6] to-[#595959] opacity-60'
                     }`}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="p-2 rounded-lg bg-gradient-to-br from-[#FF6B6B] to-[#FFE66D] shadow-md dark:shadow-none comic-border">
+                      <div className="p-2 rounded-lg bg-gradient-to-br from-[#FF6B6B] to-[#FFE66D] shadow-md dark:shadow-none border border-primary rounded-lg">
                         <div className="text-[#0D0D0D] dark:text-white">{reward.icon}</div>
                       </div>
                       <div>
@@ -451,7 +451,7 @@ const ProfilePage: React.FC = () => {
                     <button
                       onClick={() => handleRewardSelect(reward)}
                       disabled={(userProfile.points || 0) < reward.points}
-                      className={`comic-button px-4 py-2 text-sm ${
+                      className={`classic-btn px-4 py-2 text-sm ${
                         (userProfile.points || 0) >= reward.points
                           ? 'bg-gradient-to-r from-[#FF6B6B] to-[#FFE66D]'
                           : 'opacity-50 cursor-not-allowed'

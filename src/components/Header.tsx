@@ -298,7 +298,7 @@ const Header: React.FC = () => {
                   <div className="p-4">
                     <Link
                       to="/auth"
-                      className="comic-button w-full block text-center px-4 py-2.5 text-sm"
+                      className="classic-btn w-full block text-center px-4 py-2.5 text-sm"
                       onClick={() => setShowUserMenu(false)}
                     >
                       Iniciar sesión
@@ -384,7 +384,7 @@ const Header: React.FC = () => {
               <div className="py-4">
                 <Link
                   to="/auth"
-                  className="comic-button w-full block text-center px-4 py-2.5 text-sm"
+                  className="classic-btn w-full block text-center px-4 py-2.5 text-sm"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Iniciar sesión

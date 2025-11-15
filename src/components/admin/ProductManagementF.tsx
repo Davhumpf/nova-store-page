@@ -224,28 +224,28 @@ const ProductManagementF: React.FC = () => {
         {/* Botón volver */}
         <button
           onClick={() => navigate('/admin')}
-          className="mb-3 flex items-center gap-1.5 text-xs text-pop-orange hover:text-pop-purple transition-colors group"
+          className="mb-3 flex items-center gap-1.5 text-xs text-accent-primary hover:text-accent-primary transition-colors group"
         >
           <ArrowRight size={14} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
           <span className="font-medium">Panel Admin</span>
         </button>
 
         {/* Header minimalista */}
-        <div className="mb-4 bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)] p-3">
+        <div className="mb-4 bg-white dark:bg-black border-4 border-black dark:border-white shadow-classic-lg p-3">
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-1 h-8 bg-pop-orange rounded-full shadow-sm"></div>
+            <div className="w-1 h-8 bg-accent-primary rounded-full shadow-sm"></div>
             <div className="flex-1">
-              <h1 className="text-lg font-bold text-[#2A2A2A] dark:text-white comic-text-shadow uppercase">Productos Físicos</h1>
+              <h1 className="text-lg font-bold text-[#2A2A2A] dark:text-white title-shadow uppercase">Productos Físicos</h1>
               <p className="text-[10px] text-[#8A8A8A] dark:text-gray-400 font-medium">Inventario y gestión de stock</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="text-center">
                 <p className="text-[9px] text-[#8A8A8A] dark:text-gray-400">En stock</p>
-                <p className="text-sm font-bold text-pop-orange">{inStockCount}/{total}</p>
+                <p className="text-sm font-bold text-accent-primary">{inStockCount}/{total}</p>
               </div>
               <button
                 onClick={openCreate}
-                className="border-4 border-black dark:border-white bg-white dark:bg-black text-pop-yellow font-black uppercase px-3 py-1.5 text-xs flex items-center gap-1.5 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+                className="border-4 border-black dark:border-white bg-white dark:bg-black text-accent-primary font-black uppercase px-3 py-1.5 text-xs flex items-center gap-1.5 shadow-classic-md"
               >
                 <Plus size={14} />
                 Nuevo
@@ -255,7 +255,7 @@ const ProductManagementF: React.FC = () => {
         </div>
 
         {/* Buscador */}
-        <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] p-3 mb-3">
+        <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-classic-md p-3 mb-3">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Search className="h-4 w-4 text-[#8A8A8A] dark:text-gray-400" />
@@ -265,15 +265,15 @@ const ProductManagementF: React.FC = () => {
               placeholder="Buscar por nombre, categoría o SKU..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="comic-input w-full py-2 pl-10 pr-3 text-xs"
+              className="classic-input w-full py-2 pl-10 pr-3 text-xs"
             />
           </div>
         </div>
 
         {/* Lista de productos */}
-        <div className="bg-white dark:bg-black border-4 border-black dark:border-white overflow-hidden shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+        <div className="bg-white dark:bg-black border-4 border-black dark:border-white overflow-hidden shadow-classic-lg">
           <div className="p-3 border-b-4 border-black dark:border-white bg-white dark:bg-black">
-            <h2 className="text-sm font-bold text-pop-orange uppercase flex items-center gap-1.5">
+            <h2 className="text-sm font-bold text-accent-primary uppercase flex items-center gap-1.5">
               <Package size={14} />
               Productos ({filtered.length})
             </h2>
@@ -283,7 +283,7 @@ const ProductManagementF: React.FC = () => {
             {loading ? (
               <div className="text-center py-8">
                 <div className="w-8 h-8 border-2 border-black/30 dark:border-white/30 border-t-black dark:border-t-white rounded-full animate-spin mx-auto mb-2"></div>
-                <p className="text-pop-orange font-bold text-xs">Cargando productos...</p>
+                <p className="text-accent-primary font-bold text-xs">Cargando productos...</p>
               </div>
             ) : filtered.length === 0 ? (
               <div className="text-center py-8">
@@ -299,7 +299,7 @@ const ProductManagementF: React.FC = () => {
                   return (
                     <div
                       key={p.id}
-                      className="border-4 border-black dark:border-white bg-white dark:bg-black p-3 hover:shadow-[6px_6px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[6px_6px_0px_rgba(255,255,255,0.5)] transition-all shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+                      className="border-4 border-black dark:border-white bg-white dark:bg-black p-3 hover:shadow-[6px_6px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[6px_6px_0px_rgba(255,255,255,0.5)] transition-all shadow-classic-md"
                     >
                       <div className="flex gap-3">
                         {/* Imagen/Video */}
@@ -318,7 +318,7 @@ const ProductManagementF: React.FC = () => {
                             </div>
                           )}
                           {(p.media?.length ?? 0) > 1 && (
-                            <span className="absolute bottom-1 right-1 text-[9px] px-1.5 py-0.5 border-2 border-black dark:border-white bg-white dark:bg-black text-pop-purple font-bold">
+                            <span className="absolute bottom-1 right-1 text-[9px] px-1.5 py-0.5 border-2 border-black dark:border-white bg-white dark:bg-black text-accent-primary font-bold">
                               {p.media!.length}
                             </span>
                           )}
@@ -330,14 +330,14 @@ const ProductManagementF: React.FC = () => {
                             <div className="min-w-0 flex-1">
                               <h3 className="text-xs font-semibold text-[#2A2A2A] dark:text-white truncate">{p.name}</h3>
                               <div className="flex flex-wrap items-center gap-1 mt-0.5">
-                                <span className="text-[9px] px-1.5 py-0.5 bg-white dark:bg-black text-pop-purple font-bold uppercase border-2 border-black dark:border-white">
+                                <span className="text-[9px] px-1.5 py-0.5 bg-white dark:bg-black text-accent-primary font-bold uppercase border-2 border-black dark:border-white">
                                   {p.category || 'Sin categoría'}
                                 </span>
-                                <span className="text-[9px] px-1.5 py-0.5 bg-white dark:bg-black text-pop-blue font-bold uppercase border-2 border-black dark:border-white">
+                                <span className="text-[9px] px-1.5 py-0.5 bg-white dark:bg-black text-accent-primary font-bold uppercase border-2 border-black dark:border-white">
                                   SKU: {p.sku || 'N/A'}
                                 </span>
                                 {!p.inStock && (
-                                  <span className="text-[9px] px-1.5 py-0.5 bg-white dark:bg-black text-pop-red font-bold uppercase border-2 border-black dark:border-white">
+                                  <span className="text-[9px] px-1.5 py-0.5 bg-white dark:bg-black text-accent-error font-bold uppercase border-2 border-black dark:border-white">
                                     Sin stock
                                   </span>
                                 )}
@@ -351,7 +351,7 @@ const ProductManagementF: React.FC = () => {
                                   -{p.discount}%
                                 </div>
                               )}
-                              <div className="text-pop-green font-bold text-sm leading-tight comic-text-shadow">
+                              <div className="text-accent-success font-bold text-sm leading-tight title-shadow">
                                 ${Number(p.price || 0).toLocaleString('es-CO')}
                               </div>
                               {Number(p.originalPrice || 0) > Number(p.price || 0) && (
@@ -387,14 +387,14 @@ const ProductManagementF: React.FC = () => {
                           <div className="flex gap-1.5">
                             <button
                               onClick={() => openEdit(p)}
-                              className="flex-1 inline-flex items-center justify-center gap-1 px-2 py-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-pop-cyan font-bold text-[10px] uppercase hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
+                              className="flex-1 inline-flex items-center justify-center gap-1 px-2 py-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-accent-primary font-bold text-[10px] uppercase hover:shadow-classic-sm dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
                             >
                               <Edit size={12} />
                               Editar
                             </button>
                             <button
                               onClick={() => onDelete(p.id)}
-                              className="flex-1 inline-flex items-center justify-center gap-1 px-2 py-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-pop-red font-bold text-[10px] uppercase hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
+                              className="flex-1 inline-flex items-center justify-center gap-1 px-2 py-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-accent-error font-bold text-[10px] uppercase hover:shadow-classic-sm dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all"
                             >
                               <Trash2 size={12} />
                               Eliminar
@@ -413,14 +413,14 @@ const ProductManagementF: React.FC = () => {
         {/* Modal Crear/Editar */}
         {(creating || editing) && (
           <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-3">
-            <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[12px_12px_0px_rgba(0,0,0,0.8)] dark:shadow-[12px_12px_0px_rgba(255,255,255,0.5)] animate-comic-pop w-full max-w-4xl max-h-[95vh] overflow-y-auto">
+            <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[12px_12px_0px_rgba(0,0,0,0.8)] dark:shadow-[12px_12px_0px_rgba(255,255,255,0.5)] animate-scale-in w-full max-w-4xl max-h-[95vh] overflow-y-auto">
               {/* Header del modal */}
               <div className="p-3 border-b-4 border-black dark:border-white flex items-center justify-between sticky top-0 bg-white dark:bg-black z-10">
-                <h3 className="text-sm font-bold text-pop-yellow uppercase flex items-center gap-1.5">
+                <h3 className="text-sm font-bold text-accent-primary uppercase flex items-center gap-1.5">
                   <Package size={14} />
                   {editing ? 'Editar producto físico' : 'Nuevo producto físico'}
                 </h3>
-                <button onClick={closeModal} className="p-1.5 hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all">
+                <button onClick={closeModal} className="p-1.5 hover:shadow-classic-sm dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)] transition-all">
                   <X size={16} className="text-[#8A8A8A] dark:text-gray-400" />
                 </button>
               </div>
@@ -435,7 +435,7 @@ const ProductManagementF: React.FC = () => {
                       <input
                         value={form.name || ''}
                         onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
-                        className="comic-input w-full px-2.5 py-2 text-xs"
+                        className="classic-input w-full px-2.5 py-2 text-xs"
                         placeholder="Ej: Auriculares Bluetooth"
                         required
                       />
@@ -446,7 +446,7 @@ const ProductManagementF: React.FC = () => {
                       <input
                         value={form.description || ''}
                         onChange={(e) => setForm((s) => ({ ...s, description: e.target.value }))}
-                        className="comic-input w-full px-2.5 py-2 text-xs"
+                        className="classic-input w-full px-2.5 py-2 text-xs"
                         placeholder="Descripción breve"
                       />
                     </div>
@@ -456,7 +456,7 @@ const ProductManagementF: React.FC = () => {
                       <textarea
                         value={form.longDescription || ''}
                         onChange={(e) => setForm((s) => ({ ...s, longDescription: e.target.value }))}
-                        className="comic-input w-full px-2.5 py-2 text-xs h-24 resize-none"
+                        className="classic-input w-full px-2.5 py-2 text-xs h-24 resize-none"
                         placeholder="Descripción detallada del producto"
                       />
                     </div>
@@ -467,7 +467,7 @@ const ProductManagementF: React.FC = () => {
                         <input
                           value={form.category || ''}
                           onChange={(e) => setForm((s) => ({ ...s, category: e.target.value }))}
-                          className="comic-input w-full px-2.5 py-2 text-xs"
+                          className="classic-input w-full px-2.5 py-2 text-xs"
                           placeholder="Tecnología"
                         />
                       </div>
@@ -477,7 +477,7 @@ const ProductManagementF: React.FC = () => {
                         <input
                           value={form.sku || ''}
                           onChange={(e) => setForm((s) => ({ ...s, sku: e.target.value.toUpperCase() }))}
-                          className="comic-input w-full px-2.5 py-2 text-xs font-mono"
+                          className="classic-input w-full px-2.5 py-2 text-xs font-mono"
                           placeholder="AUR-BT-001"
                         />
                       </div>
@@ -499,7 +499,7 @@ const ProductManagementF: React.FC = () => {
                               .filter(Boolean),
                           }))
                         }
-                        className="comic-input w-full px-2.5 py-2 text-xs h-24 resize-y font-mono"
+                        className="classic-input w-full px-2.5 py-2 text-xs h-24 resize-y font-mono"
                         placeholder="https://ejemplo.com/img1.jpg&#10;https://ejemplo.com/video.mp4"
                       />
                       <p className="text-[9px] text-[#8A8A8A] mt-1">
@@ -517,7 +517,7 @@ const ProductManagementF: React.FC = () => {
                           type="number"
                           value={Number(form.originalPrice || 0)}
                           onChange={(e) => setForm((s) => ({ ...s, originalPrice: Number(e.target.value) }))}
-                          className="comic-input w-full px-2.5 py-2 text-xs"
+                          className="classic-input w-full px-2.5 py-2 text-xs"
                           min={0}
                         />
                       </div>
@@ -527,7 +527,7 @@ const ProductManagementF: React.FC = () => {
                           type="number"
                           value={Number(form.price || 0)}
                           onChange={(e) => setForm((s) => ({ ...s, price: Number(e.target.value) }))}
-                          className="comic-input w-full px-2.5 py-2 text-xs"
+                          className="classic-input w-full px-2.5 py-2 text-xs"
                           min={0}
                         />
                       </div>
@@ -537,7 +537,7 @@ const ProductManagementF: React.FC = () => {
                           type="number"
                           value={Number(form.discount || 0)}
                           onChange={(e) => setForm((s) => ({ ...s, discount: Number(e.target.value) }))}
-                          className="comic-input w-full px-2.5 py-2 text-xs"
+                          className="classic-input w-full px-2.5 py-2 text-xs"
                           min={0}
                           max={100}
                         />
@@ -554,7 +554,7 @@ const ProductManagementF: React.FC = () => {
                           max={5}
                           value={Number(form.rating || 0)}
                           onChange={(e) => setForm((s) => ({ ...s, rating: Number(e.target.value) }))}
-                          className="comic-input w-full px-2.5 py-2 text-xs"
+                          className="classic-input w-full px-2.5 py-2 text-xs"
                         />
                       </div>
                       <div>
@@ -564,7 +564,7 @@ const ProductManagementF: React.FC = () => {
                           min={0}
                           value={Number(form.reviews || 0)}
                           onChange={(e) => setForm((s) => ({ ...s, reviews: Number(e.target.value) }))}
-                          className="comic-input w-full px-2.5 py-2 text-xs"
+                          className="classic-input w-full px-2.5 py-2 text-xs"
                         />
                       </div>
                     </div>
@@ -580,7 +580,7 @@ const ProductManagementF: React.FC = () => {
                             const v = Math.max(0, Number(e.target.value));
                             setForm((s) => ({ ...s, stockQuantity: v, inStock: v > 0 }));
                           }}
-                          className="comic-input w-full px-2.5 py-2 text-xs"
+                          className="classic-input w-full px-2.5 py-2 text-xs"
                         />
                       </div>
 
@@ -589,7 +589,7 @@ const ProductManagementF: React.FC = () => {
                         <select
                           value={(form.inStock ? '1' : '0') as string}
                           onChange={(e) => setForm((s) => ({ ...s, inStock: e.target.value === '1' }))}
-                          className="comic-input w-full px-2.5 py-2 text-xs"
+                          className="classic-input w-full px-2.5 py-2 text-xs"
                         >
                           <option value="1">Sí</option>
                           <option value="0">No</option>
@@ -602,7 +602,7 @@ const ProductManagementF: React.FC = () => {
                       <input
                         value={form.shippingInfo || ''}
                         onChange={(e) => setForm((s) => ({ ...s, shippingInfo: e.target.value }))}
-                        className="comic-input w-full px-2.5 py-2 text-xs"
+                        className="classic-input w-full px-2.5 py-2 text-xs"
                         placeholder="Envío nacional 3-5 días hábiles"
                       />
                     </div>
@@ -629,7 +629,7 @@ const ProductManagementF: React.FC = () => {
                                   }}
                                 />
                               )}
-                              <span className="absolute bottom-1 right-1 text-[9px] px-1.5 py-0.5 border-2 border-black dark:border-white bg-white dark:bg-black text-pop-purple font-bold">
+                              <span className="absolute bottom-1 right-1 text-[9px] px-1.5 py-0.5 border-2 border-black dark:border-white bg-white dark:bg-black text-accent-primary font-bold">
                                 {i + 1}
                               </span>
                             </div>
@@ -649,7 +649,7 @@ const ProductManagementF: React.FC = () => {
                   <button
                     type="submit"
                     disabled={saving}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 border-4 border-black dark:border-white bg-white dark:bg-black text-pop-green font-black uppercase px-4 py-2.5 text-xs disabled:opacity-50 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 border-4 border-black dark:border-white bg-white dark:bg-black text-accent-success font-black uppercase px-4 py-2.5 text-xs disabled:opacity-50 shadow-classic-md"
                   >
                     {saving ? (
                       <>
@@ -666,7 +666,7 @@ const ProductManagementF: React.FC = () => {
                   <button
                     type="button"
                     onClick={closeModal}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 border-4 border-black dark:border-white bg-white dark:bg-black text-pop-red font-black uppercase px-4 py-2.5 text-xs shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 border-4 border-black dark:border-white bg-white dark:bg-black text-accent-error font-black uppercase px-4 py-2.5 text-xs shadow-classic-md"
                   >
                     <X size={14} />
                     Cancelar

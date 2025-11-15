@@ -81,7 +81,7 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
   }, [isBlocked, onSuccess, provider, push]);
 
   return (
-    <form onSubmit={onSubmit} className="space-y-3 animate-comic-pop">
+    <form onSubmit={onSubmit} className="space-y-3 animate-scale-in">
       {/* email */}
       <div className="relative">
         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8A8A8A] dark:text-[#B0B0B0] z-10" size={16} />
@@ -94,7 +94,7 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
           placeholder="correo@ejemplo.com"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          className="comic-input w-full pl-10 pr-3 py-2.5 text-sm placeholder-[#8A8A8A] dark:placeholder-[#666]"
+          className="classic-input w-full pl-10 pr-3 py-2.5 text-sm placeholder-[#8A8A8A] dark:placeholder-[#666]"
           required
         />
       </div>
@@ -108,7 +108,7 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
           placeholder="Contraseña"
           value={pw}
           onChange={e => setPw(e.target.value)}
-          className="comic-input w-full pl-10 pr-10 py-2.5 text-sm placeholder-[#8A8A8A] dark:placeholder-[#666]"
+          className="classic-input w-full pl-10 pr-10 py-2.5 text-sm placeholder-[#8A8A8A] dark:placeholder-[#666]"
           required
           minLength={8}
         />
@@ -125,7 +125,7 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
       <button
         type="submit"
         disabled={loading || isBlocked}
-        className="w-full border-4 border-black dark:border-white bg-white dark:bg-black text-pop-cyan font-black uppercase disabled:opacity-50 disabled:cursor-not-allowed text-sm py-2.5 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+        className="w-full border-4 border-black dark:border-white bg-white dark:bg-black text-accent-primary font-black uppercase disabled:opacity-50 disabled:cursor-not-allowed text-sm py-2.5 shadow-classic-md"
       >
         {isBlocked ? 'Bloqueado temporalmente' : loading ? 'Iniciando…' : 'Iniciar sesión'}
       </button>
@@ -143,16 +143,16 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
         type="button"
         onClick={onGoogle}
         disabled={loading || isBlocked}
-        className="w-full border-4 border-black dark:border-white bg-white dark:bg-black text-[#2A2A2A] dark:text-white hover:shadow-[6px_6px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[6px_6px_0px_rgba(255,255,255,0.5)] py-2.5 font-bold text-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+        className="w-full border-4 border-black dark:border-white bg-white dark:bg-black text-[#2A2A2A] dark:text-white hover:shadow-[6px_6px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[6px_6px_0px_rgba(255,255,255,0.5)] py-2.5 font-bold text-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-classic-md"
       >
         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" width={16} height={16} className="relative z-10" />
         <span className="relative z-10">Continuar con Google</span>
       </button>
 
       {err && (
-        <div className="border-4 border-black dark:border-white bg-white dark:bg-black px-3 py-2 font-bold text-xs flex items-center gap-2 animate-comic-pop shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
-          <AlertCircle size={14} className="shrink-0 text-pop-pink" />
-          <span className="text-pop-pink">{err}</span>
+        <div className="border-4 border-black dark:border-white bg-white dark:bg-black px-3 py-2 font-bold text-xs flex items-center gap-2 animate-scale-in shadow-classic-md">
+          <AlertCircle size={14} className="shrink-0 text-accent-primary" />
+          <span className="text-accent-primary">{err}</span>
         </div>
       )}
     </form>
