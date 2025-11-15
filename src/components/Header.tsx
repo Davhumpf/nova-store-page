@@ -123,18 +123,18 @@ const Header: React.FC = () => {
   // ====== Opciones por rol (desktop + móvil) ======
   const renderUserMenuOptions = () => {
     const base = [
-      { href: '/profile', icon: <User size={16} />, label: 'Perfil', color: 'hover:text-[#4CAF50] dark:hover:text-[#66FF7A]' },
-      { href: '/settings', icon: <Settings size={16} />, label: 'Configuración', color: 'hover:text-[#4CAF50] dark:hover:text-[#66FF7A]' }
+      { href: '/profile', icon: <User size={16} className="inking-icon" />, label: 'Perfil' },
+      { href: '/settings', icon: <Settings size={16} className="inking-icon" />, label: 'Configuración' }
     ];
 
-    const extras: { href: string; icon: JSX.Element; label: string; color: string }[] = [];
+    const extras: { href: string; icon: JSX.Element; label: string }[] = [];
 
     if (userRole === 'super_admin') {
-      extras.push({ href: '/AdminDashboard', icon: <Shield size={16} />, label: 'Panel Admin', color: 'hover:text-[#4CAF50] dark:hover:text-[#66FF7A]' });
+      extras.push({ href: '/AdminDashboard', icon: <Shield size={16} className="inking-icon" />, label: 'Panel Admin' });
     } else if (userRole === 'admin') {
-      extras.push({ href: '/AdminDashboard', icon: <UserCheck size={16} />, label: 'Panel Admin', color: 'hover:text-[#4FC3F7] dark:hover:text-[#81D4FA]' });
+      extras.push({ href: '/AdminDashboard', icon: <UserCheck size={16} className="inking-icon" />, label: 'Panel Admin' });
     } else if (userRole === 'collaborator') {
-      extras.push({ href: '/collaborations', icon: <UserCheck size={16} />, label: 'Herramientas', color: 'hover:text-[#BA68C8] dark:hover:text-[#CE93D8]' });
+      extras.push({ href: '/collaborations', icon: <UserCheck size={16} className="inking-icon" />, label: 'Herramientas' });
     }
 
     return [...base, ...extras];
@@ -142,32 +142,32 @@ const Header: React.FC = () => {
 
   return (
     <header
-      className={`sticky top-0 w-full z-50 transition-all duration-300 comic-border-light halftone-pattern ${
+      className={`sticky top-0 w-full z-50 transition-all duration-300 halftone-pattern ${
         isScrolled
-          ? 'bg-white dark:bg-black backdrop-blur-sm shadow-lg shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:shadow-[0_4px_8px_rgba(255,255,255,0.2)] speed-lines'
+          ? 'bg-white/95 dark:bg-black/95 backdrop-blur-sm shadow-[0_4px_16px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_16px_rgba(255,255,255,0.08)]'
           : 'bg-white dark:bg-black'
-      } border-b-4 border-black dark:border-white`}
+      } border-b-2 border-black/10 dark:border-white/10`}
     >
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-center">
           <div className="relative">
-            <div className="relative bg-white dark:bg-gray-800 comic-border stipple-pattern rounded-full px-6 md:px-8 py-3 flex items-center gap-3 md:gap-5">
+            <div className="relative elegant-card stipple-pattern px-6 md:px-8 py-3 flex items-center gap-3 md:gap-5">
               
-              {/* Logo / Título en burbuja con sombra */}
+              {/* Logo / Título elegante */}
               <button
                 onClick={goHome}
-                className="text-xl font-bold text-[#FF1493] dark:text-[#00FFFF] whitespace-nowrap transition-all duration-200 bg-white dark:bg-black px-5 py-2 rounded-full comic-border-light border-4 border-black dark:border-white shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)] comic-text-shadow hover:animate-comic-pop uppercase tracking-wide"
+                className="text-xl font-bold elegant-text-primary whitespace-nowrap transition-all duration-300 bg-white dark:bg-black px-5 py-2 rounded-lg comic-border-light border-2 border-black dark:border-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_8px_rgba(255,255,255,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] dark:hover:shadow-[0_4px_12px_rgba(255,255,255,0.12)] hover:transform hover:-translate-y-1 uppercase tracking-wide"
               >
                 Nova Store
               </button>
 
               {/* Separador */}
-              <div className="w-1 h-6 bg-black dark:bg-white" />
+              <div className="w-px h-6 bg-black/20 dark:bg-white/20" />
 
               {/* 🌙 BOTÓN DE TEMA (SOL/LUNA/MONITOR) - Three Modes */}
               <button
                 onClick={toggleTheme}
-                className="comic-button text-black dark:text-white p-2 rounded-md transition-all duration-200 hover:animate-comic-bounce"
+                className="elegant-text-primary p-2 rounded-lg border-2 border-transparent hover:border-black/10 dark:hover:border-white/10 transition-all duration-300 hover:bg-black/5 dark:hover:bg-white/5"
                 aria-label="Cambiar tema"
                 title={
                   theme === 'light'
@@ -178,49 +178,49 @@ const Header: React.FC = () => {
                 }
               >
                 {theme === 'light' ? (
-                  <Sun size={18} className="md:w-[20px] md:h-[20px]" />
+                  <Sun size={18} className="md:w-[20px] md:h-[20px] inking-icon" />
                 ) : theme === 'dark' ? (
-                  <Moon size={18} className="md:w-[20px] md:h-[20px]" />
+                  <Moon size={18} className="md:w-[20px] md:h-[20px] inking-icon" />
                 ) : (
-                  <Monitor size={18} className="md:w-[20px] md:h-[20px]" />
+                  <Monitor size={18} className="md:w-[20px] md:h-[20px] inking-icon" />
                 )}
               </button>
 
-              <div className="w-1 h-6 bg-black dark:bg-white" />
+              <div className="w-px h-6 bg-black/20 dark:bg-white/20" />
 
               {/* Redes */}
               <div className="flex items-center gap-1">
                 <button
                   onClick={openWhatsApp}
-                  className="text-pop-green dark:text-pop-green-dark comic-hover bg-white dark:bg-gray-700 p-2 rounded-md transition-all duration-200 comic-border-light"
+                  className="elegant-text-primary p-2 rounded-lg border-2 border-transparent hover:border-black/10 dark:hover:border-white/10 transition-all duration-300 hover:bg-black/5 dark:hover:bg-white/5"
                   aria-label="WhatsApp"
                   title="Contáctanos por WhatsApp"
                 >
-                  <MessageCircle size={16} className="md:w-[18px] md:h-[18px]" />
+                  <MessageCircle size={16} className="md:w-[18px] md:h-[18px] inking-icon" />
                 </button>
                 <button
                   onClick={openInstagram}
-                  className="text-pop-purple dark:text-pop-purple-dark comic-hover bg-white dark:bg-gray-700 p-2 rounded-md transition-all duration-200 comic-border-light"
+                  className="elegant-text-primary p-2 rounded-lg border-2 border-transparent hover:border-black/10 dark:hover:border-white/10 transition-all duration-300 hover:bg-black/5 dark:hover:bg-white/5"
                   aria-label="Instagram"
                   title="Síguenos en Instagram"
                 >
-                  <Instagram size={16} className="md:w-[18px] md:h-[18px]" />
+                  <Instagram size={16} className="md:w-[18px] md:h-[18px] inking-icon" />
                 </button>
               </div>
 
-              <div className="w-1 h-6 bg-black dark:bg-white" />
+              <div className="w-px h-6 bg-black/20 dark:bg-white/20" />
 
               {/* Acciones principales */}
               <div className="flex items-center gap-1">
                 {/* Carrito */}
                 <button
-                  className="relative text-black dark:text-white comic-hover bg-white dark:bg-gray-700 p-2 rounded-md transition-all duration-200 comic-border-light"
+                  className="relative elegant-text-primary p-2 rounded-lg border-2 border-transparent hover:border-black/10 dark:hover:border-white/10 transition-all duration-300 hover:bg-black/5 dark:hover:bg-white/5"
                   onClick={toggleCart}
                   aria-label="Carrito de compras"
                 >
-                  <ShoppingCart size={16} className="md:w-[18px] md:h-[18px]" />
+                  <ShoppingCart size={16} className="md:w-[18px] md:h-[18px] inking-icon" />
                   {cartCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-pop-red dark:bg-pop-red-dark text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center comic-border-light animate-comic-pop">
+                    <span className="absolute -top-1 -right-1 bg-black dark:bg-white text-white dark:text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-white dark:border-black shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:shadow-[0_2px_4px_rgba(255,255,255,0.2)]">
                       {cartCount > 99 ? '99+' : cartCount}
                     </span>
                   )}
@@ -229,17 +229,17 @@ const Header: React.FC = () => {
                 {/* Hamburguesa móvil */}
                 <button
                   onClick={toggleMobileMenu}
-                  className="text-black dark:text-white comic-hover bg-white dark:bg-gray-700 p-2 rounded-md transition-all duration-200 comic-border-light md:hidden"
+                  className="elegant-text-primary p-2 rounded-lg border-2 border-transparent hover:border-black/10 dark:hover:border-white/10 transition-all duration-300 hover:bg-black/5 dark:hover:bg-white/5 md:hidden"
                 >
-                  {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+                  {isMobileMenuOpen ? <X size={18} className="inking-icon" /> : <Menu size={18} className="inking-icon" />}
                 </button>
 
                 {/* Hamburguesa desktop */}
                 <button
                   onClick={toggleUserMenu}
-                  className="hidden md:block text-black dark:text-white comic-hover bg-white dark:bg-gray-700 p-2 rounded-md transition-all duration-200 comic-border-light"
+                  className="hidden md:block elegant-text-primary p-2 rounded-lg border-2 border-transparent hover:border-black/10 dark:hover:border-white/10 transition-all duration-300 hover:bg-black/5 dark:hover:bg-white/5"
                 >
-                  <Menu size={18} />
+                  <Menu size={18} className="inking-icon" />
                 </button>
               </div>
             </div>
@@ -247,27 +247,27 @@ const Header: React.FC = () => {
             {/* Dropdown usuario (Desktop) */}
             {showUserMenu && (
               <div
-                className="absolute right-0 top-full mt-3 w-64 comic-panel bg-white dark:bg-black border-4 border-black dark:border-white halftone-pattern rounded-lg overflow-hidden z-50 animate-comic-pop shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]"
+                className="absolute right-0 top-full mt-3 w-64 comic-panel bg-white dark:bg-black border-2 border-black dark:border-white halftone-pattern overflow-hidden z-50 shadow-[0_8px_24px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_24px_rgba(255,255,255,0.12)]"
                 onClick={(e) => e.stopPropagation()}
               >
                 {user ? (
                   <>
-                    <div className="flex flex-col items-center px-6 py-5 border-b-4 border-black dark:border-white bg-white dark:bg-black stipple-pattern">
+                    <div className="flex flex-col items-center px-6 py-5 border-b-2 border-black/10 dark:border-white/10 bg-white dark:bg-black stipple-pattern">
                       <div className="mb-3">
-                        <div className="w-14 h-14 rounded-full bg-white dark:bg-black border-4 border-black dark:border-white flex items-center justify-center comic-border-light shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)]">
-                          <User size={24} className="text-[#4CAF50] dark:text-[#00FFFF]" />
+                        <div className="w-14 h-14 rounded-full bg-white dark:bg-black border-2 border-black dark:border-white flex items-center justify-center shadow-[0_4px_8px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_8px_rgba(255,255,255,0.08)]">
+                          <User size={24} className="elegant-text-primary inking-icon" />
                         </div>
                       </div>
-                      <p className="text-sm font-bold text-black dark:text-white truncate max-w-full comic-text-shadow">{user.email}</p>
-                      <div className="flex items-center gap-2 mt-2 bg-white dark:bg-black border-3 border-black dark:border-white px-4 py-2 rounded-md comic-border-light shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.5)]">
-                        <Award size={14} className="text-[#FF4500] dark:text-[#FFD700]" />
-                        <span className="text-black dark:text-white text-sm font-bold">
+                      <p className="text-sm font-bold elegant-text-primary truncate max-w-full">{user.email}</p>
+                      <div className="flex items-center gap-2 mt-2 bg-white dark:bg-black border-2 border-black/10 dark:border-white/10 px-4 py-2 rounded-lg shadow-[0_2px_4px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_4px_rgba(255,255,255,0.06)]">
+                        <Award size={14} className="elegant-text-primary inking-icon" />
+                        <span className="elegant-text-primary text-sm font-bold">
                           {userProfile?.points ?? 0} pts
                         </span>
                       </div>
                       {userRole && userRole !== 'user' && (
-                        <div className="mt-2 bg-white dark:bg-black border-3 border-black dark:border-white px-4 py-1.5 rounded-md comic-border-light shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.5)]">
-                          <span className="text-[#FF1493] dark:text-[#FF1493] text-xs font-bold uppercase">
+                        <div className="mt-2 bg-black dark:bg-white px-4 py-1.5 rounded-lg shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:shadow-[0_2px_4px_rgba(255,255,255,0.2)]">
+                          <span className="text-white dark:text-black text-xs font-bold uppercase">
                             {userRole === 'super_admin' ? 'Super Admin' : userRole === 'admin' ? 'Admin' : 'Colaborador'}
                           </span>
                         </div>
@@ -278,7 +278,7 @@ const Header: React.FC = () => {
                       <Link
                         key={index}
                         to={option.href}
-                        className="w-full text-left px-6 py-4 text-black dark:text-white hover:bg-white hover:text-[#00FFFF] dark:hover:bg-black dark:hover:text-[#FF1493] flex items-center gap-3 text-sm transition-all duration-200 comic-hover font-bold border-b-2 border-black/20 dark:border-white/20"
+                        className="w-full text-left px-6 py-4 elegant-text-primary hover:bg-black/5 dark:hover:bg-white/5 flex items-center gap-3 text-sm transition-all duration-300 font-bold border-b border-black/10 dark:border-white/10"
                         onClick={() => setShowUserMenu(false)}
                       >
                         {option.icon}
@@ -288,9 +288,9 @@ const Header: React.FC = () => {
 
                     <button
                       onClick={handleLogout}
-                      className="w-full text-left px-6 py-4 text-white bg-[#FF4500] dark:bg-[#FF4500] flex items-center gap-3 text-sm transition-all duration-200 comic-hover font-bold border-t-4 border-black dark:border-white"
+                      className="w-full text-left px-6 py-4 text-white dark:text-black bg-black dark:bg-white flex items-center gap-3 text-sm transition-all duration-300 hover:bg-black/80 dark:hover:bg-white/80 font-bold border-t-2 border-black/10 dark:border-white/10"
                     >
-                      <LogOut size={16} />
+                      <LogOut size={16} className="inking-icon" />
                       <span className="font-bold">Cerrar sesión</span>
                     </button>
                   </>
@@ -298,7 +298,7 @@ const Header: React.FC = () => {
                   <div className="p-6">
                     <Link
                       to="/auth"
-                      className="comic-button w-full block text-center rounded-md px-4 py-3 text-sm transition-all duration-200 hover:animate-comic-bounce"
+                      className="comic-button w-full block text-center rounded-lg px-4 py-3 text-sm transition-all duration-300"
                       onClick={() => setShowUserMenu(false)}
                     >
                       Iniciar sesión
@@ -314,27 +314,27 @@ const Header: React.FC = () => {
       {/* Menú móvil */}
       {isMobileMenuOpen && (
         <div
-          className="md:hidden bg-white dark:bg-black halftone-pattern border-t-4 border-black dark:border-white shadow-lg animate-slideDown"
+          className="md:hidden bg-white dark:bg-black halftone-pattern border-t-2 border-black/10 dark:border-white/10 shadow-[0_8px_24px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_24px_rgba(255,255,255,0.12)] animate-slideDown"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="p-6">
             {user ? (
-              <div className="flex flex-col items-center gap-4 mt-2 py-6 border-t-4 border-black dark:border-white bg-white dark:bg-black stipple-pattern rounded-lg comic-border-light shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
+              <div className="flex flex-col items-center gap-4 mt-2 py-6 border-t-2 border-black/10 dark:border-white/10 bg-white dark:bg-black stipple-pattern rounded-lg comic-border shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_12px_rgba(255,255,255,0.08)]">
                 <div className="mb-2">
-                  <div className="w-16 h-16 rounded-full bg-white dark:bg-black border-4 border-black dark:border-white flex items-center justify-center comic-border-light shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)]">
-                    <User size={28} className="text-[#4CAF50] dark:text-[#00FFFF]" />
+                  <div className="w-16 h-16 rounded-full bg-white dark:bg-black border-2 border-black dark:border-white flex items-center justify-center shadow-[0_4px_8px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_8px_rgba(255,255,255,0.08)]">
+                    <User size={28} className="elegant-text-primary inking-icon" />
                   </div>
                 </div>
-                <span className="text-black dark:text-white font-bold truncate max-w-[200px] text-sm comic-text-shadow">{user.email}</span>
-                <div className="flex items-center gap-2 bg-white dark:bg-black border-3 border-black dark:border-white px-3 py-2 rounded-md comic-border-light shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.5)]">
-                  <Award size={16} className="text-[#FF4500] dark:text-[#FFD700]" />
-                  <span className="text-black dark:text-white text-sm font-bold">
+                <span className="elegant-text-primary font-bold truncate max-w-[200px] text-sm">{user.email}</span>
+                <div className="flex items-center gap-2 bg-white dark:bg-black border-2 border-black/10 dark:border-white/10 px-3 py-2 rounded-lg shadow-[0_2px_4px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_4px_rgba(255,255,255,0.06)]">
+                  <Award size={16} className="elegant-text-primary inking-icon" />
+                  <span className="elegant-text-primary text-sm font-bold">
                     {userProfile?.points ?? 0} pts
                   </span>
                 </div>
                 {userRole && userRole !== 'user' && (
-                  <div className="bg-white dark:bg-black border-3 border-black dark:border-white px-3 py-1.5 rounded-md comic-border-light shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_rgba(255,255,255,0.5)]">
-                    <span className="text-[#FF1493] dark:text-[#FF1493] text-xs font-bold uppercase">
+                  <div className="bg-black dark:bg-white px-3 py-1.5 rounded-lg shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:shadow-[0_2px_4px_rgba(255,255,255,0.2)]">
+                    <span className="text-white dark:text-black text-xs font-bold uppercase">
                       {userRole === 'super_admin' ? 'Super Admin' : userRole === 'admin' ? 'Admin' : 'Colaborador'}
                     </span>
                   </div>
@@ -344,18 +344,18 @@ const Header: React.FC = () => {
                 <div className="flex gap-3 mt-2">
                   <button
                     onClick={openWhatsApp}
-                    className="bg-pop-green dark:bg-pop-green-dark text-black dark:text-white rounded-md p-3 transition-all duration-200 flex items-center gap-2 comic-hover comic-border-light"
+                    className="bg-white dark:bg-black border-2 border-black dark:border-white elegant-text-primary rounded-lg p-3 transition-all duration-300 flex items-center gap-2 hover:bg-black/5 dark:hover:bg-white/5 shadow-[0_2px_8px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_8px_rgba(255,255,255,0.08)]"
                     aria-label="WhatsApp"
                   >
-                    <MessageCircle size={16} />
+                    <MessageCircle size={16} className="inking-icon" />
                     <span className="text-xs font-bold">WhatsApp</span>
                   </button>
                   <button
                     onClick={openInstagram}
-                    className="bg-pop-purple dark:bg-pop-purple-dark text-white dark:text-black rounded-md p-3 transition-all duration-200 flex items-center gap-2 comic-hover comic-border-light"
+                    className="bg-white dark:bg-black border-2 border-black dark:border-white elegant-text-primary rounded-lg p-3 transition-all duration-300 flex items-center gap-2 hover:bg-black/5 dark:hover:bg-white/5 shadow-[0_2px_8px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_8px_rgba(255,255,255,0.08)]"
                     aria-label="Instagram"
                   >
-                    <Instagram size={16} />
+                    <Instagram size={16} className="inking-icon" />
                     <span className="text-xs font-bold">Instagram</span>
                   </button>
                 </div>
@@ -365,7 +365,7 @@ const Header: React.FC = () => {
                     <Link
                       key={index}
                       to={option.href}
-                      className="w-full bg-white dark:bg-black border-3 border-black dark:border-white text-black dark:text-white rounded-md py-3 px-5 flex items-center justify-center gap-3 hover:text-[#00FFFF] dark:hover:text-[#FF1493] text-sm transition-all duration-200 comic-hover comic-border-light shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)]"
+                      className="w-full bg-white dark:bg-black border-2 border-black dark:border-white elegant-text-primary rounded-lg py-3 px-5 flex items-center justify-center gap-3 text-sm transition-all duration-300 hover:bg-black/5 dark:hover:bg-white/5 font-bold shadow-[0_2px_8px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_8px_rgba(255,255,255,0.08)]"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {option.icon}
@@ -375,18 +375,18 @@ const Header: React.FC = () => {
 
                   <button
                     onClick={handleLogout}
-                    className="w-full bg-[#FF4500] dark:bg-[#FF4500] text-white rounded-md py-3 px-5 flex items-center justify-center gap-3 text-sm transition-all duration-200 comic-hover comic-border-light border-3 border-black dark:border-white shadow-[3px_3px_0px_rgba(0,0,0,0.8)] dark:shadow-[3px_3px_0px_rgba(255,255,255,0.5)]"
+                    className="w-full bg-black dark:bg-white text-white dark:text-black rounded-lg py-3 px-5 flex items-center justify-center gap-3 text-sm transition-all duration-300 hover:bg-black/80 dark:hover:bg-white/80 font-bold border-2 border-black dark:border-white shadow-[0_2px_8px_rgba(0,0,0,0.2)] dark:shadow-[0_2px_8px_rgba(255,255,255,0.2)]"
                   >
-                    <LogOut size={18} />
+                    <LogOut size={18} className="inking-icon" />
                     <span className="font-bold">Cerrar sesión</span>
                   </button>
                 </div>
               </div>
             ) : (
-              <div className="mt-2 py-6 border-t-4 border-black dark:border-white">
+              <div className="mt-2 py-6 border-t-2 border-black/10 dark:border-white/10">
                 <Link
                   to="/auth"
-                  className="comic-button w-full block text-center rounded-md px-6 py-4 transition-all duration-200 hover:animate-comic-bounce"
+                  className="comic-button w-full block text-center rounded-lg px-6 py-4 transition-all duration-300"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Iniciar sesión

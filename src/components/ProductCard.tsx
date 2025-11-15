@@ -26,8 +26,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const stars = useMemo(() => Array.from({ length: 5 }, (_, i) => i < fullStars), [fullStars]);
 
   return (
-    <Link to={`/product/${id}`} className="block animate-comic-pop">
-      <div className="group relative comic-panel halftone-pattern overflow-hidden transition-all duration-200 hover:speed-lines comic-hover">
+    <Link to={`/product/${id}`} className="block">
+      <div className="group relative elegant-card halftone-pattern overflow-hidden transition-all duration-300">
         {/* Imagen cuadrada consistente */}
         <div className="relative aspect-square overflow-hidden stipple-pattern">
           <img
@@ -37,17 +37,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             decoding="async"
             width={640}
             height={640}
-            className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.02]"
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             style={{ display: 'block' }}
             fetchPriority="low"
           />
           {discount > 0 && (
-            <div className="absolute top-2 left-2 bg-pop-red text-white font-bold text-[10px] px-2 py-1 comic-border-light uppercase">
+            <div className="absolute top-3 left-3 bg-black dark:bg-white text-white dark:text-black font-bold text-[10px] px-3 py-1.5 rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.2)] dark:shadow-[0_2px_8px_rgba(255,255,255,0.2)] uppercase">
               -{discount}%
             </div>
           )}
-          <div className="absolute top-2 right-2">
-            <span className="bg-pop-green text-black dark:text-white text-[10px] px-2 py-1 comic-border-light flex items-center uppercase font-bold">
+          <div className="absolute top-3 right-3">
+            <span className="bg-white dark:bg-black elegant-text-primary text-[10px] px-3 py-1.5 rounded-lg border-2 border-black/10 dark:border-white/10 flex items-center uppercase font-bold shadow-[0_2px_4px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_4px_rgba(255,255,255,0.08)]">
               <span className="w-1.5 h-1.5 bg-black dark:bg-white rounded-full mr-1.5 animate-pulse" />
               Disponible
             </span>
@@ -57,10 +57,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Contenido */}
         <div className="p-3 md:p-4 relative z-10">
           <div className="min-h-[64px] md:min-h-[84px] mb-2">
-            <h3 className="text-gray-900 dark:text-white font-bold text-sm md:text-base line-clamp-2 break-words uppercase">
+            <h3 className="elegant-text-primary font-bold text-sm md:text-base line-clamp-2 break-words uppercase">
               {name}
             </h3>
-            <p className="text-gray-700 dark:text-gray-300 text-xs md:text-sm line-clamp-2 leading-snug break-words">
+            <p className="elegant-text-secondary text-xs md:text-sm line-clamp-2 leading-snug break-words">
               {description}
             </p>
           </div>
@@ -71,29 +71,29 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 <Star
                   key={i}
                   size={12}
-                  className={on ? 'text-pop-yellow' : 'text-gray-400 dark:text-gray-600'}
+                  className={on ? 'text-black dark:text-white' : 'elegant-text-secondary'}
                   fill={on ? 'currentColor' : 'none'}
                 />
               ))}
             </div>
-            <span className="text-gray-700 dark:text-gray-300 font-semibold">
-              <span className="font-bold text-black dark:text-white">{rating.toFixed(1)}</span> ({reviews})
+            <span className="elegant-text-secondary font-semibold">
+              <span className="font-bold elegant-text-primary">{rating.toFixed(1)}</span> ({reviews})
             </span>
           </div>
 
           <div className="flex items-baseline gap-1.5 md:gap-2 justify-between mb-2 md:mb-3">
             <div className="flex items-baseline gap-1.5 md:gap-2">
-              <span className="text-pop-orange font-black text-base md:text-lg comic-text-shadow">
+              <span className="elegant-text-primary font-black text-base md:text-lg">
                 ${price.toLocaleString('es-CO')}
               </span>
               {originalPrice > price && (
-                <span className="text-gray-500 dark:text-gray-400 text-xs md:text-sm line-through font-semibold">
+                <span className="elegant-text-secondary text-xs md:text-sm line-through font-semibold">
                   ${originalPrice.toLocaleString('es-CO')}
                 </span>
               )}
             </div>
             {originalPrice > price && (
-              <div className="hidden sm:block bg-pop-cyan text-black text-[11px] font-bold px-2 py-1 comic-border-light uppercase">
+              <div className="hidden sm:block bg-black/5 dark:bg-white/5 elegant-text-primary text-[11px] font-bold px-2 py-1 rounded-md border border-black/10 dark:border-white/10 uppercase">
                 Ahorra ${(originalPrice - price).toLocaleString('es-CO')}
               </div>
             )}
@@ -101,9 +101,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
           <button
             onClick={handleAddToCart}
-            className="w-full comic-button text-xs md:text-sm"
+            className="w-full comic-button text-xs md:text-sm flex items-center justify-center gap-2"
           >
-            <ShoppingCart size={16} className="inline mr-2" />
+            <ShoppingCart size={16} className="inking-icon" />
             Agregar al Carrito
           </button>
         </div>
