@@ -435,6 +435,25 @@ a:focus-visible {
   * {
     animation-duration: 0.2s !important;
   }
+
+  /* Disable blur effects on mobile for better performance */
+  [class*="blur-"] {
+    filter: none !important;
+  }
+
+  /* Simplify gradients on mobile */
+  .bg-gradient-to-r,
+  .bg-gradient-to-l,
+  .bg-gradient-to-t,
+  .bg-gradient-to-b,
+  .bg-gradient-to-br {
+    background-image: none !important;
+  }
+
+  /* Reduce transform operations */
+  *:not(button):not(a) {
+    will-change: auto !important;
+  }
 }
 
 /* === REDUCED MOTION === */

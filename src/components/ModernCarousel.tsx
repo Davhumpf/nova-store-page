@@ -37,9 +37,13 @@ const ModernCarousel: React.FC<ModernCarouselProps> = ({ type, title, icon, link
     const fetchProducts = async () => {
       try {
         const collectionName = type === "streaming" ? "products" : "products-f";
+        // Reducir cantidad en móviles para optimización
+        const isMobile = window.innerWidth < 768;
+        const productLimit = isMobile ? 8 : 12;
+
         const q = type === "streaming"
-          ? query(collection(db, collectionName), limit(12))
-          : query(collection(db, collectionName), where("inStock", "==", true), limit(12));
+          ? query(collection(db, collectionName), limit(productLimit))
+          : query(collection(db, collectionName), where("inStock", "==", true), limit(productLimit));
 
         const snapshot = await getDocs(q);
         const items: Product[] = snapshot.docs.map((doc) => {
@@ -68,9 +72,13 @@ const ModernCarousel: React.FC<ModernCarouselProps> = ({ type, title, icon, link
     fetchProducts();
   }, [type]);
 
-  // Auto-scroll (pausar cuando el usuario está hovering)
+  // Auto-scroll (pausar cuando el usuario está hovering o en móvil para ahorrar recursos)
   useEffect(() => {
     if (products.length === 0 || isHovered) return;
+    // Deshabilitar auto-scroll en móviles para ahorrar batería
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) return;
+
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % products.length);
     }, 4000);
@@ -137,7 +145,7 @@ const ModernCarousel: React.FC<ModernCarouselProps> = ({ type, title, icon, link
         </Link>
       </div>
 
-      {/* Carousel Container with Peek Effect */}
+      {/* Carousel Container - Simplificado en móvil */}
       <div
         className="relative overflow-hidden"
         onMouseEnter={() => setIsHovered(true)}
@@ -145,7 +153,7 @@ const ModernCarousel: React.FC<ModernCarouselProps> = ({ type, title, icon, link
       >
         <div
           ref={carouselRef}
-          className="flex transition-transform duration-500 ease-out"
+          className="flex transition-transform md:duration-500 duration-300 ease-out"
           style={{
             transform: `translateX(calc(-${currentIndex * 100}% + ${currentIndex * 16}px))`,
           }}
@@ -159,11 +167,11 @@ const ModernCarousel: React.FC<ModernCarouselProps> = ({ type, title, icon, link
             return (
               <div
                 key={product.id}
-                className={`flex-shrink-0 transition-all duration-500 px-2 ${
+                className={`flex-shrink-0 transition-all md:duration-500 duration-300 px-2 ${
                   isActive ? 'w-full sm:w-3/4 lg:w-2/3' : 'w-0 sm:w-1/4 lg:w-1/6 opacity-0 sm:opacity-50'
                 }`}
                 style={{
-                  transitionProperty: 'width, opacity, transform',
+                  transitionProperty: 'width, opacity',
                 }}
               >
                 <Link
@@ -173,10 +181,10 @@ const ModernCarousel: React.FC<ModernCarouselProps> = ({ type, title, icon, link
                   <div className={`
                     relative h-full rounded-2xl overflow-hidden
                     bg-white dark:bg-gray-900
-                    transition-all duration-500
+                    transition-all md:duration-500 duration-300
                     ${isActive
-                      ? 'shadow-2xl scale-100'
-                      : 'shadow-lg scale-95 hover:scale-98'
+                      ? 'md:shadow-2xl shadow-lg scale-100'
+                      : 'md:shadow-lg shadow-md scale-95 md:hover:scale-98'
                     }
                   `}>
                     {/* Image Section */}
@@ -184,12 +192,13 @@ const ModernCarousel: React.FC<ModernCarouselProps> = ({ type, title, icon, link
                       <img
                         src={product.imageUrl}
                         alt={product.name}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="w-full h-full object-cover md:transition-transform md:duration-700 md:group-hover:scale-110"
                         loading="lazy"
+                        decoding="async"
                       />
 
-                      {/* Overlay Gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      {/* Overlay Gradient - Solo en desktop */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 hidden md:block" />
 
                       {/* Discount Badge */}
                       {product.discount && product.discount > 0 && (
@@ -203,11 +212,11 @@ const ModernCarousel: React.FC<ModernCarouselProps> = ({ type, title, icon, link
                         {product.category}
                       </div>
 
-                      {/* Quick Add Button - Only on active card */}
+                      {/* Quick Add Button - Solo en desktop */}
                       {isActive && (
                         <button
                           onClick={(e) => handleAddToCart(product, e)}
-                          className="absolute bottom-3 right-3 bg-accent-primary hover:bg-accent-primary/90 text-white p-3 rounded-full shadow-lg transform translate-y-12 group-hover:translate-y-0 transition-all duration-300 opacity-0 group-hover:opacity-100"
+                          className="hidden md:block absolute bottom-3 right-3 bg-accent-primary hover:bg-accent-primary/90 text-white p-3 rounded-full shadow-lg transform translate-y-12 group-hover:translate-y-0 transition-all duration-300 opacity-0 group-hover:opacity-100"
                         >
                           <ShoppingCart className="w-5 h-5" />
                         </button>
@@ -270,22 +279,22 @@ const ModernCarousel: React.FC<ModernCarouselProps> = ({ type, title, icon, link
           })}
         </div>
 
-        {/* Navigation Buttons */}
+        {/* Navigation Buttons - Visibles siempre en móvil, hover en desktop */}
         {products.length > 1 && (
           <>
             <button
               onClick={goToPrevious}
-              className="absolute left-2 top-1/2 -translate-y-1/2 bg-white dark:bg-gray-900 text-primary p-3 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 opacity-0 hover:opacity-100 group-hover:opacity-100 hover:scale-110 z-10"
+              className="absolute left-2 top-1/2 -translate-y-1/2 bg-white dark:bg-gray-900 text-primary p-2 md:p-3 rounded-full shadow-lg md:shadow-xl md:hover:shadow-2xl transition-all duration-300 md:opacity-0 opacity-90 md:hover:opacity-100 md:group-hover:opacity-100 md:hover:scale-110 z-10"
               aria-label="Anterior"
             >
-              <ChevronLeft className="w-6 h-6" />
+              <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
             </button>
             <button
               onClick={goToNext}
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-white dark:bg-gray-900 text-primary p-3 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 opacity-0 hover:opacity-100 group-hover:opacity-100 hover:scale-110 z-10"
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-white dark:bg-gray-900 text-primary p-2 md:p-3 rounded-full shadow-lg md:shadow-xl md:hover:shadow-2xl transition-all duration-300 md:opacity-0 opacity-90 md:hover:opacity-100 md:group-hover:opacity-100 md:hover:scale-110 z-10"
               aria-label="Siguiente"
             >
-              <ChevronRight className="w-6 h-6" />
+              <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
             </button>
           </>
         )}
