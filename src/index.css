@@ -301,7 +301,7 @@ a:focus-visible {
    🎨 COMIC BOOK / POP ART STYLES
    ================================ */
 
-/* === HALFTONE PATTERN (Elegant & Soft) === */
+/* === HALFTONE PATTERN (Subtle & Soft) === */
 .halftone-pattern {
   position: relative;
   overflow: hidden;
@@ -312,8 +312,8 @@ a:focus-visible {
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px);
-  background-size: 6px 6px;
+    radial-gradient(circle, rgba(0,0,0,0.02) 1px, transparent 1px);
+  background-size: 8px 8px;
   opacity: 1;
   pointer-events: none;
   z-index: 0;
@@ -321,7 +321,7 @@ a:focus-visible {
 
 .dark .halftone-pattern::before {
   background-image:
-    radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+    radial-gradient(circle, rgba(255,255,255,0.02) 1px, transparent 1px);
   opacity: 1;
 }
 
@@ -384,41 +384,33 @@ a:focus-visible {
   opacity: 0.18;
 }
 
-/* === ELEGANT DOUBLE STROKE BORDERS === */
+/* === SUBTLE BORDERS === */
 .comic-border {
-  border: 2px solid #000000;
-  box-shadow:
-    inset 0 0 0 1px #000000,
-    0 0 0 4px rgba(0, 0, 0, 0.08);
-  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
 }
 
 .dark .comic-border {
-  border-color: #FFFFFF;
-  box-shadow:
-    inset 0 0 0 1px #FFFFFF,
-    0 0 0 4px rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .comic-border-light {
-  border: 2px solid #000000;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 }
 
 .dark .comic-border-light {
-  border-color: #FFFFFF;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .comic-outline {
-  outline: 2px solid #000000;
+  outline: 1px solid rgba(0, 0, 0, 0.15);
   outline-offset: 2px;
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 .dark .comic-outline {
-  outline-color: #FFFFFF;
+  outline-color: rgba(255, 255, 255, 0.15);
 }
 
 /* === SPEED LINES ANIMATIONS === */
@@ -466,30 +458,16 @@ a:focus-visible {
 
 @keyframes comicPop {
   0% {
-    transform: scale(0.8) rotate(-2deg);
     opacity: 0;
   }
-  50% {
-    transform: scale(1.05) rotate(1deg);
-  }
   100% {
-    transform: scale(1) rotate(0deg);
     opacity: 1;
   }
 }
 
 @keyframes comicBounce {
   0%, 100% {
-    transform: translateY(0) scale(1);
-  }
-  25% {
-    transform: translateY(-8px) scale(1.02, 0.98);
-  }
-  50% {
-    transform: translateY(0) scale(0.98, 1.02);
-  }
-  75% {
-    transform: translateY(-4px) scale(1.01, 0.99);
+    transform: translateY(0);
   }
 }
 
@@ -652,129 +630,91 @@ a:focus-visible {
     2px 2px 0 #FFF;
 }
 
-/* Comic Panel Effect - Elegant */
+/* Comic Panel Effect - Subtle */
 .comic-panel {
   position: relative;
-  border: 2px solid #000000;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   background: #FFFFFF;
-  box-shadow:
-    inset 0 0 0 1px rgba(0, 0, 0, 0.15),
-    0 4px 12px rgba(0, 0, 0, 0.08);
-  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
 }
 
 .dark .comic-panel {
-  border-color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.1);
   background: #000000;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.15),
-    0 4px 12px rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.04);
 }
 
-/* Comic Vignette Frame - For Carousel */
+/* Comic Vignette Frame - For Carousel - Subtle */
 .comic-vignette {
   position: relative;
-  border: 2px solid #000000;
-  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
   padding: 1rem;
   background: #FFFFFF;
-  box-shadow:
-    inset 0 0 0 1px rgba(0, 0, 0, 0.1),
-    0 0 0 6px rgba(0, 0, 0, 0.04),
-    0 6px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .dark .comic-vignette {
-  border-color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.1);
   background: #000000;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-    0 0 0 6px rgba(255, 255, 255, 0.04),
-    0 6px 16px rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.04);
 }
 
-.comic-vignette::before {
-  content: '';
-  position: absolute;
-  inset: -8px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 18px;
-  pointer-events: none;
-}
-
-.dark .comic-vignette::before {
-  border-color: rgba(255, 255, 255, 0.15);
-}
-
-/* Hover effects with comic style */
+/* Hover effects - Subtle */
 .comic-hover {
-  transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition: all 0.2s ease;
   position: relative;
 }
 
 .comic-hover:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow:
-    8px 8px 0 0 var(--comic-shadow),
-    12px 12px 0 0 rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .comic-hover:active {
-  transform: translateY(-2px) scale(0.98);
-  box-shadow:
-    4px 4px 0 0 var(--comic-shadow);
+  transform: translateY(0);
 }
 
-/* Comic Button - Elegant B&W */
+/* Comic Button - Minimal & Clean */
 .comic-button {
-  border: 2px solid #000000;
+  border: 1px solid rgba(0, 0, 0, 0.2);
   background: #FFFFFF;
   color: #000000;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   padding: 0.75rem 1.5rem;
   position: relative;
   transition: all 0.2s ease;
-  box-shadow:
-    inset 0 0 0 1px rgba(0, 0, 0, 0.1),
-    0 2px 8px rgba(0, 0, 0, 0.08);
-  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
 }
 
 .comic-button:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    inset 0 0 0 1px rgba(0, 0, 0, 0.1),
-    0 4px 12px rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.02);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .comic-button:active {
-  transform: translateY(0);
-  box-shadow:
-    inset 0 0 0 1px rgba(0, 0, 0, 0.1),
-    0 1px 4px rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .dark .comic-button {
-  border-color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.2);
   background: #000000;
   color: #FFFFFF;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-    0 2px 8px rgba(255, 255, 255, 0.08);
+  box-shadow: 0 1px 3px rgba(255, 255, 255, 0.08);
 }
 
 .dark .comic-button:hover {
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-    0 4px 12px rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.1);
 }
 
 .dark .comic-button:active {
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-    0 1px 4px rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 1px 2px rgba(255, 255, 255, 0.1);
 }
 
 /* Comic Input Fields */
@@ -911,36 +851,28 @@ svg.inking-icon,
   border-color: #2A2A2A;
 }
 
-/* === PROFESSIONAL CARD STYLE === */
+/* === SIMPLE CARD STYLE === */
 .elegant-card {
   background: #FFFFFF;
-  border: 2px solid #000000;
-  border-radius: 12px;
-  box-shadow:
-    inset 0 0 0 1px rgba(0, 0, 0, 0.08),
-    0 4px 12px rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
 }
 
 .dark .elegant-card {
   background: #000000;
-  border-color: #FFFFFF;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 4px 12px rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.04);
 }
 
 .elegant-card:hover {
-  transform: translateY(-4px);
-  box-shadow:
-    inset 0 0 0 1px rgba(0, 0, 0, 0.08),
-    0 8px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .dark .elegant-card:hover {
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 8px 20px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.06);
 }
 
 /* ================================

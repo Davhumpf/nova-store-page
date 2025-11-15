@@ -142,32 +142,32 @@ const Header: React.FC = () => {
 
   return (
     <header
-      className={`sticky top-0 w-full z-50 transition-all duration-300 halftone-pattern ${
+      className={`sticky top-0 w-full z-50 transition-all duration-200 ${
         isScrolled
-          ? 'bg-white/95 dark:bg-black/95 backdrop-blur-sm shadow-[0_4px_16px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_16px_rgba(255,255,255,0.08)]'
+          ? 'bg-white/98 dark:bg-black/98 backdrop-blur-sm shadow-sm'
           : 'bg-white dark:bg-black'
-      } border-b-2 border-black/10 dark:border-white/10`}
+      } border-b border-black/10 dark:border-white/10`}
     >
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-center">
           <div className="relative">
-            <div className="relative elegant-card stipple-pattern px-6 md:px-8 py-3 flex items-center gap-3 md:gap-5">
-              
-              {/* Logo / Título elegante */}
+            <div className="relative bg-white dark:bg-black px-6 md:px-8 py-3 flex items-center gap-3 md:gap-5 rounded-lg border border-black/5 dark:border-white/5">
+
+              {/* Logo / Título simple */}
               <button
                 onClick={goHome}
-                className="text-xl font-bold elegant-text-primary whitespace-nowrap transition-all duration-300 bg-white dark:bg-black px-5 py-2 rounded-lg comic-border-light border-2 border-black dark:border-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_8px_rgba(255,255,255,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] dark:hover:shadow-[0_4px_12px_rgba(255,255,255,0.12)] hover:transform hover:-translate-y-1 uppercase tracking-wide"
+                className="text-xl font-bold elegant-text-primary whitespace-nowrap transition-all duration-200 px-4 py-1 uppercase tracking-wide"
               >
                 Nova Store
               </button>
 
               {/* Separador */}
-              <div className="w-px h-6 bg-black/20 dark:bg-white/20" />
+              <div className="w-px h-6 bg-black/10 dark:bg-white/10" />
 
               {/* 🌙 BOTÓN DE TEMA (SOL/LUNA/MONITOR) - Three Modes */}
               <button
                 onClick={toggleTheme}
-                className="elegant-text-primary p-2 rounded-lg border-2 border-transparent hover:border-black/10 dark:hover:border-white/10 transition-all duration-300 hover:bg-black/5 dark:hover:bg-white/5"
+                className="elegant-text-primary p-2 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200"
                 aria-label="Cambiar tema"
                 title={
                   theme === 'light'
@@ -178,49 +178,49 @@ const Header: React.FC = () => {
                 }
               >
                 {theme === 'light' ? (
-                  <Sun size={18} className="md:w-[20px] md:h-[20px] inking-icon" />
+                  <Sun size={18} className="md:w-[20px] md:h-[20px]" />
                 ) : theme === 'dark' ? (
-                  <Moon size={18} className="md:w-[20px] md:h-[20px] inking-icon" />
+                  <Moon size={18} className="md:w-[20px] md:h-[20px]" />
                 ) : (
-                  <Monitor size={18} className="md:w-[20px] md:h-[20px] inking-icon" />
+                  <Monitor size={18} className="md:w-[20px] md:h-[20px]" />
                 )}
               </button>
 
-              <div className="w-px h-6 bg-black/20 dark:bg-white/20" />
+              <div className="w-px h-6 bg-black/10 dark:bg-white/10" />
 
               {/* Redes */}
               <div className="flex items-center gap-1">
                 <button
                   onClick={openWhatsApp}
-                  className="elegant-text-primary p-2 rounded-lg border-2 border-transparent hover:border-black/10 dark:hover:border-white/10 transition-all duration-300 hover:bg-black/5 dark:hover:bg-white/5"
+                  className="elegant-text-primary p-2 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200"
                   aria-label="WhatsApp"
                   title="Contáctanos por WhatsApp"
                 >
-                  <MessageCircle size={16} className="md:w-[18px] md:h-[18px] inking-icon" />
+                  <MessageCircle size={16} className="md:w-[18px] md:h-[18px]" />
                 </button>
                 <button
                   onClick={openInstagram}
-                  className="elegant-text-primary p-2 rounded-lg border-2 border-transparent hover:border-black/10 dark:hover:border-white/10 transition-all duration-300 hover:bg-black/5 dark:hover:bg-white/5"
+                  className="elegant-text-primary p-2 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200"
                   aria-label="Instagram"
                   title="Síguenos en Instagram"
                 >
-                  <Instagram size={16} className="md:w-[18px] md:h-[18px] inking-icon" />
+                  <Instagram size={16} className="md:w-[18px] md:h-[18px]" />
                 </button>
               </div>
 
-              <div className="w-px h-6 bg-black/20 dark:bg-white/20" />
+              <div className="w-px h-6 bg-black/10 dark:bg-white/10" />
 
               {/* Acciones principales */}
               <div className="flex items-center gap-1">
                 {/* Carrito */}
                 <button
-                  className="relative elegant-text-primary p-2 rounded-lg border-2 border-transparent hover:border-black/10 dark:hover:border-white/10 transition-all duration-300 hover:bg-black/5 dark:hover:bg-white/5"
+                  className="relative elegant-text-primary p-2 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200"
                   onClick={toggleCart}
                   aria-label="Carrito de compras"
                 >
-                  <ShoppingCart size={16} className="md:w-[18px] md:h-[18px] inking-icon" />
+                  <ShoppingCart size={16} className="md:w-[18px] md:h-[18px]" />
                   {cartCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-black dark:bg-white text-white dark:text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-white dark:border-black shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:shadow-[0_2px_4px_rgba(255,255,255,0.2)]">
+                    <span className="absolute -top-1 -right-1 bg-black dark:bg-white text-white dark:text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                       {cartCount > 99 ? '99+' : cartCount}
                     </span>
                   )}
@@ -229,17 +229,17 @@ const Header: React.FC = () => {
                 {/* Hamburguesa móvil */}
                 <button
                   onClick={toggleMobileMenu}
-                  className="elegant-text-primary p-2 rounded-lg border-2 border-transparent hover:border-black/10 dark:hover:border-white/10 transition-all duration-300 hover:bg-black/5 dark:hover:bg-white/5 md:hidden"
+                  className="elegant-text-primary p-2 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200 md:hidden"
                 >
-                  {isMobileMenuOpen ? <X size={18} className="inking-icon" /> : <Menu size={18} className="inking-icon" />}
+                  {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
                 </button>
 
                 {/* Hamburguesa desktop */}
                 <button
                   onClick={toggleUserMenu}
-                  className="hidden md:block elegant-text-primary p-2 rounded-lg border-2 border-transparent hover:border-black/10 dark:hover:border-white/10 transition-all duration-300 hover:bg-black/5 dark:hover:bg-white/5"
+                  className="hidden md:block elegant-text-primary p-2 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200"
                 >
-                  <Menu size={18} className="inking-icon" />
+                  <Menu size={18} />
                 </button>
               </div>
             </div>
@@ -247,27 +247,27 @@ const Header: React.FC = () => {
             {/* Dropdown usuario (Desktop) */}
             {showUserMenu && (
               <div
-                className="absolute right-0 top-full mt-3 w-64 comic-panel bg-white dark:bg-black border-2 border-black dark:border-white halftone-pattern overflow-hidden z-50 shadow-[0_8px_24px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_24px_rgba(255,255,255,0.12)]"
+                className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-black border border-black/10 dark:border-white/10 rounded-lg overflow-hidden z-50 shadow-lg"
                 onClick={(e) => e.stopPropagation()}
               >
                 {user ? (
                   <>
-                    <div className="flex flex-col items-center px-6 py-5 border-b-2 border-black/10 dark:border-white/10 bg-white dark:bg-black stipple-pattern">
-                      <div className="mb-3">
-                        <div className="w-14 h-14 rounded-full bg-white dark:bg-black border-2 border-black dark:border-white flex items-center justify-center shadow-[0_4px_8px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_8px_rgba(255,255,255,0.08)]">
-                          <User size={24} className="elegant-text-primary inking-icon" />
+                    <div className="flex flex-col items-center px-6 py-4 border-b border-black/10 dark:border-white/10">
+                      <div className="mb-2">
+                        <div className="w-12 h-12 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center">
+                          <User size={20} className="elegant-text-primary" />
                         </div>
                       </div>
-                      <p className="text-sm font-bold elegant-text-primary truncate max-w-full">{user.email}</p>
-                      <div className="flex items-center gap-2 mt-2 bg-white dark:bg-black border-2 border-black/10 dark:border-white/10 px-4 py-2 rounded-lg shadow-[0_2px_4px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_4px_rgba(255,255,255,0.06)]">
-                        <Award size={14} className="elegant-text-primary inking-icon" />
-                        <span className="elegant-text-primary text-sm font-bold">
+                      <p className="text-sm font-semibold elegant-text-primary truncate max-w-full">{user.email}</p>
+                      <div className="flex items-center gap-2 mt-2 px-3 py-1.5 rounded-md bg-black/5 dark:bg-white/5">
+                        <Award size={12} className="elegant-text-primary" />
+                        <span className="elegant-text-primary text-xs font-semibold">
                           {userProfile?.points ?? 0} pts
                         </span>
                       </div>
                       {userRole && userRole !== 'user' && (
-                        <div className="mt-2 bg-black dark:bg-white px-4 py-1.5 rounded-lg shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:shadow-[0_2px_4px_rgba(255,255,255,0.2)]">
-                          <span className="text-white dark:text-black text-xs font-bold uppercase">
+                        <div className="mt-2 bg-black dark:bg-white px-3 py-1 rounded-md">
+                          <span className="text-white dark:text-black text-xs font-semibold uppercase">
                             {userRole === 'super_admin' ? 'Super Admin' : userRole === 'admin' ? 'Admin' : 'Colaborador'}
                           </span>
                         </div>
@@ -278,27 +278,27 @@ const Header: React.FC = () => {
                       <Link
                         key={index}
                         to={option.href}
-                        className="w-full text-left px-6 py-4 elegant-text-primary hover:bg-black/5 dark:hover:bg-white/5 flex items-center gap-3 text-sm transition-all duration-300 font-bold border-b border-black/10 dark:border-white/10"
+                        className="w-full text-left px-6 py-3 elegant-text-primary hover:bg-black/5 dark:hover:bg-white/5 flex items-center gap-3 text-sm transition-colors duration-200 font-medium border-b border-black/5 dark:border-white/5"
                         onClick={() => setShowUserMenu(false)}
                       >
                         {option.icon}
-                        <span className="font-bold">{option.label}</span>
+                        <span>{option.label}</span>
                       </Link>
                     ))}
 
                     <button
                       onClick={handleLogout}
-                      className="w-full text-left px-6 py-4 text-white dark:text-black bg-black dark:bg-white flex items-center gap-3 text-sm transition-all duration-300 hover:bg-black/80 dark:hover:bg-white/80 font-bold border-t-2 border-black/10 dark:border-white/10"
+                      className="w-full text-left px-6 py-3 text-white dark:text-black bg-black dark:bg-white flex items-center gap-3 text-sm transition-colors duration-200 hover:bg-black/90 dark:hover:bg-white/90 font-medium"
                     >
-                      <LogOut size={16} className="inking-icon" />
-                      <span className="font-bold">Cerrar sesión</span>
+                      <LogOut size={16} />
+                      <span>Cerrar sesión</span>
                     </button>
                   </>
                 ) : (
-                  <div className="p-6">
+                  <div className="p-4">
                     <Link
                       to="/auth"
-                      className="comic-button w-full block text-center rounded-lg px-4 py-3 text-sm transition-all duration-300"
+                      className="comic-button w-full block text-center px-4 py-2.5 text-sm"
                       onClick={() => setShowUserMenu(false)}
                     >
                       Iniciar sesión
@@ -314,79 +314,77 @@ const Header: React.FC = () => {
       {/* Menú móvil */}
       {isMobileMenuOpen && (
         <div
-          className="md:hidden bg-white dark:bg-black halftone-pattern border-t-2 border-black/10 dark:border-white/10 shadow-[0_8px_24px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_24px_rgba(255,255,255,0.12)] animate-slideDown"
+          className="md:hidden bg-white dark:bg-black border-t border-black/10 dark:border-white/10 shadow-lg animate-slideDown"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="p-6">
+          <div className="p-4">
             {user ? (
-              <div className="flex flex-col items-center gap-4 mt-2 py-6 border-t-2 border-black/10 dark:border-white/10 bg-white dark:bg-black stipple-pattern rounded-lg comic-border shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_12px_rgba(255,255,255,0.08)]">
-                <div className="mb-2">
-                  <div className="w-16 h-16 rounded-full bg-white dark:bg-black border-2 border-black dark:border-white flex items-center justify-center shadow-[0_4px_8px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_8px_rgba(255,255,255,0.08)]">
-                    <User size={28} className="elegant-text-primary inking-icon" />
-                  </div>
+              <div className="flex flex-col items-center gap-3 py-4 bg-black/5 dark:bg-white/5 rounded-lg">
+                <div className="w-14 h-14 rounded-full bg-white dark:bg-black flex items-center justify-center border border-black/10 dark:border-white/10">
+                  <User size={24} className="elegant-text-primary" />
                 </div>
-                <span className="elegant-text-primary font-bold truncate max-w-[200px] text-sm">{user.email}</span>
-                <div className="flex items-center gap-2 bg-white dark:bg-black border-2 border-black/10 dark:border-white/10 px-3 py-2 rounded-lg shadow-[0_2px_4px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_4px_rgba(255,255,255,0.06)]">
-                  <Award size={16} className="elegant-text-primary inking-icon" />
-                  <span className="elegant-text-primary text-sm font-bold">
+                <span className="elegant-text-primary font-semibold truncate max-w-[200px] text-sm">{user.email}</span>
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-white dark:bg-black">
+                  <Award size={14} className="elegant-text-primary" />
+                  <span className="elegant-text-primary text-xs font-semibold">
                     {userProfile?.points ?? 0} pts
                   </span>
                 </div>
                 {userRole && userRole !== 'user' && (
-                  <div className="bg-black dark:bg-white px-3 py-1.5 rounded-lg shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:shadow-[0_2px_4px_rgba(255,255,255,0.2)]">
-                    <span className="text-white dark:text-black text-xs font-bold uppercase">
+                  <div className="bg-black dark:bg-white px-3 py-1 rounded-md">
+                    <span className="text-white dark:text-black text-xs font-semibold uppercase">
                       {userRole === 'super_admin' ? 'Super Admin' : userRole === 'admin' ? 'Admin' : 'Colaborador'}
                     </span>
                   </div>
                 )}
 
                 {/* Redes (móvil) */}
-                <div className="flex gap-3 mt-2">
+                <div className="flex gap-2 mt-2">
                   <button
                     onClick={openWhatsApp}
-                    className="bg-white dark:bg-black border-2 border-black dark:border-white elegant-text-primary rounded-lg p-3 transition-all duration-300 flex items-center gap-2 hover:bg-black/5 dark:hover:bg-white/5 shadow-[0_2px_8px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_8px_rgba(255,255,255,0.08)]"
+                    className="bg-white dark:bg-black border border-black/10 dark:border-white/10 elegant-text-primary rounded-md px-3 py-2 transition-colors duration-200 flex items-center gap-2 hover:bg-black/5 dark:hover:bg-white/5"
                     aria-label="WhatsApp"
                   >
-                    <MessageCircle size={16} className="inking-icon" />
-                    <span className="text-xs font-bold">WhatsApp</span>
+                    <MessageCircle size={16} />
+                    <span className="text-xs font-medium">WhatsApp</span>
                   </button>
                   <button
                     onClick={openInstagram}
-                    className="bg-white dark:bg-black border-2 border-black dark:border-white elegant-text-primary rounded-lg p-3 transition-all duration-300 flex items-center gap-2 hover:bg-black/5 dark:hover:bg-white/5 shadow-[0_2px_8px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_8px_rgba(255,255,255,0.08)]"
+                    className="bg-white dark:bg-black border border-black/10 dark:border-white/10 elegant-text-primary rounded-md px-3 py-2 transition-colors duration-200 flex items-center gap-2 hover:bg-black/5 dark:hover:bg-white/5"
                     aria-label="Instagram"
                   >
-                    <Instagram size={16} className="inking-icon" />
-                    <span className="text-xs font-bold">Instagram</span>
+                    <Instagram size={16} />
+                    <span className="text-xs font-medium">Instagram</span>
                   </button>
                 </div>
 
-                <div className="w-full space-y-3 mt-4">
+                <div className="w-full space-y-2 mt-3">
                   {renderUserMenuOptions().map((option, index) => (
                     <Link
                       key={index}
                       to={option.href}
-                      className="w-full bg-white dark:bg-black border-2 border-black dark:border-white elegant-text-primary rounded-lg py-3 px-5 flex items-center justify-center gap-3 text-sm transition-all duration-300 hover:bg-black/5 dark:hover:bg-white/5 font-bold shadow-[0_2px_8px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_8px_rgba(255,255,255,0.08)]"
+                      className="w-full bg-white dark:bg-black border border-black/10 dark:border-white/10 elegant-text-primary rounded-md py-2.5 px-4 flex items-center justify-center gap-2 text-sm transition-colors duration-200 hover:bg-black/5 dark:hover:bg-white/5 font-medium"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {option.icon}
-                      <span className="font-bold">{option.label}</span>
+                      <span>{option.label}</span>
                     </Link>
                   ))}
 
                   <button
                     onClick={handleLogout}
-                    className="w-full bg-black dark:bg-white text-white dark:text-black rounded-lg py-3 px-5 flex items-center justify-center gap-3 text-sm transition-all duration-300 hover:bg-black/80 dark:hover:bg-white/80 font-bold border-2 border-black dark:border-white shadow-[0_2px_8px_rgba(0,0,0,0.2)] dark:shadow-[0_2px_8px_rgba(255,255,255,0.2)]"
+                    className="w-full bg-black dark:bg-white text-white dark:text-black rounded-md py-2.5 px-4 flex items-center justify-center gap-2 text-sm transition-colors duration-200 hover:bg-black/90 dark:hover:bg-white/90 font-medium"
                   >
-                    <LogOut size={18} className="inking-icon" />
-                    <span className="font-bold">Cerrar sesión</span>
+                    <LogOut size={16} />
+                    <span>Cerrar sesión</span>
                   </button>
                 </div>
               </div>
             ) : (
-              <div className="mt-2 py-6 border-t-2 border-black/10 dark:border-white/10">
+              <div className="py-4">
                 <Link
                   to="/auth"
-                  className="comic-button w-full block text-center rounded-lg px-6 py-4 transition-all duration-300"
+                  className="comic-button w-full block text-center px-4 py-2.5 text-sm"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Iniciar sesión
