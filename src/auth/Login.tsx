@@ -125,7 +125,7 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
       <button
         type="submit"
         disabled={loading || isBlocked}
-        className="comic-button w-full bg-pop-cyan text-black dark:text-white disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+        className="w-full border-4 border-black dark:border-white bg-white dark:bg-black text-pop-cyan font-black uppercase disabled:opacity-50 disabled:cursor-not-allowed text-sm py-2.5 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
       >
         {isBlocked ? 'Bloqueado temporalmente' : loading ? 'Iniciando…' : 'Iniciar sesión'}
       </button>
@@ -135,7 +135,7 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
           <div className="w-full border-t-2 border-[#000] dark:border-[#FFF] opacity-20" />
         </div>
         <div className="relative flex justify-center text-xs">
-          <span className="bg-[#F5F5F5] dark:bg-[#1F1F1F] px-3 text-[#666] dark:text-[#999] font-bold uppercase">o continuar con</span>
+          <span className="bg-white dark:bg-black px-3 text-[#666] dark:text-[#999] font-bold uppercase">o continuar con</span>
         </div>
       </div>
 
@@ -143,16 +143,16 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
         type="button"
         onClick={onGoogle}
         disabled={loading || isBlocked}
-        className="comic-border w-full bg-white dark:bg-[#1F1F1F] text-[#2A2A2A] dark:text-white hover:bg-[#FAFAFA] dark:hover:bg-[#2A2A2A] py-2.5 font-bold text-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors halftone-pattern"
+        className="w-full border-4 border-black dark:border-white bg-white dark:bg-black text-[#2A2A2A] dark:text-white hover:shadow-[6px_6px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[6px_6px_0px_rgba(255,255,255,0.5)] py-2.5 font-bold text-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
       >
         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" width={16} height={16} className="relative z-10" />
         <span className="relative z-10">Continuar con Google</span>
       </button>
 
       {err && (
-        <div className="speech-bubble bg-pop-pink text-white dark:text-black font-bold text-xs flex items-center gap-2 animate-comic-pop">
-          <AlertCircle size={14} className="shrink-0" />
-          <span>{err}</span>
+        <div className="border-4 border-black dark:border-white bg-white dark:bg-black px-3 py-2 font-bold text-xs flex items-center gap-2 animate-comic-pop shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
+          <AlertCircle size={14} className="shrink-0 text-pop-pink" />
+          <span className="text-pop-pink">{err}</span>
         </div>
       )}
     </form>

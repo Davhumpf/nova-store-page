@@ -103,8 +103,8 @@ const Collaborations: React.FC = () => {
   // Loading screen
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center halftone-pattern bg-white dark:bg-gray-900 p-4">
-        <div className="flex flex-col items-center p-6 sm:p-8 comic-panel bg-white dark:bg-gray-800 w-full max-w-sm animate-comic-pop">
+      <div className="min-h-screen flex items-center justify-center halftone-pattern bg-white dark:bg-black p-4">
+        <div className="flex flex-col items-center p-6 sm:p-8 comic-panel bg-white dark:bg-black w-full max-w-sm animate-comic-pop">
           <div className="relative mb-4">
             <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-pop-purple/20 dark:border-pop-pink/20 border-t-pop-purple dark:border-t-pop-pink rounded-full animate-spin"></div>
             <div className="absolute inset-0 w-12 h-12 sm:w-16 sm:h-16 border-4 border-transparent border-b-pop-orange rounded-full animate-spin animation-delay-150"></div>
@@ -119,11 +119,11 @@ const Collaborations: React.FC = () => {
   // Access denied
   if (!user || !userRole || !['super_admin', 'admin', 'collaborator'].includes(userRole)) {
     return (
-      <div className="min-h-screen flex items-center justify-center halftone-pattern bg-white dark:bg-gray-900 p-4">
-        <div className="comic-panel bg-white dark:bg-gray-800 p-6 sm:p-8 max-w-md w-full animate-comic-pop stipple-pattern">
+      <div className="min-h-screen flex items-center justify-center halftone-pattern bg-white dark:bg-black p-4">
+        <div className="comic-panel bg-white dark:bg-black p-6 sm:p-8 max-w-md w-full animate-comic-pop stipple-pattern">
           <div className="flex flex-col items-center text-center">
-            <div className="p-3 sm:p-4 bg-gradient-to-r from-pop-pink to-pop-purple comic-border mb-4 sm:mb-6">
-              <Lock size={24} className="text-white sm:w-8 sm:h-8" />
+            <div className="p-3 sm:p-4 bg-white dark:bg-black border-black dark:border-white comic-border mb-4 sm:mb-6">
+              <Lock size={24} className="text-pop-pink dark:text-pop-pink sm:w-8 sm:h-8" />
             </div>
             <h2 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-2 sm:mb-3 uppercase tracking-wide">Acceso Restringido</h2>
             <p className="text-gray-700 dark:text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base font-semibold">No tienes permisos para acceder al panel de colaborador.</p>
@@ -167,25 +167,25 @@ const Collaborations: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen halftone-pattern bg-white dark:bg-gray-900 p-4">
+    <div className="min-h-screen halftone-pattern bg-white dark:bg-black p-4">
       <div className="container mx-auto max-w-6xl">
         {/* Header */}
-        <div className="comic-panel bg-white dark:bg-gray-800 shadow-2xl overflow-hidden mb-6 animate-comic-pop">
-          <div className="bg-gradient-to-r from-pop-purple via-pop-orange to-pop-pink p-4 sm:p-6 relative">
+        <div className="comic-panel bg-white dark:bg-black shadow-[0_4px_12px_rgba(0,0,0,0.8)] dark:shadow-[0_4px_12px_rgba(255,255,255,0.3)] overflow-hidden mb-6 animate-comic-pop">
+          <div className="bg-white dark:bg-black border-black dark:border-white p-4 sm:p-6 relative">
             <div className="bendaydots-pattern absolute inset-0 opacity-20"></div>
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 relative z-10">
               <div className="flex items-center gap-3">
-                <div className="p-2 comic-border bg-white dark:bg-gray-800 backdrop-blur-sm">
+                <div className="p-2 comic-border bg-white dark:bg-black backdrop-blur-sm">
                   {getRoleIcon()}
                 </div>
                 <div>
-                  <h1 className="text-lg sm:text-xl font-black text-white dark:text-white uppercase tracking-wide">Panel de {getRoleTitle()}</h1>
-                  <p className="text-white/90 dark:text-white/90 font-bold text-xs sm:text-sm">Centro de gestión colaborativa</p>
+                  <h1 className="text-lg sm:text-xl font-black text-black dark:text-white uppercase tracking-wide">Panel de {getRoleTitle()}</h1>
+                  <p className="text-gray-700 dark:text-gray-300 font-bold text-xs sm:text-sm">Centro de gestión colaborativa</p>
                 </div>
               </div>
               <button
                 onClick={() => navigate('/')}
-                className="comic-button bg-white/20 hover:bg-white/30 text-white dark:text-white px-3 py-2 font-black text-sm self-start sm:self-auto speed-lines"
+                className="comic-button bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 text-black dark:text-white px-3 py-2 font-black text-sm self-start sm:self-auto speed-lines"
               >
                 <Home size={16} />
                 <span className="hidden sm:inline">Inicio</span>
@@ -196,7 +196,7 @@ const Collaborations: React.FC = () => {
           {/* Stats */}
           <div className="p-4 sm:p-6 crosshatch-pattern">
             <div className="grid grid-cols-3 gap-3 sm:gap-6">
-              <div className="text-center p-3 comic-border stipple-pattern bg-white dark:bg-gray-800 comic-hover">
+              <div className="text-center p-3 comic-border stipple-pattern bg-white dark:bg-black comic-hover">
                 <div className="flex justify-center mb-2">
                   <Users className="text-pop-purple dark:text-pop-pink" size={16} />
                 </div>
@@ -204,7 +204,7 @@ const Collaborations: React.FC = () => {
                 <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm font-bold uppercase">Usuarios</p>
               </div>
 
-              <div className="text-center p-3 comic-border stipple-pattern bg-white dark:bg-gray-800 comic-hover">
+              <div className="text-center p-3 comic-border stipple-pattern bg-white dark:bg-black comic-hover">
                 <div className="flex justify-center mb-2">
                   <Trophy className="text-pop-orange dark:text-pop-orange" size={16} />
                 </div>
@@ -212,7 +212,7 @@ const Collaborations: React.FC = () => {
                 <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm font-bold uppercase">Puntos Total</p>
               </div>
 
-              <div className="text-center p-3 comic-border stipple-pattern bg-white dark:bg-gray-800 comic-hover">
+              <div className="text-center p-3 comic-border stipple-pattern bg-white dark:bg-black comic-hover">
                 <div className="flex justify-center mb-2">
                   <TrendingUp className="text-pop-pink dark:text-pop-purple" size={16} />
                 </div>
@@ -228,11 +228,11 @@ const Collaborations: React.FC = () => {
           {/* Filtrador de Productos */}
           <div
             onClick={() => navigate('/colab/collaborator-product-catalog')}
-            className="comic-panel stipple-pattern bg-white dark:bg-gray-800 p-4 sm:p-6 cursor-pointer comic-hover transition-all duration-300 group active:scale-[0.98] animate-comic-pop speed-lines"
+            className="comic-panel stipple-pattern bg-white dark:bg-black p-4 sm:p-6 cursor-pointer comic-hover transition-all duration-300 group active:scale-[0.98] animate-comic-pop speed-lines"
           >
             <div className="flex items-start gap-4">
-              <div className="p-3 bg-pop-purple comic-border shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                <Filter className="text-white" size={20} />
+              <div className="p-3 bg-white dark:bg-black border-black dark:border-white comic-border shadow-[0_4px_8px_rgba(0,0,0,0.6)] dark:shadow-[0_4px_8px_rgba(255,255,255,0.3)] group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                <Filter className="text-pop-purple dark:text-pop-pink" size={20} />
               </div>
 
               <div className="flex-1 min-w-0">
@@ -264,11 +264,11 @@ const Collaborations: React.FC = () => {
           {/* Catálogo Express */}
           <div
             onClick={() => navigate('/collaborations/express')}
-            className="comic-panel stipple-pattern bg-white dark:bg-gray-800 p-4 sm:p-6 cursor-pointer comic-hover transition-all duration-300 group active:scale-[0.98] animate-comic-pop speed-lines"
+            className="comic-panel stipple-pattern bg-white dark:bg-black p-4 sm:p-6 cursor-pointer comic-hover transition-all duration-300 group active:scale-[0.98] animate-comic-pop speed-lines"
           >
             <div className="flex items-start gap-4">
-              <div className="p-3 bg-pop-orange comic-border shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                <ImageIcon className="text-white" size={20} />
+              <div className="p-3 bg-white dark:bg-black border-black dark:border-white comic-border shadow-[0_4px_8px_rgba(0,0,0,0.6)] dark:shadow-[0_4px_8px_rgba(255,255,255,0.3)] group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                <ImageIcon className="text-pop-orange dark:text-pop-orange" size={20} />
               </div>
 
               <div className="flex-1 min-w-0">
@@ -299,7 +299,7 @@ const Collaborations: React.FC = () => {
         </div>
 
         {/* Pie de usuario */}
-        <div className="comic-panel bg-white dark:bg-gray-800 p-4 bendaydots-pattern">
+        <div className="comic-panel bg-white dark:bg-black p-4 bendaydots-pattern">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 relative z-10">
             <div className="flex items-center gap-2 text-pop-purple dark:text-pop-pink font-black text-sm uppercase tracking-wide">
               {getRoleIcon()}
@@ -310,7 +310,7 @@ const Collaborations: React.FC = () => {
 
             <button
               onClick={() => navigate('/')}
-              className="comic-button bg-gradient-to-r from-pop-purple to-pop-pink hover:from-pop-pink hover:to-pop-orange text-white px-4 py-2 font-black transition-all duration-300 transform hover:scale-105 shadow-lg text-sm w-full sm:w-auto speed-lines"
+              className="comic-button bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 text-black dark:text-white px-4 py-2 font-black transition-all duration-300 transform hover:scale-105 shadow-[0_4px_8px_rgba(0,0,0,0.6)] dark:shadow-[0_4px_8px_rgba(255,255,255,0.3)] text-sm w-full sm:w-auto speed-lines"
             >
               Volver al Inicio
             </button>

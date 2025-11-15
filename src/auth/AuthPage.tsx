@@ -7,15 +7,15 @@ const Login = React.lazy(() => import('./Login'));
 const Register = React.lazy(() => import('./Register'));
 
 const FallbackCard = () => (
-  <div className="comic-panel halftone-pattern p-5">
+  <div className="bg-white dark:bg-black border-4 border-black dark:border-white p-5">
     <div className="flex items-center gap-2 mb-4 relative z-10">
-      <div className="w-6 h-6 rounded-full border-4 border-pop-cyan/30 border-t-pop-cyan animate-spin" />
-      <span className="text-[#000] dark:text-[#FFF] text-sm font-bold">Cargando…</span>
+      <div className="w-6 h-6 rounded-full border-4 border-black/30 dark:border-white/30 border-t-black dark:border-t-white animate-spin" />
+      <span className="text-pop-cyan font-bold text-sm">Cargando…</span>
     </div>
     <div className="space-y-3 relative z-10">
-      <div className="h-10 comic-border bg-[#E8E8E8] dark:bg-[#333] animate-pulse" />
-      <div className="h-10 comic-border bg-[#E8E8E8] dark:bg-[#333] animate-pulse" />
-      <div className="h-11 comic-border bg-[#E8E8E8] dark:bg-[#333] animate-pulse" />
+      <div className="h-10 border-2 border-black dark:border-white bg-white dark:bg-black animate-pulse" />
+      <div className="h-10 border-2 border-black dark:border-white bg-white dark:bg-black animate-pulse" />
+      <div className="h-11 border-2 border-black dark:border-white bg-white dark:bg-black animate-pulse" />
     </div>
   </div>
 );
@@ -68,7 +68,7 @@ const AuthPage: React.FC = () => {
   const isRegister = mode === 'register';
 
   return (
-    <main className="min-h-dvh grid place-items-center px-3 py-6 bg-gradient-to-br from-pop-pink/20 via-pop-cyan/20 to-pop-yellow/20 dark:from-pop-pink/10 dark:via-pop-cyan/10 dark:to-pop-yellow/10 crosshatch-pattern">
+    <main className="min-h-dvh grid place-items-center px-3 py-6 bg-white dark:bg-black">
       <section className="w-full max-w-sm sm:max-w-md animate-comic-pop">
         <header className="text-center mb-6">
           <h1
@@ -82,7 +82,7 @@ const AuthPage: React.FC = () => {
           </p>
         </header>
 
-        <div className="comic-panel halftone-pattern p-5 sm:p-6">
+        <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)] p-5 sm:p-6">
           {/* Tabs (segmented) accesibles */}
           <div
             role="tablist"
@@ -95,10 +95,10 @@ const AuthPage: React.FC = () => {
               aria-selected={!isRegister}
               aria-controls="panel-login"
               onClick={() => setMode('login')}
-              className={`py-3 text-sm font-black uppercase transition-all ${
+              className={`py-3 text-sm font-black uppercase transition-all border-4 ${
                 !isRegister
-                  ? 'comic-border bg-pop-pink text-white dark:text-black'
-                  : 'border-4 border-[#000] dark:border-[#FFF] bg-white dark:bg-[#1F1F1F] text-[#000] dark:text-[#FFF] hover:bg-[#F0F0F0] dark:hover:bg-[#2A2A2A]'
+                  ? 'border-black dark:border-white bg-white dark:bg-black text-pop-pink shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]'
+                  : 'border-black dark:border-white bg-white dark:bg-black text-[#000] dark:text-[#FFF] hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)]'
               }`}
             >
               Login
@@ -108,10 +108,10 @@ const AuthPage: React.FC = () => {
               aria-selected={isRegister}
               aria-controls="panel-register"
               onClick={() => setMode('register')}
-              className={`py-3 text-sm font-black uppercase transition-all ${
+              className={`py-3 text-sm font-black uppercase transition-all border-4 ${
                 isRegister
-                  ? 'comic-border bg-pop-pink text-white dark:text-black'
-                  : 'border-4 border-[#000] dark:border-[#FFF] bg-white dark:bg-[#1F1F1F] text-[#000] dark:text-[#FFF] hover:bg-[#F0F0F0] dark:hover:bg-[#2A2A2A]'
+                  ? 'border-black dark:border-white bg-white dark:bg-black text-pop-pink shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]'
+                  : 'border-black dark:border-white bg-white dark:bg-black text-[#000] dark:text-[#FFF] hover:shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.5)]'
               }`}
             >
               Registro
@@ -140,7 +140,7 @@ const AuthPage: React.FC = () => {
         <div className="text-center mt-6">
           <button
             onClick={() => navigate('/')}
-            className="comic-border bg-white dark:bg-[#1F1F1F] text-[#000] dark:text-[#FFF] px-6 py-2.5 text-sm font-black uppercase hover:bg-pop-yellow dark:hover:bg-pop-yellow hover:text-black transition-all"
+            className="border-4 border-black dark:border-white bg-white dark:bg-black text-[#000] dark:text-[#FFF] px-6 py-2.5 text-sm font-black uppercase hover:text-pop-yellow transition-all shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
           >
             ← Volver al inicio
           </button>

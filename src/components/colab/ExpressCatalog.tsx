@@ -489,10 +489,10 @@ const ExpressCatalog: React.FC = () => {
 
   return (
     <>
-      <div className="min-h-screen halftone-pattern bg-white dark:bg-gray-900 text-gray-900 dark:text-white overflow-x-hidden">
+      <div className="min-h-screen halftone-pattern bg-white dark:bg-black text-gray-900 dark:text-white overflow-x-hidden">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
           {/* Header XS compacto */}
-          <div className="mb-3 sm:mb-6 comic-panel bg-white dark:bg-gray-800 p-4 animate-comic-pop">
+          <div className="mb-3 sm:mb-6 comic-panel bg-white dark:bg-black p-4 animate-comic-pop">
             <div className="flex items-center justify-between">
               <button onClick={() => nav('/collaborations')} className="comic-button flex items-center gap-1.5 text-pop-purple dark:text-pop-pink hover:text-pop-orange font-black uppercase tracking-wide speed-lines">
                 <ArrowLeft size={18} /><span className="text-sm">Volver</span><Zap size={18} />
@@ -509,7 +509,7 @@ const ExpressCatalog: React.FC = () => {
           <div className="grid lg:grid-cols-4 gap-4 sm:gap-6">
             {/* Controles / Tabs */}
             <div className="lg:col-span-1 order-1 space-y-3 md:sticky md:top-4 self-start">
-              <div className="comic-panel bg-white dark:bg-gray-800 p-1 stipple-pattern">
+              <div className="comic-panel bg-white dark:bg-black p-1 stipple-pattern">
                 <div className="overflow-x-auto no-scrollbar">
                   <div className="flex gap-1 min-w-max snap-x">
                     {[
@@ -534,7 +534,7 @@ const ExpressCatalog: React.FC = () => {
               </div>
 
               {/* Contenido tabs */}
-              <div className="comic-panel bg-white dark:bg-gray-800 overflow-hidden crosshatch-pattern">
+              <div className="comic-panel bg-white dark:bg-black overflow-hidden crosshatch-pattern">
                 {activeTab === 'products' && (
                   <div className="p-3 sm:p-4 space-y-3">
                     <div>
@@ -543,7 +543,7 @@ const ExpressCatalog: React.FC = () => {
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         placeholder="Buscar por nombre, categoría..."
-                        className="comic-input w-full bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-white font-semibold"
+                        className="comic-input w-full bg-white dark:bg-black px-3 py-2 text-sm text-gray-900 dark:text-white font-semibold"
                       />
                     </div>
 
@@ -806,20 +806,20 @@ const ExpressCatalog: React.FC = () => {
 
             {/* Preview */}
             <div className="lg:col-span-2 order-2">
-              <div className="comic-panel bg-white dark:bg-gray-800 overflow-hidden animate-comic-pop">
-                <div className="bg-gradient-to-r from-pop-purple via-pop-orange to-pop-pink px-3 sm:px-4 py-2.5 relative bendaydots-pattern">
+              <div className="comic-panel bg-white dark:bg-black overflow-hidden animate-comic-pop">
+                <div className="bg-white dark:bg-black border-b-4 border-black dark:border-white px-3 sm:px-4 py-2.5 relative bendaydots-pattern">
                   <div className="flex items-center justify-between relative z-10">
                     <div className="flex items-center gap-2">
-                      <Eye size={18} className="text-white" />
+                      <Eye size={18} className="text-black dark:text-white" />
                       <div>
-                        <h3 className="font-black text-sm sm:text-base text-white uppercase tracking-wide">Vista Previa</h3>
-                        <p className="text-xs text-white/90 font-bold">Página {selected.length ? currentPage + 1 : 0} de {totalPages}</p>
+                        <h3 className="font-black text-sm sm:text-base text-black dark:text-white uppercase tracking-wide">Vista Previa</h3>
+                        <p className="text-xs text-gray-700 dark:text-gray-300 font-bold">Página {selected.length ? currentPage + 1 : 0} de {totalPages}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <button onClick={() => setCurrentPage(Math.max(0, currentPage - 1))} disabled={currentPage === 0} className="comic-button p-2 bg-white/20 disabled:opacity-50 hover:bg-white/30 text-white"><Minus size={14} /></button>
-                      <button onClick={() => setCurrentPage(Math.min(Math.max(totalPages - 1, 0), currentPage + 1))} disabled={currentPage >= totalPages - 1 || totalPages === 0} className="comic-button p-2 bg-white/20 disabled:opacity-50 hover:bg-white/30 text-white"><Plus size={14} /></button>
-                      <button onClick={updatePreview} className="comic-button px-3 py-2 bg-white/20 hover:bg-white/30 text-xs sm:text-sm text-white font-black uppercase tracking-wide"><RefreshCw size={13} className="inline mr-1" />Actualizar</button>
+                      <button onClick={() => setCurrentPage(Math.max(0, currentPage - 1))} disabled={currentPage === 0} className="comic-button p-2 bg-white dark:bg-black border-black dark:border-white disabled:opacity-50 hover:bg-gray-100 dark:hover:bg-gray-900 text-black dark:text-white"><Minus size={14} /></button>
+                      <button onClick={() => setCurrentPage(Math.min(Math.max(totalPages - 1, 0), currentPage + 1))} disabled={currentPage >= totalPages - 1 || totalPages === 0} className="comic-button p-2 bg-white dark:bg-black border-black dark:border-white disabled:opacity-50 hover:bg-gray-100 dark:hover:bg-gray-900 text-black dark:text-white"><Plus size={14} /></button>
+                      <button onClick={updatePreview} className="comic-button px-3 py-2 bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 text-xs sm:text-sm text-black dark:text-white font-black uppercase tracking-wide"><RefreshCw size={13} className="inline mr-1" />Actualizar</button>
                     </div>
                   </div>
                 </div>
@@ -839,14 +839,14 @@ const ExpressCatalog: React.FC = () => {
 
             {/* Selección desktop */}
             <div className="lg:col-span-1 order-3 hidden lg:block">
-              <div className="comic-panel bg-white dark:bg-gray-800 overflow-hidden animate-comic-pop">
-                <div className="bg-gradient-to-r from-pop-purple to-pop-pink px-4 py-3 relative bendaydots-pattern">
+              <div className="comic-panel bg-white dark:bg-black overflow-hidden animate-comic-pop">
+                <div className="bg-white dark:bg-black border-b-4 border-black dark:border-white px-4 py-3 relative bendaydots-pattern">
                   <div className="flex items-center justify-between relative z-10">
                     <div>
-                      <h3 className="font-black text-white uppercase tracking-wide">Productos Seleccionados</h3>
-                      <p className="text-sm text-white/90 font-bold">{selected.length} de {MAX_SELECTION}</p>
+                      <h3 className="font-black text-black dark:text-white uppercase tracking-wide">Productos Seleccionados</h3>
+                      <p className="text-sm text-gray-700 dark:text-gray-300 font-bold">{selected.length} de {MAX_SELECTION}</p>
                     </div>
-                    <Settings size={20} className="text-white" />
+                    <Settings size={20} className="text-black dark:text-white" />
                   </div>
                 </div>
                 <div className="p-4">
@@ -855,7 +855,7 @@ const ExpressCatalog: React.FC = () => {
                   )}
                   {selected.length > 0 && (
                     <div className="mt-4 pt-4 border-t comic-border">
-                      <button onClick={downloadPDF} disabled={isGenerating} className={`comic-button w-full px-4 py-3 font-black transition-all uppercase tracking-wide speed-lines ${isGenerating ? 'bg-gray-600 cursor-not-allowed text-gray-400' : 'bg-gradient-to-r from-pop-orange to-pop-pink hover:from-pop-purple hover:to-pop-orange shadow-lg text-white'}`}>
+                      <button onClick={downloadPDF} disabled={isGenerating} className={`comic-button w-full px-4 py-3 font-black transition-all uppercase tracking-wide speed-lines shadow-[0_4px_8px_rgba(0,0,0,0.6)] dark:shadow-[0_4px_8px_rgba(255,255,255,0.3)] ${isGenerating ? 'bg-gray-300 dark:bg-gray-800 border-gray-400 dark:border-gray-600 cursor-not-allowed text-gray-600 dark:text-gray-400' : 'bg-white dark:bg-black border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-900 text-black dark:text-white'}`}>
                         {isGenerating ? <div className="flex items-center justify-center gap-2"><Loader className="animate-spin" size={16} />Generando {Math.round(generationProgress)}%</div> : <div className="flex items-center justify-center gap-2"><Download size={16} />Descargar PDF ({totalPages} páginas)</div>}
                       </button>
                       <div className="mt-2 text-xs text-gray-600 dark:text-gray-400 text-center font-bold">Template: {currentTemplate.name} • {currentTemplate.productsPerPage} productos/página</div>
@@ -863,7 +863,7 @@ const ExpressCatalog: React.FC = () => {
                   )}
                 </div>
               </div>
-              <div className="mt-4 comic-panel bg-white dark:bg-gray-800 p-4 stipple-pattern">
+              <div className="mt-4 comic-panel bg-white dark:bg-black p-4 stipple-pattern">
                 <h4 className="font-black mb-3 text-sm uppercase tracking-wide text-gray-900 dark:text-white">Estadísticas del catálogo</h4>
                 <div className="space-y-2 text-xs">
                   <div className="flex justify-between"><span className="text-gray-600 dark:text-gray-400 font-bold">Total productos:</span><span className="font-black text-gray-900 dark:text-white">{selected.length}</span></div>
@@ -880,7 +880,7 @@ const ExpressCatalog: React.FC = () => {
           {selected.length > 0 && (
             <div className="lg:hidden fixed left-0 right-0 bottom-0 z-40 px-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
               <button onClick={downloadPDF} disabled={isGenerating}
-                className={`w-full px-4 py-3 rounded-xl font-bold shadow-2xl ${isGenerating ? 'bg-slate-600 cursor-not-allowed' : 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600'}`}>
+                className={`comic-button w-full px-4 py-3 rounded-xl font-bold shadow-[0_8px_16px_rgba(0,0,0,0.8)] dark:shadow-[0_8px_16px_rgba(255,255,255,0.4)] ${isGenerating ? 'bg-gray-300 dark:bg-gray-800 border-gray-400 dark:border-gray-600 cursor-not-allowed text-gray-600 dark:text-gray-400' : 'bg-white dark:bg-black border-black dark:border-white text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-900'}`}>
                 {isGenerating ? <div className="flex items-center justify-center gap-2"><Loader className="animate-spin" size={16} />Generando {Math.round(generationProgress)}%</div> : <div className="flex items-center justify-center gap-2"><Download size={16} />Descargar PDF ({totalPages})</div>}
               </button>
             </div>
@@ -889,14 +889,14 @@ const ExpressCatalog: React.FC = () => {
           {/* Overlay progreso */}
           {isGenerating && (
             <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-              <div className="bg-slate-800 border border-slate-600 rounded-xl p-8 text-center max-w-md w-full mx-4">
-                <div className="w-16 h-16 mx-auto mb-6"><Loader className="w-full h-full animate-spin text-blue-500" /></div>
-                <h3 className="text-xl font-bold mb-2">Generando catálogo</h3>
-                <p className="text-slate-400 mb-4">Creando página {totalPages ? Math.ceil((generationProgress / 100) * totalPages) : 0} de {totalPages}</p>
-                <div className="w-full bg-slate-700 rounded-full h-3 mb-2 overflow-hidden">
-                  <div className="bg-gradient-to-r from-blue-500 to-purple-500 h-full transition-all duration-500 ease-out" style={{ width: `${generationProgress}%` }} />
+              <div className="bg-white dark:bg-black border-4 border-black dark:border-white rounded-xl p-8 text-center max-w-md w-full mx-4">
+                <div className="w-16 h-16 mx-auto mb-6"><Loader className="w-full h-full animate-spin text-pop-purple dark:text-pop-pink" /></div>
+                <h3 className="text-xl font-bold mb-2 text-black dark:text-white">Generando catálogo</h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-4">Creando página {totalPages ? Math.ceil((generationProgress / 100) * totalPages) : 0} de {totalPages}</p>
+                <div className="w-full bg-gray-200 dark:bg-gray-700 border-2 border-black dark:border-white rounded-full h-3 mb-2 overflow-hidden">
+                  <div className="bg-pop-purple dark:bg-pop-pink h-full transition-all duration-500 ease-out" style={{ width: `${generationProgress}%` }} />
                 </div>
-                <div className="text-sm font-bold text-blue-400">{Math.round(generationProgress)}% completado</div>
+                <div className="text-sm font-bold text-pop-purple dark:text-pop-pink">{Math.round(generationProgress)}% completado</div>
               </div>
             </div>
           )}

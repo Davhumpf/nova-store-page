@@ -94,7 +94,7 @@ const CartItem = memo(function CartItem({
               >
                 <Minus size={14} />
               </button>
-              <div className="min-w-10 px-2 h-8 grid place-items-center bg-pop-yellow text-black font-bold text-sm tabular-nums">
+              <div className="min-w-10 px-2 h-8 grid place-items-center bg-white dark:bg-black border-2 border-black dark:border-white text-pop-yellow font-bold text-sm tabular-nums">
                 {item.quantity}
               </div>
               <button
@@ -216,11 +216,11 @@ Gracias.`;
           <div className="h-full flex flex-col comic-panel halftone-pattern bg-white dark:bg-gray-900 shadow-2xl">
 
             {/* Header compacto */}
-            <div className="flex items-center justify-between px-3.5 sm:px-4 py-3 comic-border-light bg-pop-yellow dark:bg-pop-orange relative overflow-hidden">
-              <div className="crosshatch-pattern absolute inset-0 opacity-10 text-black"></div>
+            <div className="flex items-center justify-between px-3.5 sm:px-4 py-3 comic-border-light bg-white dark:bg-black border-b-4 border-black dark:border-white relative overflow-hidden">
+              <div className="crosshatch-pattern absolute inset-0 opacity-10 text-black dark:text-white"></div>
               <div className="flex items-center gap-2 relative z-10">
-                <div className="w-9 h-9 bg-pop-cyan rounded-lg grid place-items-center comic-border-light">
-                  <ShoppingCart size={18} className="text-black" />
+                <div className="w-9 h-9 bg-white dark:bg-black border-2 border-black dark:border-white rounded-lg grid place-items-center comic-border-light">
+                  <ShoppingCart size={18} className="text-pop-cyan" />
                 </div>
                 <div className="min-w-0">
                   <h2 id="cart-title" className="text-base sm:text-lg font-bold text-black comic-text-outline truncate">
@@ -246,19 +246,19 @@ Gracias.`;
             </div>
 
             {/* Items */}
-            <div className="flex-1 overflow-y-auto py-4 px-3.5 sm:px-4 space-y-3 bg-white dark:bg-gray-950 relative">
+            <div className="flex-1 overflow-y-auto py-4 px-3.5 sm:px-4 space-y-3 bg-white dark:bg-black relative">
               <div className="bendaydots-pattern absolute inset-0 text-pop-cyan opacity-10 pointer-events-none"></div>
               {cartItems.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center space-y-4 relative z-10">
-                  <div className="w-16 h-16 bg-pop-cyan rounded-full grid place-items-center comic-border-light animate-comic-bounce">
-                    <ShoppingCart size={28} className="text-black" />
+                  <div className="w-16 h-16 bg-white dark:bg-black border-4 border-black dark:border-white rounded-full grid place-items-center comic-border-light animate-comic-bounce shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
+                    <ShoppingCart size={28} className="text-pop-cyan" />
                   </div>
                   <p className="text-pop-red text-base font-bold comic-text-shadow">Tu carrito está vacío</p>
                   <button
                     onClick={() => setIsCartOpen(false)}
-                    className="comic-button bg-pop-green text-black px-5 py-2 rounded-lg font-semibold flex items-center gap-2"
+                    className="comic-button bg-white dark:bg-black border-4 border-black dark:border-white text-black dark:text-white px-5 py-2 rounded-lg font-semibold flex items-center gap-2 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
                   >
-                    <ChevronLeft size={16} />
+                    <ChevronLeft size={16} className="text-pop-green" />
                     Seguir explorando
                   </button>
                 </div>
@@ -279,8 +279,8 @@ Gracias.`;
 
             {/* Footer sticky */}
             {cartItems.length > 0 && (
-              <div className="comic-border-light px-3.5 sm:px-4 pt-4 pb-[calc(16px+env(safe-area-inset-bottom))] bg-pop-pink dark:bg-pop-purple relative overflow-hidden">
-                <div className="stipple-pattern absolute inset-0 text-black opacity-10 pointer-events-none"></div>
+              <div className="comic-border-light px-3.5 sm:px-4 pt-4 pb-[calc(16px+env(safe-area-inset-bottom))] bg-white dark:bg-black border-t-4 border-black dark:border-white relative overflow-hidden">
+                <div className="stipple-pattern absolute inset-0 text-black dark:text-white opacity-10 pointer-events-none"></div>
                 <div className="flex items-center justify-between mb-3 relative z-10">
                   <div className="text-black dark:text-white text-sm font-bold">
                     Total ({totalItems}):{' '}
@@ -303,22 +303,22 @@ Gracias.`;
                 <div className="space-y-2.5 relative z-10">
                   <button
                     onClick={handleCheckout}
-                    className="comic-button w-full bg-pop-green hover:bg-pop-cyan text-black py-3 rounded-lg font-bold flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-pop-green/40 uppercase"
+                    className="comic-button w-full bg-white dark:bg-black border-4 border-black dark:border-white text-black dark:text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-pop-green/40 uppercase shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
                   >
-                    <ShoppingCart size={18} />
+                    <ShoppingCart size={18} className="text-pop-green" />
                     {user ? 'Finalizar compra' : 'Inicia sesión'}
                   </button>
 
                   <div className="grid grid-cols-2 gap-2">
                     <button
                       onClick={() => setIsCartOpen(false)}
-                      className="comic-button w-full bg-pop-cyan hover:bg-pop-blue text-black py-2.5 rounded-lg font-semibold text-sm"
+                      className="comic-button w-full bg-white dark:bg-black border-4 border-black dark:border-white text-black dark:text-white py-2.5 rounded-lg font-semibold text-sm shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
                     >
                       Explorar
                     </button>
                     <button
                       onClick={clearCart}
-                      className="comic-button w-full bg-pop-red hover:bg-red-600 text-white py-2.5 rounded-lg font-semibold text-sm"
+                      className="comic-button w-full bg-white dark:bg-black border-4 border-black dark:border-white text-pop-red py-2.5 rounded-lg font-semibold text-sm shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
                     >
                       Vaciar
                     </button>

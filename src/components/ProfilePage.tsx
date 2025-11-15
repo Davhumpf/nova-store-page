@@ -144,7 +144,7 @@ const ProfilePage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen halftone-pattern py-6 px-4">
+    <div className="min-h-screen halftone-pattern py-6 px-4 bg-white dark:bg-black">
       <div className="container mx-auto max-w-5xl">
 
         {/* Header */}
@@ -154,8 +154,8 @@ const ProfilePage: React.FC = () => {
         </div>
 
         {/* Tarjeta principal */}
-        <div className="comic-panel overflow-hidden mb-6 animate-comic-pop">
-          <div className="bg-gradient-to-r from-[#FF1493] to-[#FFD700] p-6">
+        <div className="comic-panel overflow-hidden mb-6 animate-comic-pop bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+          <div className="bg-white dark:bg-black border-b-4 border-black dark:border-white p-6">
             <div className="flex flex-col md:flex-row items-center gap-6">
 
               {/* Foto perfil */}
@@ -213,7 +213,7 @@ const ProfilePage: React.FC = () => {
                 </h2>
                 <p className="text-[#0D0D0D]/80 dark:text-white/80 mb-3 text-sm font-bold">{user.email}</p>
 
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#00CED1] to-[#FF69B4] text-[#0D0D0D] dark:text-white font-black shadow-lg text-sm comic-border">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-black border-4 border-black dark:border-white text-pop-cyan font-black shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] text-sm comic-border">
                   {userLevel.icon}
                   <span>Nivel {userLevel.level}</span>
                 </div>
@@ -221,12 +221,12 @@ const ProfilePage: React.FC = () => {
 
               {/* Puntos */}
               <div className="text-center">
-                <div className="bg-gradient-to-br from-[#FF6B6B] to-[#FFE66D] backdrop-blur-sm rounded-xl p-4 border-4 border-[#0D0D0D] dark:border-white comic-border">
+                <div className="bg-white dark:bg-black backdrop-blur-sm rounded-xl p-4 border-4 border-black dark:border-white comic-border shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
                   <div className="flex items-center justify-center gap-2 mb-2">
-                    <Award className="w-5 h-5 text-[#0D0D0D] dark:text-white" />
-                    <span className="text-[#0D0D0D] dark:text-white font-black text-sm">Puntos</span>
+                    <Award className="w-5 h-5 text-pop-yellow" />
+                    <span className="text-black dark:text-white font-black text-sm">Puntos</span>
                   </div>
-                  <div className="text-3xl font-black comic-text-shadow text-[#0D0D0D] dark:text-white">{userProfile.points || 0}</div>
+                  <div className="text-3xl font-black comic-text-shadow text-pop-yellow">{userProfile.points || 0}</div>
                   <button
                     onClick={handleRedeemPoints}
                     className="comic-button mt-3 px-5 py-2 flex items-center gap-2 mx-auto text-sm"
@@ -240,10 +240,10 @@ const ProfilePage: React.FC = () => {
           </div>
 
           {/* Estadísticas */}
-          <div className="bendaydots-pattern p-5">
+          <div className="bendaydots-pattern p-5 bg-white dark:bg-black">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {userStats.map((stat, index) => (
-                <div key={index} className="comic-panel p-4 text-center hover:shadow-md dark:hover:shadow-none transition-all duration-200 animate-comic-pop bg-gradient-to-br from-[#4ECDC4] to-[#FF6B6B]">
+                <div key={index} className="comic-panel p-4 text-center hover:shadow-md dark:hover:shadow-none transition-all duration-200 animate-comic-pop bg-white dark:bg-black border-4 border-black dark:border-white shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]">
                   <div className="text-[#0D0D0D] dark:text-white mb-2 flex justify-center">
                     {stat.icon}
                   </div>
@@ -256,7 +256,7 @@ const ProfilePage: React.FC = () => {
         </div>
 
         {/* Información personal */}
-        <div className="comic-panel p-5 mb-6 animate-comic-pop">
+        <div className="comic-panel p-5 mb-6 animate-comic-pop bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
           <div className="flex items-center justify-between mb-5">
             <h3 className="text-lg font-black comic-text-shadow text-[#0D0D0D] dark:text-white">Información Personal</h3>
             {!isEditing ? (
@@ -367,7 +367,7 @@ const ProfilePage: React.FC = () => {
         </div>
 
         {/* Recompensas */}
-        <div className="comic-panel p-5 animate-comic-pop">
+        <div className="comic-panel p-5 animate-comic-pop bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
           <div className="flex items-center justify-between mb-5">
             <h3 className="text-lg font-black comic-text-shadow text-[#0D0D0D] dark:text-white flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-[#FF1493] dark:text-[#FFD700]" />
@@ -385,7 +385,7 @@ const ProfilePage: React.FC = () => {
             {rewards.map((reward) => (
               <div
                 key={reward.id}
-                className={`relative group comic-panel p-4 cursor-pointer transition-all duration-200 bg-gradient-to-br from-[#FF6B6B] to-[#FFE66D] ${
+                className={`relative group comic-panel p-4 cursor-pointer transition-all duration-200 bg-white dark:bg-black border-4 border-black dark:border-white shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)] ${
                   (userProfile.points || 0) >= reward.points ? 'transform hover:scale-105 shadow-md hover:shadow-lg' : 'opacity-50'
                 }`}
                 onClick={() => handleRewardSelect(reward)}

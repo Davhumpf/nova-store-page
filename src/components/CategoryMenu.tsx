@@ -38,7 +38,7 @@ const CategoryMenu: React.FC<CategoryMenuProps> = ({ selectedCategory, onSelectC
   }, []);
 
   return (
-    <div className="relative halftone-pattern bg-gradient-to-r from-pop-purple/20 to-pop-blue/20 dark:from-gray-900 dark:to-gray-800 py-2 border-y-4 border-black dark:border-white">
+    <div className="relative halftone-pattern bg-white dark:bg-black py-2 border-y-4 border-black dark:border-white">
       <div className="container mx-auto px-3 relative">
         {/* Left Arrow - Más compacto */}
         {showLeftArrow && (
@@ -62,8 +62,8 @@ const CategoryMenu: React.FC<CategoryMenuProps> = ({ selectedCategory, onSelectC
               onClick={() => onSelectCategory(category.id)}
               className={`whitespace-nowrap py-1.5 px-4 rounded-full text-xs font-bold backdrop-blur-sm transition-all duration-300 flex-shrink-0 uppercase ${
                 selectedCategory === category.id
-                  ? 'comic-button bg-pop-yellow text-[#0D0D0D] scale-105 animate-comic-pop'
-                  : 'comic-border-light bg-white/80 dark:bg-gray-800/80 text-[#0D0D0D] dark:text-white hover:bg-pop-yellow/20 dark:hover:bg-pop-yellow/20 hover:scale-105'
+                  ? 'comic-button bg-white dark:bg-black border-2 border-black dark:border-white text-pop-yellow scale-105 animate-comic-pop shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]'
+                  : 'comic-border-light bg-white/80 dark:bg-black/80 border-2 border-black dark:border-white text-black dark:text-white hover:scale-105'
               } active:scale-95`}
             >
               {category.name}

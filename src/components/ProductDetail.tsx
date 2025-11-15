@@ -130,7 +130,7 @@ const ProductDetail: React.FC = () => {
   }
 
   return (
-    <div className="bg-[#F2F2F2] dark:bg-gray-900 py-6 min-h-screen crosshatch-pattern">
+    <div className="bg-white dark:bg-black py-6 min-h-screen crosshatch-pattern">
       <div className="container mx-auto px-4 max-w-5xl">
         {/* Breadcrumb */}
         <button
