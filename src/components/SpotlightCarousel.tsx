@@ -79,7 +79,7 @@ const SpotlightCarousel: React.FC = () => {
   if (loading) {
     return (
       <div className="w-full flex justify-center items-center py-8 halftone-pattern">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-pop-green"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black dark:border-white"></div>
       </div>
     );
   }
@@ -87,7 +87,7 @@ const SpotlightCarousel: React.FC = () => {
   if (products.length === 0) {
     return (
       <div className="w-full flex justify-center items-center py-8 halftone-pattern">
-        <p className="text-[#595959] dark:text-gray-400 text-sm comic-text-outline">No hay productos disponibles</p>
+        <p className="elegant-text-secondary text-sm">No hay productos disponibles</p>
       </div>
     );
   }
@@ -99,7 +99,7 @@ const SpotlightCarousel: React.FC = () => {
   }
 
   return (
-    <div className="relative w-full comic-border halftone-pattern bg-white dark:bg-black border-4 border-black dark:border-white rounded-xl overflow-hidden p-4 speed-lines shadow-[8px_8px_0px_rgba(0,0,0,0.8)] dark:shadow-[8px_8px_0px_rgba(255,255,255,0.5)]">
+    <div className="relative w-full comic-vignette halftone-pattern bg-white dark:bg-black p-6">
       <div
         className={`grid gap-4 ${
           visibleCount === 1
@@ -112,7 +112,7 @@ const SpotlightCarousel: React.FC = () => {
         {visibleProducts.map((product) => (
           <div
             key={`${product.id}-${currentIndex}`}
-            className="bg-white dark:bg-black border-2 border-black dark:border-white comic-border-light comic-hover animate-comic-pop halftone-pattern overflow-hidden group shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+            className="bg-white dark:bg-black border-2 border-black dark:border-white rounded-xl elegant-card halftone-pattern overflow-hidden group transition-all duration-300"
           >
             <div className="relative aspect-video overflow-hidden">
               <img
@@ -122,15 +122,15 @@ const SpotlightCarousel: React.FC = () => {
               />
             </div>
             <div className="p-3 min-h-[100px] flex flex-col justify-between bg-white dark:bg-black">
-              <h3 className="text-black dark:text-white font-bold text-sm truncate mb-1 comic-text-shadow">
+              <h3 className="elegant-text-primary font-bold text-sm truncate mb-1">
                 {product.name}
               </h3>
               <div className="flex items-center justify-between">
-                <p className="text-pop-green font-bold text-lg comic-text-shadow">
+                <p className="elegant-text-primary font-bold text-lg">
                   ${product.price.toLocaleString()}
                 </p>
-                <span className="text-xs text-black dark:text-white bg-white dark:bg-black border-2 border-black dark:border-white px-2 py-1 rounded-full font-bold uppercase">
-                  <span className="text-pop-yellow">{product.category}</span>
+                <span className="text-xs elegant-text-primary bg-white dark:bg-black border-2 border-black/10 dark:border-white/10 px-2 py-1 rounded-lg font-bold uppercase shadow-[0_2px_4px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_4px_rgba(255,255,255,0.06)]">
+                  {product.category}
                 </span>
               </div>
             </div>
@@ -142,15 +142,15 @@ const SpotlightCarousel: React.FC = () => {
         <>
           <button
             onClick={prevSlide}
-            className="absolute left-2 top-1/2 -translate-y-1/2 comic-button bg-white dark:bg-black border-4 border-black dark:border-white text-pop-red p-2 rounded-full hover:scale-110 transition z-10 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white dark:bg-black border-2 border-black dark:border-white elegant-text-primary p-2 rounded-full hover:scale-110 transition-all duration-300 z-10 shadow-[0_4px_12px_rgba(0,0,0,0.12)] dark:shadow-[0_4px_12px_rgba(255,255,255,0.12)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.16)] dark:hover:shadow-[0_6px_16px_rgba(255,255,255,0.16)]"
           >
-            <ChevronLeft size={16} />
+            <ChevronLeft size={16} className="inking-icon" />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-2 top-1/2 -translate-y-1/2 comic-button bg-white dark:bg-black border-4 border-black dark:border-white text-pop-red p-2 rounded-full hover:scale-110 transition z-10 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white dark:bg-black border-2 border-black dark:border-white elegant-text-primary p-2 rounded-full hover:scale-110 transition-all duration-300 z-10 shadow-[0_4px_12px_rgba(0,0,0,0.12)] dark:shadow-[0_4px_12px_rgba(255,255,255,0.12)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.16)] dark:hover:shadow-[0_6px_16px_rgba(255,255,255,0.16)]"
           >
-            <ChevronRight size={16} />
+            <ChevronRight size={16} className="inking-icon" />
           </button>
         </>
       )}
