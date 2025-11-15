@@ -218,7 +218,7 @@ const ProductManagementF: React.FC = () => {
   const inStockCount = items.filter((x) => x.inStock).length;
 
   return (
-    <div className="min-h-screen bg-[#E8E8E8] dark:bg-gray-900 py-3 px-3 sm:px-4">
+    <div className="min-h-screen bg-[#E8E8E8] dark:bg-gray-900 py-3 px-3 sm:px-4 halftone-pattern">
       <div className="mx-auto w-full max-w-6xl">
 
         {/* Botón volver */}
@@ -231,12 +231,12 @@ const ProductManagementF: React.FC = () => {
         </button>
 
         {/* Header minimalista */}
-        <div className="mb-4">
+        <div className="mb-4 comic-panel bendaydots-pattern p-3">
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-1 h-8 bg-[#BA68C8] dark:bg-[#CE93D8] rounded-full shadow-sm"></div>
+            <div className="w-1 h-8 bg-pop-orange rounded-full shadow-sm"></div>
             <div className="flex-1">
-              <h1 className="text-lg font-light text-[#2A2A2A] dark:text-white">Productos Físicos</h1>
-              <p className="text-[10px] text-[#8A8A8A] dark:text-gray-400 font-light">Inventario y gestión de stock</p>
+              <h1 className="text-lg font-bold text-[#2A2A2A] dark:text-white comic-text-shadow uppercase">Productos Físicos</h1>
+              <p className="text-[10px] text-[#8A8A8A] dark:text-gray-400 font-medium">Inventario y gestión de stock</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="text-center">
@@ -245,7 +245,7 @@ const ProductManagementF: React.FC = () => {
               </div>
               <button
                 onClick={openCreate}
-                className="bg-[#BA68C8] dark:bg-[#CE93D8] hover:bg-[#9C27B0] dark:hover:bg-[#BA68C8] text-white dark:text-gray-900 px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-1.5 shadow-[0_2px_8px_rgba(186,104,200,0.25)] dark:shadow-none"
+                className="comic-button bg-pop-yellow text-black px-3 py-1.5 text-xs flex items-center gap-1.5"
               >
                 <Plus size={14} />
                 Nuevo
@@ -255,7 +255,7 @@ const ProductManagementF: React.FC = () => {
         </div>
 
         {/* Buscador */}
-        <div className="bg-[#F5F5F5] dark:bg-gray-800 rounded-lg border border-[#D0D0D0] dark:border-gray-700 p-3 mb-3 shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:shadow-none">
+        <div className="comic-panel p-3 mb-3">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Search className="h-4 w-4 text-[#8A8A8A] dark:text-gray-400" />
@@ -265,15 +265,15 @@ const ProductManagementF: React.FC = () => {
               placeholder="Buscar por nombre, categoría o SKU..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded-md py-2 pl-10 pr-3 text-xs text-[#2A2A2A] dark:text-white placeholder-[#8A8A8A] dark:placeholder-gray-400 focus:border-[#BA68C8] dark:focus:border-[#CE93D8] focus:outline-none transition-colors"
+              className="comic-input w-full py-2 pl-10 pr-3 text-xs"
             />
           </div>
         </div>
 
         {/* Lista de productos */}
-        <div className="bg-[#F5F5F5] dark:bg-gray-800 rounded-lg border border-[#D0D0D0] dark:border-gray-700 overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:shadow-none">
-          <div className="p-3 border-b border-[#D0D0D0] dark:border-gray-700">
-            <h2 className="text-sm font-medium text-[#2A2A2A] dark:text-white flex items-center gap-1.5">
+        <div className="comic-panel overflow-hidden">
+          <div className="p-3 comic-border-light bg-pop-orange">
+            <h2 className="text-sm font-bold text-black uppercase flex items-center gap-1.5">
               <Package size={14} />
               Productos ({filtered.length})
             </h2>
@@ -299,7 +299,7 @@ const ProductManagementF: React.FC = () => {
                   return (
                     <div
                       key={p.id}
-                      className="rounded-md border border-[#D0D0D0] dark:border-gray-700 bg-white dark:bg-gray-700 p-3 hover:shadow-[0_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-none transition-shadow"
+                      className="comic-border bg-white dark:bg-gray-800 p-3 comic-hover stipple-pattern"
                     >
                       <div className="flex gap-3">
                         {/* Imagen/Video */}
@@ -330,14 +330,14 @@ const ProductManagementF: React.FC = () => {
                             <div className="min-w-0 flex-1">
                               <h3 className="text-xs font-semibold text-[#2A2A2A] dark:text-white truncate">{p.name}</h3>
                               <div className="flex flex-wrap items-center gap-1 mt-0.5">
-                                <span className="text-[9px] px-1.5 py-0.5 rounded bg-[#BA68C8]/10 dark:bg-[#CE93D8]/20 text-[#BA68C8] dark:text-[#CE93D8] font-medium">
+                                <span className="text-[9px] px-1.5 py-0.5 bg-pop-purple text-white font-bold uppercase border-2 border-black dark:border-white">
                                   {p.category || 'Sin categoría'}
                                 </span>
-                                <span className="text-[9px] px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-[#8A8A8A] dark:text-gray-400 font-medium">
+                                <span className="text-[9px] px-1.5 py-0.5 bg-pop-blue text-white font-bold uppercase border-2 border-black dark:border-white">
                                   SKU: {p.sku || 'N/A'}
                                 </span>
                                 {!p.inStock && (
-                                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-red-500/10 dark:bg-red-500/20 text-red-500 dark:text-red-400 font-medium">
+                                  <span className="text-[9px] px-1.5 py-0.5 bg-pop-red text-white font-bold uppercase border-2 border-black dark:border-white">
                                     Sin stock
                                   </span>
                                 )}
@@ -351,7 +351,7 @@ const ProductManagementF: React.FC = () => {
                                   -{p.discount}%
                                 </div>
                               )}
-                              <div className="text-[#BA68C8] dark:text-[#CE93D8] font-bold text-sm leading-tight">
+                              <div className="text-pop-green font-bold text-sm leading-tight comic-text-shadow">
                                 ${Number(p.price || 0).toLocaleString('es-CO')}
                               </div>
                               {Number(p.originalPrice || 0) > Number(p.price || 0) && (
@@ -387,14 +387,14 @@ const ProductManagementF: React.FC = () => {
                           <div className="flex gap-1.5">
                             <button
                               onClick={() => openEdit(p)}
-                              className="flex-1 inline-flex items-center justify-center gap-1 px-2 py-1.5 rounded-md border border-[#D0D0D0] dark:border-gray-600 hover:border-[#BA68C8] dark:hover:border-[#CE93D8] hover:bg-[#BA68C8]/5 dark:hover:bg-[#CE93D8]/10 text-[#2A2A2A] dark:text-white text-[10px] font-medium transition-colors"
+                              className="flex-1 inline-flex items-center justify-center gap-1 px-2 py-1.5 border-2 border-black dark:border-white bg-pop-cyan text-black font-bold text-[10px] uppercase hover:bg-pop-blue transition-all"
                             >
                               <Edit size={12} />
                               Editar
                             </button>
                             <button
                               onClick={() => onDelete(p.id)}
-                              className="flex-1 inline-flex items-center justify-center gap-1 px-2 py-1.5 rounded-md border border-red-500/30 dark:border-red-500/40 text-red-500 dark:text-red-400 hover:bg-red-500/10 dark:hover:bg-red-500/20 text-[10px] font-medium transition-colors"
+                              className="flex-1 inline-flex items-center justify-center gap-1 px-2 py-1.5 border-2 border-black dark:border-white bg-pop-red text-white font-bold text-[10px] uppercase hover:bg-red-600 transition-all"
                             >
                               <Trash2 size={12} />
                               Eliminar
@@ -412,12 +412,12 @@ const ProductManagementF: React.FC = () => {
 
         {/* Modal Crear/Editar */}
         {(creating || editing) && (
-          <div className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center p-3">
-            <div className="bg-[#F5F5F5] dark:bg-gray-800 rounded-lg border border-[#D0D0D0] dark:border-gray-700 w-full max-w-4xl max-h-[95vh] overflow-y-auto shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-none">
+          <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-3">
+            <div className="comic-panel animate-comic-pop w-full max-w-4xl max-h-[95vh] overflow-y-auto">
               {/* Header del modal */}
-              <div className="p-3 border-b border-[#D0D0D0] dark:border-gray-700 flex items-center justify-between sticky top-0 bg-[#F5F5F5] dark:bg-gray-800 z-10">
-                <h3 className="text-sm font-medium text-[#2A2A2A] dark:text-white flex items-center gap-1.5">
-                  <Package size={14} className="text-[#BA68C8] dark:text-[#CE93D8]" />
+              <div className="p-3 comic-border-light flex items-center justify-between sticky top-0 bg-pop-yellow z-10">
+                <h3 className="text-sm font-bold text-black uppercase flex items-center gap-1.5 comic-text-shadow">
+                  <Package size={14} />
                   {editing ? 'Editar producto físico' : 'Nuevo producto físico'}
                 </h3>
                 <button onClick={closeModal} className="p-1.5 hover:bg-[#E8E8E8] dark:hover:bg-gray-700 rounded-md transition-colors">
@@ -435,7 +435,7 @@ const ProductManagementF: React.FC = () => {
                       <input
                         value={form.name || ''}
                         onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
-                        className="w-full bg-white border border-[#D0D0D0] rounded-md px-2.5 py-2 text-xs text-[#2A2A2A] focus:border-[#BA68C8] focus:outline-none transition-colors"
+                        className="comic-input w-full px-2.5 py-2 text-xs"
                         placeholder="Ej: Auriculares Bluetooth"
                         required
                       />
@@ -446,7 +446,7 @@ const ProductManagementF: React.FC = () => {
                       <input
                         value={form.description || ''}
                         onChange={(e) => setForm((s) => ({ ...s, description: e.target.value }))}
-                        className="w-full bg-white border border-[#D0D0D0] rounded-md px-2.5 py-2 text-xs text-[#2A2A2A] focus:border-[#BA68C8] focus:outline-none transition-colors"
+                        className="comic-input w-full px-2.5 py-2 text-xs"
                         placeholder="Descripción breve"
                       />
                     </div>
@@ -456,7 +456,7 @@ const ProductManagementF: React.FC = () => {
                       <textarea
                         value={form.longDescription || ''}
                         onChange={(e) => setForm((s) => ({ ...s, longDescription: e.target.value }))}
-                        className="w-full bg-white border border-[#D0D0D0] rounded-md px-2.5 py-2 text-xs text-[#2A2A2A] focus:border-[#BA68C8] focus:outline-none transition-colors h-24 resize-none"
+                        className="comic-input w-full px-2.5 py-2 text-xs h-24 resize-none"
                         placeholder="Descripción detallada del producto"
                       />
                     </div>
@@ -467,7 +467,7 @@ const ProductManagementF: React.FC = () => {
                         <input
                           value={form.category || ''}
                           onChange={(e) => setForm((s) => ({ ...s, category: e.target.value }))}
-                          className="w-full bg-white border border-[#D0D0D0] rounded-md px-2.5 py-2 text-xs text-[#2A2A2A] focus:border-[#BA68C8] focus:outline-none transition-colors"
+                          className="comic-input w-full px-2.5 py-2 text-xs"
                           placeholder="Tecnología"
                         />
                       </div>
@@ -477,7 +477,7 @@ const ProductManagementF: React.FC = () => {
                         <input
                           value={form.sku || ''}
                           onChange={(e) => setForm((s) => ({ ...s, sku: e.target.value.toUpperCase() }))}
-                          className="w-full bg-white border border-[#D0D0D0] rounded-md px-2.5 py-2 text-xs text-[#2A2A2A] focus:border-[#BA68C8] focus:outline-none transition-colors font-mono"
+                          className="comic-input w-full px-2.5 py-2 text-xs font-mono"
                           placeholder="AUR-BT-001"
                         />
                       </div>
@@ -499,7 +499,7 @@ const ProductManagementF: React.FC = () => {
                               .filter(Boolean),
                           }))
                         }
-                        className="w-full bg-white border border-[#D0D0D0] rounded-md px-2.5 py-2 text-xs text-[#2A2A2A] focus:border-[#BA68C8] focus:outline-none transition-colors h-24 resize-y font-mono"
+                        className="comic-input w-full px-2.5 py-2 text-xs h-24 resize-y font-mono"
                         placeholder="https://ejemplo.com/img1.jpg&#10;https://ejemplo.com/video.mp4"
                       />
                       <p className="text-[9px] text-[#8A8A8A] mt-1">
@@ -517,7 +517,7 @@ const ProductManagementF: React.FC = () => {
                           type="number"
                           value={Number(form.originalPrice || 0)}
                           onChange={(e) => setForm((s) => ({ ...s, originalPrice: Number(e.target.value) }))}
-                          className="w-full bg-white border border-[#D0D0D0] rounded-md px-2.5 py-2 text-xs text-[#2A2A2A] focus:border-[#BA68C8] focus:outline-none transition-colors"
+                          className="comic-input w-full px-2.5 py-2 text-xs"
                           min={0}
                         />
                       </div>
@@ -527,7 +527,7 @@ const ProductManagementF: React.FC = () => {
                           type="number"
                           value={Number(form.price || 0)}
                           onChange={(e) => setForm((s) => ({ ...s, price: Number(e.target.value) }))}
-                          className="w-full bg-white border border-[#D0D0D0] rounded-md px-2.5 py-2 text-xs text-[#2A2A2A] focus:border-[#BA68C8] focus:outline-none transition-colors"
+                          className="comic-input w-full px-2.5 py-2 text-xs"
                           min={0}
                         />
                       </div>
@@ -537,7 +537,7 @@ const ProductManagementF: React.FC = () => {
                           type="number"
                           value={Number(form.discount || 0)}
                           onChange={(e) => setForm((s) => ({ ...s, discount: Number(e.target.value) }))}
-                          className="w-full bg-white border border-[#D0D0D0] rounded-md px-2.5 py-2 text-xs text-[#2A2A2A] focus:border-[#BA68C8] focus:outline-none transition-colors"
+                          className="comic-input w-full px-2.5 py-2 text-xs"
                           min={0}
                           max={100}
                         />
@@ -554,7 +554,7 @@ const ProductManagementF: React.FC = () => {
                           max={5}
                           value={Number(form.rating || 0)}
                           onChange={(e) => setForm((s) => ({ ...s, rating: Number(e.target.value) }))}
-                          className="w-full bg-white border border-[#D0D0D0] rounded-md px-2.5 py-2 text-xs text-[#2A2A2A] focus:border-[#BA68C8] focus:outline-none transition-colors"
+                          className="comic-input w-full px-2.5 py-2 text-xs"
                         />
                       </div>
                       <div>
@@ -564,7 +564,7 @@ const ProductManagementF: React.FC = () => {
                           min={0}
                           value={Number(form.reviews || 0)}
                           onChange={(e) => setForm((s) => ({ ...s, reviews: Number(e.target.value) }))}
-                          className="w-full bg-white border border-[#D0D0D0] rounded-md px-2.5 py-2 text-xs text-[#2A2A2A] focus:border-[#BA68C8] focus:outline-none transition-colors"
+                          className="comic-input w-full px-2.5 py-2 text-xs"
                         />
                       </div>
                     </div>
@@ -580,7 +580,7 @@ const ProductManagementF: React.FC = () => {
                             const v = Math.max(0, Number(e.target.value));
                             setForm((s) => ({ ...s, stockQuantity: v, inStock: v > 0 }));
                           }}
-                          className="w-full bg-white border border-[#D0D0D0] rounded-md px-2.5 py-2 text-xs text-[#2A2A2A] focus:border-[#BA68C8] focus:outline-none transition-colors"
+                          className="comic-input w-full px-2.5 py-2 text-xs"
                         />
                       </div>
 
@@ -589,7 +589,7 @@ const ProductManagementF: React.FC = () => {
                         <select
                           value={(form.inStock ? '1' : '0') as string}
                           onChange={(e) => setForm((s) => ({ ...s, inStock: e.target.value === '1' }))}
-                          className="w-full bg-white border border-[#D0D0D0] rounded-md px-2.5 py-2 text-xs text-[#2A2A2A] focus:border-[#BA68C8] focus:outline-none transition-colors"
+                          className="comic-input w-full px-2.5 py-2 text-xs"
                         >
                           <option value="1">Sí</option>
                           <option value="0">No</option>
@@ -602,7 +602,7 @@ const ProductManagementF: React.FC = () => {
                       <input
                         value={form.shippingInfo || ''}
                         onChange={(e) => setForm((s) => ({ ...s, shippingInfo: e.target.value }))}
-                        className="w-full bg-white border border-[#D0D0D0] rounded-md px-2.5 py-2 text-xs text-[#2A2A2A] focus:border-[#BA68C8] focus:outline-none transition-colors"
+                        className="comic-input w-full px-2.5 py-2 text-xs"
                         placeholder="Envío nacional 3-5 días hábiles"
                       />
                     </div>
@@ -645,11 +645,11 @@ const ProductManagementF: React.FC = () => {
                 </div>
 
                 {/* Botones del formulario */}
-                <div className="pt-3 border-t border-[#D0D0D0] dark:border-gray-700 flex gap-2">
+                <div className="pt-3 comic-border-light bg-pop-pink flex gap-2">
                   <button
                     type="submit"
                     disabled={saving}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 bg-[#BA68C8] dark:bg-[#CE93D8] hover:bg-[#9C27B0] dark:hover:bg-[#BA68C8] text-white dark:text-gray-900 px-4 py-2.5 rounded-md text-xs font-medium transition-colors disabled:opacity-50 shadow-[0_2px_8px_rgba(186,104,200,0.25)] dark:shadow-none"
+                    className="comic-button flex-1 inline-flex items-center justify-center gap-1.5 bg-pop-green text-black px-4 py-2.5 text-xs disabled:opacity-50"
                   >
                     {saving ? (
                       <>
@@ -666,7 +666,7 @@ const ProductManagementF: React.FC = () => {
                   <button
                     type="button"
                     onClick={closeModal}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 text-[#2A2A2A] dark:text-white px-4 py-2.5 rounded-md text-xs font-medium hover:bg-[#E8E8E8] dark:hover:bg-gray-600 transition-colors"
+                    className="comic-button flex-1 inline-flex items-center justify-center gap-1.5 bg-pop-red text-white px-4 py-2.5 text-xs"
                   >
                     <X size={14} />
                     Cancelar

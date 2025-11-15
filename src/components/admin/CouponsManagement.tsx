@@ -116,7 +116,7 @@ const CouponsManagement: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#E8E8E8] dark:bg-gray-900 py-3 px-3 sm:px-4">
+    <div className="min-h-screen bg-[#E8E8E8] dark:bg-gray-900 py-3 px-3 sm:px-4 halftone-pattern">
       <div className="mx-auto w-full max-w-5xl">
 
         {/* Botón volver estilo Apple */}
@@ -129,12 +129,12 @@ const CouponsManagement: React.FC = () => {
         </button>
 
         {/* Header minimalista */}
-        <div className="mb-4">
+        <div className="mb-4 comic-panel bendaydots-pattern p-3">
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-1 h-8 bg-[#BA68C8] dark:bg-[#CE93D8] rounded-full shadow-sm"></div>
+            <div className="w-1 h-8 bg-pop-cyan rounded-full shadow-sm"></div>
             <div className="flex-1">
-              <h1 className="text-lg font-light text-[#2A2A2A] dark:text-white">Canjes por Puntos</h1>
-              <p className="text-[10px] text-[#8A8A8A] dark:text-gray-400 font-light">Crear y administrar recompensas</p>
+              <h1 className="text-lg font-bold text-[#2A2A2A] dark:text-white comic-text-shadow uppercase">Canjes por Puntos</h1>
+              <p className="text-[10px] text-[#8A8A8A] dark:text-gray-400 font-medium">Crear y administrar recompensas</p>
             </div>
             <div className="text-center">
               <p className="text-[9px] text-[#8A8A8A] dark:text-gray-400">Total</p>
@@ -144,7 +144,7 @@ const CouponsManagement: React.FC = () => {
         </div>
 
         {/* Formulario de creación */}
-        <div className="bg-[#F5F5F5] dark:bg-gray-800 rounded-lg border border-[#D0D0D0] dark:border-gray-700 p-3 mb-3 shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:shadow-none">
+        <div className="comic-panel p-3 mb-3">
           <h2 className="text-xs font-medium text-[#2A2A2A] dark:text-white mb-2.5 flex items-center gap-1.5">
             <Plus size={12} />
             Nueva Recompensa
@@ -157,7 +157,7 @@ const CouponsManagement: React.FC = () => {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Ej: 10% OFF en total"
-                className="w-full bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded-md px-2.5 py-1.5 text-xs text-[#2A2A2A] dark:text-white placeholder-[#8A8A8A] dark:placeholder-gray-400 focus:border-[#BA68C8] dark:focus:border-[#CE93D8] focus:outline-none transition-colors"
+                className="comic-input w-full px-2.5 py-1.5 text-xs"
                 required
               />
             </div>
@@ -169,7 +169,7 @@ const CouponsManagement: React.FC = () => {
                 type="number"
                 value={costPoints}
                 onChange={(e) => setCostPoints(Number(e.target.value))}
-                className="w-full bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded-md px-2.5 py-1.5 text-xs text-[#2A2A2A] dark:text-white focus:border-[#BA68C8] dark:focus:border-[#CE93D8] focus:outline-none transition-colors"
+                className="comic-input w-full px-2.5 py-1.5 text-xs"
                 min={1}
                 required
               />
@@ -181,7 +181,7 @@ const CouponsManagement: React.FC = () => {
               <select
                 value={type}
                 onChange={(e) => setType(e.target.value as any)}
-                className="w-full bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded-md px-2.5 py-1.5 text-xs text-[#2A2A2A] dark:text-white focus:border-[#BA68C8] dark:focus:border-[#CE93D8] focus:outline-none transition-colors"
+                className="comic-input w-full px-2.5 py-1.5 text-xs"
               >
                 <option value="percent">% Porcentaje</option>
                 <option value="fixed">$ Fijo</option>
@@ -197,7 +197,7 @@ const CouponsManagement: React.FC = () => {
                 type="number"
                 value={value}
                 onChange={(e) => setValue(Number(e.target.value))}
-                className="w-full bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded-md px-2.5 py-1.5 text-xs text-[#2A2A2A] dark:text-white focus:border-[#BA68C8] dark:focus:border-[#CE93D8] focus:outline-none transition-colors"
+                className="comic-input w-full px-2.5 py-1.5 text-xs"
                 min={1}
                 max={type === 'percent' ? 90 : undefined}
                 required
@@ -211,14 +211,14 @@ const CouponsManagement: React.FC = () => {
                 type="date"
                 value={expires}
                 onChange={(e) => setExpires(e.target.value)}
-                className="w-full bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded-md px-2.5 py-1.5 text-xs text-[#2A2A2A] dark:text-white focus:border-[#BA68C8] dark:focus:border-[#CE93D8] focus:outline-none transition-colors"
+                className="comic-input w-full px-2.5 py-1.5 text-xs"
               />
             </div>
 
             {/* Botón crear */}
             <button
               type="submit"
-              className="lg:col-span-2 bg-[#BA68C8] dark:bg-[#CE93D8] hover:bg-[#9C27B0] dark:hover:bg-[#BA68C8] text-white dark:text-gray-900 px-4 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center justify-center gap-1.5 shadow-[0_2px_8px_rgba(186,104,200,0.25)] dark:shadow-none"
+              className="comic-button lg:col-span-2 bg-pop-yellow text-black px-4 py-1.5 text-xs flex items-center justify-center gap-1.5"
             >
               <Plus size={14} />
               Crear
@@ -227,9 +227,9 @@ const CouponsManagement: React.FC = () => {
         </div>
 
         {/* Lista de recompensas */}
-        <div className="bg-[#F5F5F5] dark:bg-gray-800 rounded-lg border border-[#D0D0D0] dark:border-gray-700 overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:shadow-none">
-          <div className="p-3 border-b border-[#D0D0D0] dark:border-gray-700">
-            <h2 className="text-sm font-medium text-[#2A2A2A] dark:text-white flex items-center gap-1.5">
+        <div className="comic-panel overflow-hidden">
+          <div className="p-3 comic-border-light bg-pop-cyan">
+            <h2 className="text-sm font-bold text-black uppercase flex items-center gap-1.5">
               <Gift size={14} />
               Recompensas Activas
             </h2>
@@ -255,7 +255,7 @@ const CouponsManagement: React.FC = () => {
                   return (
                     <div
                       key={r.id}
-                      className="rounded-md border border-[#D0D0D0] dark:border-gray-700 bg-white dark:bg-gray-700 p-3 hover:shadow-[0_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-none transition-shadow"
+                      className="comic-border bg-white dark:bg-gray-800 p-3 comic-hover stipple-pattern"
                     >
                       <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                         {/* Info */}
@@ -264,11 +264,11 @@ const CouponsManagement: React.FC = () => {
                             <span className="text-xs text-[#2A2A2A] dark:text-white font-semibold truncate">
                               {r.title}
                             </span>
-                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-[#BA68C8]/10 dark:bg-[#CE93D8]/20 text-[#BA68C8] dark:text-[#CE93D8] font-medium">
+                            <span className="text-[9px] px-1.5 py-0.5 bg-pop-purple text-white font-bold uppercase border-2 border-black dark:border-white">
                               {r.type === 'percent' ? `${r.value}%` : `$${r.value}`}
                             </span>
                             {!r.active && (
-                              <span className="text-[9px] px-1.5 py-0.5 rounded bg-red-500/10 dark:bg-red-500/20 text-red-500 dark:text-red-400 font-medium">
+                              <span className="text-[9px] px-1.5 py-0.5 bg-pop-red text-white font-bold uppercase border-2 border-black dark:border-white">
                                 Inactiva
                               </span>
                             )}
@@ -282,7 +282,7 @@ const CouponsManagement: React.FC = () => {
                         <div className="flex items-center gap-1.5">
                           <button
                             onClick={() => toggle(r.id, r.active)}
-                            className="flex items-center gap-1 px-3 py-1.5 rounded-md border border-[#D0D0D0] dark:border-gray-600 hover:border-[#BA68C8] dark:hover:border-[#CE93D8] hover:bg-[#BA68C8]/5 dark:hover:bg-[#CE93D8]/10 transition-colors"
+                            className="flex items-center gap-1 px-3 py-1.5 border-2 border-black dark:border-white bg-pop-green hover:bg-pop-cyan text-black font-bold transition-all"
                             title={r.active ? 'Desactivar' : 'Activar'}
                           >
                             {r.active ? (
@@ -296,7 +296,7 @@ const CouponsManagement: React.FC = () => {
                           </button>
                           <button
                             onClick={() => remove(r.id)}
-                            className="p-1.5 rounded-md border border-red-500/30 dark:border-red-500/40 text-red-500 dark:text-red-400 hover:bg-red-500/10 dark:hover:bg-red-500/20 transition-colors"
+                            className="p-1.5 border-2 border-black dark:border-white bg-pop-red text-white hover:bg-red-600 transition-all"
                             title="Eliminar"
                           >
                             <Trash2 size={14} />

@@ -81,10 +81,10 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
   }, [isBlocked, onSuccess, provider, push]);
 
   return (
-    <form onSubmit={onSubmit} className="space-y-2.5">
+    <form onSubmit={onSubmit} className="space-y-3 animate-comic-pop">
       {/* email */}
       <div className="relative">
-        <Mail className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#8A8A8A]" size={14} />
+        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8A8A8A] dark:text-[#B0B0B0] z-10" size={16} />
         <input
           ref={emailRef}
           type="email"
@@ -94,48 +94,48 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
           placeholder="correo@ejemplo.com"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          className="w-full pl-9 pr-3 py-2 bg-white border border-[#D0D0D0] rounded-md text-[#2A2A2A] text-xs placeholder-[#8A8A8A] focus:border-[#4CAF50] focus:outline-none transition-colors"
+          className="comic-input w-full pl-10 pr-3 py-2.5 text-sm placeholder-[#8A8A8A] dark:placeholder-[#666]"
           required
         />
       </div>
 
       {/* password */}
       <div className="relative">
-        <Lock className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#8A8A8A]" size={14} />
+        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8A8A8A] dark:text-[#B0B0B0] z-10" size={16} />
         <input
           type={showPw ? 'text' : 'password'}
           autoComplete="current-password"
           placeholder="Contraseña"
           value={pw}
           onChange={e => setPw(e.target.value)}
-          className="w-full pl-9 pr-9 py-2 bg-white border border-[#D0D0D0] rounded-md text-[#2A2A2A] text-xs placeholder-[#8A8A8A] focus:border-[#4CAF50] focus:outline-none transition-colors"
+          className="comic-input w-full pl-10 pr-10 py-2.5 text-sm placeholder-[#8A8A8A] dark:placeholder-[#666]"
           required
           minLength={8}
         />
         <button
           type="button"
           onClick={() => setShowPw(s => !s)}
-          className="absolute right-2 top-1/2 -translate-y-1/2 text-[#8A8A8A] hover:text-[#2A2A2A] transition-colors"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8A8A8A] hover:text-[#000] dark:text-[#B0B0B0] dark:hover:text-[#FFF] transition-colors z-10"
           aria-label={showPw ? 'Ocultar contraseña' : 'Mostrar contraseña'}
         >
-          {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
+          {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
         </button>
       </div>
 
       <button
         type="submit"
         disabled={loading || isBlocked}
-        className="w-full bg-[#4CAF50] hover:bg-[#45a049] text-white py-2 rounded-md font-medium text-xs disabled:opacity-50 transition-colors shadow-[0_2px_8px_rgba(76,175,80,0.25)]"
+        className="comic-button w-full bg-pop-cyan text-black dark:text-white disabled:opacity-50 disabled:cursor-not-allowed text-sm"
       >
         {isBlocked ? 'Bloqueado temporalmente' : loading ? 'Iniciando…' : 'Iniciar sesión'}
       </button>
 
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-[#D0D0D0]" />
+          <div className="w-full border-t-2 border-[#000] dark:border-[#FFF] opacity-20" />
         </div>
-        <div className="relative flex justify-center text-[10px]">
-          <span className="bg-[#F5F5F5] px-2 text-[#8A8A8A] font-light">o continuar con</span>
+        <div className="relative flex justify-center text-xs">
+          <span className="bg-[#F5F5F5] dark:bg-[#1F1F1F] px-3 text-[#666] dark:text-[#999] font-bold uppercase">o continuar con</span>
         </div>
       </div>
 
@@ -143,15 +143,15 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
         type="button"
         onClick={onGoogle}
         disabled={loading || isBlocked}
-        className="w-full bg-white border border-[#D0D0D0] text-[#2A2A2A] hover:bg-[#FAFAFA] py-2 rounded-md font-medium text-xs flex items-center justify-center gap-2 disabled:opacity-60 transition-colors shadow-[0_1px_4px_rgba(0,0,0,0.08)]"
+        className="comic-border w-full bg-white dark:bg-[#1F1F1F] text-[#2A2A2A] dark:text-white hover:bg-[#FAFAFA] dark:hover:bg-[#2A2A2A] py-2.5 font-bold text-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors halftone-pattern"
       >
-        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" width={14} height={14} />
-        Continuar con Google
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" width={16} height={16} className="relative z-10" />
+        <span className="relative z-10">Continuar con Google</span>
       </button>
 
       {err && (
-        <div className="bg-red-500/10 border border-red-500/20 rounded-md p-2 text-red-500 text-[10px] flex items-center gap-1.5 font-light">
-          <AlertCircle size={12} className="shrink-0" />
+        <div className="speech-bubble bg-pop-pink text-white dark:text-black font-bold text-xs flex items-center gap-2 animate-comic-pop">
+          <AlertCircle size={14} className="shrink-0" />
           <span>{err}</span>
         </div>
       )}

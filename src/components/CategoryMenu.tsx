@@ -38,13 +38,13 @@ const CategoryMenu: React.FC<CategoryMenuProps> = ({ selectedCategory, onSelectC
   }, []);
 
   return (
-    <div className="relative bg-gradient-to-r from-[#1F1B24] to-[#111111] py-2 shadow-lg">
+    <div className="relative halftone-pattern bg-gradient-to-r from-pop-purple/20 to-pop-blue/20 dark:from-gray-900 dark:to-gray-800 py-2 border-y-4 border-black dark:border-white">
       <div className="container mx-auto px-3 relative">
         {/* Left Arrow - Más compacto */}
         {showLeftArrow && (
           <button
             onClick={() => scroll('left')}
-            className="absolute left-1 top-1/2 transform -translate-y-1/2 z-10 bg-[#111111]/90 backdrop-blur-sm rounded-full p-1.5 text-[#FEE440] hover:text-[#FFBA00] hover:scale-110 transition-all shadow-md"
+            className="absolute left-1 top-1/2 transform -translate-y-1/2 z-10 comic-button bg-pop-red text-white rounded-full p-1.5 hover:scale-110 transition-all"
             aria-label="Scroll left"
           >
             <ChevronLeft size={16} />
@@ -60,10 +60,10 @@ const CategoryMenu: React.FC<CategoryMenuProps> = ({ selectedCategory, onSelectC
             <button
               key={category.id}
               onClick={() => onSelectCategory(category.id)}
-              className={`whitespace-nowrap py-1.5 px-4 rounded-full text-xs font-semibold backdrop-blur-sm transition-all duration-300 shadow-sm flex-shrink-0 ${
+              className={`whitespace-nowrap py-1.5 px-4 rounded-full text-xs font-bold backdrop-blur-sm transition-all duration-300 flex-shrink-0 uppercase ${
                 selectedCategory === category.id
-                  ? 'bg-[#FEE440] text-[#1F1B24] hover:bg-[#FFBA00] scale-105'
-                  : 'bg-[#2A114B]/40 text-[#FEE440] hover:bg-[#FEE440]/20 hover:text-[#FFBA00] hover:scale-105'
+                  ? 'comic-button bg-pop-yellow text-[#0D0D0D] scale-105 animate-comic-pop'
+                  : 'comic-border-light bg-white/80 dark:bg-gray-800/80 text-[#0D0D0D] dark:text-white hover:bg-pop-yellow/20 dark:hover:bg-pop-yellow/20 hover:scale-105'
               } active:scale-95`}
             >
               {category.name}
@@ -75,7 +75,7 @@ const CategoryMenu: React.FC<CategoryMenuProps> = ({ selectedCategory, onSelectC
         {showRightArrow && (
           <button
             onClick={() => scroll('right')}
-            className="absolute right-1 top-1/2 transform -translate-y-1/2 z-10 bg-[#111111]/90 backdrop-blur-sm rounded-full p-1.5 text-[#FEE440] hover:text-[#FFBA00] hover:scale-110 transition-all shadow-md"
+            className="absolute right-1 top-1/2 transform -translate-y-1/2 z-10 comic-button bg-pop-red text-white rounded-full p-1.5 hover:scale-110 transition-all"
             aria-label="Scroll right"
           >
             <ChevronRight size={16} />

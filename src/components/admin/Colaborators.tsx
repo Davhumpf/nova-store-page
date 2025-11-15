@@ -241,44 +241,44 @@ const Colaborators: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#E8E8E8] dark:bg-gray-900">
-        <div className="flex flex-col items-center">
-          <div className="w-10 h-10 border-3 border-[#4FC3F7]/30 dark:border-[#81D4FA]/30 border-t-[#4FC3F7] dark:border-t-[#81D4FA] rounded-full animate-spin"></div>
-          <p className="mt-2 text-[#5A5A5A] dark:text-gray-400 text-xs font-light">Cargando...</p>
+      <div className="min-h-screen flex items-center justify-center halftone-pattern bg-white dark:bg-gray-900">
+        <div className="flex flex-col items-center comic-panel bg-white dark:bg-gray-800 p-6 animate-comic-pop">
+          <div className="w-10 h-10 border-3 border-pop-purple/30 dark:border-pop-pink/30 border-t-pop-purple dark:border-t-pop-pink rounded-full animate-spin"></div>
+          <p className="mt-2 text-gray-900 dark:text-white text-xs font-black uppercase tracking-wide">Cargando...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#E8E8E8] dark:bg-gray-900 py-3 px-3 sm:px-4">
+    <div className="min-h-screen halftone-pattern bg-white dark:bg-gray-900 py-3 px-3 sm:px-4">
       <div className="container mx-auto max-w-5xl">
 
         {/* Botón volver estilo Apple */}
         <button
           onClick={() => navigate('/admin')}
-          className="mb-3 flex items-center gap-1.5 text-xs text-[#4FC3F7] dark:text-[#81D4FA] hover:text-[#039BE5] dark:hover:text-[#4FC3F7] transition-colors group"
+          className="mb-3 flex items-center gap-1.5 text-xs text-pop-purple dark:text-pop-pink hover:text-pop-orange dark:hover:text-pop-orange transition-colors group font-black uppercase tracking-wide speed-lines"
         >
           <ArrowRight size={14} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
-          <span className="font-medium">Panel Admin</span>
+          <span className="font-black">Panel Admin</span>
         </button>
 
         {/* Header minimalista */}
-        <div className="mb-4">
+        <div className="mb-4 comic-panel bg-white dark:bg-gray-800 p-4 animate-comic-pop">
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-1 h-8 bg-[#4FC3F7] dark:bg-[#81D4FA] rounded-full shadow-sm"></div>
+            <div className="w-1 h-8 bg-gradient-to-b from-pop-purple to-pop-pink rounded-full shadow-sm"></div>
             <div className="flex-1">
-              <h1 className="text-lg font-light text-[#2A2A2A] dark:text-white">Gestión de Colaboradores</h1>
-              <p className="text-[10px] text-[#8A8A8A] dark:text-gray-400 font-light">Administra roles y permisos del equipo</p>
+              <h1 className="text-lg font-black text-gray-900 dark:text-white uppercase tracking-wide">Gestión de Colaboradores</h1>
+              <p className="text-[10px] text-gray-600 dark:text-gray-400 font-bold uppercase">Administra roles y permisos del equipo</p>
             </div>
             <div className="flex gap-3 text-center">
-              <div>
-                <p className="text-[9px] text-[#8A8A8A] dark:text-gray-400">Total</p>
-                <p className="text-sm font-bold text-[#4FC3F7] dark:text-[#81D4FA]">{roles.length}</p>
+              <div className="comic-border px-2 py-1 bg-white dark:bg-gray-800 stipple-pattern">
+                <p className="text-[9px] text-gray-600 dark:text-gray-400 font-bold uppercase">Total</p>
+                <p className="text-sm font-black text-pop-purple dark:text-pop-pink">{roles.length}</p>
               </div>
-              <div>
-                <p className="text-[9px] text-[#8A8A8A] dark:text-gray-400">Activos</p>
-                <p className="text-sm font-bold text-[#4CAF50] dark:text-[#66FF7A]">{roles.filter(r => r.isActive).length}</p>
+              <div className="comic-border px-2 py-1 bg-white dark:bg-gray-800 stipple-pattern">
+                <p className="text-[9px] text-gray-600 dark:text-gray-400 font-bold uppercase">Activos</p>
+                <p className="text-sm font-black text-pop-orange dark:text-pop-orange">{roles.filter(r => r.isActive).length}</p>
               </div>
             </div>
           </div>
@@ -286,37 +286,37 @@ const Colaborators: React.FC = () => {
 
         {/* Mensaje de feedback */}
         {message && (
-          <div className={`mb-3 p-2.5 rounded-lg flex items-center gap-2 text-xs border ${
-            message.type === 'success' ? 'bg-[#4CAF50]/10 dark:bg-[#66FF7A]/20 text-[#4CAF50] dark:text-[#66FF7A] border-[#4CAF50]/20 dark:border-[#66FF7A]/30' :
-            message.type === 'error' ? 'bg-red-500/10 dark:bg-red-500/20 text-red-500 dark:text-red-400 border-red-500/20 dark:border-red-500/30' :
-            'bg-[#4FC3F7]/10 dark:bg-[#81D4FA]/20 text-[#4FC3F7] dark:text-[#81D4FA] border-[#4FC3F7]/20 dark:border-[#81D4FA]/30'
+          <div className={`mb-3 p-2.5 comic-border flex items-center gap-2 text-xs animate-comic-pop ${
+            message.type === 'success' ? 'bg-pop-orange/10 dark:bg-pop-orange/20 text-pop-orange dark:text-pop-orange' :
+            message.type === 'error' ? 'bg-pop-pink/10 dark:bg-pop-pink/20 text-pop-pink dark:text-pop-pink' :
+            'bg-pop-purple/10 dark:bg-pop-purple/20 text-pop-purple dark:text-pop-purple'
           }`}>
             {message.type === 'success' ? <CheckCircle size={14} /> :
              message.type === 'error' ? <XCircle size={14} /> :
              <Activity size={14} />}
-            <span className="font-light">{message.text}</span>
+            <span className="font-black uppercase tracking-wide">{message.text}</span>
           </div>
         )}
 
         {/* Controles de búsqueda y agregar */}
-        <div className="bg-[#F5F5F5] dark:bg-gray-800 rounded-lg border border-[#D0D0D0] dark:border-gray-700 p-3 mb-3 shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:shadow-none">
+        <div className="comic-panel bg-white dark:bg-gray-800 p-3 mb-3 stipple-pattern animate-comic-pop">
           <div className="flex flex-col sm:flex-row gap-2">
             {/* Buscador */}
             <div className="flex-1 relative">
-              <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-[#8A8A8A] dark:text-gray-400" size={14} />
+              <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-pop-purple dark:text-pop-pink" size={14} />
               <input
                 type="email"
                 value={searchEmail}
                 onChange={(e) => setSearchEmail(e.target.value)}
                 placeholder="Buscar por correo..."
-                className="w-full pl-8 pr-3 py-2 bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded-md text-xs text-[#2A2A2A] dark:text-white placeholder-[#8A8A8A] dark:placeholder-gray-400 focus:border-[#4FC3F7] dark:focus:border-[#81D4FA] focus:outline-none transition-colors"
+                className="comic-input w-full pl-8 pr-3 py-2 bg-white dark:bg-gray-700 text-xs text-gray-900 dark:text-white placeholder-gray-600 dark:placeholder-gray-400 font-semibold"
               />
             </div>
 
             {/* Botón agregar */}
             <button
               onClick={() => setShowAddForm(!showAddForm)}
-              className="bg-[#4FC3F7] dark:bg-[#81D4FA] hover:bg-[#039BE5] dark:hover:bg-[#4FC3F7] text-white dark:text-gray-900 px-4 py-2 rounded-md text-xs font-medium transition-colors flex items-center justify-center gap-1.5 shadow-[0_2px_8px_rgba(79,195,247,0.25)] dark:shadow-none"
+              className="comic-button bg-pop-purple dark:bg-pop-pink hover:bg-pop-orange dark:hover:bg-pop-orange text-white dark:text-white px-4 py-2 text-xs font-black flex items-center justify-center gap-1.5 uppercase tracking-wide speed-lines"
             >
               <Plus size={14} />
               Agregar
@@ -325,8 +325,8 @@ const Colaborators: React.FC = () => {
 
           {/* Formulario de agregar */}
           {showAddForm && (
-            <div className="mt-3 p-3 bg-white dark:bg-gray-700 rounded-md border border-[#D0D0D0] dark:border-gray-600">
-              <h3 className="text-xs text-[#2A2A2A] dark:text-white font-medium mb-2 flex items-center gap-1.5">
+            <div className="mt-3 p-3 comic-border bg-white dark:bg-gray-700 crosshatch-pattern">
+              <h3 className="text-xs text-gray-900 dark:text-white font-black mb-2 flex items-center gap-1.5 uppercase tracking-wide">
                 <Mail size={12} />
                 Nuevo Colaborador
               </h3>
@@ -336,13 +336,13 @@ const Colaborators: React.FC = () => {
                   value={newCollaboratorEmail}
                   onChange={(e) => setNewCollaboratorEmail(e.target.value)}
                   placeholder="correo@ejemplo.com"
-                  className="flex-1 px-3 py-2 bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-600 rounded-md text-xs text-[#2A2A2A] dark:text-white placeholder-[#8A8A8A] dark:placeholder-gray-400 focus:border-[#4FC3F7] dark:focus:border-[#81D4FA] focus:outline-none transition-colors"
+                  className="comic-input flex-1 px-3 py-2 bg-white dark:bg-gray-800 text-xs text-gray-900 dark:text-white placeholder-gray-600 dark:placeholder-gray-400 font-semibold"
                 />
                 <div className="flex gap-2">
                   <button
                     onClick={addCollaborator}
                     disabled={isAdding}
-                    className="bg-[#4CAF50] dark:bg-[#66FF7A] hover:bg-[#45a049] dark:hover:bg-[#4CAF50] disabled:opacity-50 text-white dark:text-gray-900 px-4 py-2 rounded-md text-xs font-medium transition-colors flex items-center gap-1"
+                    className="comic-button bg-pop-orange dark:bg-pop-orange hover:bg-pop-purple dark:hover:bg-pop-purple disabled:opacity-50 text-white dark:text-white px-4 py-2 text-xs font-black uppercase tracking-wide flex items-center gap-1"
                   >
                     {isAdding ? <Loader className="animate-spin" size={12} /> : <CheckCircle size={12} />}
                     {isAdding ? 'Agregando...' : 'Agregar'}
@@ -352,7 +352,7 @@ const Colaborators: React.FC = () => {
                       setShowAddForm(false);
                       setNewCollaboratorEmail('');
                     }}
-                    className="bg-[#8A8A8A] dark:bg-gray-600 hover:bg-[#666666] dark:hover:bg-gray-500 text-white px-3 py-2 rounded-md text-xs font-medium transition-colors"
+                    className="comic-button bg-gray-600 dark:bg-gray-600 hover:bg-gray-800 dark:hover:bg-gray-500 text-white px-3 py-2 text-xs font-black uppercase tracking-wide"
                   >
                     Cancelar
                   </button>
@@ -363,9 +363,9 @@ const Colaborators: React.FC = () => {
         </div>
 
         {/* Lista de colaboradores */}
-        <div className="bg-[#F5F5F5] dark:bg-gray-800 rounded-lg border border-[#D0D0D0] dark:border-gray-700 overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:shadow-none">
-          <div className="p-3 border-b border-[#D0D0D0] dark:border-gray-700">
-            <h2 className="text-sm font-medium text-[#2A2A2A] dark:text-white flex items-center gap-1.5">
+        <div className="comic-panel bg-white dark:bg-gray-800 overflow-hidden stipple-pattern animate-comic-pop">
+          <div className="p-3 border-b comic-border bendaydots-pattern">
+            <h2 className="text-sm font-black text-gray-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wide">
               <Shield size={14} />
               Colaboradores ({filteredRoles.length})
             </h2>
@@ -373,36 +373,36 @@ const Colaborators: React.FC = () => {
 
           {filteredRoles.length === 0 ? (
             <div className="p-8 text-center">
-              <Users className="mx-auto text-[#D0D0D0] dark:text-gray-600 mb-2" size={32} />
-              <p className="text-[#8A8A8A] dark:text-gray-400 text-xs font-light">
+              <Users className="mx-auto text-pop-purple dark:text-pop-pink mb-2" size={32} />
+              <p className="text-gray-600 dark:text-gray-400 text-xs font-bold uppercase tracking-wide">
                 {searchEmail ? 'No se encontraron colaboradores' : 'No hay colaboradores registrados'}
               </p>
             </div>
           ) : (
-            <div className="divide-y divide-[#D0D0D0]">
+            <div className="divide-y divide-gray-200 dark:divide-gray-700">
               {filteredRoles.map((role) => {
                 const userInfo = users.find(u => u.email === role.email);
                 const collaboratorHistory = getCollaboratorHistory(role.email);
                 
                 return (
-                  <div key={role.id} className="p-3 hover:bg-white/50 transition-colors">
+                  <div key={role.id} className="p-3 comic-hover transition-colors crosshatch-pattern">
                     <div className="flex flex-col gap-2">
                       {/* Info */}
                       <div className="flex items-start gap-2.5">
-                        <div className={`p-1.5 rounded-full shrink-0 ${role.isActive ? 'bg-[#4CAF50]/10' : 'bg-red-500/10'}`}>
-                          <Mail className={`${role.isActive ? 'text-[#4CAF50]' : 'text-red-500'}`} size={14} />
+                        <div className={`p-1.5 comic-border shrink-0 ${role.isActive ? 'bg-pop-orange/10' : 'bg-pop-pink/10'}`}>
+                          <Mail className={`${role.isActive ? 'text-pop-orange' : 'text-pop-pink'}`} size={14} />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-xs text-[#2A2A2A] font-medium break-all">{role.email}</h3>
-                          <div className="flex flex-wrap items-center gap-2 text-[10px] text-[#8A8A8A] mt-0.5">
-                            <span>{role.role}</span>
-                            <span className={`flex items-center gap-0.5 ${role.isActive ? 'text-[#4CAF50]' : 'text-red-500'}`}>
+                          <h3 className="text-xs text-gray-900 dark:text-white font-black break-all uppercase tracking-wide">{role.email}</h3>
+                          <div className="flex flex-wrap items-center gap-2 text-[10px] text-gray-600 dark:text-gray-400 mt-0.5">
+                            <span className="font-bold uppercase">{role.role}</span>
+                            <span className={`flex items-center gap-0.5 font-black ${role.isActive ? 'text-pop-orange' : 'text-pop-pink'}`}>
                               {role.isActive ? <CheckCircle size={10} /> : <XCircle size={10} />}
                               {role.isActive ? 'Activo' : 'Inactivo'}
                             </span>
                           </div>
                           {userInfo && (
-                            <p className="text-[9px] text-[#8A8A8A] mt-0.5">
+                            <p className="text-[9px] text-gray-600 dark:text-gray-400 mt-0.5 font-bold">
                               {userInfo.points} puntos
                             </p>
                           )}
@@ -416,7 +416,7 @@ const Colaborators: React.FC = () => {
                             setSelectedCollaborator(role.email);
                             setShowHistory(true);
                           }}
-                          className="flex-1 min-w-[80px] p-1.5 bg-[#4FC3F7] hover:bg-[#039BE5] text-white rounded-md transition-colors text-[10px] font-medium flex items-center justify-center gap-1"
+                          className="comic-button flex-1 min-w-[80px] p-1.5 bg-pop-purple hover:bg-pop-orange text-white text-[10px] font-black flex items-center justify-center gap-1 uppercase tracking-wide speed-lines"
                           title="Ver historial"
                         >
                           <History size={12} />
@@ -425,10 +425,10 @@ const Colaborators: React.FC = () => {
 
                         <button
                           onClick={() => toggleCollaboratorStatus(role.id, role.isActive)}
-                          className={`p-1.5 rounded-md transition-colors ${
-                            role.isActive 
-                              ? 'bg-orange-500 hover:bg-orange-600 text-white' 
-                              : 'bg-[#4CAF50] hover:bg-[#45a049] text-white'
+                          className={`comic-button p-1.5 transition-colors ${
+                            role.isActive
+                              ? 'bg-pop-orange hover:bg-pop-pink text-white'
+                              : 'bg-pop-purple hover:bg-pop-orange text-white'
                           }`}
                           title={role.isActive ? 'Inactivar' : 'Activar'}
                         >
@@ -437,7 +437,7 @@ const Colaborators: React.FC = () => {
 
                         <button
                           onClick={() => deleteCollaborator(role.id, role.email)}
-                          className="p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-md transition-colors"
+                          className="comic-button p-1.5 bg-pop-pink hover:bg-pop-purple text-white transition-colors"
                           title="Eliminar"
                         >
                           <Trash2 size={12} />
@@ -453,10 +453,10 @@ const Colaborators: React.FC = () => {
 
         {/* Modal de historial */}
         {showHistory && selectedCollaborator && (
-          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-3 overflow-y-auto">
-            <div className="bg-[#F5F5F5] rounded-lg border border-[#D0D0D0] w-full max-w-3xl my-4 shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
-              <div className="p-3 border-b border-[#D0D0D0] flex items-center justify-between sticky top-0 bg-[#F5F5F5] z-10">
-                <h3 className="text-sm font-medium text-[#2A2A2A] flex items-center gap-1.5 truncate">
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3 overflow-y-auto backdrop-blur-sm halftone-pattern">
+            <div className="comic-panel bg-white dark:bg-gray-800 w-full max-w-3xl my-4 animate-comic-pop">
+              <div className="p-3 border-b comic-border flex items-center justify-between sticky top-0 bg-white dark:bg-gray-800 z-10 bendaydots-pattern">
+                <h3 className="text-sm font-black text-gray-900 dark:text-white flex items-center gap-1.5 truncate uppercase tracking-wide">
                   <History size={14} className="shrink-0" />
                   <span className="truncate">Historial de {selectedCollaborator}</span>
                 </h3>
@@ -465,7 +465,7 @@ const Colaborators: React.FC = () => {
                     setShowHistory(false);
                     setSelectedCollaborator(null);
                   }}
-                  className="p-1.5 bg-[#8A8A8A] hover:bg-[#666666] text-white rounded-md transition-colors shrink-0"
+                  className="comic-button p-1.5 bg-gray-600 hover:bg-gray-800 text-white shrink-0"
                 >
                   <XCircle size={14} />
                 </button>
@@ -474,36 +474,36 @@ const Colaborators: React.FC = () => {
               <div className="p-3 max-h-[60vh] overflow-y-auto">
                 {getCollaboratorHistory(selectedCollaborator).length === 0 ? (
                   <div className="text-center py-8">
-                    <Activity className="mx-auto text-[#D0D0D0] mb-2" size={32} />
-                    <p className="text-[#8A8A8A] text-xs font-light">No hay actividades registradas</p>
+                    <Activity className="mx-auto text-pop-purple dark:text-pop-pink mb-2" size={32} />
+                    <p className="text-gray-600 dark:text-gray-400 text-xs font-bold uppercase tracking-wide">No hay actividades registradas</p>
                   </div>
                 ) : (
                   <div className="space-y-2">
                     {getCollaboratorHistory(selectedCollaborator).map((action) => (
-                      <div key={action.id} className="bg-white rounded-md p-3 border border-[#D0D0D0]">
+                      <div key={action.id} className="comic-border bg-white dark:bg-gray-700 p-3 stipple-pattern comic-hover">
                         <div className="flex items-start gap-2">
-                          <div className={`p-1.5 rounded-md shrink-0 ${
-                            action.pointsChanged > 0 ? 'bg-[#4CAF50]/10' : 'bg-red-500/10'
+                          <div className={`p-1.5 comic-border shrink-0 ${
+                            action.pointsChanged > 0 ? 'bg-pop-orange/10' : 'bg-pop-pink/10'
                           }`}>
                             <Activity className={`${
-                              action.pointsChanged > 0 ? 'text-[#4CAF50]' : 'text-red-500'
+                              action.pointsChanged > 0 ? 'text-pop-orange' : 'text-pop-pink'
                             }`} size={12} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex flex-wrap items-center gap-2 mb-1">
-                              <span className="text-xs text-[#2A2A2A] font-medium">{action.action}</span>
-                              <span className={`text-[9px] px-1.5 py-0.5 rounded shrink-0 ${
-                                action.pointsChanged > 0 
-                                  ? 'bg-[#4CAF50]/10 text-[#4CAF50]' 
-                                  : 'bg-red-500/10 text-red-500'
+                              <span className="text-xs text-gray-900 dark:text-white font-black uppercase tracking-wide">{action.action}</span>
+                              <span className={`text-[9px] px-1.5 py-0.5 comic-border shrink-0 font-black ${
+                                action.pointsChanged > 0
+                                  ? 'bg-pop-orange/10 text-pop-orange'
+                                  : 'bg-pop-pink/10 text-pop-pink'
                               }`}>
                                 {action.pointsChanged > 0 ? '+' : ''}{action.pointsChanged} pts
                               </span>
                             </div>
-                            <p className="text-[10px] text-[#5A5A5A] font-light mb-1 break-words">{action.description}</p>
-                            <div className="flex flex-wrap items-center gap-2 text-[9px] text-[#8A8A8A]">
-                              <span className="break-all">Usuario: {action.targetUser}</span>
-                              <span className="flex items-center gap-0.5 shrink-0">
+                            <p className="text-[10px] text-gray-700 dark:text-gray-300 font-semibold mb-1 break-words">{action.description}</p>
+                            <div className="flex flex-wrap items-center gap-2 text-[9px] text-gray-600 dark:text-gray-400">
+                              <span className="break-all font-bold">Usuario: {action.targetUser}</span>
+                              <span className="flex items-center gap-0.5 shrink-0 font-bold">
                                 <Clock size={9} />
                                 {action.timestamp?.toDate?.()?.toLocaleDateString() || 'N/A'}
                               </span>

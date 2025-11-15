@@ -197,7 +197,7 @@ const UserManagement: React.FC = () => {
       : 'Colaborador';
 
   return (
-    <div className="min-h-screen bg-[#E8E8E8] dark:bg-gray-900 py-3 px-3 sm:px-4">
+    <div className="min-h-screen bg-[#E8E8E8] dark:bg-gray-900 py-3 px-3 sm:px-4 halftone-pattern">
       <div className="mx-auto w-full max-w-7xl">
 
         {/* Botón volver */}
@@ -210,12 +210,12 @@ const UserManagement: React.FC = () => {
         </button>
 
         {/* Header minimalista */}
-        <div className="mb-4">
+        <div className="mb-4 comic-panel bendaydots-pattern p-3">
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-1 h-8 bg-[#BA68C8] dark:bg-[#CE93D8] rounded-full shadow-sm"></div>
+            <div className="w-1 h-8 bg-pop-pink rounded-full shadow-sm"></div>
             <div className="flex-1">
-              <h1 className="text-lg font-light text-[#2A2A2A] dark:text-white">Gestión de Usuarios</h1>
-              <p className="text-[10px] text-[#8A8A8A] dark:text-gray-400 font-light">Rol: {roleTitle} • {user?.email}</p>
+              <h1 className="text-lg font-bold text-[#2A2A2A] dark:text-white comic-text-shadow uppercase">Gestión de Usuarios</h1>
+              <p className="text-[10px] text-[#8A8A8A] dark:text-gray-400 font-medium">Rol: {roleTitle} • {user?.email}</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="text-center">
@@ -234,9 +234,9 @@ const UserManagement: React.FC = () => {
         <div className="grid lg:grid-cols-3 gap-3">
           {/* Lista de usuarios */}
           <div className="lg:col-span-2">
-            <div className="bg-[#F5F5F5] dark:bg-gray-800 rounded-lg border border-[#D0D0D0] dark:border-gray-700 shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:shadow-none">
+            <div className="comic-panel">
               {/* Buscador */}
-              <div className="p-3 border-b border-[#D0D0D0] dark:border-gray-700">
+              <div className="p-3 comic-border-light bg-pop-pink">
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <Search className="h-4 w-4 text-[#8A8A8A] dark:text-gray-400" />
@@ -246,7 +246,7 @@ const UserManagement: React.FC = () => {
                     placeholder="Buscar por email, nombre o ID..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded-md py-2 pl-10 pr-3 text-xs text-[#2A2A2A] dark:text-white placeholder-[#8A8A8A] dark:placeholder-gray-400 focus:border-[#BA68C8] dark:focus:border-[#CE93D8] focus:outline-none transition-colors"
+                    className="comic-input w-full py-2 pl-10 pr-3 text-xs"
                   />
                 </div>
               </div>
@@ -264,10 +264,10 @@ const UserManagement: React.FC = () => {
                       <button
                         key={u.id}
                         onClick={() => setSelectedUser(u)}
-                        className={`w-full text-left p-2.5 rounded-md border transition-all ${
+                        className={`w-full text-left p-2.5 border-2 transition-all ${
                           selectedUser?.id === u.id
-                            ? 'bg-[#BA68C8]/10 dark:bg-[#CE93D8]/20 border-[#BA68C8] dark:border-[#CE93D8]'
-                            : 'bg-white dark:bg-gray-700 border-[#D0D0D0] dark:border-gray-600 hover:border-[#BA68C8]/50 dark:hover:border-[#CE93D8]/50'
+                            ? 'bg-pop-yellow border-black dark:border-white comic-hover'
+                            : 'bg-white dark:bg-gray-700 border-black dark:border-white hover:bg-pop-yellow/20'
                         }`}
                       >
                         <div className="flex items-center justify-between gap-2">
@@ -295,9 +295,9 @@ const UserManagement: React.FC = () => {
                           </div>
 
                           <div className="flex items-center gap-2">
-                            <div className="flex items-center gap-1 bg-[#BA68C8]/10 dark:bg-[#CE93D8]/20 px-2 py-1 rounded">
-                              <Award size={11} className="text-[#BA68C8] dark:text-[#CE93D8]" />
-                              <span className="text-[#BA68C8] dark:text-[#CE93D8] font-bold text-[10px]">
+                            <div className="flex items-center gap-1 bg-pop-green px-2 py-1 border-2 border-black dark:border-white">
+                              <Award size={11} className="text-black dark:text-white" />
+                              <span className="text-black dark:text-white font-bold text-[10px]">
                                 {u.points || 0}
                               </span>
                             </div>
@@ -316,7 +316,7 @@ const UserManagement: React.FC = () => {
 
           {/* Panel de edición */}
           <div className="lg:col-span-1">
-            <div className="bg-[#F5F5F5] dark:bg-gray-800 rounded-lg border border-[#D0D0D0] dark:border-gray-700 p-4 shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:shadow-none lg:sticky lg:top-4">
+            <div className="comic-panel stipple-pattern p-4 lg:sticky lg:top-4">
               {selectedUser ? (
                 <div className="space-y-4">
                   {/* Usuario seleccionado */}
@@ -351,12 +351,12 @@ const UserManagement: React.FC = () => {
                   </div>
 
                   {/* Puntos actuales */}
-                  <div className="bg-white dark:bg-gray-700 rounded-md p-3 border border-[#D0D0D0] dark:border-gray-600">
+                  <div className="comic-border bg-pop-green p-3">
                     <div className="flex items-center justify-center gap-1.5 mb-1">
-                      <Award className="text-[#BA68C8] dark:text-[#CE93D8]" size={14} />
-                      <span className="text-[#8A8A8A] dark:text-gray-400 text-[10px] font-light">Puntos actuales</span>
+                      <Award className="text-black" size={14} />
+                      <span className="text-black text-[10px] font-bold uppercase">Puntos actuales</span>
                     </div>
-                    <p className="text-[#BA68C8] dark:text-[#CE93D8] font-bold text-2xl text-center">
+                    <p className="text-black font-bold text-2xl text-center comic-text-shadow">
                       {selectedUser.points || 0}
                     </p>
                   </div>
@@ -380,7 +380,7 @@ const UserManagement: React.FC = () => {
                         type="number"
                         value={pointsToAdd}
                         onChange={(e) => setPointsToAdd(parseInt(e.target.value) || 0)}
-                        className="flex-1 bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded-md py-2 px-3 text-xs text-[#2A2A2A] dark:text-white text-center focus:border-[#BA68C8] dark:focus:border-[#CE93D8] focus:outline-none transition-colors"
+                        className="comic-input flex-1 py-2 px-3 text-xs text-center"
                       />
 
                       <button
@@ -400,7 +400,7 @@ const UserManagement: React.FC = () => {
                           key={`p-${v}`}
                           onClick={() => setPointsToAdd(v)}
                           type="button"
-                          className="py-1.5 bg-[#BA68C8]/10 dark:bg-[#CE93D8]/20 hover:bg-[#BA68C8]/20 dark:hover:bg-[#CE93D8]/30 border border-[#BA68C8]/30 dark:border-[#CE93D8]/30 rounded text-[#BA68C8] dark:text-[#CE93D8] text-[10px] font-medium transition-colors"
+                          className="py-1.5 bg-pop-green hover:bg-pop-cyan border-2 border-black dark:border-white text-black dark:text-black text-[10px] font-bold uppercase transition-all"
                         >
                           +{v}
                         </button>
@@ -425,7 +425,7 @@ const UserManagement: React.FC = () => {
                     <button
                       onClick={handleAddPoints}
                       disabled={pointsToAdd === 0 || isUpdating}
-                      className="w-full bg-[#BA68C8] dark:bg-[#CE93D8] hover:bg-[#9C27B0] dark:hover:bg-[#BA68C8] disabled:bg-[#D0D0D0] dark:disabled:bg-gray-600 disabled:cursor-not-allowed text-white dark:text-gray-900 font-medium py-2.5 rounded-md flex items-center justify-center gap-1.5 text-xs transition-colors shadow-[0_2px_8px_rgba(186,104,200,0.25)] dark:shadow-none disabled:shadow-none"
+                      className="comic-button w-full bg-pop-yellow text-black py-2.5 flex items-center justify-center gap-1.5 text-xs disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isUpdating ? (
                         <>
@@ -445,7 +445,7 @@ const UserManagement: React.FC = () => {
                       <button
                         onClick={handleDeleteUser}
                         disabled={isUpdating}
-                        className="w-full mt-2 bg-red-500/10 dark:bg-red-500/20 hover:bg-red-500/20 dark:hover:bg-red-500/30 border border-red-500/30 dark:border-red-500/40 text-red-500 dark:text-red-400 font-medium py-2.5 rounded-md flex items-center justify-center gap-1.5 text-xs transition-colors"
+                        className="comic-button w-full mt-2 bg-pop-red text-white py-2.5 flex items-center justify-center gap-1.5 text-xs"
                         title="Eliminar documento del usuario"
                       >
                         <Trash2 size={14} />

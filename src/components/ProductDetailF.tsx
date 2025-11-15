@@ -194,29 +194,29 @@ const ProductDetailF: React.FC = () => {
   }
 
   return (
-    <div className="bg-[#F2F2F2] dark:bg-gray-900 py-6 min-h-screen">
+    <div className="bg-[#F2F2F2] dark:bg-gray-900 py-6 min-h-screen bendaydots-pattern">
       <div className="container mx-auto px-4 max-w-5xl">
         {/* Breadcrumb */}
         <button
           onClick={() => (window.history.length > 1 ? navigate(-1) : navigate('/shop-f'))}
-          className="inline-flex items-center gap-2 text-[#595959] dark:text-gray-400 hover:text-[#BA68C8] dark:hover:text-[#CE93D8] mb-6 transition-colors duration-200"
+          className="inline-flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-pop-purple dark:hover:text-pop-purple mb-6 transition-colors duration-200 font-semibold uppercase text-sm"
         >
           <ArrowLeft size={16} />
-          <span className="text-sm font-light">Volver a Productos</span>
+          <span>Volver a Productos</span>
         </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Galería */}
-          <div className="order-1">
+          <div className="order-1 animate-comic-pop">
             <div
-              className="relative rounded-xl border border-[#A6A6A6]/20 dark:border-gray-700 overflow-hidden bg-white dark:bg-gray-800 shadow-[0_8px_24px_rgba(0,0,0,0.12)] dark:shadow-none"
+              className="relative comic-border overflow-hidden crosshatch-pattern"
               onTouchStart={onTouchStart}
               onTouchEnd={onTouchEnd}
             >
               <div className="aspect-square relative overflow-hidden">
                 {!mainLoaded && (
                   <div className="absolute inset-0 bg-[#F2F2F2] dark:bg-gray-700 animate-pulse flex items-center justify-center">
-                    <div className="w-8 h-8 border-4 border-[#A6A6A6]/30 dark:border-gray-600 border-t-[#BA68C8] dark:border-t-[#CE93D8] rounded-full animate-spin" />
+                    <div className="w-8 h-8 border-4 border-gray-400 border-t-pop-purple rounded-full animate-spin" />
                   </div>
                 )}
 
@@ -247,19 +247,19 @@ const ProductDetailF: React.FC = () => {
 
                 {/* Badges */}
                 {product.discount && product.discount > 0 && (
-                  <div className="absolute top-3 left-3 bg-red-500 dark:bg-red-600 text-white font-semibold text-xs px-3 py-1.5 rounded-lg shadow-md dark:shadow-none">
+                  <div className="absolute top-3 left-3 bg-pop-red text-white font-bold text-xs px-3 py-1.5 comic-border-light uppercase">
                     -{product.discount}%
                   </div>
                 )}
                 <div className="absolute top-3 right-3">
                   {product.inStock && product.stockQuantity > 0 ? (
-                    <span className="bg-white/95 dark:bg-gray-800/95 text-[#4CAF50] dark:text-[#66FF7A] text-xs px-3 py-1.5 rounded-lg flex items-center shadow-md dark:shadow-none border border-[#A6A6A6]/20 dark:border-gray-700">
-                      <span className="w-2 h-2 bg-[#4CAF50] dark:bg-[#66FF7A] rounded-full mr-2" />
+                    <span className="bg-pop-green text-black dark:text-white text-xs px-3 py-1.5 comic-border-light flex items-center uppercase font-bold">
+                      <span className="w-2 h-2 bg-black dark:bg-white rounded-full mr-2 animate-pulse" />
                       En stock ({product.stockQuantity})
                     </span>
                   ) : (
-                    <span className="bg-white/95 dark:bg-gray-800/95 text-red-500 dark:text-red-400 text-xs px-3 py-1.5 rounded-lg flex items-center shadow-md dark:shadow-none border border-[#A6A6A6]/20 dark:border-gray-700">
-                      <span className="w-2 h-2 bg-red-500 dark:bg-red-400 rounded-full mr-2" />
+                    <span className="bg-pop-red text-white text-xs px-3 py-1.5 comic-border-light flex items-center uppercase font-bold">
+                      <span className="w-2 h-2 bg-white rounded-full mr-2" />
                       Sin stock
                     </span>
                   )}
@@ -270,17 +270,17 @@ const ProductDetailF: React.FC = () => {
                   <>
                     <button
                       onClick={prev}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 hover:bg-white dark:hover:bg-gray-800 border border-[#A6A6A6]/20 dark:border-gray-700 w-10 h-10 rounded-full flex items-center justify-center shadow-lg dark:shadow-none transition-all duration-200"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 bg-pop-pink hover:bg-pop-purple text-black dark:text-white comic-border-light w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 animate-comic-bounce"
                       aria-label="Anterior"
                     >
-                      <ChevronLeft className="text-[#0D0D0D] dark:text-white" size={20} />
+                      <ChevronLeft className="text-black dark:text-white font-black" size={20} />
                     </button>
                     <button
                       onClick={next}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 hover:bg-white dark:hover:bg-gray-800 border border-[#A6A6A6]/20 dark:border-gray-700 w-10 h-10 rounded-full flex items-center justify-center shadow-lg dark:shadow-none transition-all duration-200"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 bg-pop-pink hover:bg-pop-purple text-black dark:text-white comic-border-light w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 animate-comic-bounce"
                       aria-label="Siguiente"
                     >
-                      <ChevronRight className="text-[#0D0D0D] dark:text-white" size={20} />
+                      <ChevronRight className="text-black dark:text-white font-black" size={20} />
                     </button>
                   </>
                 )}
@@ -299,19 +299,19 @@ const ProductDetailF: React.FC = () => {
                         setIndex(i);
                         setMainLoaded(false);
                       }}
-                      className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all duration-200 ${
-                        active ? 'border-[#BA68C8] dark:border-[#CE93D8] shadow-md dark:shadow-none' : 'border-[#A6A6A6]/20 dark:border-gray-700 hover:border-[#BA68C8]/50 dark:hover:border-[#CE93D8]/50'
+                      className={`relative aspect-square overflow-hidden border-3 transition-all duration-200 comic-border-light ${
+                        active ? 'border-pop-purple' : 'border-gray-400 hover:border-pop-pink'
                       }`}
                       title={`Vista ${i + 1}`}
                     >
                       {isVideo(m) ? (
-                        <div className="w-full h-full bg-[#0D0D0D]/50 dark:bg-gray-900/50 flex items-center justify-center">
-                          <Play className="text-white/90" size={18} />
+                        <div className="w-full h-full bg-pop-purple/80 flex items-center justify-center">
+                          <Play className="text-white" size={18} />
                         </div>
                       ) : (
                         <img src={m} alt={`thumb-${i}`} className="w-full h-full object-cover" />
                       )}
-                      <span className="absolute bottom-1 right-1 text-[10px] px-1.5 py-0.5 rounded bg-[#0D0D0D]/70 dark:bg-gray-900/70 text-white font-medium">
+                      <span className="absolute bottom-1 right-1 text-[10px] px-1.5 py-0.5 bg-pop-pink text-black font-bold comic-border-light">
                         {i + 1}
                       </span>
                     </button>
@@ -324,7 +324,7 @@ const ProductDetailF: React.FC = () => {
           {/* Info */}
           <div className="order-2 space-y-5">
             <div>
-              <h1 className="text-2xl lg:text-3xl font-light text-[#0D0D0D] dark:text-white leading-tight break-words">
+              <h1 className="text-2xl lg:text-3xl font-black text-black dark:text-white leading-tight break-words comic-text-shadow uppercase">
                 {product.name}
               </h1>
               <div className="flex items-center gap-3 mt-3">
@@ -333,32 +333,32 @@ const ProductDetailF: React.FC = () => {
                     <Star
                       key={i}
                       size={16}
-                      className={i < Math.floor(product.rating ?? 0) ? 'text-[#BA68C8] dark:text-[#CE93D8]' : 'text-[#A6A6A6] dark:text-gray-600'}
+                      className={i < Math.floor(product.rating ?? 0) ? 'text-pop-yellow' : 'text-gray-400 dark:text-gray-600'}
                       fill={i < Math.floor(product.rating ?? 0) ? 'currentColor' : 'none'}
                     />
                   ))}
                 </div>
-                <span className="text-[#595959] dark:text-gray-400 text-sm font-light">
+                <span className="text-gray-700 dark:text-gray-300 text-sm font-bold">
                   {(product.rating ?? 0).toFixed(1)} • {product.reviews ?? 0} reseñas
                 </span>
               </div>
             </div>
 
             {/* Precio */}
-            <div className="rounded-xl border border-[#A6A6A6]/20 dark:border-gray-700 p-5 bg-white dark:bg-gray-800 shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:shadow-none">
+            <div className="comic-panel p-5 animate-comic-bounce">
               <div className="space-y-1">
                 <div className="flex items-baseline gap-2">
-                  <span className="text-2xl font-semibold text-[#BA68C8] dark:text-[#CE93D8]">
+                  <span className="text-2xl font-black text-pop-purple comic-text-shadow">
                     ${product.price.toLocaleString('es-CO')}
                   </span>
                   {hasDiscount && product.originalPrice && (
-                    <span className="text-sm text-[#A6A6A6] dark:text-gray-500 line-through">
+                    <span className="text-sm text-gray-500 dark:text-gray-400 line-through font-semibold">
                       ${product.originalPrice.toLocaleString('es-CO')}
                     </span>
                   )}
                 </div>
                 {hasDiscount && product.originalPrice && (
-                  <div className="bg-[#BA68C8]/10 dark:bg-[#CE93D8]/20 text-[#BA68C8] dark:text-[#CE93D8] font-medium text-xs px-2 py-1 rounded-md inline-block">
+                  <div className="bg-pop-pink text-black font-bold text-xs px-2 py-1 comic-border-light inline-block uppercase">
                     Ahorra ${(product.originalPrice - product.price).toLocaleString('es-CO')}
                   </div>
                 )}
@@ -366,25 +366,25 @@ const ProductDetailF: React.FC = () => {
             </div>
 
             {/* Descripción */}
-            <div className="rounded-lg border border-[#A6A6A6]/20 dark:border-gray-700 p-5 bg-white dark:bg-gray-800 shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:shadow-none">
-              <div className="text-[#595959] dark:text-gray-400 leading-relaxed text-sm font-light whitespace-pre-line">
+            <div className="speech-bubble">
+              <div className="text-gray-800 dark:text-gray-200 leading-relaxed text-sm font-medium whitespace-pre-line">
                 {product.longDescription || '—'}
               </div>
             </div>
 
             {/* Beneficios físicos */}
-            <div className="flex flex-wrap items-center justify-center gap-4 rounded-lg border border-[#BA68C8]/30 dark:border-[#CE93D8]/30 p-4 bg-[#BA68C8]/5 dark:bg-[#CE93D8]/10">
-              <div className="flex items-center gap-2 text-[#595959] dark:text-gray-400 text-xs font-light">
-                <Truck className="w-4 h-4 text-[#BA68C8] dark:text-[#CE93D8]" />
+            <div className="flex flex-wrap items-center justify-center gap-4 comic-panel p-4 stipple-pattern">
+              <div className="flex items-center gap-2 text-gray-800 dark:text-gray-200 text-xs font-bold uppercase relative z-10">
+                <Truck className="w-4 h-4 text-pop-purple" />
                 <span>{product.shippingInfo}</span>
               </div>
-              <div className="flex items-center gap-2 text-[#595959] dark:text-gray-400 text-xs font-light">
-                <Shield className="w-4 h-4 text-[#BA68C8] dark:text-[#CE93D8]" />
+              <div className="flex items-center gap-2 text-gray-800 dark:text-gray-200 text-xs font-bold uppercase relative z-10">
+                <Shield className="w-4 h-4 text-pop-purple" />
                 <span>Garantía total</span>
               </div>
               {product.sku && (
-                <div className="flex items-center gap-2 text-[#595959] dark:text-gray-400 text-xs font-light">
-                  <Package className="w-4 h-4 text-[#BA68C8] dark:text-[#CE93D8]" />
+                <div className="flex items-center gap-2 text-gray-800 dark:text-gray-200 text-xs font-bold uppercase relative z-10">
+                  <Package className="w-4 h-4 text-pop-purple" />
                   <span>SKU: {product.sku}</span>
                 </div>
               )}
@@ -395,10 +395,10 @@ const ProductDetailF: React.FC = () => {
               <button
                 onClick={handleAddToCart}
                 disabled={!product.inStock || product.stockQuantity <= 0}
-                className={`w-full py-3.5 px-6 rounded-lg font-semibold text-base flex items-center justify-center gap-2 transition-all duration-200 ${
+                className={`w-full py-3.5 px-6 font-black text-base flex items-center justify-center gap-2 transition-all duration-200 ${
                   product.inStock && product.stockQuantity > 0
-                    ? 'bg-[#0D0D0D] dark:bg-gray-700 hover:bg-[#262626] dark:hover:bg-gray-600 text-[#BA68C8] dark:text-[#CE93D8] shadow-[0_4px_12px_rgba(0,0,0,0.15)] dark:shadow-none hover:shadow-[0_6px_20px_rgba(0,0,0,0.2)] dark:hover:shadow-none hover:scale-[1.02]'
-                    : 'bg-[#A6A6A6]/30 dark:bg-gray-700/30 text-[#595959] dark:text-gray-500 cursor-not-allowed'
+                    ? 'bg-pop-purple hover:bg-pop-pink text-white comic-button animate-comic-bounce'
+                    : 'bg-gray-400 dark:bg-gray-600 text-gray-700 dark:text-gray-400 cursor-not-allowed comic-border-light uppercase'
                 }`}
               >
                 <ShoppingCart size={18} />
@@ -407,8 +407,8 @@ const ProductDetailF: React.FC = () => {
                   : 'Sin stock'}
               </button>
 
-              <div className="flex items-center justify-center gap-2 text-[#595959] dark:text-gray-400 text-sm font-light">
-                <Zap className="w-4 h-4 text-[#BA68C8] dark:text-[#CE93D8]" />
+              <div className="flex items-center justify-center gap-2 text-gray-700 dark:text-gray-300 text-sm font-bold uppercase">
+                <Zap className="w-4 h-4 text-pop-yellow" />
                 <span>Compra segura con envío garantizado</span>
               </div>
             </div>

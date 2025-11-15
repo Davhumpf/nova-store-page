@@ -160,12 +160,12 @@ const ShopSectionF: React.FC = () => {
   // Loading / Error
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#F5F5F5] via-[#FAFAFA] to-[#F0F0F0] dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
+      <div className="min-h-screen bg-pop-yellow dark:bg-gray-950">
         <Header />
         <div className="flex items-center justify-center py-24 animate-fadeIn">
-          <div className="flex flex-col items-center bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl border border-[#BA68C8]/20 dark:border-[#CE93D8]/20 rounded-2xl p-8 shadow-[0_10px_40px_rgba(186,104,200,0.2)] dark:shadow-[0_10px_40px_rgba(206,147,216,0.15)]">
-            <div className="w-12 h-12 rounded-full border-3 border-[#BA68C8]/30 border-t-[#BA68C8] dark:border-[#CE93D8]/30 dark:border-t-[#CE93D8] animate-spin mb-3"></div>
-            <p className="text-[#5A5A5A] dark:text-gray-400 text-xs font-light">Cargando productos físicos...</p>
+          <div className="flex flex-col items-center comic-panel halftone-pattern p-8">
+            <div className="w-12 h-12 rounded-full border-4 border-black dark:border-white border-t-pop-orange dark:border-t-pop-cyan animate-spin mb-3"></div>
+            <p className="text-black dark:text-white text-xs font-bold uppercase comic-text-outline">Cargando productos físicos...</p>
           </div>
         </div>
       </div>
@@ -173,11 +173,11 @@ const ShopSectionF: React.FC = () => {
   }
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#F5F5F5] via-[#FAFAFA] to-[#F0F0F0] dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
+      <div className="min-h-screen bg-pop-yellow dark:bg-gray-950">
         <Header />
         <div className="flex items-center justify-center py-24 px-4 animate-fadeIn">
-          <div className="text-center bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl border border-red-300 dark:border-red-700 p-6 rounded-2xl shadow-lg">
-            <p className="text-red-500 dark:text-red-400 text-xs font-medium">{error}</p>
+          <div className="text-center comic-panel halftone-pattern p-6">
+            <p className="text-pop-red font-bold text-xs uppercase comic-text-outline">{error}</p>
           </div>
         </div>
       </div>
@@ -185,66 +185,67 @@ const ShopSectionF: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F5F5F5] via-[#FAFAFA] to-[#F0F0F0] dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 relative overflow-hidden">
-      {/* Animated background blobs - Purple/Pink theme */}
+    <div className="min-h-screen bg-white dark:bg-gray-950 relative overflow-hidden">
+      {/* Comic Crosshatch Background Pattern */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 -left-4 w-96 h-96 bg-[#BA68C8]/10 dark:bg-[#CE93D8]/5 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl animate-blob"></div>
-        <div className="absolute top-0 -right-4 w-96 h-96 bg-[#4FC3F7]/10 dark:bg-[#81D4FA]/5 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-[#4CAF50]/10 dark:bg-[#66FF7A]/5 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl animate-blob animation-delay-4000"></div>
+        <div className="absolute inset-0 crosshatch-pattern text-pop-orange opacity-30"></div>
+        <div className="absolute top-0 -left-4 w-96 h-96 bg-pop-orange/20 dark:bg-pop-orange/10 comic-border-light rounded-full animate-blob"></div>
+        <div className="absolute top-0 -right-4 w-96 h-96 bg-pop-cyan/20 dark:bg-pop-cyan/10 comic-border-light rounded-full animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-pop-purple/20 dark:bg-pop-purple/10 comic-border-light rounded-full animate-blob animation-delay-4000"></div>
       </div>
 
       <div className="relative z-10">
         <Header />
 
-      {/* Barra superior futurista */}
-      <div className="bg-white/80 dark:bg-gray-800/80 border-b border-[#BA68C8]/10 dark:border-[#CE93D8]/10 sticky top-0 z-20 shadow-[0_10px_40px_rgba(186,104,200,0.1)] dark:shadow-[0_10px_40px_rgba(206,147,216,0.05)] backdrop-blur-xl">
+      {/* Comic-Style Top Bar */}
+      <div className="bg-pop-yellow dark:bg-gray-900 comic-border-light border-b-4 sticky top-0 z-20 halftone-pattern">
         <div className="container mx-auto px-3 py-2">
           <div className="flex items-center justify-between mb-2">
             <button
               onClick={() => navigate(-1)}
-              className="flex items-center gap-1 text-[10px] text-[#BA68C8] dark:text-[#CE93D8] hover:text-[#9C27B0] dark:hover:text-[#BA68C8] transition-all duration-300 group"
+              className="flex items-center gap-1 text-[10px] text-black dark:text-white hover:text-pop-orange dark:hover:text-pop-cyan transition-all duration-300 group font-bold uppercase speed-lines"
             >
               <ArrowRight size={12} className="rotate-180 group-hover:-translate-x-1 transition-transform duration-300" />
-              <span className="font-medium">Volver</span>
+              <span className="comic-text-outline">Volver</span>
             </button>
-            <p className="text-[#8A8A8A] dark:text-gray-400 text-[9px] font-light animate-fadeIn">{filtered.length} productos físicos</p>
+            <p className="text-black dark:text-white text-[9px] font-bold uppercase comic-text-outline animate-fadeIn">{filtered.length} productos físicos</p>
           </div>
 
           <div className="flex gap-2">
-            <div className="flex-1 flex items-center bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 px-2 py-1.5 rounded-xl hover:border-[#BA68C8] dark:hover:border-[#CE93D8] transition-all duration-300">
-              <Search size={12} className="text-[#8A8A8A] dark:text-gray-400 mr-1.5 shrink-0" />
+            <div className="flex-1 flex items-center bg-white dark:bg-gray-800 comic-border px-2 py-1.5 bendaydots-pattern text-pop-orange hover:speed-lines transition-all duration-300">
+              <Search size={12} className="text-black dark:text-white mr-1.5 shrink-0" />
               <input
                 type="text"
                 placeholder="Buscar productos físicos..."
                 value={search}
                 onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                className="bg-transparent outline-none text-[#2A2A2A] dark:text-white flex-1 placeholder-[#8A8A8A] dark:placeholder-gray-400 text-[10px]"
+                className="bg-transparent outline-none text-black dark:text-white flex-1 placeholder-black/50 dark:placeholder-white/50 text-[10px] font-bold relative z-10"
               />
             </div>
 
             <button
               onClick={() => setShowFilters((s) => !s)}
-              className={`p-1.5 rounded-xl transition-all duration-300 shrink-0 hover:scale-105 ${
-                showFilters ? "bg-[#BA68C8] dark:bg-[#CE93D8] text-white dark:text-gray-900 shadow-md" : "bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 text-[#8A8A8A] dark:text-gray-400"
+              className={`p-1.5 comic-border transition-all duration-300 shrink-0 hover:scale-105 animate-comic-pop font-bold ${
+                showFilters ? "bg-pop-orange text-black dark:text-white" : "bg-white dark:bg-gray-800 text-black dark:text-white"
               }`}
               title="Filtros"
             >
               <Filter size={12} />
             </button>
 
-            <div className="flex bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 rounded-xl p-0.5">
+            <div className="flex bg-white dark:bg-gray-800 comic-border p-0.5">
               <button
                 onClick={() => setViewMode("grid")}
-                className={`p-1 rounded-lg transition-all duration-300 ${
-                  viewMode === "grid" ? "bg-[#BA68C8] dark:bg-[#CE93D8] text-white dark:text-gray-900 scale-105" : "text-[#8A8A8A] dark:text-gray-400 hover:scale-105"
+                className={`p-1 transition-all duration-300 ${
+                  viewMode === "grid" ? "bg-pop-cyan text-black scale-105" : "text-black dark:text-white hover:scale-105"
                 }`}
               >
                 <Grid size={10} />
               </button>
               <button
                 onClick={() => setViewMode("list")}
-                className={`p-1 rounded-lg transition-all duration-300 ${
-                  viewMode === "list" ? "bg-[#BA68C8] dark:bg-[#CE93D8] text-white dark:text-gray-900 scale-105" : "text-[#8A8A8A] dark:text-gray-400 hover:scale-105"
+                className={`p-1 transition-all duration-300 ${
+                  viewMode === "list" ? "bg-pop-cyan text-black scale-105" : "text-black dark:text-white hover:scale-105"
                 }`}
               >
                 <List size={10} />
@@ -252,24 +253,23 @@ const ShopSectionF: React.FC = () => {
             </div>
           </div>
 
-          {/* Panel de filtros futurista */}
+          {/* Comic-Style Filter Panel */}
           {showFilters && (
-            <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-[#BA68C8] via-[#CE93D8] to-[#BA68C8] rounded-3xl blur opacity-20 group-hover:opacity-30 transition-opacity"></div>
-              <div className="relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-2xl border border-[#BA68C8]/20 dark:border-[#CE93D8]/20 p-3 mt-2 animate-slideDown shadow-[0_10px_40px_rgba(186,104,200,0.15)] dark:shadow-[0_10px_40px_rgba(206,147,216,0.1)]">
+            <div className="relative group animate-comic-pop">
+              <div className="relative comic-panel halftone-pattern p-3 mt-2 animate-slideDown">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-medium text-[#2A2A2A] dark:text-white">Filtros</span>
-                <button onClick={() => setShowFilters(false)} className="text-[#8A8A8A] dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors duration-300 hover:rotate-90 transition-transform">
+                <span className="text-[10px] font-bold uppercase text-black dark:text-white comic-text-outline">Filtros</span>
+                <button onClick={() => setShowFilters(false)} className="text-black dark:text-white hover:text-pop-red transition-colors duration-300 hover:rotate-90 transition-transform comic-border p-1">
                   <X size={12} />
                 </button>
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-[9px] text-[#8A8A8A] dark:text-gray-400 mb-1">Categoría</label>
+                  <label className="block text-[9px] text-black dark:text-white mb-1 font-bold uppercase">Categoría</label>
                   <select
                     value={category}
                     onChange={(e) => { setCategory(e.target.value); setPage(1); }}
-                    className="w-full bg-[#F5F5F5] dark:bg-gray-600 border border-[#D0D0D0] dark:border-gray-500 text-[#2A2A2A] dark:text-white px-2 py-1 rounded-lg text-[10px] hover:border-[#BA68C8] dark:hover:border-[#CE93D8] transition-all duration-300 cursor-pointer"
+                    className="w-full bg-white dark:bg-gray-800 comic-border text-black dark:text-white px-2 py-1 text-[10px] font-bold hover:bg-pop-purple hover:text-white transition-all duration-300 cursor-pointer"
                   >
                     {categories.map((c) => (
                       <option key={c} value={c}>
@@ -280,11 +280,11 @@ const ShopSectionF: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-[9px] text-[#8A8A8A] dark:text-gray-400 mb-1">Ordenar</label>
+                  <label className="block text-[9px] text-black dark:text-white mb-1 font-bold uppercase">Ordenar</label>
                   <select
                     value={sortBy}
                     onChange={(e) => { setSortBy(e.target.value); setPage(1); }}
-                    className="w-full bg-[#F5F5F5] dark:bg-gray-600 border border-[#D0D0D0] dark:border-gray-500 text-[#2A2A2A] dark:text-white px-2 py-1 rounded-lg text-[10px] hover:border-[#BA68C8] dark:hover:border-[#CE93D8] transition-all duration-300 cursor-pointer"
+                    className="w-full bg-white dark:bg-gray-800 comic-border text-black dark:text-white px-2 py-1 text-[10px] font-bold hover:bg-pop-purple hover:text-white transition-all duration-300 cursor-pointer"
                   >
                     <option value="newest">Nuevos</option>
                     <option value="price-low">Menor precio</option>
@@ -295,7 +295,7 @@ const ShopSectionF: React.FC = () => {
                 </div>
 
                 <div className="col-span-2">
-                  <label className="block text-[9px] text-[#8A8A8A] dark:text-gray-400 mb-1">
+                  <label className="block text-[9px] text-black dark:text-white mb-1 font-bold uppercase">
                     Precio máx: ${priceRange[1].toLocaleString()}
                   </label>
                   <input
@@ -305,25 +305,25 @@ const ShopSectionF: React.FC = () => {
                     step={50}
                     value={priceRange[1]}
                     onChange={(e) => { setPriceRange([0, Number(e.target.value)]); setPage(1); }}
-                    className="w-full accent-[#BA68C8] dark:accent-[#CE93D8] h-1 cursor-pointer"
+                    className="w-full accent-pop-orange h-2 cursor-pointer"
                   />
                 </div>
 
                 <div className="col-span-2">
-                  <label className="block text-[9px] text-[#8A8A8A] dark:text-gray-400 mb-1">Rating mínimo</label>
+                  <label className="block text-[9px] text-black dark:text-white mb-1 font-bold uppercase">Rating mínimo</label>
                   <div className="flex gap-1">
                     {[1, 2, 3, 4, 5].map((rating) => (
                       <button
                         key={rating}
                         onClick={() => { setMinRating(rating === minRating ? 0 : rating); setPage(1); }}
-                        className="transition-all duration-300 hover:scale-125"
+                        className="transition-all duration-300 hover:scale-125 animate-comic-pop"
                       >
                         <Star
                           size={14}
                           className={
                             rating <= minRating
-                              ? "text-[#FFB800] fill-current"
-                              : "text-[#D0D0D0] dark:text-gray-500 hover:text-[#8A8A8A] dark:hover:text-gray-400"
+                              ? "text-pop-yellow fill-current"
+                              : "text-black/30 dark:text-white/30 hover:text-pop-yellow"
                           }
                         />
                       </button>
@@ -339,13 +339,13 @@ const ShopSectionF: React.FC = () => {
 
       <div ref={topRef} />
 
-      {/* Contenido */}
+      {/* Comic Content */}
       <div className="container mx-auto px-3 py-4 md:py-6">
         {paginated.length === 0 ? (
           <div className="text-center py-12 animate-fadeIn">
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl border border-[#BA68C8]/20 dark:border-[#CE93D8]/20 rounded-2xl p-6 max-w-sm mx-auto shadow-sm">
-              <Play size={24} className="text-[#D0D0D0] dark:text-gray-600 mx-auto mb-2" />
-              <p className="text-[#5A5A5A] dark:text-gray-400 text-xs font-light">No hay productos disponibles</p>
+            <div className="comic-panel halftone-pattern p-6 max-w-sm mx-auto animate-comic-pop">
+              <Play size={24} className="text-pop-orange mx-auto mb-2" />
+              <p className="text-black dark:text-white text-xs font-bold uppercase comic-text-outline">No hay productos disponibles</p>
             </div>
           </div>
         ) : (
@@ -363,58 +363,56 @@ const ShopSectionF: React.FC = () => {
                     className="relative group animate-fadeInUp"
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
-                    {/* Glow effect */}
-                    <div className="absolute -inset-0.5 bg-gradient-to-r from-[#BA68C8] via-[#CE93D8] to-[#BA68C8] rounded-3xl blur opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
-
-                    <div className="relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl border border-[#BA68C8]/10 dark:border-[#CE93D8]/10 rounded-2xl p-3 flex gap-3 hover:shadow-[0_20px_60px_rgba(186,104,200,0.2)] dark:hover:shadow-[0_20px_60px_rgba(206,147,216,0.15)] hover:scale-[1.02] transition-all duration-500">
-                    <div className="relative w-24 h-24 shrink-0">
+                    {/* Comic Speed Lines Effect */}
+                    <div className="relative comic-panel bendaydots-pattern text-pop-cyan p-3 flex gap-3 hover:speed-lines-right comic-hover animate-comic-pop">
+                    <div className="relative w-24 h-24 shrink-0 comic-border">
                       <img
                         src={product.imageUrl || "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400"}
                         alt={product.name}
-                        className="w-full h-full object-cover rounded-xl"
+                        className="w-full h-full object-cover"
                       />
                       {product.discount > 0 && (
-                        <div className="absolute top-0 left-0 bg-red-500 text-white text-[8px] px-1.5 py-0.5 rounded-lg shadow-md">
+                        <div className="absolute top-0 left-0 bg-pop-red text-white text-[8px] px-1.5 py-0.5 comic-border font-bold uppercase">
                           -{product.discount}%
                         </div>
                       )}
                       <button
                         onClick={() => toggleFavorite(product.id)}
-                        className="absolute top-0 right-0 p-1 bg-white/90 dark:bg-gray-900/90 rounded-lg backdrop-blur-sm hover:scale-110 transition-transform duration-300"
+                        className="absolute top-0 right-0 p-1 bg-pop-yellow hover:scale-110 transition-transform duration-300 comic-border"
                       >
-                        <Heart size={10} className={isFav ? "text-red-500 fill-current" : "text-[#8A8A8A] dark:text-gray-400"} />
+                        <Heart size={10} className={isFav ? "text-pop-red fill-current" : "text-black"} />
                       </button>
                     </div>
 
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-[#2A2A2A] dark:text-white font-medium text-[10px] line-clamp-1 mb-0.5">{product.name}</h3>
-                      <p className="text-[#8A8A8A] dark:text-gray-400 text-[9px] line-clamp-1 mb-1">{product.description}</p>
+                    <div className="flex-1 min-w-0 relative z-10">
+                      <h3 className="text-black dark:text-white font-bold text-[10px] line-clamp-1 mb-0.5 uppercase">{product.name}</h3>
+                      <p className="text-black/70 dark:text-white/70 text-[9px] line-clamp-1 mb-1 font-medium">{product.description}</p>
 
                       <div className="flex items-center gap-1 mb-1">
                         <div className="flex">
                           {[1, 2, 3, 4, 5].map((i) => (
-                            <Star key={i} size={8} className={i <= product.rating ? "text-[#FFB800] fill-current" : "text-[#D0D0D0] dark:text-gray-600"} />
+                            <Star key={i} size={8} className={i <= product.rating ? "text-pop-yellow fill-current" : "text-black/30 dark:text-white/30"} />
                           ))}
                         </div>
-                        <span className="text-[#8A8A8A] dark:text-gray-400 text-[8px]">({product.reviews})</span>
+                        <span className="text-black/70 dark:text-white/70 text-[8px] font-bold">({product.reviews})</span>
                       </div>
 
                       <div className="flex items-center justify-between">
-                        <span className="text-[#BA68C8] dark:text-[#CE93D8] font-bold text-xs">
+                        <span className="text-pop-orange font-bold text-xs uppercase comic-text-shadow">
                           ${product.price.toLocaleString()}
                         </span>
                         <div className="flex gap-1">
                           <Link
                             to={`/product-f/${product.id}`}
-                            className="bg-white dark:bg-gray-700 border border-[#D0D0D0] dark:border-gray-600 text-[#2A2A2A] dark:text-white px-2 py-1 rounded-lg text-[9px] hover:bg-[#FAFAFA] dark:hover:bg-gray-600 hover:scale-105 transition-all duration-300"
+                            className="bg-pop-cyan text-black px-2 py-1 comic-border text-[9px] font-bold uppercase hover:scale-105 transition-all duration-300"
                           >
                             Ver
                           </Link>
                           <button
                             onClick={() => handleAddToCart(product)}
                             disabled={!product.inStock || inCart}
-                            className={`px-2 py-1 rounded-lg text-[9px] font-medium flex items-center gap-0.5 hover:scale-105 transition-all duration-300 ${
-                              inCart ? "bg-green-500 text-white" : "bg-[#BA68C8] dark:bg-[#CE93D8] text-white dark:text-gray-900 hover:bg-[#9C27B0] dark:hover:bg-[#BA68C8]"
+                            className={`px-2 py-1 comic-border text-[9px] font-bold uppercase flex items-center gap-0.5 hover:scale-105 transition-all duration-300 ${
+                              inCart ? "bg-pop-green text-black" : "bg-pop-purple text-white hover:bg-pop-orange"
                             } disabled:opacity-50`}
                           >
                             <ShoppingCart size={9} />
@@ -428,60 +426,58 @@ const ShopSectionF: React.FC = () => {
                 );
               }
 
-              // Vista Grid Futurista
+              // Vista Grid Comic
               return (
                 <div
                   key={product.id}
                   className="group relative animate-fadeInUp"
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
-                  {/* Glow effect */}
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-[#BA68C8] via-[#CE93D8] to-[#BA68C8] rounded-3xl blur opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
-
-                  <div className="relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl border border-[#BA68C8]/10 dark:border-[#CE93D8]/10 rounded-2xl overflow-hidden hover:shadow-[0_20px_60px_rgba(186,104,200,0.2)] dark:hover:shadow-[0_20px_60px_rgba(206,147,216,0.15)] hover:scale-[1.03] hover:-translate-y-2 transition-all duration-500">
-                  <div className="relative aspect-square overflow-hidden">
+                  {/* Comic Panel with Speed Lines on Hover */}
+                  <div className="relative comic-panel crosshatch-pattern text-pop-purple overflow-hidden hover:speed-lines-right comic-hover animate-comic-pop">
+                  <div className="relative aspect-square overflow-hidden comic-border">
                     <img
                       src={product.imageUrl || "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400"}
                       alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     {product.discount > 0 && (
-                      <div className="absolute top-2 left-2 bg-red-500 text-white text-[8px] px-2 py-1 rounded-lg shadow-md animate-pulse">
+                      <div className="absolute top-2 left-2 bg-pop-red text-white text-[8px] px-2 py-1 comic-border font-bold uppercase animate-comic-bounce">
                         -{product.discount}%
                       </div>
                     )}
                     <button
                       onClick={() => toggleFavorite(product.id)}
-                      className="absolute top-2 right-2 p-1.5 bg-white/90 dark:bg-gray-900/90 rounded-xl backdrop-blur-sm hover:scale-110 transition-all duration-300"
+                      className="absolute top-2 right-2 p-1.5 bg-pop-yellow comic-border hover:scale-110 transition-all duration-300 animate-comic-pop"
                     >
-                      <Heart size={10} className={isFav ? "text-red-500 fill-current animate-pulse" : "text-[#8A8A8A] dark:text-gray-400"} />
+                      <Heart size={10} className={isFav ? "text-pop-red fill-current animate-pulse" : "text-black"} />
                     </button>
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
-                      <Link to={`/product-f/${product.id}`} className="p-2 bg-white dark:bg-gray-700 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg">
-                        <Eye size={14} className="text-[#2A2A2A] dark:text-white" />
+                    <div className="absolute inset-0 bg-pop-cyan/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2 halftone-pattern">
+                      <Link to={`/product-f/${product.id}`} className="p-2 bg-pop-orange comic-border hover:scale-110 transition-transform duration-300 relative z-10">
+                        <Eye size={14} className="text-black" />
                       </Link>
                     </div>
                   </div>
 
-                  <div className="p-3">
-                    <h3 className="text-[#2A2A2A] dark:text-white font-medium text-[10px] line-clamp-2 mb-1 min-h-[28px]">{product.name}</h3>
+                  <div className="p-3 relative z-10 bg-white dark:bg-gray-900">
+                    <h3 className="text-black dark:text-white font-bold text-[10px] line-clamp-2 mb-1 min-h-[28px] uppercase">{product.name}</h3>
 
                     <div className="flex items-center gap-1 mb-1">
                       <div className="flex">
                         {[1, 2, 3, 4, 5].map((i) => (
-                          <Star key={i} size={8} className={i <= product.rating ? "text-[#FFB800] fill-current" : "text-[#D0D0D0] dark:text-gray-600"} />
+                          <Star key={i} size={8} className={i <= product.rating ? "text-pop-yellow fill-current" : "text-black/30 dark:text-white/30"} />
                         ))}
                       </div>
-                      <span className="text-[#8A8A8A] dark:text-gray-400 text-[8px]">({product.reviews})</span>
+                      <span className="text-black/70 dark:text-white/70 text-[8px] font-bold">({product.reviews})</span>
                     </div>
 
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-[#BA68C8] dark:text-[#CE93D8] font-bold text-xs">
+                      <span className="text-pop-orange font-bold text-xs uppercase comic-text-shadow">
                         ${product.price.toLocaleString()}
                       </span>
                       {product.originalPrice > product.price && (
-                        <span className="text-[#8A8A8A] dark:text-gray-400 text-[9px] line-through">
+                        <span className="text-black/50 dark:text-white/50 text-[9px] line-through font-bold">
                           ${product.originalPrice.toLocaleString()}
                         </span>
                       )}
@@ -490,10 +486,10 @@ const ShopSectionF: React.FC = () => {
                     <button
                       onClick={() => handleAddToCart(product)}
                       disabled={!product.inStock || inCart}
-                      className={`w-full py-2 rounded-xl text-[9px] font-medium flex items-center justify-center gap-1 hover:scale-105 transition-all duration-300 shadow-sm ${
+                      className={`w-full py-2 comic-border text-[9px] font-bold uppercase flex items-center justify-center gap-1 hover:scale-105 transition-all duration-300 ${
                         inCart
-                          ? "bg-green-500 text-white"
-                          : "bg-[#BA68C8] dark:bg-[#CE93D8] text-white dark:text-gray-900 hover:bg-[#9C27B0] dark:hover:bg-[#BA68C8]"
+                          ? "bg-pop-green text-black"
+                          : "bg-pop-purple text-white hover:bg-pop-orange hover:text-black"
                       } disabled:opacity-50 disabled:cursor-not-allowed`}
                     >
                       <ShoppingCart size={10} />
@@ -507,13 +503,13 @@ const ShopSectionF: React.FC = () => {
           </div>
         )}
 
-        {/* Paginación */}
+        {/* Comic Pagination */}
         {totalPages > 1 && (
           <div className="flex justify-center items-center gap-2 mt-6 animate-fadeIn">
             <button
               disabled={safePage === 1}
               onClick={() => { setPage((p) => Math.max(1, p - 1)); scrollToTop(); }}
-              className="px-3 py-1.5 bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 text-[#2A2A2A] dark:text-white rounded-lg disabled:opacity-50 text-[10px] hover:scale-105 hover:bg-[#BA68C8] hover:text-white dark:hover:bg-[#CE93D8] dark:hover:text-gray-900 transition-all duration-300 disabled:hover:scale-100 disabled:hover:bg-[#F5F5F5] dark:disabled:hover:bg-gray-800 disabled:hover:text-[#2A2A2A] dark:disabled:hover:text-white"
+              className="px-3 py-1.5 bg-pop-yellow dark:bg-gray-800 comic-border text-black dark:text-white disabled:opacity-50 text-[10px] font-bold uppercase hover:scale-105 hover:bg-pop-cyan hover:text-black transition-all duration-300 disabled:hover:scale-100 disabled:hover:bg-pop-yellow dark:disabled:hover:bg-gray-800"
             >
               ←
             </button>
@@ -529,10 +525,10 @@ const ShopSectionF: React.FC = () => {
                 <button
                   key={pageNum}
                   onClick={() => { setPage(pageNum); scrollToTop(); }}
-                  className={`w-8 h-8 rounded-xl text-[10px] font-medium transition-all duration-300 hover:scale-110 ${
+                  className={`w-8 h-8 comic-border text-[10px] font-bold uppercase transition-all duration-300 hover:scale-110 animate-comic-pop ${
                     safePage === pageNum
-                      ? "bg-[#BA68C8] dark:bg-[#CE93D8] text-white dark:text-gray-900 shadow-md scale-105"
-                      : "bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 text-[#2A2A2A] dark:text-white hover:border-[#BA68C8] dark:hover:border-[#CE93D8]"
+                      ? "bg-pop-orange text-black scale-105"
+                      : "bg-white dark:bg-gray-800 text-black dark:text-white hover:bg-pop-purple hover:text-white"
                   }`}
                 >
                   {pageNum}
@@ -543,7 +539,7 @@ const ShopSectionF: React.FC = () => {
             <button
               disabled={safePage === totalPages}
               onClick={() => { setPage((p) => Math.min(totalPages, p + 1)); scrollToTop(); }}
-              className="px-3 py-1.5 bg-[#F5F5F5] dark:bg-gray-800 border border-[#D0D0D0] dark:border-gray-700 text-[#2A2A2A] dark:text-white rounded-lg disabled:opacity-50 text-[10px] hover:scale-105 hover:bg-[#BA68C8] hover:text-white dark:hover:bg-[#CE93D8] dark:hover:text-gray-900 transition-all duration-300 disabled:hover:scale-100 disabled:hover:bg-[#F5F5F5] dark:disabled:hover:bg-gray-800 disabled:hover:text-[#2A2A2A] dark:disabled:hover:text-white"
+              className="px-3 py-1.5 bg-pop-yellow dark:bg-gray-800 comic-border text-black dark:text-white disabled:opacity-50 text-[10px] font-bold uppercase hover:scale-105 hover:bg-pop-cyan hover:text-black transition-all duration-300 disabled:hover:scale-100 disabled:hover:bg-pop-yellow dark:disabled:hover:bg-gray-800"
             >
               →
             </button>
@@ -552,7 +548,7 @@ const ShopSectionF: React.FC = () => {
       </div>
       </div>
 
-      {/* CSS Animations for futuristic effects */}
+      {/* CSS Animations for comic background blobs */}
       <style>{`
         @keyframes blob {
           0%, 100% { transform: translate(0px, 0px) scale(1); }

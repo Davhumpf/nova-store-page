@@ -61,60 +61,60 @@ const MobileProductCard: React.FC<{
   onToggle: (product: Product) => void;
 }> = React.memo(({ product, isSelected, onToggle }) => (
   <div
-    className={`p-4 rounded-xl border-2 transition-all duration-300 group cursor-pointer active:scale-95 ${
+    className={`comic-panel p-4 transition-all duration-300 group cursor-pointer active:scale-95 animate-comic-pop stipple-pattern comic-hover ${
       isSelected
-        ? 'bg-[#FFD600]/20 border-[#FFD600] shadow-lg shadow-[#FFD600]/20'
-        : 'bg-[#1a1a1a] border-gray-700/50 hover:border-[#FFD600]/50 active:border-[#FFD600]'
+        ? 'bg-pop-purple/10 dark:bg-pop-pink/20 border-pop-purple dark:border-pop-pink shadow-lg'
+        : 'bg-white dark:bg-gray-800 hover:border-pop-purple dark:hover:border-pop-pink'
     } ${!product.inStock ? 'opacity-60' : ''}`}
     onClick={() => onToggle(product)}
   >
     <div className="flex items-center gap-4">
       <div className="relative flex-shrink-0">
-        <img 
-          src={product.imageUrl} 
+        <img
+          src={product.imageUrl}
           alt={product.name}
-          className="w-16 h-16 rounded-xl object-cover border-2 border-gray-600 group-hover:border-[#FFD600] transition-colors"
+          className="w-16 h-16 comic-border object-cover group-hover:border-pop-purple dark:group-hover:border-pop-pink transition-colors"
         />
         {!product.inStock && (
-          <div className="absolute inset-0 bg-black/70 rounded-xl flex items-center justify-center">
-            <span className="text-red-400 text-xs font-bold">Sin Stock</span>
+          <div className="absolute inset-0 bg-black/70 comic-border flex items-center justify-center">
+            <span className="text-pop-pink text-xs font-black uppercase">Sin Stock</span>
           </div>
         )}
         {isSelected && (
-          <div className="absolute -top-2 -right-2 bg-[#FFD600] text-black w-7 h-7 rounded-full flex items-center justify-center shadow-lg">
+          <div className="absolute -top-2 -right-2 bg-pop-purple dark:bg-pop-pink text-white w-7 h-7 comic-border flex items-center justify-center shadow-lg">
             <CheckCircle size={18} />
           </div>
         )}
       </div>
-      
+
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between mb-2">
-          <h3 className="text-white font-bold text-base leading-tight">{product.name}</h3>
-          <div className="flex items-center gap-1 text-[#FFD600] text-sm ml-2 flex-shrink-0">
+          <h3 className="text-gray-900 dark:text-white font-black text-base leading-tight uppercase tracking-wide">{product.name}</h3>
+          <div className="flex items-center gap-1 text-pop-orange text-sm ml-2 flex-shrink-0">
             <Star size={14} className="fill-current" />
-            <span>{product.rating}</span>
+            <span className="font-black">{product.rating}</span>
           </div>
         </div>
-        
-        <p className="text-gray-300 text-sm mb-3 line-clamp-2 leading-relaxed">{product.description}</p>
-        
+
+        <p className="text-gray-700 dark:text-gray-300 text-sm mb-3 line-clamp-2 leading-relaxed font-semibold">{product.description}</p>
+
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="bg-[#FFD600]/10 text-[#FFD600] px-3 py-1 rounded-full text-xs font-medium border border-[#FFD600]/20">
+            <span className="bg-pop-purple/10 dark:bg-pop-pink/20 text-pop-purple dark:text-pop-pink px-3 py-1 comic-border text-xs font-black uppercase">
               {product.category}
             </span>
             {product.discount > 0 && (
-              <span className="bg-red-500/10 text-red-400 px-2 py-1 rounded-full text-xs font-medium border border-red-500/20">
+              <span className="bg-pop-pink/10 text-pop-pink px-2 py-1 comic-border text-xs font-black uppercase">
                 -{product.discount}%
               </span>
             )}
           </div>
-          
+
           <div className="text-right">
             {product.discount > 0 && (
-              <span className="text-gray-400 line-through text-sm block">${product.originalPrice.toLocaleString()}</span>
+              <span className="text-gray-500 dark:text-gray-400 line-through text-sm block font-bold">${product.originalPrice.toLocaleString()}</span>
             )}
-            <p className="text-[#FFD600] font-bold text-lg">${product.price.toLocaleString()}</p>
+            <p className="text-pop-purple dark:text-pop-pink font-black text-lg">${product.price.toLocaleString()}</p>
           </div>
         </div>
       </div>
@@ -135,25 +135,25 @@ const MobileCartSummary: React.FC<{
 
   return (
     <div className="fixed bottom-4 left-4 right-4 z-50">
-      <div className="bg-gradient-to-r from-[#FFD600] to-[#FFC400] p-4 rounded-2xl shadow-2xl">
-        <div className="flex items-center justify-between text-black">
+      <div className="comic-panel bg-gradient-to-r from-pop-purple to-pop-pink p-4 shadow-2xl bendaydots-pattern animate-comic-pop">
+        <div className="flex items-center justify-between text-white relative z-10">
           <div className="flex-1">
-            <p className="font-bold text-lg">
+            <p className="font-black text-lg uppercase tracking-wide">
               {selectedProducts.length === 1 ? selectedProducts[0].name : comboName}
             </p>
             <div className="flex items-center gap-4">
-              <span className="font-bold text-xl">${total.toLocaleString()}</span>
+              <span className="font-black text-xl">${total.toLocaleString()}</span>
               {profit > 0 && (
-                <span className="text-green-700 text-sm font-medium">
+                <span className="text-pop-orange text-sm font-black uppercase">
                   Ganancia ${profit.toLocaleString()}
                 </span>
               )}
             </div>
           </div>
-          
+
           <button
             onClick={onOpenGenerator}
-            className="bg-black/20 hover:bg-black/30 active:bg-black/40 text-black font-bold py-3 px-6 rounded-xl transition-all duration-300 active:scale-95 flex items-center gap-2"
+            className="comic-button bg-white/20 hover:bg-white/30 active:bg-white/40 text-white font-black py-3 px-6 transition-all duration-300 active:scale-95 flex items-center gap-2 uppercase tracking-wide speed-lines"
           >
             <Megaphone size={20} />
             Crear
@@ -228,41 +228,41 @@ const MobileGeneratorModal: React.FC<{
   const steps = ['Configuración', 'Personalización', 'Generación'];
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm halftone-pattern">
       <div className="h-full flex flex-col">
         {/* Header */}
-        <div className="bg-gradient-to-r from-[#FFD600] to-[#FFC400] p-4 flex items-center justify-between">
-          <h2 className="text-black font-bold text-xl">Crear Publicidad</h2>
+        <div className="bg-gradient-to-r from-pop-purple via-pop-orange to-pop-pink p-4 flex items-center justify-between relative bendaydots-pattern">
+          <h2 className="text-white font-black text-xl uppercase tracking-wide relative z-10">Crear Publicidad</h2>
           <button
             onClick={onClose}
-            className="bg-black/20 hover:bg-black/30 p-2 rounded-full transition-colors"
+            className="comic-button bg-white/20 hover:bg-white/30 p-2 transition-colors relative z-10"
           >
-            <X size={24} className="text-black" />
+            <X size={24} className="text-white" />
           </button>
         </div>
 
         {/* Steps indicator */}
-        <div className="bg-[#1a1a1a] px-4 py-3">
+        <div className="bg-white dark:bg-gray-800 px-4 py-3 crosshatch-pattern">
           <div className="flex items-center justify-center space-x-4">
             {steps.map((step, index) => (
               <React.Fragment key={step}>
                 <div className="flex flex-col items-center">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                    index <= currentStep 
-                      ? 'bg-[#FFD600] text-black' 
-                      : 'bg-gray-600 text-gray-300'
+                  <div className={`w-8 h-8 comic-border flex items-center justify-center text-sm font-black ${
+                    index <= currentStep
+                      ? 'bg-pop-purple dark:bg-pop-pink text-white'
+                      : 'bg-gray-400 dark:bg-gray-600 text-gray-700 dark:text-gray-300'
                   }`}>
                     {index + 1}
                   </div>
-                  <span className={`mt-1 text-xs font-medium ${
-                    index <= currentStep ? 'text-white' : 'text-gray-400'
+                  <span className={`mt-1 text-xs font-bold uppercase tracking-wide ${
+                    index <= currentStep ? 'text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400'
                   }`}>
                     {step}
                   </span>
                 </div>
                 {index < steps.length - 1 && (
                   <div className={`w-6 h-0.5 mt-2 ${
-                    index < currentStep ? 'bg-[#FFD600]' : 'bg-gray-600'
+                    index < currentStep ? 'bg-pop-purple dark:bg-pop-pink' : 'bg-gray-400 dark:bg-gray-600'
                   }`} />
                 )}
               </React.Fragment>
@@ -271,18 +271,18 @@ const MobileGeneratorModal: React.FC<{
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto bg-gradient-to-br from-[#0a0010] via-[#18001B] to-[#2C2C2C] p-4">
+        <div className="flex-1 overflow-y-auto halftone-pattern bg-white dark:bg-gray-900 p-4">
           {currentStep === 0 && (
             <div className="space-y-6">
               {/* Resumen de productos */}
-              <div className="bg-[#1a1a1a] p-4 rounded-xl border border-gray-600">
+              <div className="comic-panel bg-white dark:bg-gray-800 p-4 stipple-pattern">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-[#FFD600] font-bold text-lg">
+                  <h3 className="text-pop-purple dark:text-pop-pink font-black text-lg uppercase tracking-wide">
                     {selectedProducts.length === 1 ? 'Producto seleccionado' : comboCalculations.comboName}
                   </h3>
                   <button
                     onClick={() => setShowPriceEditor(!showPriceEditor)}
-                    className="text-gray-400 hover:text-white transition-colors"
+                    className="text-gray-600 dark:text-gray-400 hover:text-pop-purple dark:hover:text-pop-pink transition-colors"
                   >
                     <Settings size={20} />
                   </button>
@@ -351,20 +351,20 @@ const MobileGeneratorModal: React.FC<{
 
               {/* Datos del colaborador */}
               <div className="space-y-4">
-                <h4 className="text-white font-bold text-lg">Tus datos</h4>
+                <h4 className="text-gray-900 dark:text-white font-black text-lg uppercase tracking-wide">Tus datos</h4>
                 <input
                   type="text"
                   value={collaboratorName}
                   onChange={(e) => setCollaboratorName(e.target.value)}
                   placeholder="Tu nombre"
-                  className="w-full bg-[#1a1a1a] border border-gray-600 rounded-xl py-4 px-4 text-white text-lg focus:outline-none focus:ring-2 focus:ring-[#FFD600]/50"
+                  className="comic-input w-full bg-white dark:bg-gray-800 py-4 px-4 text-gray-900 dark:text-white text-lg font-semibold"
                 />
                 <input
                   type="text"
                   value={collaboratorPhone}
                   onChange={(e) => setCollaboratorPhone(e.target.value)}
                   placeholder="Tu teléfono"
-                  className="w-full bg-[#1a1a1a] border border-gray-600 rounded-xl py-4 px-4 text-white text-lg focus:outline-none focus:ring-2 focus:ring-[#FFD600]/50"
+                  className="comic-input w-full bg-white dark:bg-gray-800 py-4 px-4 text-gray-900 dark:text-white text-lg font-semibold"
                 />
               </div>
             </div>
@@ -472,7 +472,7 @@ const MobileGeneratorModal: React.FC<{
               <button
                 onClick={adMode === 'text' ? onGenerateText : onGenerateBanner}
                 disabled={!collaboratorName || isGenerating}
-                className="w-full bg-gradient-to-r from-[#FFD600] to-[#FFC400] hover:from-[#FFC400] hover:to-[#FFD600] disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-black font-bold py-4 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 text-lg active:scale-95"
+                className="comic-button w-full bg-gradient-to-r from-pop-purple to-pop-pink hover:from-pop-orange hover:to-pop-purple disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-black py-4 px-6 transition-all duration-300 flex items-center justify-center gap-3 text-lg active:scale-95 uppercase tracking-wide speed-lines"
               >
                 {isGenerating ? (
                   <Loader size={24} className="animate-spin" />
@@ -552,24 +552,24 @@ const MobileGeneratorModal: React.FC<{
         </div>
 
         {/* Navigation */}
-        <div className="bg-[#1a1a1a] p-4 flex items-center justify-between border-t border-gray-600">
+        <div className="bg-white dark:bg-gray-800 p-4 flex items-center justify-between border-t comic-border crosshatch-pattern">
           <button
             onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
             disabled={currentStep === 0}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-500 text-white font-medium transition-colors active:scale-95"
+            className="comic-button flex items-center gap-2 px-6 py-3 bg-gray-600 hover:bg-gray-700 disabled:bg-gray-400 disabled:text-gray-600 text-white font-black transition-colors active:scale-95 uppercase tracking-wide"
           >
             <ChevronUp size={20} />
             Anterior
           </button>
-          
-          <span className="text-gray-400">
+
+          <span className="text-gray-600 dark:text-gray-400 font-black uppercase tracking-wide">
             {currentStep + 1} de {steps.length}
           </span>
-          
+
           <button
             onClick={() => setCurrentStep(Math.min(steps.length - 1, currentStep + 1))}
             disabled={currentStep === steps.length - 1}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#FFD600] hover:bg-[#FFC400] disabled:bg-gray-800 disabled:text-gray-500 text-black font-medium transition-colors active:scale-95"
+            className="comic-button flex items-center gap-2 px-6 py-3 bg-pop-purple dark:bg-pop-pink hover:bg-pop-orange disabled:bg-gray-400 disabled:text-gray-600 text-white font-black transition-colors active:scale-95 uppercase tracking-wide speed-lines"
           >
             Siguiente
             <ChevronDown size={20} />
@@ -1066,34 +1066,34 @@ ${collaboratorName}${collaboratorPhone ? ` (${collaboratorPhone})` : ''}
   // Componente de carga optimizado para móvil
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0a0010] via-[#18001B] to-[#2C2C2C] p-4">
-        <div className="flex flex-col items-center p-8 bg-gradient-to-br from-[#2C2C2C] to-[#1a1a1a] rounded-2xl shadow-2xl border border-gray-700/50 max-w-sm w-full">
+      <div className="min-h-screen flex items-center justify-center halftone-pattern bg-white dark:bg-gray-900 p-4">
+        <div className="flex flex-col items-center p-8 comic-panel bg-white dark:bg-gray-800 max-w-sm w-full animate-comic-pop">
           <div className="relative">
-            <div className="w-16 h-16 border-4 border-[#FFD600]/20 border-t-[#FFD600] rounded-full animate-spin"></div>
+            <div className="w-16 h-16 border-4 border-pop-purple/20 dark:border-pop-pink/20 border-t-pop-purple dark:border-t-pop-pink rounded-full animate-spin"></div>
           </div>
-          <p className="mt-4 text-[#FFD600] font-bold text-lg text-center">Cargando productos</p>
-          <p className="text-gray-400 text-sm text-center mt-2">Preparando tu catálogo</p>
+          <p className="mt-4 text-pop-purple dark:text-pop-pink font-black text-lg text-center uppercase tracking-wide">Cargando productos</p>
+          <p className="text-gray-600 dark:text-gray-400 text-sm text-center mt-2 font-bold">Preparando tu catálogo</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0010] via-[#18001B] to-[#2C2C2C] pb-24">
+    <div className="min-h-screen halftone-pattern bg-white dark:bg-gray-900 pb-24">
       {/* Header simplificado para móvil */}
-      <div className="bg-gradient-to-r from-[#FFD600] to-[#FFC400] p-4 sticky top-0 z-40 shadow-lg">
-        <div className="flex items-center justify-between">
-          <button 
+      <div className="bg-gradient-to-r from-pop-purple via-pop-orange to-pop-pink p-4 sticky top-0 z-40 shadow-lg bendaydots-pattern">
+        <div className="flex items-center justify-between relative z-10">
+          <button
             onClick={() => navigate('/collaborations')}
-            className="flex items-center gap-2 bg-black/20 hover:bg-black/30 active:bg-black/40 px-4 py-2 rounded-xl transition-all font-medium text-black active:scale-95"
+            className="comic-button bg-white/20 hover:bg-white/30 active:bg-white/40 px-4 py-2 font-black text-white active:scale-95 speed-lines"
           >
             <ArrowLeft size={20} />
             <span className="hidden sm:inline">Volver</span>
           </button>
-          
+
           <div className="text-center flex-1 mx-4">
-            <h1 className="text-xl sm:text-2xl font-bold text-black">Catálogo</h1>
-            <p className="text-black/70 font-medium text-sm hidden sm:block">Crea publicidad fácil</p>
+            <h1 className="text-xl sm:text-2xl font-black text-white uppercase tracking-wide">Catálogo</h1>
+            <p className="text-white/90 font-bold text-sm hidden sm:block">Crea publicidad fácil</p>
           </div>
 
           <div className="w-16"></div>
@@ -1104,20 +1104,20 @@ ${collaboratorName}${collaboratorPhone ? ` (${collaboratorPhone})` : ''}
         {/* Controles de búsqueda simplificados */}
         <div className="space-y-4 mb-6">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-pop-purple dark:text-pop-pink" size={20} />
             <input
               type="text"
               placeholder="Buscar productos..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-[#1a1a1a] border border-gray-600 rounded-2xl py-4 pl-12 pr-4 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FFD600]/50 focus:border-[#FFD600]/50 transition-all duration-300"
+              className="comic-input w-full bg-white dark:bg-gray-800 py-4 pl-12 pr-4 text-gray-900 dark:text-white text-lg placeholder-gray-600 dark:placeholder-gray-400 font-semibold"
             />
           </div>
 
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full bg-[#1a1a1a] border border-gray-600 rounded-2xl py-4 px-4 text-white text-lg focus:outline-none focus:ring-2 focus:ring-[#FFD600]/50 focus:border-[#FFD600]/50 transition-all duration-300 appearance-none cursor-pointer"
+            className="comic-input w-full bg-white dark:bg-gray-800 py-4 px-4 text-gray-900 dark:text-white text-lg appearance-none cursor-pointer font-semibold"
           >
             <option value="all">Todas las categorías</option>
             {categories.slice(1).map(category => (
