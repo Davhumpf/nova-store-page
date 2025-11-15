@@ -99,9 +99,9 @@ const SpotlightCarousel: React.FC = () => {
   }
 
   return (
-    <div className="relative w-full comic-vignette halftone-pattern bg-white dark:bg-black p-6">
+    <div className="relative w-full bg-white dark:bg-black border border-black/10 dark:border-white/10 rounded-lg p-4">
       <div
-        className={`grid gap-4 ${
+        className={`grid gap-3 ${
           visibleCount === 1
             ? "grid-cols-1"
             : visibleCount === 2
@@ -112,24 +112,24 @@ const SpotlightCarousel: React.FC = () => {
         {visibleProducts.map((product) => (
           <div
             key={`${product.id}-${currentIndex}`}
-            className="bg-white dark:bg-black border-2 border-black dark:border-white rounded-xl elegant-card halftone-pattern overflow-hidden group transition-all duration-300"
+            className="bg-white dark:bg-black border border-black/10 dark:border-white/10 rounded-lg overflow-hidden group transition-all duration-200"
           >
-            <div className="relative aspect-video overflow-hidden">
+            <div className="relative aspect-video overflow-hidden bg-black/5 dark:bg-white/5">
               <img
                 src={product.imageUrl}
                 alt={product.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-200"
               />
             </div>
-            <div className="p-3 min-h-[100px] flex flex-col justify-between bg-white dark:bg-black">
-              <h3 className="elegant-text-primary font-bold text-sm truncate mb-1">
+            <div className="p-3 min-h-[100px] flex flex-col justify-between">
+              <h3 className="elegant-text-primary font-semibold text-sm truncate mb-1">
                 {product.name}
               </h3>
               <div className="flex items-center justify-between">
-                <p className="elegant-text-primary font-bold text-lg">
+                <p className="elegant-text-primary font-bold text-base">
                   ${product.price.toLocaleString()}
                 </p>
-                <span className="text-xs elegant-text-primary bg-white dark:bg-black border-2 border-black/10 dark:border-white/10 px-2 py-1 rounded-lg font-bold uppercase shadow-[0_2px_4px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_4px_rgba(255,255,255,0.06)]">
+                <span className="text-xs elegant-text-secondary px-2 py-0.5 rounded-md bg-black/5 dark:bg-white/5 font-medium uppercase">
                   {product.category}
                 </span>
               </div>
@@ -142,15 +142,15 @@ const SpotlightCarousel: React.FC = () => {
         <>
           <button
             onClick={prevSlide}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white dark:bg-black border-2 border-black dark:border-white elegant-text-primary p-2 rounded-full hover:scale-110 transition-all duration-300 z-10 shadow-[0_4px_12px_rgba(0,0,0,0.12)] dark:shadow-[0_4px_12px_rgba(255,255,255,0.12)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.16)] dark:hover:shadow-[0_6px_16px_rgba(255,255,255,0.16)]"
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white dark:bg-black border border-black/10 dark:border-white/10 elegant-text-primary p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200 z-10 shadow-md"
           >
-            <ChevronLeft size={16} className="inking-icon" />
+            <ChevronLeft size={16} />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white dark:bg-black border-2 border-black dark:border-white elegant-text-primary p-2 rounded-full hover:scale-110 transition-all duration-300 z-10 shadow-[0_4px_12px_rgba(0,0,0,0.12)] dark:shadow-[0_4px_12px_rgba(255,255,255,0.12)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.16)] dark:hover:shadow-[0_6px_16px_rgba(255,255,255,0.16)]"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white dark:bg-black border border-black/10 dark:border-white/10 elegant-text-primary p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200 z-10 shadow-md"
           >
-            <ChevronRight size={16} className="inking-icon" />
+            <ChevronRight size={16} />
           </button>
         </>
       )}
