@@ -3,33 +3,38 @@ import { Star, ShoppingCart } from 'lucide-react';
 import { Product } from '../types';
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
-import { useToast } from './ToastProvider'; // importa el hook
+import { useToast } from './ToastProvider';
 
-interface ProductCardProps { product: Product; }
+interface ProductCardProps {
+  product: Product;
+}
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addToCart } = useCart();
   const { push } = useToast();
   const { id, name, price, originalPrice, discount, rating, reviews, imageUrl, description } = product;
 
-  const handleAddToCart = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    addToCart(product);
-    push({
-      type: 'success',
-      title: 'Agregado al carrito',
-      message: `${name} fue agregado correctamente.`,
-    });
-  }, [addToCart, product, name, push]);
+  const handleAddToCart = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      addToCart(product);
+      push({
+        type: 'success',
+        title: 'Agregado al carrito',
+        message: `${name} fue agregado correctamente.`,
+      });
+    },
+    [addToCart, product, name, push]
+  );
 
   const fullStars = Math.floor(rating);
   const stars = useMemo(() => Array.from({ length: 5 }, (_, i) => i < fullStars), [fullStars]);
 
   return (
-    <Link to={`/product/${id}`} className="block">
-      <div className="group relative elegant-card overflow-hidden transition-all duration-200">
-        {/* Imagen cuadrada consistente */}
-        <div className="relative aspect-square overflow-hidden bg-black/5 dark:bg-white/5">
+    <Link to={`/product/${id}`} className="block group">
+      <div className="h-full bg-white dark:bg-zinc-900 border border-stone-200 dark:border-zinc-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-150">
+        {/* Image */}
+        <div className="relative aspect-square overflow-hidden bg-stone-100 dark:bg-zinc-800">
           <img
             src={imageUrl}
             alt={name}
@@ -37,73 +42,71 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             decoding="async"
             width={640}
             height={640}
-            className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-102"
+            className="w-full h-full object-cover"
             style={{ display: 'block' }}
             fetchPriority="low"
           />
           {discount > 0 && (
-            <div className="absolute top-2 left-2 bg-black dark:bg-white text-white dark:text-black font-semibold text-[10px] px-2 py-1 rounded-md uppercase">
+            <div className="absolute top-3 left-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-zinc-900 font-semibold text-xs px-2 py-1 rounded-md">
               -{discount}%
             </div>
           )}
-          <div className="absolute top-2 right-2">
-            <span className="bg-white/90 dark:bg-black/90 backdrop-blur-sm elegant-text-primary text-[10px] px-2 py-1 rounded-md border border-black/10 dark:border-white/10 flex items-center uppercase font-medium">
-              <span className="w-1.5 h-1.5 bg-black dark:bg-white rounded-full mr-1.5" />
+          <div className="absolute top-3 right-3">
+            <span className="bg-white/95 dark:bg-zinc-900/95 text-stone-700 dark:text-stone-300 text-xs px-2 py-1 rounded-md border border-stone-200 dark:border-zinc-800 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
               Disponible
             </span>
           </div>
         </div>
 
-        {/* Contenido */}
-        <div className="p-3 md:p-4 relative z-10">
-          <div className="min-h-[64px] md:min-h-[84px] mb-2">
-            <h3 className="elegant-text-primary font-bold text-sm md:text-base line-clamp-2 break-words uppercase">
+        {/* Content */}
+        <div className="p-4">
+          <div className="min-h-[60px] mb-3">
+            <h3 className="text-stone-900 dark:text-stone-100 font-semibold text-sm md:text-base line-clamp-2 mb-1">
               {name}
             </h3>
-            <p className="elegant-text-secondary text-xs md:text-sm line-clamp-2 leading-snug break-words">
+            <p className="text-stone-600 dark:text-stone-400 text-xs md:text-sm line-clamp-2">
               {description}
             </p>
           </div>
 
-          <div className="flex items-center mb-2 md:mb-3 text-xs">
-            <div className="flex items-center mr-2">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-0.5">
               {stars.map((on, i) => (
                 <Star
                   key={i}
-                  size={12}
-                  className={on ? 'text-black dark:text-white' : 'elegant-text-secondary'}
+                  size={14}
+                  className={on ? 'text-stone-900 dark:text-stone-100' : 'text-stone-300 dark:text-zinc-700'}
                   fill={on ? 'currentColor' : 'none'}
                 />
               ))}
             </div>
-            <span className="elegant-text-secondary font-semibold">
-              <span className="font-bold elegant-text-primary">{rating.toFixed(1)}</span> ({reviews})
+            <span className="text-xs text-stone-600 dark:text-stone-400">
+              <span className="font-semibold text-stone-900 dark:text-stone-100">{rating.toFixed(1)}</span> ({reviews})
             </span>
           </div>
 
-          <div className="flex items-baseline gap-1.5 md:gap-2 justify-between mb-2 md:mb-3">
-            <div className="flex items-baseline gap-1.5 md:gap-2">
-              <span className="elegant-text-primary font-black text-base md:text-lg">
-                ${price.toLocaleString('es-CO')}
-              </span>
-              {originalPrice > price && (
-                <span className="elegant-text-secondary text-xs md:text-sm line-through font-semibold">
+          <div className="flex items-baseline gap-2 mb-3">
+            <span className="text-stone-900 dark:text-stone-100 font-bold text-lg">
+              ${price.toLocaleString('es-CO')}
+            </span>
+            {originalPrice > price && (
+              <>
+                <span className="text-stone-500 dark:text-stone-500 text-sm line-through">
                   ${originalPrice.toLocaleString('es-CO')}
                 </span>
-              )}
-            </div>
-            {originalPrice > price && (
-              <div className="hidden sm:block bg-black/5 dark:bg-white/5 elegant-text-primary text-[11px] font-bold px-2 py-1 rounded-md border border-black/10 dark:border-white/10 uppercase">
-                Ahorra ${(originalPrice - price).toLocaleString('es-CO')}
-              </div>
+                <span className="text-xs text-stone-600 dark:text-stone-400 ml-auto">
+                  Ahorra ${(originalPrice - price).toLocaleString('es-CO')}
+                </span>
+              </>
             )}
           </div>
 
           <button
             onClick={handleAddToCart}
-            className="w-full classic-btn text-xs md:text-sm flex items-center justify-center gap-2"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-white dark:text-zinc-900 bg-stone-900 dark:bg-stone-100 hover:bg-stone-800 dark:hover:bg-stone-200 transition-colors duration-150"
           >
-            <ShoppingCart size={16} className="inking-icon" />
+            <ShoppingCart size={16} />
             Agregar al Carrito
           </button>
         </div>

@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
-import { ChevronLeft, ChevronRight, ShoppingCart, Star } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { collection, getDocs, query, limit, where, DocumentData } from "firebase/firestore";
 import { db } from "../firebase";
-import { useCart } from "../context/CartContext";
 
 interface Product {
   id: string;
@@ -29,17 +28,12 @@ const ModernCarousel: React.FC<ModernCarouselProps> = ({ type, title, icon, link
   const [products, setProducts] = useState<Product[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [isHovered, setIsHovered] = useState(false);
-  const { addToCart } = useCart();
-  const carouselRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const collectionName = type === "streaming" ? "products" : "products-f";
-        // Reducir cantidad en móviles para optimización
-        const isMobile = window.innerWidth < 768;
-        const productLimit = isMobile ? 8 : 12;
+        const productLimit = 12;
 
         const q = type === "streaming"
           ? query(collection(db, collectionName), limit(productLimit))
@@ -72,19 +66,6 @@ const ModernCarousel: React.FC<ModernCarouselProps> = ({ type, title, icon, link
     fetchProducts();
   }, [type]);
 
-  // Auto-scroll (pausar cuando el usuario está hovering o en móvil para ahorrar recursos)
-  useEffect(() => {
-    if (products.length === 0 || isHovered) return;
-    // Deshabilitar auto-scroll en móviles para ahorrar batería
-    const isMobile = window.innerWidth < 768;
-    if (isMobile) return;
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % products.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [products.length, isHovered]);
-
   const goToPrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? products.length - 1 : prev - 1));
   };
@@ -93,23 +74,12 @@ const ModernCarousel: React.FC<ModernCarouselProps> = ({ type, title, icon, link
     setCurrentIndex((prev) => (prev + 1) % products.length);
   };
 
-  const handleAddToCart = (product: Product, e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    addToCart({
-      ...product,
-      quantity: 1,
-      inStock: true,
-    } as any);
-  };
-
   if (loading) {
     return (
       <div className="w-full flex justify-center items-center py-16">
         <div className="flex flex-col items-center gap-3">
-          <div className="animate-spin rounded-full h-12 w-12 border-3 border-accent-primary border-t-transparent"></div>
-          <p className="text-sm text-secondary">Cargando productos...</p>
+          <div className="animate-spin rounded-full h-10 w-10 border-2 border-stone-300 dark:border-zinc-700 border-t-stone-900 dark:border-t-stone-100"></div>
+          <p className="text-sm text-stone-600 dark:text-stone-400">Cargando productos...</p>
         </div>
       </div>
     );
@@ -118,208 +88,154 @@ const ModernCarousel: React.FC<ModernCarouselProps> = ({ type, title, icon, link
   if (products.length === 0) {
     return (
       <div className="w-full flex justify-center items-center py-16">
-        <p className="text-secondary">No hay productos disponibles</p>
+        <p className="text-stone-600 dark:text-stone-400">No hay productos disponibles</p>
       </div>
     );
   }
+
+  // Grid responsivo: 1 en móvil, 2 en tablet, 3 en desktop, 4 en xl
+  const visibleCount = {
+    mobile: 1,
+    tablet: 2,
+    desktop: 3,
+    xl: 4
+  };
 
   return (
     <div className="w-full">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div className="p-3 rounded-xl bg-gradient-to-br from-accent-primary/10 to-accent-success/10 backdrop-blur-sm">
+          <div className="p-2.5 rounded-lg bg-stone-100 dark:bg-zinc-800">
             {icon}
           </div>
           <div>
-            <h2 className="text-2xl lg:text-3xl font-bold text-primary">{title}</h2>
-            <p className="text-sm text-secondary">Descubre lo mejor de nuestra colección</p>
+            <h2 className="text-2xl font-bold text-stone-900 dark:text-stone-100">{title}</h2>
+            <p className="text-sm text-stone-600 dark:text-stone-400">Descubre lo mejor de nuestra colección</p>
           </div>
         </div>
         <Link
           to={linkTo}
-          className="text-accent-primary hover:text-accent-primary/80 text-sm font-semibold flex items-center gap-1 transition-colors duration-200"
+          className="text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-stone-100 text-sm font-medium flex items-center gap-1 transition-colors duration-150"
         >
           Ver todo
           <ChevronRight className="w-4 h-4" />
         </Link>
       </div>
 
-      {/* Carousel Container - Simplificado en móvil */}
-      <div
-        className="relative overflow-hidden"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <div
-          ref={carouselRef}
-          className="flex transition-transform md:duration-500 duration-300 ease-out"
-          style={{
-            transform: `translateX(calc(-${currentIndex * 100}% + ${currentIndex * 16}px))`,
-          }}
-        >
-          {products.map((product, index) => {
-            const isActive = index === currentIndex;
-            const isPrev = index === (currentIndex - 1 + products.length) % products.length;
-            const isNext = index === (currentIndex + 1) % products.length;
-            const isVisible = isActive || isPrev || isNext;
-
-            return (
-              <div
-                key={product.id}
-                className={`flex-shrink-0 transition-all md:duration-500 duration-300 px-2 ${
-                  isActive ? 'w-full sm:w-3/4 lg:w-2/3' : 'w-0 sm:w-1/4 lg:w-1/6 opacity-0 sm:opacity-50'
-                }`}
-                style={{
-                  transitionProperty: 'width, opacity',
-                }}
-              >
-                <Link
-                  to={type === "streaming" ? `/product/${product.id}` : `/product-f/${product.id}`}
-                  className={`block h-full group ${!isVisible ? 'pointer-events-none' : ''}`}
-                >
-                  <div className={`
-                    relative h-full rounded-2xl overflow-hidden
-                    bg-white dark:bg-gray-900
-                    transition-all md:duration-500 duration-300
-                    ${isActive
-                      ? 'md:shadow-2xl shadow-lg scale-100'
-                      : 'md:shadow-lg shadow-md scale-95 md:hover:scale-98'
-                    }
-                  `}>
-                    {/* Image Section */}
-                    <div className="relative aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-gray-800">
-                      <img
-                        src={product.imageUrl}
-                        alt={product.name}
-                        className="w-full h-full object-cover md:transition-transform md:duration-700 md:group-hover:scale-110"
-                        loading="lazy"
-                        decoding="async"
-                      />
-
-                      {/* Overlay Gradient - Solo en desktop */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 hidden md:block" />
-
-                      {/* Discount Badge */}
-                      {product.discount && product.discount > 0 && (
-                        <div className="absolute top-3 right-3 bg-accent-error text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
-                          -{product.discount}%
-                        </div>
-                      )}
-
-                      {/* Category Badge */}
-                      <div className="absolute top-3 left-3 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-primary shadow-lg">
-                        {product.category}
-                      </div>
-
-                      {/* Quick Add Button - Solo en desktop */}
-                      {isActive && (
-                        <button
-                          onClick={(e) => handleAddToCart(product, e)}
-                          className="hidden md:block absolute bottom-3 right-3 bg-accent-primary hover:bg-accent-primary/90 text-white p-3 rounded-full shadow-lg transform translate-y-12 group-hover:translate-y-0 transition-all duration-300 opacity-0 group-hover:opacity-100"
-                        >
-                          <ShoppingCart className="w-5 h-5" />
-                        </button>
-                      )}
+      {/* Carousel - Grid responsivo */}
+      <div className="relative">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {products.slice(currentIndex, currentIndex + 4).map((product) => (
+            <Link
+              key={product.id}
+              to={type === "streaming" ? `/product/${product.id}` : `/product-f/${product.id}`}
+              className="block group"
+            >
+              <div className="bg-white dark:bg-zinc-900 rounded-xl overflow-hidden border border-stone-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition-all duration-150">
+                <div className="relative aspect-[4/3] overflow-hidden bg-stone-100 dark:bg-zinc-800">
+                  <img
+                    src={product.imageUrl}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  {product.discount && product.discount > 0 && (
+                    <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-md text-xs font-semibold">
+                      -{product.discount}%
                     </div>
+                  )}
+                  <div className="absolute top-2 left-2 bg-white/95 dark:bg-zinc-900/95 px-2 py-1 rounded-md text-xs font-medium text-stone-700 dark:text-stone-300">
+                    {product.category}
+                  </div>
+                </div>
 
-                    {/* Content Section - Only visible on active card */}
-                    {isActive && (
-                      <div className="p-6">
-                        <h3 className="text-lg font-bold text-primary mb-2 line-clamp-2 min-h-[3.5rem]">
-                          {product.name}
-                        </h3>
+                <div className="p-4">
+                  <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100 mb-2 line-clamp-2 min-h-[3rem]">
+                    {product.name}
+                  </h3>
 
-                        {product.description && (
-                          <p className="text-sm text-secondary mb-3 line-clamp-2">
-                            {product.description}
-                          </p>
-                        )}
+                  {product.description && (
+                    <p className="text-sm text-stone-600 dark:text-stone-400 mb-3 line-clamp-2">
+                      {product.description}
+                    </p>
+                  )}
 
-                        {/* Rating */}
-                        {product.rating && (
-                          <div className="flex items-center gap-2 mb-3">
-                            <div className="flex items-center gap-1">
-                              {[...Array(5)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={`w-4 h-4 ${
-                                    i < Math.floor(product.rating!)
-                                      ? 'text-yellow-500 fill-yellow-500'
-                                      : 'text-gray-300 dark:text-gray-600'
-                                  }`}
-                                />
-                              ))}
-                            </div>
-                            <span className="text-xs text-secondary">
-                              ({product.reviews || 0})
-                            </span>
-                          </div>
-                        )}
-
-                        {/* Price */}
-                        <div className="flex items-center gap-3">
-                          <div className="flex items-baseline gap-2">
-                            <span className="text-2xl font-bold text-accent-primary">
-                              ${product.price.toLocaleString()}
-                            </span>
-                            {product.originalPrice && product.originalPrice > product.price && (
-                              <span className="text-sm text-secondary line-through">
-                                ${product.originalPrice.toLocaleString()}
-                              </span>
-                            )}
-                          </div>
-                        </div>
+                  {product.rating && (
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="flex items-center gap-0.5">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`w-3.5 h-3.5 ${
+                              i < Math.floor(product.rating!)
+                                ? 'text-stone-900 dark:text-stone-100 fill-current'
+                                : 'text-stone-300 dark:text-zinc-700'
+                            }`}
+                          />
+                        ))}
                       </div>
+                      <span className="text-xs text-stone-600 dark:text-stone-400">
+                        ({product.reviews || 0})
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-xl font-bold text-stone-900 dark:text-stone-100">
+                      ${product.price.toLocaleString()}
+                    </span>
+                    {product.originalPrice && product.originalPrice > product.price && (
+                      <span className="text-sm text-stone-500 dark:text-stone-500 line-through">
+                        ${product.originalPrice.toLocaleString()}
+                      </span>
                     )}
                   </div>
-                </Link>
+                </div>
               </div>
-            );
-          })}
+            </Link>
+          ))}
         </div>
 
-        {/* Navigation Buttons - Visibles siempre en móvil, hover en desktop */}
-        {products.length > 1 && (
+        {/* Navigation Buttons */}
+        {products.length > 4 && (
           <>
             <button
               onClick={goToPrevious}
-              className="absolute left-2 top-1/2 -translate-y-1/2 bg-white dark:bg-gray-900 text-primary p-2 md:p-3 rounded-full shadow-lg md:shadow-xl md:hover:shadow-2xl transition-all duration-300 md:opacity-0 opacity-90 md:hover:opacity-100 md:group-hover:opacity-100 md:hover:scale-110 z-10"
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white dark:bg-zinc-900 text-stone-900 dark:text-stone-100 p-2 rounded-full shadow-md border border-stone-200 dark:border-zinc-800 hover:shadow-lg transition-all duration-150"
               aria-label="Anterior"
             >
-              <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+              <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={goToNext}
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-white dark:bg-gray-900 text-primary p-2 md:p-3 rounded-full shadow-lg md:shadow-xl md:hover:shadow-2xl transition-all duration-300 md:opacity-0 opacity-90 md:hover:opacity-100 md:group-hover:opacity-100 md:hover:scale-110 z-10"
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white dark:bg-zinc-900 text-stone-900 dark:text-stone-100 p-2 rounded-full shadow-md border border-stone-200 dark:border-zinc-800 hover:shadow-lg transition-all duration-150"
               aria-label="Siguiente"
             >
-              <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+              <ChevronRight className="w-5 h-5" />
             </button>
           </>
         )}
+      </div>
 
-        {/* Indicators */}
+      {/* Indicators */}
+      {products.length > 4 && (
         <div className="flex justify-center gap-2 mt-6">
-          {products.slice(0, 8).map((_, index) => (
+          {Array.from({ length: Math.ceil(products.length / 4) }).map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`transition-all duration-300 rounded-full ${
-                index === currentIndex
-                  ? 'w-8 h-2 bg-accent-primary'
-                  : 'w-2 h-2 bg-gray-300 dark:bg-gray-600 hover:bg-accent-primary/50'
+              onClick={() => setCurrentIndex(index * 4)}
+              className={`transition-all duration-150 rounded-full ${
+                Math.floor(currentIndex / 4) === index
+                  ? 'w-8 h-2 bg-stone-900 dark:bg-stone-100'
+                  : 'w-2 h-2 bg-stone-300 dark:bg-zinc-700 hover:bg-stone-400 dark:hover:bg-zinc-600'
               }`}
-              aria-label={`Ir al producto ${index + 1}`}
+              aria-label={`Ir a la página ${index + 1}`}
             />
           ))}
-          {products.length > 8 && (
-            <span className="text-xs text-secondary self-center ml-1">
-              +{products.length - 8}
-            </span>
-          )}
         </div>
-      </div>
+      )}
     </div>
   );
 };
