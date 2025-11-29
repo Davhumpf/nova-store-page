@@ -167,7 +167,7 @@ function App() {
   return (
     <ThemeProvider> {/* ⬅️ ENVOLVER TODO CON ThemeProvider */}
       <SearchProvider>
-        <div className="min-h-screen bg-[#F2F2F2] dark:bg-gray-900 text-[#0D0D0D] dark:text-white transition-colors duration-300">
+        <div className="min-h-screen bg-stone-50 dark:bg-zinc-950 text-stone-900 dark:text-stone-100 transition-colors duration-150">
           <Routes>
             {/* Página principal */}
             <Route path="/" element={<Navigate to="/inicio" replace />} />

@@ -8,59 +8,49 @@ export default {
         xs: '360px',
       },
       colors: {
-        // Classic Light Mode Palette
+        // Claude.ai Style - Light Mode
         light: {
           bg: {
-            primary: '#FFFFFF',     // Blanco puro
-            secondary: '#F5F5F0',   // Beige muy claro
-            tertiary: '#FAF8F3',    // Crema suave
-            card: '#FEFEFE',        // Blanco card
+            primary: '#FFFFFF',
+            secondary: '#F9F9F8',
+            tertiary: '#F5F5F4',
+            card: '#FFFFFF',
           },
           text: {
-            primary: '#1A1A1A',     // Negro suave
-            secondary: '#4A4A4A',   // Gris medio
-            tertiary: '#6B6B6B',    // Gris claro
+            primary: '#2B2A29',
+            secondary: '#666563',
+            tertiary: '#928F8A',
           },
           border: {
-            primary: '#E5E5E0',     // Border beige
-            secondary: '#D4D4CE',   // Border más oscuro
-          },
-          shadow: {
-            sm: 'rgba(0, 0, 0, 0.05)',
-            md: 'rgba(0, 0, 0, 0.08)',
-            lg: 'rgba(0, 0, 0, 0.12)',
+            primary: '#E7E5E4',
+            secondary: '#D6D3D1',
           },
         },
-        // Classic Dark Mode Palette
+        // Claude.ai Style - Dark Mode
         dark: {
           bg: {
-            primary: '#0A0A0A',     // Negro profundo
-            secondary: '#151515',   // Gris muy oscuro
-            tertiary: '#1E1E1E',    // Gris oscuro
-            card: '#1A1A1A',        // Card oscuro
+            primary: '#18181B',
+            secondary: '#27272A',
+            tertiary: '#3F3F46',
+            card: '#27272A',
           },
           text: {
-            primary: '#F5F5F5',     // Blanco suave
-            secondary: '#B8B8B8',   // Gris claro
-            tertiary: '#8A8A8A',    // Gris medio
+            primary: '#FAFAF9',
+            secondary: '#A8A29E',
+            tertiary: '#78716C',
           },
           border: {
-            primary: '#2A2A2A',     // Border oscuro
-            secondary: '#353535',   // Border más claro
-          },
-          shadow: {
-            sm: 'rgba(255, 255, 255, 0.03)',
-            md: 'rgba(255, 255, 255, 0.05)',
-            lg: 'rgba(255, 255, 255, 0.08)',
+            primary: '#3F3F46',
+            secondary: '#52525B',
           },
         },
-        // Accent colors (subtle & professional)
+        // Accent colors (minimal & professional)
         accent: {
-          primary: '#4A90E2',      // Azul profesional
-          secondary: '#6B7280',    // Gris neutro
-          success: '#10B981',      // Verde éxito
-          warning: '#F59E0B',      // Amarillo warning
-          error: '#EF4444',        // Rojo error
+          primary: '#8B7355',
+          secondary: '#A89080',
+          success: '#10B981',
+          warning: '#F59E0B',
+          error: '#EF4444',
         },
       },
       fontFamily: {
@@ -93,52 +83,37 @@ export default {
         '4xl': ['2.25rem', { lineHeight: '2.5rem', letterSpacing: '-0.03em' }],
       },
       borderRadius: {
-        'sm': '0.375rem',  // 6px
-        'DEFAULT': '0.5rem',  // 8px
-        'md': '0.625rem',  // 10px
-        'lg': '0.75rem',   // 12px
-        'xl': '1rem',      // 16px
-        '2xl': '1.25rem',  // 20px
+        'sm': '0.5rem',    // 8px
+        'DEFAULT': '0.75rem',  // 12px
+        'md': '0.75rem',   // 12px
+        'lg': '1rem',      // 16px
+        'xl': '1.25rem',   // 20px
+        '2xl': '1.5rem',   // 24px
       },
       boxShadow: {
-        // Sombras suaves y profesionales
-        'sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-        'DEFAULT': '0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-        'md': '0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)',
-        'lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-        'xl': '0 20px 25px -5px rgba(0, 0, 0, 0.12), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-        'inner': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
-        // Dark mode shadows
-        'dark-sm': '0 1px 2px 0 rgba(255, 255, 255, 0.03)',
-        'dark': '0 2px 4px 0 rgba(255, 255, 255, 0.05)',
-        'dark-md': '0 4px 6px -1px rgba(255, 255, 255, 0.05), 0 2px 4px -1px rgba(255, 255, 255, 0.03)',
-        'dark-lg': '0 10px 15px -3px rgba(255, 255, 255, 0.08), 0 4px 6px -2px rgba(255, 255, 255, 0.04)',
-        'dark-xl': '0 20px 25px -5px rgba(255, 255, 255, 0.1), 0 10px 10px -5px rgba(255, 255, 255, 0.05)',
+        // Claude.ai Style - Subtle shadows
+        'sm': '0 1px 2px 0 rgba(0, 0, 0, 0.03)',
+        'DEFAULT': '0 1px 3px 0 rgba(0, 0, 0, 0.05)',
+        'md': '0 2px 6px -1px rgba(0, 0, 0, 0.06)',
+        'lg': '0 4px 12px -2px rgba(0, 0, 0, 0.08)',
+        'xl': '0 8px 20px -4px rgba(0, 0, 0, 0.1)',
+        'inner': 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.04)',
+        'none': 'none',
       },
       keyframes: {
-        // Animaciones minimalistas y suaves
+        // Claude.ai Style - Minimal animations
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
         },
-        fadeInUp: {
-          '0%': { opacity: '0', transform: 'translateY(10px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
         slideDown: {
-          '0%': { opacity: '0', transform: 'translateY(-8px)' },
+          '0%': { opacity: '0', transform: 'translateY(-4px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        scaleIn: {
-          '0%': { opacity: '0', transform: 'scale(0.95)' },
-          '100%': { opacity: '1', transform: 'scale(1)' },
         },
       },
       animation: {
-        'fade-in': 'fadeIn 0.3s ease-out',
-        'fade-in-up': 'fadeInUp 0.4s ease-out',
-        'slide-down': 'slideDown 0.25s ease-out',
-        'scale-in': 'scaleIn 0.25s ease-out',
+        'fade-in': 'fadeIn 0.2s ease-out',
+        'slide-down': 'slideDown 0.15s ease-out',
       },
       transitionDuration: {
         '50': '50ms',
