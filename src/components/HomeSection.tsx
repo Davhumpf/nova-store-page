@@ -1,6 +1,5 @@
 import React from "react";
-import { ArrowRight, Package, Sparkles } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Package, Sparkles } from "lucide-react";
 import ModernCarousel from "./ModernCarousel";
 
 interface HomeSectionProps {
@@ -9,114 +8,48 @@ interface HomeSectionProps {
 
 const HomeSection: React.FC<HomeSectionProps> = ({ titleRef }) => {
   return (
-    <section className="min-h-screen bg-stone-50 dark:bg-zinc-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
-        {/* Hero Section */}
-        <div className="text-center mb-16 lg:mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-zinc-900 border border-stone-200 dark:border-zinc-800 mb-6">
-            <Sparkles className="w-4 h-4 text-stone-600 dark:text-stone-400" />
-            <span className="text-sm font-medium text-stone-700 dark:text-stone-300">
-              Tu Tienda Online Premium
-            </span>
-          </div>
-
+    <section className="min-h-screen bg-gradient-to-b from-purple-50/30 via-white to-purple-50/20 dark:from-[#0F0A1F] dark:via-[#1A1330] dark:to-[#0F0A1F]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
+        {/* Hero Minimalista */}
+        <div className="text-center mb-16 lg:mb-20 max-w-3xl mx-auto">
           <h1
             ref={titleRef}
-            className="text-4xl sm:text-5xl md:text-6xl font-bold text-stone-900 dark:text-stone-100 mb-6 leading-tight"
+            className="text-5xl sm:text-6xl md:text-7xl font-bold bg-gradient-to-r from-purple-600 via-purple-500 to-violet-600 dark:from-purple-400 dark:via-purple-300 dark:to-violet-400 bg-clip-text text-transparent mb-6 leading-tight"
           >
-            Bienvenido a Nova Store
+            Nova Store
           </h1>
 
-          <p className="text-lg sm:text-xl text-stone-600 dark:text-stone-400 max-w-3xl mx-auto leading-relaxed mb-12">
-            Descubre las mejores cuentas de streaming y productos físicos premium.
-            <br className="hidden sm:block" />
-            Todo en un solo lugar, con la mejor calidad y precios imbatibles.
+          <p className="text-lg sm:text-xl text-purple-700/80 dark:text-purple-300/80 leading-relaxed max-w-2xl mx-auto">
+            Tu tienda premium de cuentas de streaming y productos físicos.
+            Calidad garantizada, precios inmejorables y entrega inmediata.
           </p>
-
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto mb-12">
-            <div className="bg-white dark:bg-zinc-900 rounded-xl p-6 border border-stone-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition-shadow duration-150">
-              <div className="text-2xl md:text-3xl font-bold text-stone-900 dark:text-stone-100 mb-1">100%</div>
-              <p className="text-sm text-stone-600 dark:text-stone-400">Compra Segura</p>
-            </div>
-
-            <div className="bg-white dark:bg-zinc-900 rounded-xl p-6 border border-stone-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition-shadow duration-150">
-              <div className="text-2xl md:text-3xl font-bold text-stone-900 dark:text-stone-100 mb-1">Mejores</div>
-              <p className="text-sm text-stone-600 dark:text-stone-400">Precios del Mercado</p>
-            </div>
-
-            <div className="bg-white dark:bg-zinc-900 rounded-xl p-6 border border-stone-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition-shadow duration-150">
-              <div className="text-2xl md:text-3xl font-bold text-stone-900 dark:text-stone-100 mb-1">Rápida</div>
-              <p className="text-sm text-stone-600 dark:text-stone-400">Entrega Inmediata</p>
-            </div>
-          </div>
-
-          {/* CTA Buttons Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-3xl mx-auto">
-            <Link
-              to="/streaming"
-              className="flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium text-white bg-stone-900 dark:bg-stone-100 dark:text-zinc-900 hover:bg-stone-800 dark:hover:bg-stone-200 transition-colors duration-150 shadow-sm"
-            >
-              <Sparkles className="w-4 h-4" />
-              <span>Explorar Streaming</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-
-            <Link
-              to="/fisicos"
-              className="flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium text-stone-900 dark:text-stone-100 bg-white dark:bg-zinc-900 border border-stone-200 dark:border-zinc-800 hover:bg-stone-50 dark:hover:bg-zinc-800 transition-colors duration-150 shadow-sm"
-            >
-              <Package className="w-4 h-4" />
-              <span>Ver Productos</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-
-            <button
-              onClick={() => {
-                const message =
-                  "Hola, me interesa registrarme como colaborador en Nova Store.\n\n" +
-                  "Quisiera recibir más información sobre cómo unirme y comenzar a vender productos.";
-                const whatsappUrl = `https://wa.me/573027214125?text=${encodeURIComponent(message)}`;
-                window.open(whatsappUrl, "_blank");
-              }}
-              className="flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium text-stone-900 dark:text-stone-100 bg-white dark:bg-zinc-900 border border-emerald-500/50 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-colors duration-150 shadow-sm"
-            >
-              <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-              <span>Ser Colaborador</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
         </div>
 
-        {/* Carousels Grid */}
-        <div className="grid grid-cols-1 gap-12 lg:gap-16 mb-16">
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 sm:p-8 lg:p-10 border border-stone-200 dark:border-zinc-800 shadow-sm">
+        {/* Carrusels Grid */}
+        <div className="grid grid-cols-1 gap-12 lg:gap-16">
+          <div className="bg-white/80 dark:bg-purple-950/30 backdrop-blur-sm rounded-2xl p-6 sm:p-8 lg:p-10 border border-purple-200/50 dark:border-purple-800/50 shadow-lg shadow-purple-500/5 dark:shadow-purple-500/10">
             <ModernCarousel
               type="streaming"
               title="Streaming Premium"
-              icon={<Sparkles className="w-6 h-6 text-stone-600 dark:text-stone-400" />}
+              icon={<Sparkles className="w-6 h-6 text-purple-600 dark:text-purple-400" />}
               linkTo="/streaming"
             />
           </div>
 
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 sm:p-8 lg:p-10 border border-stone-200 dark:border-zinc-800 shadow-sm">
+          <div className="bg-white/80 dark:bg-purple-950/30 backdrop-blur-sm rounded-2xl p-6 sm:p-8 lg:p-10 border border-purple-200/50 dark:border-purple-800/50 shadow-lg shadow-purple-500/5 dark:shadow-purple-500/10">
             <ModernCarousel
               type="physical"
               title="Productos Físicos"
-              icon={<Package className="w-6 h-6 text-stone-600 dark:text-stone-400" />}
+              icon={<Package className="w-6 h-6 text-purple-600 dark:text-purple-400" />}
               linkTo="/fisicos"
             />
           </div>
         </div>
 
-        {/* Footer */}
-        <footer className="text-center py-8 border-t border-stone-200 dark:border-zinc-800">
-          <p className="text-sm text-stone-600 dark:text-stone-400 mb-2">
-            Diseñado con <span className="text-red-500">❤️</span> por{" "}
-            <span className="font-semibold text-stone-900 dark:text-stone-100">Davhumpf</span>
-          </p>
-          <p className="text-xs text-stone-500 dark:text-stone-500">
-            © 2025 Nova Store. Todos los derechos reservados.
+        {/* Footer Minimalista */}
+        <footer className="text-center py-8 mt-16 border-t border-purple-200/50 dark:border-purple-800/50">
+          <p className="text-sm text-purple-600/70 dark:text-purple-400/70">
+            © 2025 Nova Store · Diseñado con <span className="text-red-500">❤️</span> por <span className="font-semibold">Davhumpf</span>
           </p>
         </footer>
       </div>

@@ -8,49 +8,55 @@ export default {
         xs: '360px',
       },
       colors: {
-        // Claude.ai Style - Light Mode
+        // Pastel Purple Theme - Light Mode
         light: {
           bg: {
-            primary: '#FFFFFF',
-            secondary: '#F9F9F8',
-            tertiary: '#F5F5F4',
+            primary: '#FAF8FF',
+            secondary: '#F5F3FF',
+            tertiary: '#EDE9FE',
             card: '#FFFFFF',
           },
           text: {
-            primary: '#2B2A29',
-            secondary: '#666563',
-            tertiary: '#928F8A',
+            primary: '#1A0A2E',
+            secondary: '#4A3F5C',
+            tertiary: '#6E6780',
           },
           border: {
-            primary: '#E7E5E4',
-            secondary: '#D6D3D1',
+            primary: '#E9E4F0',
+            secondary: '#D6CBEA',
           },
         },
-        // Claude.ai Style - Dark Mode
+        // Electric Purple Theme - Dark Mode
         dark: {
           bg: {
-            primary: '#18181B',
-            secondary: '#27272A',
-            tertiary: '#3F3F46',
-            card: '#27272A',
+            primary: '#0F0A1F',
+            secondary: '#1A1330',
+            tertiary: '#251C3F',
+            card: '#1A1330',
           },
           text: {
-            primary: '#FAFAF9',
-            secondary: '#A8A29E',
-            tertiary: '#78716C',
+            primary: '#F5F3FF',
+            secondary: '#C4B5FD',
+            tertiary: '#9588B8',
           },
           border: {
-            primary: '#3F3F46',
-            secondary: '#52525B',
+            primary: '#2D2050',
+            secondary: '#3D2F65',
           },
         },
-        // Accent colors (minimal & professional)
+        // Accent colors
         accent: {
-          primary: '#8B7355',
-          secondary: '#A89080',
+          primary: '#7C3AED',
+          secondary: '#A78BFA',
           success: '#10B981',
           warning: '#F59E0B',
           error: '#EF4444',
+          info: '#3B82F6',
+        },
+        // Stock indicators
+        stock: {
+          available: '#3B82F6',
+          unavailable: '#6B7280',
         },
       },
       fontFamily: {
