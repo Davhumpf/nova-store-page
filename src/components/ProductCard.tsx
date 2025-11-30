@@ -3,7 +3,7 @@ import { Star, ShoppingCart } from 'lucide-react';
 import { Product } from '../types';
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
-import { useToast } from '../ToastProvider';
+import { useToast } from './ToastProvider';
 import Card from './Card';
 
 interface ProductCardProps {
