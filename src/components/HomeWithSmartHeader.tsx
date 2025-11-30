@@ -28,7 +28,7 @@ const HomeWithSmartHeader: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-stone-50 dark:bg-zinc-950">
+    <div className="min-h-screen bg-purple-50/30 dark:bg-[#0F0A1F]">
       <Header showHeaderTitle={showHeaderTitle} />
       <HomeSection titleRef={titleRef} />
     </div>

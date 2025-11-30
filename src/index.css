@@ -17,29 +17,33 @@ html, body {
 :root {
   --header-h: 64px;
 
-  /* Light Mode - Claude.ai Style */
-  --bg-primary: #FFFFFF;
-  --bg-secondary: #F9F9F8;
-  --bg-tertiary: #F5F5F4;
+  /* Light Mode - Pastel Purple Theme */
+  --bg-primary: #FAF8FF;
+  --bg-secondary: #F5F3FF;
+  --bg-tertiary: #EDE9FE;
   --bg-card: #FFFFFF;
 
-  --text-primary: #2B2A29;
-  --text-secondary: #666563;
-  --text-tertiary: #928F8A;
+  --text-primary: #1A0A2E;
+  --text-secondary: #4A3F5C;
+  --text-tertiary: #6E6780;
 
-  --border-primary: #E7E5E4;
-  --border-secondary: #D6D3D1;
+  --border-primary: #E9E4F0;
+  --border-secondary: #D6CBEA;
 
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
-  --shadow-md: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 2px 6px -1px rgba(0, 0, 0, 0.06);
-  --shadow-xl: 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 1px 2px 0 rgba(88, 28, 135, 0.04);
+  --shadow-md: 0 1px 3px 0 rgba(88, 28, 135, 0.06);
+  --shadow-lg: 0 2px 6px -1px rgba(88, 28, 135, 0.08);
+  --shadow-xl: 0 4px 12px -2px rgba(88, 28, 135, 0.1);
 
-  --accent-primary: #8B7355;
-  --accent-secondary: #A89080;
+  --accent-primary: #7C3AED;
+  --accent-secondary: #A78BFA;
   --accent-success: #10B981;
   --accent-warning: #F59E0B;
   --accent-error: #EF4444;
+  --accent-info: #3B82F6;
+
+  --stock-available: #3B82F6;
+  --stock-unavailable: #6B7280;
 
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
@@ -48,23 +52,33 @@ html, body {
 }
 
 .dark {
-  /* Dark Mode - Claude.ai Style */
-  --bg-primary: #18181B;
-  --bg-secondary: #27272A;
-  --bg-tertiary: #3F3F46;
-  --bg-card: #27272A;
+  /* Dark Mode - Electric Purple Theme */
+  --bg-primary: #0F0A1F;
+  --bg-secondary: #1A1330;
+  --bg-tertiary: #251C3F;
+  --bg-card: #1A1330;
 
-  --text-primary: #FAFAF9;
-  --text-secondary: #A8A29E;
-  --text-tertiary: #78716C;
+  --text-primary: #F5F3FF;
+  --text-secondary: #C4B5FD;
+  --text-tertiary: #9588B8;
 
-  --border-primary: #3F3F46;
-  --border-secondary: #52525B;
+  --border-primary: #2D2050;
+  --border-secondary: #3D2F65;
 
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 2px 6px -1px rgba(0, 0, 0, 0.4);
-  --shadow-xl: 0 4px 12px -2px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 1px 2px 0 rgba(167, 139, 250, 0.15);
+  --shadow-md: 0 1px 3px 0 rgba(167, 139, 250, 0.2);
+  --shadow-lg: 0 2px 6px -1px rgba(167, 139, 250, 0.25);
+  --shadow-xl: 0 4px 12px -2px rgba(167, 139, 250, 0.3);
+
+  --accent-primary: #A78BFA;
+  --accent-secondary: #8B5CF6;
+  --accent-success: #34D399;
+  --accent-warning: #FBBF24;
+  --accent-error: #F87171;
+  --accent-info: #60A5FA;
+
+  --stock-available: #60A5FA;
+  --stock-unavailable: #EF4444;
 }
 
 /* Body Styles */
