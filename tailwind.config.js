@@ -8,127 +8,71 @@ export default {
         xs: '360px',
       },
       colors: {
-        // Pastel Purple Theme - Light Mode
+        // Claude-inspired Neutral Palette
         light: {
           bg: {
-            primary: '#FAF8FF',
-            secondary: '#F5F3FF',
-            tertiary: '#EDE9FE',
-            card: '#FFFFFF',
+            primary: '#FAFAFA',    // Main background
+            secondary: '#FFFFFF',  // Cards, inputs
+            tertiary: '#F5F5F5',   // Subtle backgrounds
+            hover: '#F0F0F0',      // Hover states
           },
           text: {
-            primary: '#1A0A2E',
-            secondary: '#4A3F5C',
-            tertiary: '#6E6780',
+            primary: '#1A1A1A',    // Main text
+            secondary: '#6B7280',  // Secondary text
+            tertiary: '#9CA3AF',   // Muted text
+            inverse: '#FFFFFF',    // Text on dark backgrounds
           },
           border: {
-            primary: '#E9E4F0',
-            secondary: '#D6CBEA',
+            primary: '#E5E5E5',    // Main borders
+            secondary: '#D1D5DB',  // Subtle borders
+            focus: '#9CA3AF',      // Focus ring
+          },
+          accent: {
+            primary: '#E17B5B',    // Claude's coral/salmon accent
+            secondary: '#F59E82',  // Lighter accent
+            hover: '#D66A4A',      // Darker accent on hover
           },
         },
-        // Electric Purple Theme - Dark Mode
+        // Claude-inspired Dark Mode
         dark: {
           bg: {
-            primary: '#0F0A1F',
-            secondary: '#1A1330',
-            tertiary: '#251C3F',
-            card: '#1A1330',
+            primary: '#1A1A1A',    // Main background
+            secondary: '#2A2A2A',  // Cards, elevated surfaces
+            tertiary: '#333333',   // Subtle backgrounds
+            hover: '#3A3A3A',      // Hover states
           },
           text: {
-            primary: '#F5F3FF',
-            secondary: '#C4B5FD',
-            tertiary: '#9588B8',
+            primary: '#FFFFFF',    // Main text
+            secondary: '#B4B4B4',  // Secondary text
+            tertiary: '#8A8A8A',   // Muted text
+            inverse: '#1A1A1A',    // Text on light backgrounds
           },
           border: {
-            primary: '#2D2050',
-            secondary: '#3D2F65',
+            primary: '#3A3A3A',    // Main borders
+            secondary: '#4A4A4A',  // Subtle borders
+            focus: '#6A6A6A',      // Focus ring
+          },
+          accent: {
+            primary: '#E17B5B',    // Same coral/salmon
+            secondary: '#F59E82',  // Lighter accent
+            hover: '#D66A4A',      // Darker on hover
           },
         },
-        // Accent colors
-        accent: {
-          primary: '#7C3AED',
-          secondary: '#A78BFA',
-          success: '#10B981',
-          warning: '#F59E0B',
-          error: '#EF4444',
-          info: '#3B82F6',
-        },
-        // Stock indicators
-        stock: {
-          available: '#3B82F6',
-          unavailable: '#6B7280',
-        },
-      },
-      fontFamily: {
-        sans: [
-          '-apple-system',
-          'BlinkMacSystemFont',
-          'Segoe UI',
-          'Roboto',
-          'Helvetica Neue',
-          'Arial',
-          'sans-serif',
-        ],
-        display: [
-          'Inter',
-          '-apple-system',
-          'BlinkMacSystemFont',
-          'Segoe UI',
-          'Roboto',
-          'sans-serif',
-        ],
-      },
-      fontSize: {
-        'xs': ['0.75rem', { lineHeight: '1rem', letterSpacing: '0.01em' }],
-        'sm': ['0.875rem', { lineHeight: '1.25rem', letterSpacing: '0.01em' }],
-        'base': ['1rem', { lineHeight: '1.5rem', letterSpacing: '0' }],
-        'lg': ['1.125rem', { lineHeight: '1.75rem', letterSpacing: '-0.01em' }],
-        'xl': ['1.25rem', { lineHeight: '1.75rem', letterSpacing: '-0.01em' }],
-        '2xl': ['1.5rem', { lineHeight: '2rem', letterSpacing: '-0.02em' }],
-        '3xl': ['1.875rem', { lineHeight: '2.25rem', letterSpacing: '-0.02em' }],
-        '4xl': ['2.25rem', { lineHeight: '2.5rem', letterSpacing: '-0.03em' }],
       },
       borderRadius: {
-        'sm': '0.5rem',    // 8px
-        'DEFAULT': '0.75rem',  // 12px
-        'md': '0.75rem',   // 12px
-        'lg': '1rem',      // 16px
-        'xl': '1.25rem',   // 20px
-        '2xl': '1.5rem',   // 24px
+        'card': '12px',        // Cards like Claude
+        'input': '10px',       // Inputs/buttons
+        'badge': '6px',        // Small badges
+        'pill': '999px',       // Fully rounded
       },
       boxShadow: {
-        // Claude.ai Style - Subtle shadows
-        'sm': '0 1px 2px 0 rgba(0, 0, 0, 0.03)',
-        'DEFAULT': '0 1px 3px 0 rgba(0, 0, 0, 0.05)',
-        'md': '0 2px 6px -1px rgba(0, 0, 0, 0.06)',
-        'lg': '0 4px 12px -2px rgba(0, 0, 0, 0.08)',
-        'xl': '0 8px 20px -4px rgba(0, 0, 0, 0.1)',
-        'inner': 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.04)',
-        'none': 'none',
+        'card': '0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03)',
+        'card-hover': '0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)',
+        'input': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
       },
-      keyframes: {
-        // Claude.ai Style - Minimal animations
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        slideDown: {
-          '0%': { opacity: '0', transform: 'translateY(-4px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-      },
-      animation: {
-        'fade-in': 'fadeIn 0.2s ease-out',
-        'slide-down': 'slideDown 0.15s ease-out',
-      },
-      transitionDuration: {
-        '50': '50ms',
-        '100': '100ms',
-        '150': '150ms',
-        '200': '200ms',
-      },
-      transitionTimingFunction: {
-        'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',
+      spacing: {
+        'card': '16px',       // Card padding
+        'section': '24px',    // Section spacing
       },
     },
   },
