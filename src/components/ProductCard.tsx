@@ -3,7 +3,8 @@ import { Star, ShoppingCart } from 'lucide-react';
 import { Product } from '../types';
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
-import { useToast } from './ToastProvider';
+import { useToast } from '../ToastProvider';
+import Card from './Card';
 
 interface ProductCardProps {
   product: Product;
@@ -21,96 +22,112 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       push({
         type: 'success',
         title: 'Agregado al carrito',
-        message: `${name} fue agregado correctamente.`,
+        message: `${name} fue agregado correctamente`
       });
     },
-    [addToCart, product, name, push]
+    [addToCart, product, push, name]
   );
 
-  const fullStars = Math.floor(rating);
-  const stars = useMemo(() => Array.from({ length: 5 }, (_, i) => i < fullStars), [fullStars]);
+  const formattedPrice = useMemo(() => `$${price.toLocaleString()}`, [price]);
+  const formattedOriginalPrice = useMemo(
+    () => (originalPrice ? `$${originalPrice.toLocaleString()}` : null),
+    [originalPrice]
+  );
+  const hasDiscount = useMemo(() => discount && discount > 0, [discount]);
 
   return (
     <Link to={`/product/${id}`} className="block group">
-      <div className="h-full bg-white dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800/50 rounded-xl overflow-hidden shadow-sm hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-150">
-        {/* Image */}
-        <div className="relative aspect-square overflow-hidden bg-purple-50 dark:bg-purple-900/20">
+      <Card variant="hover" className="h-full flex flex-col overflow-hidden transition-transform duration-200 hover:scale-[1.02]">
+        {/* Discount Badge */}
+        {hasDiscount && (
+          <div className="absolute top-3 left-3 z-10">
+            <div className="bg-light-accent-primary dark:bg-dark-accent-primary text-light-text-inverse dark:text-dark-text-inverse text-xs font-bold px-2 py-1 rounded-badge">
+              -{discount}%
+            </div>
+          </div>
+        )}
+
+        {/* Favorite Button */}
+        <button
+          className="absolute top-3 right-3 z-10 p-2 bg-light-bg-secondary/80 dark:bg-dark-bg-secondary/80 backdrop-blur-sm rounded-full hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover transition-colors"
+          onClick={(e) => {
+            e.preventDefault();
+            // Add to favorites logic
+          }}
+          aria-label="Agregar a favoritos"
+        >
+          <svg
+            className="w-5 h-5 stroke-light-text-secondary dark:stroke-dark-text-secondary hover:stroke-light-accent-primary dark:hover:stroke-dark-accent-primary transition-colors"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+            />
+          </svg>
+        </button>
+
+        {/* Product Image */}
+        <div className="relative w-full pt-[75%] bg-light-bg-tertiary dark:bg-dark-bg-tertiary overflow-hidden">
           <img
             src={imageUrl}
             alt={name}
+            className="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
             loading="lazy"
-            decoding="async"
-            width={640}
-            height={640}
-            className="w-full h-full object-cover"
-            style={{ display: 'block' }}
-            fetchPriority="low"
           />
-          {discount > 0 && (
-            <div className="absolute top-3 left-3 bg-emerald-500 dark:bg-emerald-400 text-white dark:text-emerald-950 font-bold text-xs px-2.5 py-1 rounded-lg shadow-lg">
-              -{discount}% OFF
-            </div>
-          )}
-          <div className="absolute top-3 right-3">
-            <span className="bg-white/95 dark:bg-purple-900/95 text-purple-700 dark:text-purple-300 text-xs px-2.5 py-1 rounded-lg border border-purple-200 dark:border-purple-800 flex items-center gap-1.5 shadow-sm">
-              <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-              Disponible
-            </span>
-          </div>
         </div>
 
-        {/* Content */}
-        <div className="p-4">
-          <div className="min-h-[60px] mb-3">
-            <h3 className="text-purple-950 dark:text-purple-50 font-semibold text-sm md:text-base line-clamp-2 mb-1">
-              {name}
-            </h3>
-            <p className="text-purple-700 dark:text-purple-300 text-xs md:text-sm line-clamp-2 opacity-80">
-              {description}
-            </p>
-          </div>
+        {/* Product Info */}
+        <div className="flex-1 flex flex-col p-4 space-y-3">
+          {/* Title */}
+          <h3 className="text-sm font-semibold text-light-text-primary dark:text-dark-text-primary line-clamp-2 group-hover:text-light-accent-primary dark:group-hover:text-dark-accent-primary transition-colors">
+            {name}
+          </h3>
 
-          <div className="flex items-center gap-2 mb-3">
-            <div className="flex items-center gap-0.5">
-              {stars.map((on, i) => (
-                <Star
-                  key={i}
-                  size={14}
-                  className={on ? 'text-purple-600 dark:text-purple-400' : 'text-purple-300 dark:text-purple-700'}
-                  fill={on ? 'currentColor' : 'none'}
-                />
-              ))}
+          {/* Rating */}
+          {rating && reviews && (
+            <div className="flex items-center gap-1">
+              <div className="flex items-center">
+                {[...Array(5)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className={`w-3 h-3 ${
+                      i < Math.floor(rating)
+                        ? 'fill-amber-400 stroke-amber-400'
+                        : 'stroke-light-border-secondary dark:stroke-dark-border-secondary'
+                    }`}
+                  />
+                ))}
+              </div>
+              <span className="text-xs text-light-text-tertiary dark:text-dark-text-tertiary">({reviews})</span>
             </div>
-            <span className="text-xs text-purple-600 dark:text-purple-400">
-              <span className="font-semibold text-purple-950 dark:text-purple-50">{rating.toFixed(1)}</span> ({reviews})
-            </span>
-          </div>
+          )}
 
-          <div className="flex items-baseline gap-2 mb-3 flex-wrap">
-            <span className="text-purple-950 dark:text-purple-50 font-bold text-lg">
-              ${price.toLocaleString('es-CO')}
+          {/* Price */}
+          <div className="flex items-center gap-2 mt-auto">
+            <span className="text-2xl font-bold text-light-text-primary dark:text-dark-text-primary">
+              {formattedPrice}
             </span>
-            {originalPrice > price && (
-              <>
-                <span className="text-purple-500 dark:text-purple-500 text-sm line-through opacity-60">
-                  ${originalPrice.toLocaleString('es-CO')}
-                </span>
-                <span className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold ml-auto bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-md">
-                  Ahorra ${(originalPrice - price).toLocaleString('es-CO')}
-                </span>
-              </>
+            {formattedOriginalPrice && (
+              <span className="text-sm text-light-text-tertiary dark:text-dark-text-tertiary line-through">
+                {formattedOriginalPrice}
+              </span>
             )}
           </div>
 
+          {/* Add to Cart Button */}
           <button
             onClick={handleAddToCart}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-white bg-purple-600 dark:bg-purple-500 hover:bg-purple-700 dark:hover:bg-purple-600 transition-colors duration-150 shadow-sm hover:shadow-md"
+            className="w-full mt-3 bg-light-accent-primary dark:bg-dark-accent-primary hover:bg-light-accent-hover dark:hover:bg-dark-accent-hover text-light-text-inverse dark:text-dark-text-inverse font-semibold py-3 px-4 rounded-input transition-colors duration-200 flex items-center justify-center gap-2 group/button"
           >
-            <ShoppingCart size={16} />
-            Agregar al Carrito
+            <ShoppingCart className="w-5 h-5 group-hover/button:scale-110 transition-transform" />
+            ¡AÑADIR!
           </button>
         </div>
-      </div>
+      </Card>
     </Link>
   );
 };
