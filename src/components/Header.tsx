@@ -112,15 +112,15 @@ const Header: React.FC<HeaderProps> = ({ showHeaderTitle = false }) => {
     <header
       className={`sticky top-0 w-full z-50 transition-all duration-150 ${
         isScrolled
-          ? 'bg-white/95 dark:bg-purple-950/95 shadow-lg shadow-purple-500/5'
-          : 'bg-white dark:bg-purple-950'
-      } border-b border-purple-200 dark:border-purple-800/50`}
+          ? 'bg-white/95 dark:bg-dark-bg-secondary/95 shadow-lg shadow-purple-500/5'
+          : 'bg-white dark:bg-dark-bg-secondary'
+      } border-b border-light-border-primary dark:border-dark-border-primary/50`}
     >
       <div className="max-w-7xl mx-auto px-4 py-3">
         <div className="flex items-center justify-between gap-4">
           <button
             onClick={goHome}
-            className="text-lg font-bold bg-gradient-to-r from-purple-600 to-violet-600 dark:from-purple-400 dark:to-violet-400 bg-clip-text text-transparent hover:opacity-80 transition-opacity duration-150"
+            className="text-lg font-bold bg-gradient-to-r text-light-accent-primary dark:from-purple-400 dark:to-violet-400 bg-clip-text text-transparent hover:opacity-80 transition-opacity duration-150"
           >
             Nova Store
           </button>
@@ -129,7 +129,7 @@ const Header: React.FC<HeaderProps> = ({ showHeaderTitle = false }) => {
           <div className="hidden md:flex items-center gap-2">
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors duration-150"
+              className="p-2 rounded-lg text-light-text-primary dark:text-dark-text-primary hover:bg-light-bg-tertiary dark:hover:bg-dark-bg-hover/50 transition-colors duration-150"
               aria-label="Cambiar tema"
             >
               {theme === 'light' ? <Sun size={18} /> : theme === 'dark' ? <Moon size={18} /> : <Monitor size={18} />}
@@ -137,7 +137,7 @@ const Header: React.FC<HeaderProps> = ({ showHeaderTitle = false }) => {
 
             <button
               onClick={openWhatsApp}
-              className="p-2 rounded-lg text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors duration-150"
+              className="p-2 rounded-lg text-light-text-primary dark:text-dark-text-primary hover:bg-light-bg-tertiary dark:hover:bg-dark-bg-hover/50 transition-colors duration-150"
               aria-label="WhatsApp"
             >
               <MessageCircle size={18} />
@@ -145,20 +145,20 @@ const Header: React.FC<HeaderProps> = ({ showHeaderTitle = false }) => {
 
             <button
               onClick={openInstagram}
-              className="p-2 rounded-lg text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors duration-150"
+              className="p-2 rounded-lg text-light-text-primary dark:text-dark-text-primary hover:bg-light-bg-tertiary dark:hover:bg-dark-bg-hover/50 transition-colors duration-150"
               aria-label="Instagram"
             >
               <Instagram size={18} />
             </button>
 
             <button
-              className="relative p-2 rounded-lg text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors duration-150"
+              className="relative p-2 rounded-lg text-light-text-primary dark:text-dark-text-primary hover:bg-light-bg-tertiary dark:hover:bg-dark-bg-hover/50 transition-colors duration-150"
               onClick={toggleCart}
               aria-label="Carrito"
             >
               <ShoppingCart size={18} />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-purple-600 dark:bg-purple-400 text-white dark:text-purple-950 text-xs font-semibold rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-light-accent-primary dark:bg-purple-400 text-white dark:text-purple-950 text-xs font-semibold rounded-full h-5 w-5 flex items-center justify-center">
                   {cartCount > 99 ? '99+' : cartCount}
                 </span>
               )}
@@ -166,7 +166,7 @@ const Header: React.FC<HeaderProps> = ({ showHeaderTitle = false }) => {
 
             <button
               onClick={toggleUserMenu}
-              className="p-2 rounded-lg text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors duration-150"
+              className="p-2 rounded-lg text-light-text-primary dark:text-dark-text-primary hover:bg-light-bg-tertiary dark:hover:bg-dark-bg-hover/50 transition-colors duration-150"
             >
               <Menu size={18} />
             </button>
@@ -175,13 +175,13 @@ const Header: React.FC<HeaderProps> = ({ showHeaderTitle = false }) => {
           {/* Mobile Actions */}
           <div className="flex md:hidden items-center gap-2">
             <button
-              className="relative p-2 rounded-lg text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors duration-150"
+              className="relative p-2 rounded-lg text-light-text-primary dark:text-dark-text-primary hover:bg-light-bg-tertiary dark:hover:bg-dark-bg-hover/50 transition-colors duration-150"
               onClick={toggleCart}
               aria-label="Carrito"
             >
               <ShoppingCart size={18} />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-purple-600 dark:bg-purple-400 text-white dark:text-purple-950 text-xs font-semibold rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-light-accent-primary dark:bg-purple-400 text-white dark:text-purple-950 text-xs font-semibold rounded-full h-5 w-5 flex items-center justify-center">
                   {cartCount > 99 ? '99+' : cartCount}
                 </span>
               )}
@@ -189,7 +189,7 @@ const Header: React.FC<HeaderProps> = ({ showHeaderTitle = false }) => {
 
             <button
               onClick={toggleMobileMenu}
-              className="p-2 rounded-lg text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors duration-150"
+              className="p-2 rounded-lg text-light-text-primary dark:text-dark-text-primary hover:bg-light-bg-tertiary dark:hover:bg-dark-bg-hover/50 transition-colors duration-150"
             >
               {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
@@ -199,15 +199,15 @@ const Header: React.FC<HeaderProps> = ({ showHeaderTitle = false }) => {
         {/* Desktop Dropdown */}
         {showUserMenu && (
           <div
-            className="hidden md:block absolute right-4 top-full mt-2 w-72 bg-white dark:bg-purple-950 border border-purple-200 dark:border-purple-800 rounded-xl shadow-xl animate-slide-down"
+            className="hidden md:block absolute right-4 top-full mt-2 w-72 bg-white dark:bg-dark-bg-secondary border border-light-border-primary dark:border-dark-border-primary rounded-xl shadow-xl animate-slide-down"
             onClick={(e) => e.stopPropagation()}
           >
             {user ? (
               <>
-                <div className="p-4 border-b border-purple-200 dark:border-purple-800">
+                <div className="p-4 border-b border-light-border-primary dark:border-dark-border-primary">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center">
-                      <User size={18} className="text-purple-700 dark:text-purple-300" />
+                    <div className="w-10 h-10 rounded-full bg-light-bg-tertiary dark:bg-purple-900/50 flex items-center justify-center">
+                      <User size={18} className="text-light-text-primary dark:text-dark-text-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-purple-950 dark:text-purple-50 truncate">{user.email}</p>
@@ -219,7 +219,7 @@ const Header: React.FC<HeaderProps> = ({ showHeaderTitle = false }) => {
                   </div>
                   {userRole && userRole !== 'user' && (
                     <div className="mt-2">
-                      <span className="inline-block bg-purple-600 dark:bg-purple-500 text-white text-xs font-medium px-2 py-1 rounded">
+                      <span className="inline-block bg-light-accent-primary dark:bg-purple-500 text-white text-xs font-medium px-2 py-1 rounded">
                         {userRole === 'super_admin' ? 'Super Admin' : userRole === 'admin' ? 'Admin' : 'Colaborador'}
                       </span>
                     </div>
@@ -231,7 +231,7 @@ const Header: React.FC<HeaderProps> = ({ showHeaderTitle = false }) => {
                     <Link
                       key={index}
                       to={option.href}
-                      className="flex items-center gap-3 px-4 py-2.5 text-sm text-purple-800 dark:text-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/50 transition-colors duration-150"
+                      className="flex items-center gap-3 px-4 py-2.5 text-sm text-purple-800 dark:text-purple-200 hover:bg-purple-50 dark:hover:bg-dark-bg-hover/50 transition-colors duration-150"
                       onClick={() => setShowUserMenu(false)}
                     >
                       {option.icon}
@@ -240,10 +240,10 @@ const Header: React.FC<HeaderProps> = ({ showHeaderTitle = false }) => {
                   ))}
                 </div>
 
-                <div className="p-2 border-t border-purple-200 dark:border-purple-800">
+                <div className="p-2 border-t border-light-border-primary dark:border-dark-border-primary">
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-purple-800 dark:text-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/50 rounded-lg transition-colors duration-150"
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-purple-800 dark:text-purple-200 hover:bg-purple-50 dark:hover:bg-dark-bg-hover/50 rounded-lg transition-colors duration-150"
                   >
                     <LogOut size={16} />
                     <span>Cerrar sesión</span>
@@ -254,7 +254,7 @@ const Header: React.FC<HeaderProps> = ({ showHeaderTitle = false }) => {
               <div className="p-4">
                 <Link
                   to="/auth"
-                  className="block w-full text-center px-4 py-2.5 text-sm font-medium text-white bg-purple-600 dark:bg-purple-500 rounded-lg hover:bg-purple-700 dark:hover:bg-purple-600 transition-colors duration-150"
+                  className="block w-full text-center px-4 py-2.5 text-sm font-medium text-white bg-light-accent-primary dark:bg-purple-500 rounded-lg hover:bg-purple-700 dark:hover:bg-light-accent-primary transition-colors duration-150"
                   onClick={() => setShowUserMenu(false)}
                 >
                   Iniciar sesión
@@ -268,26 +268,26 @@ const Header: React.FC<HeaderProps> = ({ showHeaderTitle = false }) => {
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div
-          className="md:hidden bg-white dark:bg-purple-950 border-t border-purple-200 dark:border-purple-800 animate-slide-down"
+          className="md:hidden bg-white dark:bg-dark-bg-secondary border-t border-light-border-primary dark:border-dark-border-primary animate-slide-down"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="p-4 space-y-4">
             <div className="grid grid-cols-3 gap-2">
               <button
                 onClick={toggleTheme}
-                className="flex items-center justify-center gap-2 px-3 py-2 text-sm text-purple-800 dark:text-purple-200 bg-purple-50 dark:bg-purple-900/50 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900 transition-colors duration-150"
+                className="flex items-center justify-center gap-2 px-3 py-2 text-sm text-purple-800 dark:text-purple-200 bg-purple-50 dark:bg-purple-900/50 rounded-lg hover:bg-light-bg-tertiary dark:hover:bg-dark-bg-hover transition-colors duration-150"
               >
                 {theme === 'light' ? <Sun size={16} /> : theme === 'dark' ? <Moon size={16} /> : <Monitor size={16} />}
               </button>
               <button
                 onClick={openWhatsApp}
-                className="flex items-center justify-center gap-2 px-3 py-2 text-sm text-purple-800 dark:text-purple-200 bg-purple-50 dark:bg-purple-900/50 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900 transition-colors duration-150"
+                className="flex items-center justify-center gap-2 px-3 py-2 text-sm text-purple-800 dark:text-purple-200 bg-purple-50 dark:bg-purple-900/50 rounded-lg hover:bg-light-bg-tertiary dark:hover:bg-dark-bg-hover transition-colors duration-150"
               >
                 <MessageCircle size={16} />
               </button>
               <button
                 onClick={openInstagram}
-                className="flex items-center justify-center gap-2 px-3 py-2 text-sm text-purple-800 dark:text-purple-200 bg-purple-50 dark:bg-purple-900/50 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900 transition-colors duration-150"
+                className="flex items-center justify-center gap-2 px-3 py-2 text-sm text-purple-800 dark:text-purple-200 bg-purple-50 dark:bg-purple-900/50 rounded-lg hover:bg-light-bg-tertiary dark:hover:bg-dark-bg-hover transition-colors duration-150"
               >
                 <Instagram size={16} />
               </button>
@@ -297,8 +297,8 @@ const Header: React.FC<HeaderProps> = ({ showHeaderTitle = false }) => {
               <>
                 <div className="p-4 bg-purple-50 dark:bg-purple-900/50 rounded-lg">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-full bg-white dark:bg-purple-950 flex items-center justify-center">
-                      <User size={18} className="text-purple-700 dark:text-purple-300" />
+                    <div className="w-10 h-10 rounded-full bg-white dark:bg-dark-bg-secondary flex items-center justify-center">
+                      <User size={18} className="text-light-text-primary dark:text-dark-text-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-purple-950 dark:text-purple-50 truncate">{user.email}</p>
@@ -309,7 +309,7 @@ const Header: React.FC<HeaderProps> = ({ showHeaderTitle = false }) => {
                     </div>
                   </div>
                   {userRole && userRole !== 'user' && (
-                    <span className="inline-block bg-purple-600 dark:bg-purple-500 text-white text-xs font-medium px-2 py-1 rounded">
+                    <span className="inline-block bg-light-accent-primary dark:bg-purple-500 text-white text-xs font-medium px-2 py-1 rounded">
                       {userRole === 'super_admin' ? 'Super Admin' : userRole === 'admin' ? 'Admin' : 'Colaborador'}
                     </span>
                   )}
@@ -320,7 +320,7 @@ const Header: React.FC<HeaderProps> = ({ showHeaderTitle = false }) => {
                     <Link
                       key={index}
                       to={option.href}
-                      className="flex items-center gap-3 px-4 py-2.5 text-sm text-purple-800 dark:text-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/50 rounded-lg transition-colors duration-150"
+                      className="flex items-center gap-3 px-4 py-2.5 text-sm text-purple-800 dark:text-purple-200 hover:bg-purple-50 dark:hover:bg-dark-bg-hover/50 rounded-lg transition-colors duration-150"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {option.icon}
@@ -331,7 +331,7 @@ const Header: React.FC<HeaderProps> = ({ showHeaderTitle = false }) => {
 
                 <button
                   onClick={handleLogout}
-                  className="w-full flex items-center justify-center gap-3 px-4 py-2.5 text-sm font-medium text-white bg-purple-600 dark:bg-purple-500 rounded-lg hover:bg-purple-700 dark:hover:bg-purple-600 transition-colors duration-150"
+                  className="w-full flex items-center justify-center gap-3 px-4 py-2.5 text-sm font-medium text-white bg-light-accent-primary dark:bg-purple-500 rounded-lg hover:bg-purple-700 dark:hover:bg-light-accent-primary transition-colors duration-150"
                 >
                   <LogOut size={16} />
                   <span>Cerrar sesión</span>
@@ -340,7 +340,7 @@ const Header: React.FC<HeaderProps> = ({ showHeaderTitle = false }) => {
             ) : (
               <Link
                 to="/auth"
-                className="block w-full text-center px-4 py-2.5 text-sm font-medium text-white bg-purple-600 dark:bg-purple-500 rounded-lg hover:bg-purple-700 dark:hover:bg-purple-600 transition-colors duration-150"
+                className="block w-full text-center px-4 py-2.5 text-sm font-medium text-white bg-light-accent-primary dark:bg-purple-500 rounded-lg hover:bg-purple-700 dark:hover:bg-light-accent-primary transition-colors duration-150"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Iniciar sesión
